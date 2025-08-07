@@ -1,0 +1,7 @@
+{
+  "name": "Pulse",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
