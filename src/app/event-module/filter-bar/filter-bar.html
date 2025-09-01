@@ -1,0 +1,169 @@
+<div class="filter-bar-container">
+  <div class="main-filter-bar" [class.blurred]="activeOverlayFilter">
+    <div class="filters-scroll-container" #scrollContainer>
+      <div class="filters-scroll">
+        @for (filter of mainFilters; track filter.id) {
+          <button
+            class="filter-chip"
+            [class.active]="filter.active"
+            [style.--filter-color]="filter.color"
+            (click)="onMainFilterClick(filter)"
+          >
+            @if (filter.active) {
+              <div class="filter-icon">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <g [innerHTML]="getFilterIcon(filter.icon)"></g>
+                </svg>
+              </div>
+            }
+            <span class="filter-label">{{ filter.label }}</span>
+          </button>
+        }
+        
+        <div class="scroll-indicator">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="9,18 15,12 9,6"></polyline>
+          </svg>
+        </div>
+      </div>
+      
+      <div class="scroll-fade-right"></div>
+    </div>
+  </div>
+
+  @if (activeOverlayFilter) {
+    <div 
+      class="overlay-filter-bar"
+      [class.show]="activeOverlayFilter"
+      [style.--overlay-color]="activeOverlayFilter?.color"
+    >
+      <div class="overlay-header">
+        <button class="back-btn" (click)="closeOverlay()">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="15,18 9,12 15,6"></polyline>
+          </svg>
+        </button>
+        <div class="overlay-title">
+          <h3>{{ activeOverlayFilter.label }}</h3>
+        </div>
+        <button class="close-btn" (click)="closeOverlay()">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+
+      @if (activeOverlayFilter.id === 'distance' || activeOverlayFilter.id === 'price') {
+        <div class="complete-filter-container">
+          <div class="filter-subtitle">
+            <span>Choose a range or a quick preset</span>
+          </div>
+          
+          <div class="quick-presets">
+            @for (preset of activeOverlayFilter.subcategories; track preset.id; let i = $index) {
+              <button
+                class="preset-chip"
+                [class.active]="preset.active"
+                [style.animation-delay]="(i * 0.1) + 's'"
+                (click)="onPresetClick(preset)"
+              >
+                <span class="preset-label">{{ getPresetLabel(preset.label) }}</span>
+                @if (preset.active) {
+                  <div class="preset-underline"></div>
+                }
+              </button>
+            }
+          </div>
+          
+          <div class="custom-range-section">
+            <h4 class="custom-range-title">Custom range</h4>
+            
+            <div class="interactive-slider">
+              <div 
+                class="slider-track-container"
+                (click)="onSliderClick($event)"
+              >
+                <div class="slider-track"></div>
+                <div 
+                  class="slider-handle" 
+                  [style.left.%]="getSliderEndPercent()"
+                  (mousedown)="startSliderDrag($event)"
+                  (touchstart)="startSliderDrag($event)"
+                >
+                  <div class="handle-value">
+                    {{ getSliderValue() }}{{ getRangeUnit() }}
+                  </div>
+                </div>
+              </div>
+              
+              <div class="slider-labels">
+                <span class="slider-label">0</span>
+                <span class="slider-label">{{ Math.floor(getSliderMax() * 0.25) }}</span>
+                <span class="slider-label">{{ Math.floor(getSliderMax() * 0.5) }}</span>
+                <span class="slider-label">{{ Math.floor(getSliderMax() * 0.75) }}</span>
+                <span class="slider-label">{{ getSliderMax() }}</span>
+              </div>
+              
+              <div class="current-value">
+                <span>Current: {{ getSliderValue() }}{{ getRangeUnit() }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      } @else {
+        <div class="minimal-filter-container">
+          <div class="filter-options-grid">
+            @for (subFilter of activeOverlayFilter.subcategories; track subFilter.id; let i = $index) {
+              <button
+                class="minimal-option-chip"
+                [class.active]="subFilter.active"
+                [style.animation-delay]="(i * 0.1) + 's'"
+                (click)="onSubFilterClick(subFilter)"
+              >
+                <span class="option-label">{{ subFilter.label }}</span>
+                
+                @if (subFilter.active) {
+                  <div class="option-glow"></div>
+                }
+                
+                <div class="option-ripple"></div>
+              </button>
+            }
+          </div>
+          
+          <div class="corner-effects">
+            <div class="corner-glow corner-top-left"></div>
+            <div class="corner-glow corner-top-right"></div>
+            <div class="corner-glow corner-bottom-left"></div>
+            <div class="corner-glow corner-bottom-right"></div>
+          </div>
+        </div>
+      }
+
+      <div class="overlay-footer">
+        <button class="clear-btn" (click)="clearAllSubFilters()">
+          <span>Clear</span>
+          <div class="btn-ripple"></div>
+        </button>
+        <button class="apply-btn" (click)="applyFilters()">
+          <span>Apply</span>
+          @if (getActiveSubFiltersCount() > 0) {
+            <div class="count-badge">{{ getActiveSubFiltersCount() }}</div>
+          }
+          <div class="btn-ripple"></div>
+        </button>
+      </div>
+    </div>
+  }
+
+  @if (activeOverlayFilter) {
+    <div 
+      class="overlay-backdrop" 
+      [class.show]="activeOverlayFilter"
+      (click)="closeOverlay()"
+    >
+      <div class="backdrop-blocker"></div>
+    </div>
+  }
+</div>

@@ -1,0 +1,99 @@
+<div 
+  class="event-card"
+  (click)="onCardClick()"
+  [style.animation-delay]="getAnimationDelay()"
+  [style.border-color]="getCardColor()"
+  [style.border-left]="'6px solid ' + getCardColor()"
+  [style.box-shadow]="'0 0 20px ' + getCardColor() + '50'"
+  [attr.data-status]="event.status"
+  [attr.data-color]="event.color">
+  
+  <div class="event-card-header">
+    <div class="venue-section">
+      <svg width="20" height="14" viewBox="0 0 24 16" class="skyline-icon">
+        <rect x="0" y="8" width="3" height="8" [attr.fill]="getCardColor()" rx="0.5" />
+        <rect x="4" y="4" width="3" height="12" [attr.fill]="getCardColor()" rx="0.5" />
+        <rect x="8" y="10" width="3" height="6" [attr.fill]="getCardColor()" rx="0.5" />
+        <rect x="12" y="6" width="3" height="10" [attr.fill]="getCardColor()" rx="0.5" />
+        <rect x="16" y="2" width="3" height="14" [attr.fill]="getCardColor()" rx="0.5" />
+        <rect x="20" y="9" width="3" height="7" [attr.fill]="getCardColor()" rx="0.5" />
+        <rect x="1" y="10" width="1" height="1" fill="#1C2631" />
+        <rect x="1" y="12" width="1" height="1" fill="#1C2631" />
+        <rect x="5" y="6" width="1" height="1" fill="#1C2631" />
+        <rect x="5" y="8" width="1" height="1" fill="#1C2631" />
+        <rect x="17" y="4" width="1" height="1" fill="#1C2631" />
+        <rect x="17" y="6" width="1" height="1" fill="#1C2631" />
+      </svg>
+      <span 
+        class="venue-name"
+        [style.color]="getCardColor()"
+        [style.text-shadow]="'0 0 8px ' + getCardColor() + '66'">
+        {{ event.name }}
+      </span>
+    </div>
+    
+    <div 
+      class="status-badge"
+      [style.border-color]="getStatusColor()"
+      [style.color]="getStatusColor()">
+      {{ event.status | titlecase }}
+    </div>
+  </div>
+
+  <h3 
+    class="event-title"
+    [style.color]="getCardColor()"
+    [style.text-shadow]="'0 0 10px ' + getCardColor() + '80'">
+    {{ event.activity }}
+  </h3>
+
+  <div class="event-middle-section">
+    <div class="event-details-row">
+      <div class="detail-item">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" class="detail-icon">
+          <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" stroke="#8B9DC3" stroke-width="2"/>
+          <circle cx="12" cy="10" r="3" stroke="#8B9DC3" stroke-width="2"/>
+        </svg>
+        <span>{{ event.distance }} km</span>
+      </div>
+      <div class="detail-item">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" class="detail-icon">
+          <circle cx="12" cy="12" r="10" stroke="#8B9DC3" stroke-width="2"/>
+          <polyline points="12,6 12,12 16,14" stroke="#8B9DC3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span>Aperto ora</span>
+      </div>
+    </div>
+    
+    <div class="genre-and-description">
+      <div class="genre-tags">
+        <span class="genre-tag">{{ event.type | titlecase }}</span>
+        <span 
+          class="genre-tag status-tag"
+          [style.background-color]="getCardColor()"
+          [style.color]="'#1C2631'"
+          [style.box-shadow]="'0 0 10px ' + getCardColor() + '60'">
+          LIVE
+        </span>
+      </div>
+      <p class="event-description">{{ event.address }}</p>
+    </div>
+  </div>
+
+  <div class="event-buttons">
+    <button 
+      class="btn-event btn-outline"
+      [style.border-color]="getCardColor()"
+      [style.color]="getCardColor()"
+      (click)="onDetailsClick($event)">
+      Dettagli Locale
+    </button>
+    <button 
+      class="btn-event btn-primary"
+      [style.background]="'linear-gradient(135deg, ' + getCardColor() + ', ' + getCardColor() + 'CC)'"
+      [style.box-shadow]="'0 4px 12px ' + getCardColor() + '40'"
+      (click)="onVenueClick($event)">
+      Vai al Locale
+    </button>
+  </div>
+</div>

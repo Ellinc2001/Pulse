@@ -1,0 +1,135 @@
+.profile-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  position: relative;
+  transition: transform 0.1s ease;
+}
+
+/* Click animation */
+.profile-button.clicked {
+  transform: scale(0.95);
+}
+
+/* Size variants */
+.profile-small {
+  width: 32px;
+  height: 32px;
+}
+
+.profile-medium {
+  width: 40px;
+  height: 40px;
+}
+
+.profile-large {
+  width: 48px;
+  height: 48px;
+}
+
+.profile-container {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Profile Icon - Exact match to image */
+.profile-icon {
+  width: 100%;
+  height: 100%;
+  color: #00e5cc;
+  transition: all 0.2s ease;
+  /* Strong glow effect like in the image */
+  filter: drop-shadow(0 0 12px rgba(0, 229, 204, 0.8)) 
+          drop-shadow(0 0 24px rgba(0, 229, 204, 0.4)) 
+          drop-shadow(0 0 36px rgba(0, 229, 204, 0.2));
+}
+
+.profile-button.clicked .profile-icon {
+  transform: scale(0.9);
+}
+
+/* Active state - enhanced glow */
+.profile-button.active .profile-icon {
+  filter: drop-shadow(0 0 16px rgba(0, 229, 204, 1)) 
+          drop-shadow(0 0 32px rgba(0, 229, 204, 0.6)) 
+          drop-shadow(0 0 48px rgba(0, 229, 204, 0.3));
+}
+
+/* User elements - exact styling */
+.user-head,
+.user-body {
+  transition: all 0.2s ease;
+}
+
+/* Hover effect - enhanced glow */
+.profile-button:hover .profile-icon {
+  filter: drop-shadow(0 0 14px rgba(0, 229, 204, 0.9)) 
+          drop-shadow(0 0 28px rgba(0, 229, 204, 0.5)) 
+          drop-shadow(0 0 42px rgba(0, 229, 204, 0.25));
+  transform: scale(1.02);
+}
+
+.profile-button.active:hover .profile-icon {
+  filter: drop-shadow(0 0 18px rgba(0, 229, 204, 1)) 
+          drop-shadow(0 0 36px rgba(0, 229, 204, 0.7)) 
+          drop-shadow(0 0 54px rgba(0, 229, 204, 0.35));
+}
+
+/* Click feedback */
+.click-feedback {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  height: 100%;
+  border: 2px solid #00e5cc;
+  border-radius: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.1s ease;
+}
+
+.click-feedback.animate {
+  animation: clickFeedback 0.3s ease-out;
+}
+
+@keyframes clickFeedback {
+  0% {
+    transform: translate(-50%, -50%) scale(0.8);
+    opacity: 0.8;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1.3);
+    opacity: 0;
+  }
+}
+
+/* Ensure the glow is visible on dark backgrounds */
+.profile-button {
+  background: transparent;
+}
+
+/* Additional glow enhancement for active state */
+.profile-button.active .profile-icon {
+  animation: activeGlow 3s ease-in-out infinite;
+}
+
+@keyframes activeGlow {
+  0%,
+  100% {
+    filter: drop-shadow(0 0 16px rgba(0, 229, 204, 1)) 
+            drop-shadow(0 0 32px rgba(0, 229, 204, 0.6)) 
+            drop-shadow(0 0 48px rgba(0, 229, 204, 0.3));
+  }
+  50% {
+    filter: drop-shadow(0 0 20px rgba(0, 229, 204, 1)) 
+            drop-shadow(0 0 40px rgba(0, 229, 204, 0.7)) 
+            drop-shadow(0 0 60px rgba(0, 229, 204, 0.4));
+  }
+}

@@ -1,3 +1,25 @@
-<ion-app>
-  <ion-router-outlet></ion-router-outlet>
-</ion-app>
+<div class="main-layout">
+  <!-- Top Bar -->
+  <header class="top-bar">
+    <div class="logo-container">
+      <!-- New Logo Image -->
+     <img src="../assets/icon/pulse.svg" alt="Pulse Logo" class="app-logo" />    </div>
+  </header>
+
+  <!-- Main Content Area -->
+  <main class="main-content">
+    <router-outlet></router-outlet>
+  </main>
+
+  <!-- Bottom Tab Bar -->
+  <nav class="bottom-tab-bar">
+    <!-- Home Tab - Skyline with pulse waves -->
+    <my-vibes-button class="tab-button"></my-vibes-button>
+
+    <!-- Search Tab - Radar with pulse -->
+     <compass-search-button (click)="setActiveTab('search')" class="tab-button tab-center"></compass-search-button>
+   
+    <!-- Profile Tab - DJ headphones with pulse -->
+    <profile-button class="tab-button"></profile-button>
+  </nav>
+</div>

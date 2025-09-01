@@ -1,0 +1,73 @@
+<div class="event-search-container">
+  <filter-bar
+    [filters]="filters"
+    (filterChange)="onFilterChange($event)"
+    (subFilterChange)="onSubFilterChange($event)"
+  ></filter-bar>
+
+  <div class="map-container" [class.loading]="isLoadingMap">
+    <div class="neon-border-spinner" *ngIf="isLoadingMap"></div>
+    
+    @if(mapError){
+      <div class="error-overlay">
+        <div class="error-content">
+          <h3>❌ Errore caricamento mappa</h3>
+          <p>Impossibile caricare la mappa</p>
+          <button class="retry-btn" (click)="retryMap()">Riprova</button>
+        </div>
+      </div>
+    }
+
+    <div #mapContainer class="leaflet-map"></div>
+    
+    @if(!isLoadingMap && !mapError){
+      <div class="map-overlay">
+        <div class="scanning-line"></div>
+        <div class="corner-glow top-left"></div>
+        <div class="corner-glow top-right"></div>
+        <div class="corner-glow bottom-left"></div>
+        <div class="corner-glow bottom-right"></div>
+      </div>
+    }
+  </div>
+
+  <div class="events-list">
+    <h2 class="events-title">
+      <span class="results-count">({{ filteredLocations.length }} risultati)</span>
+    </h2>
+    <div class="events-grid">
+      @for(location of filteredLocations; track location.id){
+        <event-card
+          [event]="location"
+          [animationDelay]="$index * 0.1"
+          [class.selected]="selectedLocation?.id === location.id"
+          (eventClick)="onEventCardClick($event)"
+          (detailsClick)="onEventDetailsClick($event)"
+          (venueClick)="onEventVenueClick($event)"
+        ></event-card>
+      }
+      
+      @if(filteredLocations.length === 0) {
+        <div class="no-results">
+          <div class="no-results-icon">
+            <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="#00E5CC" stroke-width="2">
+              <circle cx="11" cy="11" r="8"/>
+              <path d="m21 21-4.35-4.35"/>
+              <line x1="11" y1="8" x2="11" y2="12"/>
+              <line x1="11" y1="16" x2="11.01" y2="16"/>
+            </svg>
+          </div>
+          <h3>Nessun risultato trovato</h3>
+          <p>Prova a modificare i filtri per trovare più locali</p>
+        </div>
+      }
+    </div>
+  </div>
+
+  <button class="floating-search-btn" (click)="onSearchClick()">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+      <circle cx="11" cy="11" r="8" stroke="currentColor" stroke-width="2"/>
+      <path d="m21 21-4.35-4.35" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+    </svg>
+  </button>
+</div>

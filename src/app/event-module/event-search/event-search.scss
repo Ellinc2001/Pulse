@@ -1,0 +1,1158 @@
+// Variabili ULTRA SCURE
+$ultra-neon-cyan: #00ffff;
+$ultra-neon-magenta: #ff00ff;
+$ultra-neon-red: #ff0040;
+$ultra-neon-green: #00ff80;
+$ultra-neon-yellow: #ffff00;
+$background-ultra-dark: #000000;
+$background-void: #050505;
+$card-background-dark: rgba(0, 0, 0, 0.9);
+$text-neon: #00ffff;
+$text-ghost: #404040;
+
+// Mixins ULTRA NEON
+@mixin ultra-neon-glow($color: $ultra-neon-cyan, $intensity: 1) {
+  box-shadow: 
+    0 0 10px rgba($color, 0.8 * $intensity),
+    0 0 20px rgba($color, 0.6 * $intensity),
+    0 0 30px rgba($color, 0.4 * $intensity),
+    0 0 40px rgba($color, 0.2 * $intensity),
+    0 0 50px rgba($color, 0.1 * $intensity);
+}
+
+@mixin ultra-neon-text($color: $ultra-neon-cyan) {
+  color: $color;
+  text-shadow: 
+    0 0 5px rgba($color, 1),
+    0 0 10px rgba($color, 0.8),
+    0 0 15px rgba($color, 0.6),
+    0 0 20px rgba($color, 0.4);
+}
+
+.event-search-container {
+  min-height: 100vh;
+  background: 
+    radial-gradient(circle at 10% 10%, rgba(0, 255, 255, 0.03) 0%, transparent 30%),
+    radial-gradient(circle at 90% 90%, rgba(255, 0, 255, 0.02) 0%, transparent 30%),
+    linear-gradient(135deg, $background-void 0%, $background-ultra-dark 100%);
+  padding: 20px;
+  box-sizing: border-box;
+  overflow-y: auto;
+  max-height: 100vh;
+}
+
+// Header con filtri ULTRA NEON
+.search-header {
+  margin-bottom: 30px;
+  
+  .filters-title {
+    @include ultra-neon-text($ultra-neon-cyan);
+    font-size: 32px;
+    font-weight: 400;
+    margin: 0 0 20px 0;
+    font-family: system-ui, -apple-system, sans-serif;
+    animation: titlePulse 3s ease-in-out infinite;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    
+    .results-count {
+      font-size: 16px;
+      font-weight: 400;
+      color: $text-ghost;
+      text-shadow: none;
+      animation: none;
+    }
+  }
+  
+  .filters-container {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    
+    .filter-button {
+      background: transparent;
+      border: 2px solid $ultra-neon-cyan;
+      color: $ultra-neon-cyan;
+      padding: 12px 24px;
+      border-radius: 25px;
+      font-size: 16px;
+      font-weight: 400;
+      font-family: system-ui, -apple-system, sans-serif;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      white-space: nowrap;
+      @include ultra-neon-glow($ultra-neon-cyan, 0.5);
+      
+      &:hover {
+        background-color: rgba(0, 255, 255, 0.1);
+        transform: translateY(-2px);
+        @include ultra-neon-glow($ultra-neon-cyan, 1.2);
+        text-shadow: 0 0 10px rgba(0, 255, 255, 1);
+      }
+      
+      &.active {
+        background-color: $ultra-neon-cyan;
+        color: $background-ultra-dark;
+        @include ultra-neon-glow($ultra-neon-cyan, 1.5);
+        animation: activeButtonPulse 2s ease-in-out infinite;
+      }
+    }
+  }
+}
+
+// Mappa ULTRA SCURA
+.map-container {
+  height: 400px;
+  margin-bottom: 30px;
+  position: relative;
+  border-radius: 20px;
+  overflow: hidden;
+  background: $background-ultra-dark;
+  
+  // Effetto hover ULTRA INTENSO
+  &:hover {
+    transform: scale(1.02);
+    transition: all 0.3s ease;
+    
+    .leaflet-map {
+      filter: brightness(0.4) contrast(3) saturate(0.6);
+    }
+  }
+  
+  // BORDO ROTANTE DURANTE CARICAMENTO
+  &.loading {
+    border: none;
+    
+    &::before {
+      content: '';
+      position: absolute;
+      top: -5px;
+      left: -5px;
+      right: -5px;
+      bottom: -5px;
+      background: conic-gradient(
+        from 0deg,
+        transparent,
+        $ultra-neon-cyan,
+        $ultra-neon-magenta,
+        $ultra-neon-red,
+        $ultra-neon-green,
+        $ultra-neon-cyan,
+        transparent
+      );
+      border-radius: 25px;
+      animation: ultraRotateBorder 1.5s linear infinite;
+      z-index: -1;
+      @include ultra-neon-glow($ultra-neon-cyan, 2);
+    }
+    
+    &::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: $background-ultra-dark;
+      border-radius: 20px;
+      z-index: -1;
+    }
+  }
+  
+  .leaflet-map {
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    border-radius: 18px;
+  }
+  
+  .map-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+    z-index: 1001;
+    
+    .scanning-line {
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, $ultra-neon-cyan, $ultra-neon-magenta, $ultra-neon-cyan, transparent);
+      animation: ultraScan 3s linear infinite;
+      opacity: 0.9;
+      @include ultra-neon-glow($ultra-neon-cyan, 1);
+    }
+    
+    .corner-glow {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: radial-gradient(circle, $ultra-neon-cyan 0%, transparent 70%);
+      animation: ultraCornerPulse 2s ease-in-out infinite;
+      opacity: 0.8;
+      @include ultra-neon-glow($ultra-neon-cyan, 1.5);
+      
+      &.top-left {
+        top: 10px;
+        left: 10px;
+        animation-delay: 0s;
+      }
+      
+      &.top-right {
+        top: 10px;
+        right: 10px;
+        animation-delay: 0.5s;
+        background: radial-gradient(circle, $ultra-neon-magenta 0%, transparent 70%);
+        @include ultra-neon-glow($ultra-neon-magenta, 1.5);
+      }
+      
+      &.bottom-left {
+        bottom: 10px;
+        left: 10px;
+        animation-delay: 1s;
+        background: radial-gradient(circle, $ultra-neon-green 0%, transparent 70%);
+        @include ultra-neon-glow($ultra-neon-green, 1.5);
+      }
+      
+      &.bottom-right {
+        bottom: 10px;
+        right: 10px;
+        animation-delay: 1.5s;
+        background: radial-gradient(circle, $ultra-neon-red 0%, transparent 70%);
+        @include ultra-neon-glow($ultra-neon-red, 1.5);
+      }
+    }
+  }
+}
+
+// Animazioni ULTRA SCURE
+@keyframes ultraRotateBorder {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes ultraScan {
+  0% { left: -100%; }
+  100% { left: 100%; }
+}
+
+@keyframes scanHorizontal {
+  0% { left: -100%; }
+  100% { left: 100%; }
+}
+
+@keyframes scanVertical {
+  0% { top: -100%; }
+  100% { top: 100%; }
+}
+
+@keyframes ultraCornerPulse {
+  0%, 100% {
+    opacity: 0.4;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.5);
+  }
+}
+
+@keyframes ultraNeonPulse {
+  0%, 100% { 
+    text-shadow: 
+      0 0 5px rgba(0, 255, 255, 1),
+      0 0 10px rgba(0, 255, 255, 0.8),
+      0 0 15px rgba(0, 255, 255, 0.6);
+  }
+  50% { 
+    text-shadow: 
+      0 0 10px rgba(0, 255, 255, 1),
+      0 0 20px rgba(0, 255, 255, 0.8),
+      0 0 30px rgba(0, 255, 255, 0.6),
+      0 0 40px rgba(0, 255, 255, 0.4);
+  }
+}
+
+@keyframes activeButtonPulse {
+  0%, 100% { 
+    box-shadow: 
+      0 0 10px rgba(0, 255, 255, 0.8),
+      0 0 20px rgba(0, 255, 255, 0.6);
+  }
+  50% { 
+    box-shadow: 
+      0 0 20px rgba(0, 255, 255, 1),
+      0 0 40px rgba(0, 255, 255, 0.8),
+      0 0 60px rgba(0, 255, 255, 0.6);
+  }
+}
+
+// Stili personalizzati per markers Leaflet - ULTRA SCURI
+:host ::ng-deep {
+  .user-marker {
+    background: transparent !important;
+    border: none !important;
+    
+    &-container {
+      position: relative;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+  
+  .user-dot {
+    width: 16px;
+    height: 16px;
+    background: $ultra-neon-cyan;
+    border-radius: 50%;
+    position: absolute;
+    @include ultra-neon-glow($ultra-neon-cyan, 2);
+    border: 3px solid rgba(255, 255, 255, 0.8);
+    z-index: 3;
+    animation: userDotPulse 2s ease-in-out infinite;
+  }
+  
+  .user-pulse {
+    width: 16px;
+    height: 16px;
+    background: $ultra-neon-cyan;
+    border-radius: 50%;
+    position: absolute;
+    opacity: 0.8;
+    animation: ultraUserPulse 1.5s infinite;
+    z-index: 2;
+  }
+  
+  .radar-ring {
+    position: absolute;
+    border: 2px solid $ultra-neon-cyan;
+    border-radius: 50%;
+    animation: ultraRadarSweep 3s linear infinite;
+    @include ultra-neon-glow($ultra-neon-cyan, 1);
+    
+    &.radar-1 {
+      width: 25px;
+      height: 25px;
+      animation-delay: 0s;
+    }
+    
+    &.radar-2 {
+      width: 35px;
+      height: 35px;
+      animation-delay: 1s;
+    }
+    
+    &.radar-3 {
+      width: 45px;
+      height: 45px;
+      animation-delay: 2s;
+    }
+  }
+  
+  // Event markers ULTRA SCURI
+  .event-marker {
+    background: transparent !important;
+    border: none !important;
+    
+    &-container {
+      position: relative;
+      width: 30px;
+      height: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      
+      &:hover {
+        transform: scale(1.3);
+        
+        .event-ring {
+          transform: scale(1.6);
+          animation: ultraRingPulse 1s infinite;
+        }
+        
+        .event-dot {
+          transform: scale(1.4);
+          animation: ultraDotGlow 0.5s infinite alternate;
+        }
+      }
+      
+      &:active {
+        transform: scale(0.8);
+        
+        .event-dot {
+          transform: scale(1.8);
+        }
+      }
+    }
+  }
+  
+  .event-dot {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    position: absolute;
+    z-index: 3;
+    transition: all 0.2s ease;
+    border: 3px solid rgba(255, 255, 255, 0.9);
+    
+    &.red {
+      background: $ultra-neon-red;
+      @include ultra-neon-glow($ultra-neon-red, 2);
+    }
+    
+    &.yellow {
+      background: $ultra-neon-yellow;
+      @include ultra-neon-glow($ultra-neon-yellow, 2);
+    }
+    
+    &.cyan {
+      background: $ultra-neon-cyan;
+      @include ultra-neon-glow($ultra-neon-cyan, 2);
+    }
+    
+    &.green {
+      background: $ultra-neon-green;
+      @include ultra-neon-glow($ultra-neon-green, 2);
+    }
+  }
+  
+  .event-pulse {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    position: absolute;
+    opacity: 0.6;
+    animation: ultraEventPulse 2s infinite;
+    z-index: 2;
+    
+    &.red { background: $ultra-neon-red; }
+    &.yellow { background: $ultra-neon-yellow; }
+    &.cyan { background: $ultra-neon-cyan; }
+    &.green { background: $ultra-neon-green; }
+  }
+  
+  .event-ring {
+    position: absolute;
+    width: 32px;
+    height: 32px;
+    border: 2px solid;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+    
+    &.red {
+      border-color: $ultra-neon-red;
+      @include ultra-neon-glow($ultra-neon-red, 1);
+    }
+    
+    &.yellow {
+      border-color: $ultra-neon-yellow;
+      @include ultra-neon-glow($ultra-neon-yellow, 1);
+    }
+    
+    &.cyan {
+      border-color: $ultra-neon-cyan;
+      @include ultra-neon-glow($ultra-neon-cyan, 1);
+    }
+    
+    &.green {
+      border-color: $ultra-neon-green;
+      @include ultra-neon-glow($ultra-neon-green, 1);
+    }
+  }
+  
+  // STATUS INDICATOR ULTRA VISIBILE
+  .status-indicator {
+    position: absolute;
+    top: -4px;
+    right: -4px;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    animation: ultraStatusBlink 1.5s infinite;
+    border: 3px solid rgba(255, 255, 255, 1);
+    
+    &.very-busy { 
+      background: $ultra-neon-red;
+      @include ultra-neon-glow($ultra-neon-red, 1.5);
+    }
+    &.busy { 
+      background: $ultra-neon-yellow;
+      @include ultra-neon-glow($ultra-neon-yellow, 1.5);
+    }
+    &.popular { 
+      background: $ultra-neon-cyan;
+      @include ultra-neon-glow($ultra-neon-cyan, 1.5);
+    }
+    &.quiet { 
+      background: $ultra-neon-green;
+      @include ultra-neon-glow($ultra-neon-green, 1.5);
+    }
+  }
+  
+  // Custom popup ULTRA SCURO
+  .custom-popup-container {
+    background: rgba(0, 0, 0, 0.98) !important;
+    border: 3px solid $ultra-neon-cyan !important;
+    border-radius: 12px !important;
+    @include ultra-neon-glow($ultra-neon-cyan, 1.5);
+    
+    .leaflet-popup-content-wrapper {
+      background: transparent !important;
+      border-radius: 12px !important;
+    }
+    
+    .leaflet-popup-tip {
+      background: rgba(0, 0, 0, 0.98) !important;
+      border: 3px solid $ultra-neon-cyan !important;
+    }
+  }
+  
+  .custom-popup {
+    h3 {
+      @include ultra-neon-text($ultra-neon-cyan);
+      margin: 0 0 8px 0 !important;
+      font-family: system-ui, -apple-system, sans-serif !important;
+      font-size: 18px !important;
+      font-weight: 700 !important;
+    }
+    
+    p {
+      color: $text-ghost !important;
+      margin: 4px 0 !important;
+      font-family: system-ui, -apple-system, sans-serif !important;
+      font-size: 14px !important;
+      
+      &.status {
+        display: flex !important;
+        align-items: center !important;
+        gap: 8px !important;
+        font-weight: 700 !important;
+        text-transform: uppercase !important;
+        letter-spacing: 1px !important;
+        @include ultra-neon-text($ultra-neon-cyan);
+        
+        .status-dot {
+          width: 10px !important;
+          height: 10px !important;
+          border-radius: 50% !important;
+          animation: ultraStatusBlink 1.5s infinite !important;
+          
+          &.red { 
+            background: $ultra-neon-red !important;
+            @include ultra-neon-glow($ultra-neon-red, 1);
+          }
+          &.yellow { 
+            background: $ultra-neon-yellow !important;
+            @include ultra-neon-glow($ultra-neon-yellow, 1);
+          }
+          &.cyan { 
+            background: $ultra-neon-cyan !important;
+            @include ultra-neon-glow($ultra-neon-cyan, 1);
+          }
+          &.green { 
+            background: $ultra-neon-green !important;
+            @include ultra-neon-glow($ultra-neon-green, 1);
+          }
+        }
+      }
+    }
+  }
+}
+
+// Animazioni ULTRA SCURE
+@keyframes ultraStatusBlink {
+  0%, 50% { opacity: 1; transform: scale(1); }
+  51%, 100% { opacity: 0.3; transform: scale(0.8); }
+}
+
+@keyframes ultraDotGlow {
+  0% { 
+    filter: brightness(1);
+    transform: scale(1.4);
+  }
+  100% { 
+    filter: brightness(2);
+    transform: scale(1.6);
+  }
+}
+
+@keyframes userDotPulse {
+  0%, 100% { 
+    transform: scale(1);
+    filter: brightness(1);
+  }
+  50% { 
+    transform: scale(1.2);
+    filter: brightness(1.5);
+  }
+}
+
+@keyframes ultraUserPulse {
+  0% {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(4);
+    opacity: 0;
+  }
+}
+
+@keyframes ultraRadarSweep {
+  0% {
+    opacity: 0;
+    transform: scale(0.3);
+  }
+  25% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: scale(2.5);
+  }
+}
+
+@keyframes ultraEventPulse {
+  0% {
+    transform: scale(1);
+    opacity: 0.6;
+  }
+  100% {
+    transform: scale(5);
+    opacity: 0;
+  }
+}
+
+@keyframes ultraRingPulse {
+  0%, 100% {
+    transform: scale(1.6);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(2.2);
+    opacity: 0.7;
+  }
+}
+
+// Lista eventi ULTRA SCURA
+.events-list {
+  margin-bottom: 100px;
+  
+  .events-title {
+    @include ultra-neon-text($ultra-neon-cyan);
+    font-size: 24px;
+    font-weight: 500;
+    margin: 0 0 20px 0;
+    font-family: system-ui, -apple-system, sans-serif;
+    animation: titlePulse 3s ease-in-out infinite;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    
+    .results-count {
+      font-size: 16px;
+      font-weight: 400;
+      color: $text-ghost;
+      text-shadow: none;
+      animation: none;
+    }
+  }
+  
+  .events-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 20px;
+    
+    @media (max-width: 768px) {
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+  }
+  
+  .event-item {
+    background-color: $card-background-dark;
+    border: 2px solid rgba(0, 255, 255, 0.3);
+    border-radius: 16px;
+    padding: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+    margin-bottom: 16px;
+    @include ultra-neon-glow($ultra-neon-cyan, 0.3);
+    
+    // BORDI COLORATI ULTRA VISIBILI
+    &[data-status="very-busy"] {
+      border-left: 6px solid $ultra-neon-red;
+      @include ultra-neon-glow($ultra-neon-red, 0.5);
+    }
+    
+    &[data-status="busy"] {
+      border-left: 6px solid $ultra-neon-yellow;
+      @include ultra-neon-glow($ultra-neon-yellow, 0.5);
+    }
+    
+    &[data-status="popular"] {
+      border-left: 6px solid $ultra-neon-cyan;
+      @include ultra-neon-glow($ultra-neon-cyan, 0.5);
+    }
+    
+    &[data-status="quiet"] {
+      border-left: 6px solid $ultra-neon-green;
+      @include ultra-neon-glow($ultra-neon-green, 0.5);
+    }
+    
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.95);
+      border-color: $ultra-neon-cyan;
+      transform: translateY(-4px);
+      @include ultra-neon-glow($ultra-neon-cyan, 1.2);
+    }
+    
+    &.selected {
+      border-color: $ultra-neon-cyan;
+      background-color: rgba(0, 255, 255, 0.05);
+      @include ultra-neon-glow($ultra-neon-cyan, 1.5);
+    }
+    
+    .event-info {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      
+      .event-main {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 16px;
+        
+        .event-name-section {
+          flex: 1;
+          
+          .event-name {
+            @include ultra-neon-text($ultra-neon-cyan);
+            font-size: 20px;
+            font-weight: 700;
+            margin: 0 0 4px 0;
+            font-family: system-ui, -apple-system, sans-serif;
+          }
+          
+          .event-address {
+            color: $text-ghost;
+            font-size: 13px;
+            font-weight: 400;
+            margin: 0;
+            font-family: system-ui, -apple-system, sans-serif;
+            line-height: 1.3;
+          }
+        }
+        
+        .event-status-distance {
+          display: flex;
+          flex-direction: column;
+          align-items: flex-end;
+          gap: 8px;
+          
+          .event-distance {
+            @include ultra-neon-text($ultra-neon-cyan);
+            font-size: 16px;
+            font-weight: 600;
+            font-family: system-ui, -apple-system, sans-serif;
+            white-space: nowrap;
+          }
+          
+          .live-status {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            background: rgba(0, 0, 0, 0.8);
+            border-radius: 12px;
+            border: 2px solid;
+            @include ultra-neon-glow($ultra-neon-cyan, 0.8);
+            
+            &[data-status="very-busy"] {
+              border-color: $ultra-neon-red;
+              background: rgba(255, 0, 64, 0.1);
+              @include ultra-neon-glow($ultra-neon-red, 0.8);
+            }
+            
+            &[data-status="busy"] {
+              border-color: $ultra-neon-yellow;
+              background: rgba(255, 255, 0, 0.1);
+              @include ultra-neon-glow($ultra-neon-yellow, 0.8);
+            }
+            
+            &[data-status="popular"] {
+              border-color: $ultra-neon-cyan;
+              background: rgba(0, 255, 255, 0.1);
+              @include ultra-neon-glow($ultra-neon-cyan, 0.8);
+            }
+            
+            &[data-status="quiet"] {
+              border-color: $ultra-neon-green;
+              background: rgba(0, 255, 128, 0.1);
+              @include ultra-neon-glow($ultra-neon-green, 0.8);
+            }
+            
+            .status-dot {
+              width: 8px;
+              height: 8px;
+              border-radius: 50%;
+              animation: ultraStatusBlink 1.5s infinite;
+              
+              &.red { 
+                background: $ultra-neon-red;
+                @include ultra-neon-glow($ultra-neon-red, 1);
+              }
+              &.yellow { 
+                background: $ultra-neon-yellow;
+                @include ultra-neon-glow($ultra-neon-yellow, 1);
+              }
+              &.cyan { 
+                background: $ultra-neon-cyan;
+                @include ultra-neon-glow($ultra-neon-cyan, 1);
+              }
+              &.green { 
+                background: $ultra-neon-green;
+                @include ultra-neon-glow($ultra-neon-green, 1);
+              }
+            }
+            
+            .status-text {
+              font-size: 11px;
+              font-weight: 700;
+              color: white;
+              letter-spacing: 1px;
+              font-family: system-ui, -apple-system, sans-serif;
+              @include ultra-neon-text($ultra-neon-cyan);
+            }
+          }
+        }
+      }
+      
+      .event-details {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        
+        .event-status {
+          font-size: 14px;
+          font-weight: 600;
+          font-family: system-ui, -apple-system, sans-serif;
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+          @include ultra-neon-text($ultra-neon-cyan);
+        }
+        
+        .event-activity {
+          color: $text-ghost;
+          font-size: 14px;
+          font-weight: 400;
+          font-family: system-ui, -apple-system, sans-serif;
+          font-style: italic;
+        }
+      }
+    }
+  }
+}
+
+// Stili per event card selezionata
+:host ::ng-deep {
+  event-card.selected .event-card {
+    border-color: $ultra-neon-cyan;
+    background: linear-gradient(135deg, rgba(0, 255, 255, 0.1) 0%, rgba(0, 229, 204, 0.05) 100%);
+    box-shadow: 0 0 30px rgba(0, 229, 204, 0.5);
+    transform: translateY(-2px);
+  }
+}
+
+// Floating search button ULTRA NEON
+.floating-search-btn {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  width: 60px;
+  height: 60px;
+  background: linear-gradient(135deg, $ultra-neon-cyan, $ultra-neon-magenta);
+  border: none;
+  border-radius: 50%;
+  color: $background-ultra-dark;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  z-index: 1000;
+  @include ultra-neon-glow($ultra-neon-cyan, 1.5);
+  animation: floatingButtonPulse 3s ease-in-out infinite;
+  
+  &:hover {
+    transform: scale(1.2);
+    @include ultra-neon-glow($ultra-neon-cyan, 2.5);
+    animation: none;
+  }
+  
+  &:active {
+    transform: scale(0.9);
+  }
+}
+
+@keyframes floatingButtonPulse {
+  0%, 100% { 
+    transform: scale(1);
+    box-shadow: 
+      0 0 10px rgba(0, 255, 255, 0.8),
+      0 0 20px rgba(0, 255, 255, 0.6),
+      0 0 30px rgba(0, 255, 255, 0.4);
+  }
+  50% { 
+    transform: scale(1.05);
+    box-shadow: 
+      0 0 20px rgba(0, 255, 255, 1),
+      0 0 40px rgba(0, 255, 255, 0.8),
+      0 0 60px rgba(0, 255, 255, 0.6);
+  }
+}
+
+// Error States ULTRA SCURI
+.error-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.98);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  border-radius: 20px;
+  border: 3px solid $ultra-neon-red;
+  @include ultra-neon-glow($ultra-neon-red, 1.5);
+  
+  .error-content {
+    text-align: center;
+    
+    h3 {
+      @include ultra-neon-text($ultra-neon-red);
+      font-size: 20px;
+      font-weight: 700;
+      margin: 0 0 12px 0;
+      font-family: system-ui, -apple-system, sans-serif;
+    }
+    
+    p {
+      color: $text-ghost;
+      font-size: 16px;
+      font-family: system-ui, -apple-system, sans-serif;
+      margin: 0 0 16px 0;
+    }
+  }
+}
+
+.retry-btn {
+  background: linear-gradient(135deg, $ultra-neon-cyan, $ultra-neon-magenta);
+  border: none;
+  color: $background-ultra-dark;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  font-family: system-ui, -apple-system, sans-serif;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  @include ultra-neon-glow($ultra-neon-cyan, 1.2);
+  
+  &:hover {
+    transform: translateY(-2px);
+    @include ultra-neon-glow($ultra-neon-cyan, 2);
+  }
+}
+
+// No results state
+.no-results {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  text-align: center;
+  
+  .no-results-icon {
+    margin-bottom: 20px;
+    opacity: 0.6;
+    animation: noResultsPulse 2s ease-in-out infinite;
+  }
+  
+  h3 {
+    @include ultra-neon-text($ultra-neon-cyan);
+    font-size: 24px;
+    font-weight: 600;
+    margin: 0 0 12px 0;
+    font-family: system-ui, -apple-system, sans-serif;
+  }
+  
+  p {
+    color: $text-ghost;
+    font-size: 16px;
+    font-family: system-ui, -apple-system, sans-serif;
+    margin: 0;
+    max-width: 300px;
+  }
+}
+
+@keyframes noResultsPulse {
+  0%, 100% {
+    opacity: 0.4;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(1.05);
+  }
+}
+
+// Responsive ULTRA SCURO
+@media (max-width: 768px) {
+  .event-search-container {
+    padding: 15px;
+  }
+  
+  .search-header {
+    .filters-title {
+      font-size: 28px;
+    }
+    
+    .filters-container {
+      .filter-button {
+        padding: 10px 20px;
+        font-size: 14px;
+      }
+    }
+  }
+  
+  .map-container {
+    height: 300px;
+  }
+  
+  .floating-search-btn {
+    width: 50px;
+    height: 50px;
+    bottom: 20px;
+    right: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .events-list {
+    .event-item {
+      .event-info {
+        .event-main {
+          .event-status-distance {
+            align-items: flex-start;
+            
+            .live-status {
+              .status-text {
+                font-size: 9px;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+// Animazioni mancanti per gli stili ultra scuri
+@keyframes ultraNeonPulse {
+  0%, 100% { 
+    opacity: 0.6; 
+    transform: scale(1);
+  }
+  50% { 
+    opacity: 1; 
+    transform: scale(1.05);
+  }
+}
+
+@keyframes userDotPulse {
+  0%, 100% { 
+    transform: scale(1);
+    filter: brightness(1);
+  }
+  50% { 
+    transform: scale(1.2);
+    filter: brightness(1.5);
+  }
+}
+
+@keyframes ultraUserPulse {
+  0% {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(4);
+    opacity: 0;
+  }
+}
+
+@keyframes ultraRadarSweep {
+  0% {
+    opacity: 0;
+    transform: scale(0.3);
+  }
+  25% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: scale(2.5);
+  }
+}
+
+@keyframes ultraEventPulse {
+  0% {
+    transform: scale(1);
+    opacity: 0.6;
+  }
+  100% {
+    transform: scale(5);
+    opacity: 0;
+  }
+}
+
+@keyframes ultraRingPulse {
+  0%, 100% {
+    transform: scale(1.6);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(2.2);
+    opacity: 0.7;
+  }
+}
+
+@keyframes ultraDotGlow {
+  0% { 
+    filter: brightness(1);
+    transform: scale(1.4);
+  }
+  100% { 
+    filter: brightness(2);
+    transform: scale(1.6);
+  }
+}

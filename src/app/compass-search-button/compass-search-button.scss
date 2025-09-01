@@ -1,0 +1,142 @@
+.compass-search-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  position: relative;
+  transition: transform 0.1s ease;
+}
+
+/* Click animation */
+.compass-search-button.clicked {
+  transform: scale(0.95);
+}
+
+/* Size variants */
+.compass-small {
+  width: 32px;
+  height: 32px;
+}
+
+.compass-medium {
+  width: 40px;
+  height: 40px;
+}
+
+.compass-large {
+  width: 48px;
+  height: 48px;
+}
+
+.compass-container {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Compass Rose - identico all'immagine */
+.compass-rose {
+  width: 100%;
+  height: 100%;
+  transition: transform 0.1s ease;
+}
+
+.compass-search-button.clicked .compass-rose {
+  transform: scale(0.9);
+}
+
+/* Parti riempite (come nell'immagine) */
+.cardinal-filled {
+  fill: #00e5cc;
+  stroke: none;
+}
+
+/* Parti outline (come nell'immagine) */
+.cardinal-outline {
+  fill: none;
+  stroke: #00e5cc;
+  stroke-width: 2;
+  stroke-linejoin: miter;
+}
+
+/* Solo cerchi pulse - nient'altro */
+.pulse-ring {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  border: 2px solid rgba(0, 229, 204, 0.3);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  animation: pulse 3s ease-out infinite;
+}
+
+.pulse-1 {
+  width: 120%;
+  height: 120%;
+  animation-delay: 0s;
+}
+
+.pulse-2 {
+  width: 140%;
+  height: 140%;
+  animation-delay: 1s;
+}
+
+.pulse-3 {
+  width: 160%;
+  height: 160%;
+  animation-delay: 2s;
+}
+
+/* Click ripple effect */
+.click-ripple {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  height: 100%;
+  border: 2px solid #00e5cc;
+  border-radius: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.click-ripple.animate {
+  animation: clickRipple 0.4s ease-out;
+}
+
+/* Active state - solo punta nord rossa */
+.compass-search-button.active .cardinal-filled:first-child {
+  fill: #ff4444;
+}
+
+/* Animazioni */
+@keyframes pulse {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.5);
+  }
+  20% {
+    opacity: 0.6;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(1.5);
+  }
+}
+
+@keyframes clickRipple {
+  0% {
+    transform: translate(-50%, -50%) scale(0);
+    opacity: 0.8;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(2);
+    opacity: 0;
+  }
+}

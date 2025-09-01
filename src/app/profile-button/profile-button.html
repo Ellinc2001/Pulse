@@ -1,0 +1,22 @@
+<button 
+  class="profile-button"
+  [class]="getSizeClass()"
+  [class.active]="isActive"
+  [class.clicked]="isClicked"
+  (click)="onClick()"
+>
+  <div class="profile-container">
+    <!-- Profile Icon - Exact replica of the image -->
+    <svg class="profile-icon" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+      <!-- User head - Perfect circle -->
+      <circle cx="100" cy="70" r="30" fill="none" stroke="currentColor" stroke-width="6" class="user-head"/>
+      
+      <!-- User body - Exact shape from image -->
+      <path d="M35 155 Q35 115 100 115 Q165 115 165 155 Q165 175 145 175 L55 175 Q35 175 35 155 Z" 
+            fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" class="user-body"/>
+    </svg>
+
+    <!-- Click feedback -->
+    <div class="click-feedback" [class.animate]="isClicked"></div>
+  </div>
+</button>

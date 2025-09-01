@@ -1,0 +1,55 @@
+<button 
+  class="my-vibes-button"
+  [class]="getSizeClass()"
+  [class.active]="isActive"
+  [class.clicked]="isClicked"
+  (click)="onClick()"
+>
+  <div class="vibes-container">
+    <!-- My Vibes Sound Wave Icon -->
+    <svg class="vibes-icon" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+      <!-- Onde orizzontali che viaggiano - PIÙ DISTANTI -->
+      <g class="traveling-waves">
+        <!-- Onda principale - onde più distanti -->
+        <path class="travel-wave-1" 
+              d="M-50 100 Q-10 60 30 100 Q70 140 110 100 Q150 60 190 100 Q230 140 270 100" 
+              fill="none" stroke="currentColor" stroke-width="4" opacity="0"/>
+        
+        <!-- Seconda onda sfasata - più distante verticalmente -->
+        <path class="travel-wave-2" 
+              d="M-50 85 Q-10 125 30 85 Q70 45 110 85 Q150 125 190 85 Q230 45 270 85" 
+              fill="none" stroke="currentColor" stroke-width="3" opacity="0"/>
+        
+        <!-- Terza onda - ancora più distante -->
+        <path class="travel-wave-3" 
+              d="M-50 115 Q-10 75 30 115 Q70 155 110 115 Q150 75 190 115 Q230 155 270 115" 
+              fill="none" stroke="currentColor" stroke-width="2" opacity="0"/>
+      </g>
+      
+      <!-- Impulsi che partono dal centro -->
+      <g class="pulse-waves">
+        <circle cx="100" cy="100" r="5" fill="currentColor" opacity="0" class="pulse-1"/>
+        <circle cx="100" cy="100" r="5" fill="currentColor" opacity="0" class="pulse-2"/>
+        <circle cx="100" cy="100" r="5" fill="currentColor" opacity="0" class="pulse-3"/>
+      </g>
+      
+      <!-- Particelle che si muovono verso l'esterno -->
+      <g class="moving-particles">
+        <circle cx="100" cy="100" r="2" fill="currentColor" opacity="0" class="particle-out-1"/>
+        <circle cx="100" cy="100" r="2" fill="currentColor" opacity="0" class="particle-out-2"/>
+        <circle cx="100" cy="100" r="2" fill="currentColor" opacity="0" class="particle-out-3"/>
+        <circle cx="100" cy="100" r="2" fill="currentColor" opacity="0" class="particle-out-4"/>
+        <circle cx="100" cy="100" r="2" fill="currentColor" opacity="0" class="particle-out-5"/>
+        <circle cx="100" cy="100" r="2" fill="currentColor" opacity="0" class="particle-out-6"/>
+        <circle cx="100" cy="100" r="2" fill="currentColor" opacity="0" class="particle-out-7"/>
+        <circle cx="100" cy="100" r="2" fill="currentColor" opacity="0" class="particle-out-8"/>
+      </g>
+      
+      <!-- Centro sorgente -->
+      <circle cx="100" cy="100" r="8" fill="currentColor" opacity="0.8" class="wave-source"/>
+    </svg>
+
+    <!-- Click burst effect -->
+    <div class="click-burst" [class.animate]="isClicked"></div>
+  </div>
+</button>

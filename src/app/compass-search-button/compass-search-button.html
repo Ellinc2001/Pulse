@@ -1,0 +1,46 @@
+<button 
+  class="compass-search-button"
+  [class]="getSizeClass()"
+  [class.active]="isActive"
+  [class.clicked]="isClicked"
+  (click)="onClick()"
+>
+  <div class="compass-container">
+    <!-- Compass Rose esattamente come nell'immagine -->
+    <svg class="compass-rose" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+      <!-- 8-pointed star identico all'immagine -->
+      
+      <!-- North (filled) -->
+      <path class="cardinal-filled" d="M100 10 L105 95 L100 100 L95 95 Z" />
+      
+      <!-- Northeast (outline) -->
+      <path class="cardinal-outline" d="M100 100 L150 30 L155 35 L105 105 Z" />
+      
+      <!-- East (filled) -->
+      <path class="cardinal-filled" d="M190 100 L105 105 L100 100 L105 95 Z" />
+      
+      <!-- Southeast (outline) -->
+      <path class="cardinal-outline" d="M100 100 L170 150 L165 155 L95 105 Z" />
+      
+      <!-- South (filled) -->
+      <path class="cardinal-filled" d="M100 190 L95 105 L100 100 L105 105 Z" />
+      
+      <!-- Southwest (outline) -->
+      <path class="cardinal-outline" d="M100 100 L50 170 L45 165 L95 95 Z" />
+      
+      <!-- West (filled) -->
+      <path class="cardinal-filled" d="M10 100 L95 95 L100 100 L95 105 Z" />
+      
+      <!-- Northwest (outline) -->
+      <path class="cardinal-outline" d="M100 100 L30 50 L35 45 L105 95 Z" />
+    </svg>
+
+    <!-- Solo cerchi pulse -->
+    <div class="pulse-ring pulse-1"></div>
+    <div class="pulse-ring pulse-2"></div>
+    <div class="pulse-ring pulse-3"></div>
+
+    <!-- Click ripple effect -->
+    <div class="click-ripple" [class.animate]="isClicked"></div>
+  </div>
+</button>

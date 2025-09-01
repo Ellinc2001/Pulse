@@ -1,0 +1,282 @@
+.my-vibes-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  position: relative;
+  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Click animation */
+.my-vibes-button.clicked {
+  transform: scale(0.92);
+}
+
+/* Size variants */
+.vibes-small {
+  width: 32px;
+  height: 32px;
+}
+
+.vibes-medium {
+  width: 40px;
+  height: 40px;
+}
+
+.vibes-large {
+  width: 48px;
+  height: 48px;
+}
+
+.vibes-container {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-radius: 50%;
+}
+
+/* Vibes Icon */
+.vibes-icon {
+  width: 100%;
+  height: 100%;
+  color: #00e5cc;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  filter: drop-shadow(0 0 8px rgba(0, 229, 204, 0.4));
+  z-index: 2;
+  position: relative;
+}
+
+.my-vibes-button.clicked .vibes-icon {
+  transform: scale(0.85);
+  filter: brightness(1.3) drop-shadow(0 0 12px rgba(0, 229, 204, 0.6));
+}
+
+/* Active state */
+.my-vibes-button.active .vibes-icon {
+  color: #ff6b6b;
+  filter: drop-shadow(0 0 12px rgba(255, 107, 107, 0.6));
+}
+
+/* ONDE CHE VIAGGIANO ORIZZONTALMENTE - PIÙ DISTANTI */
+.travel-wave-1,
+.travel-wave-2,
+.travel-wave-3 {
+  animation: travelWave 3s linear infinite;
+}
+
+.travel-wave-2 { animation-delay: 1s; }
+.travel-wave-3 { animation-delay: 2s; }
+
+@keyframes travelWave {
+  0% {
+    transform: translateX(-100px);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.8;
+  }
+  90% {
+    opacity: 0.8;
+  }
+  100% {
+    transform: translateX(100px);
+    opacity: 0;
+  }
+}
+
+/* IMPULSI CHE PARTONO DAL CENTRO */
+.pulse-1,
+.pulse-2,
+.pulse-3 {
+  animation: pulseOut 2.5s ease-out infinite;
+}
+
+.pulse-1 { animation-delay: 0s; }
+.pulse-2 { animation-delay: 0.8s; }
+.pulse-3 { animation-delay: 1.6s; }
+
+@keyframes pulseOut {
+  0% {
+    r: 3;
+    opacity: 1;
+    cx: 100;
+    cy: 100;
+  }
+  100% {
+    r: 1;
+    opacity: 0;
+    cx: 100;
+    cy: 100;
+    transform: scale(15);
+  }
+}
+
+/* PARTICELLE CHE SI MUOVONO VERSO L'ESTERNO */
+.particle-out-1 { animation: moveOut1 3s ease-out infinite; }
+.particle-out-2 { animation: moveOut2 3s ease-out infinite; }
+.particle-out-3 { animation: moveOut3 3s ease-out infinite; }
+.particle-out-4 { animation: moveOut4 3s ease-out infinite; }
+.particle-out-5 { animation: moveOut5 3s ease-out infinite; }
+.particle-out-6 { animation: moveOut6 3s ease-out infinite; }
+.particle-out-7 { animation: moveOut7 3s ease-out infinite; }
+.particle-out-8 { animation: moveOut8 3s ease-out infinite; }
+
+/* Particelle che si muovono in 8 direzioni */
+@keyframes moveOut1 {
+  0% { cx: 100; cy: 100; opacity: 0; r: 1; }
+  10% { opacity: 1; r: 2; }
+  100% { cx: 100; cy: 20; opacity: 0; r: 0.5; } /* Su */
+}
+
+@keyframes moveOut2 {
+  0% { cx: 100; cy: 100; opacity: 0; r: 1; }
+  10% { opacity: 1; r: 2; }
+  100% { cx: 180; cy: 20; opacity: 0; r: 0.5; } /* Su-Destra */
+}
+
+@keyframes moveOut3 {
+  0% { cx: 100; cy: 100; opacity: 0; r: 1; }
+  10% { opacity: 1; r: 2; }
+  100% { cx: 180; cy: 100; opacity: 0; r: 0.5; } /* Destra */
+}
+
+@keyframes moveOut4 {
+  0% { cx: 100; cy: 100; opacity: 0; r: 1; }
+  10% { opacity: 1; r: 2; }
+  100% { cx: 180; cy: 180; opacity: 0; r: 0.5; } /* Giù-Destra */
+}
+
+@keyframes moveOut5 {
+  0% { cx: 100; cy: 100; opacity: 0; r: 1; }
+  10% { opacity: 1; r: 2; }
+  100% { cx: 100; cy: 180; opacity: 0; r: 0.5; } /* Giù */
+}
+
+@keyframes moveOut6 {
+  0% { cx: 100; cy: 100; opacity: 0; r: 1; }
+  10% { opacity: 1; r: 2; }
+  100% { cx: 20; cy: 180; opacity: 0; r: 0.5; } /* Giù-Sinistra */
+}
+
+@keyframes moveOut7 {
+  0% { cx: 100; cy: 100; opacity: 0; r: 1; }
+  10% { opacity: 1; r: 2; }
+  100% { cx: 20; cy: 100; opacity: 0; r: 0.5; } /* Sinistra */
+}
+
+@keyframes moveOut8 {
+  0% { cx: 100; cy: 100; opacity: 0; r: 1; }
+  10% { opacity: 1; r: 2; }
+  100% { cx: 20; cy: 20; opacity: 0; r: 0.5; } /* Su-Sinistra */
+}
+
+/* CENTRO SORGENTE - pulsa */
+.wave-source {
+  animation: sourceGlow 2s ease-in-out infinite;
+}
+
+@keyframes sourceGlow {
+  0%, 100% {
+    opacity: 0.6;
+    r: 6;
+  }
+  50% {
+    opacity: 1;
+    r: 10;
+  }
+}
+
+/* Click burst effect */
+.click-burst {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.click-burst.animate {
+  animation: vibesBurst 0.6s ease-out;
+}
+
+@keyframes vibesBurst {
+  0% {
+    width: 0;
+    height: 0;
+    box-shadow: 0 0 0 0 rgba(0, 229, 204, 0.8);
+  }
+  50% {
+    width: 80px;
+    height: 80px;
+    box-shadow: 
+      0 0 20px 5px rgba(0, 229, 204, 0.4),
+      0 0 40px 10px rgba(0, 229, 204, 0.2);
+  }
+  100% {
+    width: 120px;
+    height: 120px;
+    box-shadow: 0 0 0 0 rgba(0, 229, 204, 0);
+  }
+}
+
+.my-vibes-button.active .click-burst.animate {
+  animation: vibesBurstRed 0.6s ease-out;
+}
+
+@keyframes vibesBurstRed {
+  0% {
+    width: 0;
+    height: 0;
+    box-shadow: 0 0 0 0 rgba(255, 107, 107, 0.8);
+  }
+  50% {
+    width: 80px;
+    height: 80px;
+    box-shadow: 
+      0 0 20px 5px rgba(255, 107, 107, 0.4),
+      0 0 40px 10px rgba(255, 107, 107, 0.2);
+  }
+  100% {
+    width: 120px;
+    height: 120px;
+    box-shadow: 0 0 0 0 rgba(255, 107, 107, 0);
+  }
+}
+
+/* Hover effects */
+.my-vibes-button:hover .vibes-icon {
+  transform: scale(1.05);
+  filter: drop-shadow(0 0 12px rgba(0, 229, 204, 0.6));
+}
+
+.my-vibes-button.active:hover .vibes-icon {
+  filter: drop-shadow(0 0 16px rgba(255, 107, 107, 0.8));
+}
+
+/* Accelera le animazioni al hover */
+.my-vibes-button:hover .travel-wave-1,
+.my-vibes-button:hover .travel-wave-2,
+.my-vibes-button:hover .travel-wave-3 {
+  animation-duration: 1.8s;
+}
+
+.my-vibes-button:hover .pulse-1,
+.my-vibes-button:hover .pulse-2,
+.my-vibes-button:hover .pulse-3 {
+  animation-duration: 1.5s;
+}
+
+/* Enhanced active state */
+.my-vibes-button.active .traveling-waves path,
+.my-vibes-button.active .pulse-waves circle,
+.my-vibes-button.active .moving-particles circle,
+.my-vibes-button.active .wave-source {
+  stroke: #ff6b6b;
+  fill: #ff6b6b;
+}

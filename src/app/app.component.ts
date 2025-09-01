@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -7,5 +8,15 @@ import { Component } from '@angular/core';
   standalone: false,
 })
 export class AppComponent {
-  constructor() {}
+  constructor(private router: Router) {}
+
+  activeTab: "home" | "search" | "profile" = "home"
+
+  setActiveTab(tab: "home" | "search" | "profile") {
+    this.activeTab = tab;
+
+    if (tab === "search") {
+      this.router.navigate(['/event-search']); // o il path corretto
+    }
+  }
 }

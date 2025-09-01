@@ -1,0 +1,1004 @@
+// Variabili colori neon
+$neon-cyan: #00E5CC;
+$neon-magenta: #FF00FF;
+$neon-orange: #FF8A00;
+$neon-green: #00FF80;
+$neon-blue: #00BFFF;
+$neon-yellow: #FFD700;
+$neon-red: #FF4757;
+$neon-purple: #8A2BE2;
+$background-dark: #0A0F1C;
+$background-card: #1A2332;
+$text-primary: #FFFFFF;
+$text-secondary: #8B9DC3;
+
+// Mixins
+@mixin neon-glow($color, $intensity: 1) {
+  box-shadow: 
+    0 0 10px rgba($color, 0.4 * $intensity),
+    0 0 20px rgba($color, 0.2 * $intensity),
+    0 0 30px rgba($color, 0.1 * $intensity);
+}
+
+@mixin neon-border($color) {
+  border: 2px solid $color;
+  @include neon-glow($color, 0.8);
+}
+
+@mixin ripple-effect {
+  position: relative;
+  overflow: hidden;
+  
+  .ripple-effect, .btn-ripple, .option-ripple {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    opacity: 0;
+  }
+}
+
+.filter-bar-container {
+  position: relative;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+// Main Horizontal Filter Bar
+.main-filter-bar {
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  
+  &.blurred {
+    filter: blur(8px) brightness(0.2); // Aumentato blur e ridotto brightness
+    opacity: 0.05; // Quasi invisibile
+    transform: scale(0.92);
+    pointer-events: none; // Disabilita completamente le interazioni
+  }
+}
+
+.filters-scroll-container {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+
+.filters-scroll {
+  display: flex;
+  gap: 12px;
+  padding: 16px 20px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-behavior: smooth;
+  
+  // Hide scrollbar but keep functionality
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  
+  // Add padding for scroll indicator
+  padding-right: 60px;
+}
+
+.filter-chip {
+  @include ripple-effect;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 20px;
+  background: rgba(26, 35, 50, 0.8);
+  border: 2px solid var(--filter-color, $neon-cyan);
+  border-radius: 25px;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  white-space: nowrap;
+  min-width: fit-content;
+  backdrop-filter: blur(10px);
+  
+  // Default glow
+  @include neon-glow(var(--filter-color, #{$neon-cyan}), 0.6);
+  
+  &:hover {
+    transform: translateY(-3px) scale(1.03);
+    background: rgba(var(--filter-color, #{$neon-cyan}), 0.12);
+    @include neon-glow(var(--filter-color, #{$neon-cyan}), 1.4);
+    
+    .filter-label {
+      text-shadow: 0 0 12px rgba(var(--filter-color, #{$neon-cyan}), 1);
+    }
+    
+    .filter-icon {
+      transform: scale(1.1) rotate(5deg);
+      filter: drop-shadow(0 0 8px rgba(var(--filter-color, #{$neon-cyan}), 1));
+    }
+  }
+  
+  &.active {
+    background: rgba(var(--filter-color, #{$neon-cyan}), 0.18);
+    border-width: 2px;
+    @include neon-glow(var(--filter-color, #{$neon-cyan}), 1.8);
+    animation: activeChipPulse 2.5s ease-in-out infinite;
+    
+    .filter-icon {
+      color: var(--filter-color, $neon-cyan);
+      filter: drop-shadow(0 0 8px rgba(var(--filter-color, #{$neon-cyan}), 1));
+      animation: iconSpin 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .filter-label {
+      color: var(--filter-color, $neon-cyan);
+      text-shadow: 0 0 12px rgba(var(--filter-color, #{$neon-cyan}), 0.8);
+    }
+  }
+  
+  &:active {
+    transform: translateY(-1px) scale(0.97);
+    
+    .ripple-effect {
+      animation: rippleAnimation 0.6s ease-out;
+    }
+  }
+}
+
+.filter-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--filter-color, $neon-cyan);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.filter-label {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--filter-color, $neon-cyan);
+  font-family: system-ui, -apple-system, sans-serif;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+// Scroll indicator
+.scroll-indicator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 40px;
+  height: 40px;
+  color: $neon-cyan;
+  opacity: 0.7;
+  animation: scrollPulse 2.5s ease-in-out infinite;
+}
+
+// Fade gradient for scroll indication
+.scroll-fade-right {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 50px;
+  background: linear-gradient(270deg, rgba(10, 15, 28, 1) 0%, transparent 100%);
+  pointer-events: none;
+  z-index: 2;
+}
+
+// Overlay Filter Bar - ULTRA RINFORZATO
+.overlay-filter-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: rgba(5, 8, 15, 0.99); // Quasi nero
+  border-bottom: 3px solid var(--overlay-color, $neon-cyan);
+  padding: 24px;
+  z-index: 1002; // Aumentato ulteriormente
+  transform: translateY(-100%);
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  backdrop-filter: blur(25px) brightness(0.2); // Blur e brightness estremi
+  @include neon-glow(var(--overlay-color, #{$neon-cyan}), 1);
+  max-height: 100vh;
+  overflow-y: auto;
+  
+  // Background solido multiplo per bloccare tutto
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+      radial-gradient(circle at 50% 50%, rgba(5, 8, 15, 0.98) 0%, rgba(0, 0, 0, 0.95) 100%),
+      linear-gradient(180deg, rgba(10, 15, 28, 0.98) 0%, rgba(5, 8, 15, 0.99) 100%);
+    z-index: -1;
+  }
+  
+  // Layer aggiuntivo per sicurezza
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.8);
+    z-index: -2;
+  }
+  
+  &.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+}
+
+.overlay-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 40px;
+  padding-bottom: 20px;
+  border-bottom: 2px solid rgba(var(--overlay-color, #{$neon-cyan}), 0.3);
+  animation: slideInFromTop 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.back-btn,
+.close-btn {
+  background: transparent;
+  border: none;
+  color: $neon-cyan;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  
+  &:hover {
+    background: rgba($neon-cyan, 0.15);
+    transform: scale(1.15) rotate(10deg);
+    @include neon-glow($neon-cyan, 0.8);
+  }
+  
+  &:active {
+    transform: scale(0.95);
+  }
+}
+
+.overlay-title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  
+  h3 {
+    margin: 0;
+    font-size: 28px;
+    font-weight: 600;
+    color: $neon-magenta;
+    font-family: system-ui, -apple-system, sans-serif;
+    text-shadow: 0 0 15px rgba($neon-magenta, 0.8);
+    text-align: center;
+  }
+}
+
+// COMPLETE FILTER CONTAINER - Layout completo per Distance/Price
+.complete-filter-container {
+  animation: slideInFromLeft 0.7s cubic-bezier(0.4, 0, 0.2, 1) 0.2s both;
+}
+
+.filter-subtitle {
+  margin-bottom: 32px;
+  text-align: left;
+  
+  span {
+    font-size: 18px;
+    color: $neon-cyan;
+    font-family: system-ui, -apple-system, sans-serif;
+    font-weight: 400;
+    text-shadow: 0 0 8px rgba($neon-cyan, 0.6);
+  }
+}
+
+// Quick Presets
+.quick-presets {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 48px;
+  overflow-x: auto;
+  padding: 10px 0;
+  
+  // Hide scrollbar
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.preset-chip {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 24px;
+  background: rgba(26, 35, 50, 0.6);
+  border: none;
+  border-radius: 16px;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  white-space: nowrap;
+  min-width: fit-content;
+  font-size: 16px;
+  color: $text-secondary;
+  font-family: system-ui, -apple-system, sans-serif;
+  
+  // Staggered slide-in animation
+  opacity: 0;
+  transform: translateY(-20px) scale(0.9);
+  animation: slideInStagger 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  
+  &:hover {
+    background: rgba($neon-cyan, 0.12);
+    color: $neon-cyan;
+    transform: translateY(-3px) scale(1.02);
+    @include neon-glow($neon-cyan, 0.6);
+  }
+  
+  &.active {
+    background: rgba($neon-cyan, 0.15);
+    color: $neon-cyan;
+    @include neon-glow($neon-cyan, 0.8);
+    
+    .preset-label {
+      text-shadow: 0 0 10px rgba($neon-cyan, 0.8);
+    }
+    
+    .preset-underline {
+      animation: underlineExpand 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+  }
+}
+
+.preset-label {
+  font-weight: 500;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.preset-underline {
+  position: absolute;
+  bottom: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60%;
+  height: 3px;
+  background: $neon-cyan;
+  border-radius: 2px;
+  @include neon-glow($neon-cyan, 1.2);
+}
+
+// Custom Range Section
+.custom-range-section {
+  margin-bottom: 40px;
+}
+
+.custom-range-title {
+  font-size: 20px;
+  color: $neon-cyan;
+  font-family: system-ui, -apple-system, sans-serif;
+  font-weight: 500;
+  margin: 0 0 32px 0;
+  text-shadow: 0 0 8px rgba($neon-cyan, 0.6);
+}
+
+// Interactive Slider
+.interactive-slider {
+  margin-bottom: 20px;
+}
+
+.slider-track-container {
+  position: relative;
+  height: 12px;
+  margin: 20px 0 40px 0;
+  padding: 0 16px;
+  cursor: pointer;
+}
+
+.slider-track {
+  width: 100%;
+  height: 12px;
+  background: linear-gradient(90deg, #00E5CC 0%, #00FFFF 25%, #8A2BE2 75%, #FF00FF 100%);
+  border-radius: 25px;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  @include neon-glow($neon-cyan, 1.2);
+  animation: trackGlow 3s ease-in-out infinite;
+}
+
+.slider-handle {
+  width: 32px;
+  height: 32px;
+  background: $neon-magenta;
+  border: 4px solid rgba(10, 15, 28, 1);
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  cursor: grab;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  @include neon-glow($neon-magenta, 2);
+  animation: handleFloat 3s ease-in-out infinite;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  &:hover {
+    transform: translate(-50%, -50%) scale(1.2);
+    @include neon-glow($neon-magenta, 2.5);
+    border-width: 3px;
+  }
+  
+  &:active,
+  &.dragging {
+    cursor: grabbing;
+    transform: translate(-50%, -50%) scale(1.1);
+    @include neon-glow($neon-magenta, 3);
+    animation: none;
+  }
+}
+
+.handle-value {
+  position: absolute;
+  top: -35px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(10, 15, 28, 0.9);
+  color: $neon-magenta;
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+  border: 1px solid $neon-magenta;
+  @include neon-glow($neon-magenta, 0.8);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.slider-handle:hover .handle-value,
+.slider-handle.dragging .handle-value {
+  opacity: 1;
+}
+
+.slider-labels {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 16px;
+  margin-bottom: 16px;
+}
+
+.slider-label {
+  font-size: 14px;
+  color: $neon-cyan;
+  font-family: system-ui, -apple-system, sans-serif;
+  font-weight: 500;
+  text-shadow: 0 0 6px rgba($neon-cyan, 0.6);
+}
+
+.current-value {
+  text-align: center;
+  margin-top: 16px;
+  
+  span {
+    font-size: 16px;
+    color: $neon-magenta;
+    font-family: system-ui, -apple-system, sans-serif;
+    font-weight: 600;
+    text-shadow: 0 0 8px rgba($neon-magenta, 0.8);
+    padding: 8px 16px;
+    background: rgba($neon-magenta, 0.1);
+    border-radius: 20px;
+    border: 1px solid rgba($neon-magenta, 0.3);
+  }
+}
+
+// NUOVO TEMPLATE MINIMALISTA per tutti gli altri filtri
+.minimal-filter-container {
+  position: relative;
+  animation: slideInFromLeft 0.7s cubic-bezier(0.4, 0, 0.2, 1) 0.2s both;
+  min-height: 300px; // Spazio per gli effetti corner
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.filter-options-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+  width: 100%;
+  max-width: 900px;
+  padding: 40px 20px;
+  
+  // Per filtri con poche opzioni, centra meglio
+  &:has(.minimal-option-chip:nth-child(-n+3)) {
+    grid-template-columns: repeat(auto-fit, minmax(250px, 300px));
+    justify-content: center;
+  }
+}
+
+.minimal-option-chip {
+  @include ripple-effect;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px 32px;
+  background: rgba(26, 35, 50, 0.4);
+  border: 2px solid rgba(var(--overlay-color, #{$neon-cyan}), 0.3);
+  border-radius: 50px; // Più arrotondato come nell'immagine
+  cursor: pointer;
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  font-size: 18px;
+  font-weight: 500;
+  color: $text-secondary;
+  font-family: system-ui, -apple-system, sans-serif;
+  min-height: 60px;
+  
+  // Staggered slide-in animation
+  opacity: 0;
+  transform: translateY(-30px) scale(0.8);
+  animation: slideInStagger 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  
+  &:hover {
+    background: rgba(var(--overlay-color, #{$neon-cyan}), 0.08);
+    border-color: rgba(var(--overlay-color, #{$neon-cyan}), 0.6);
+    color: var(--overlay-color, $neon-cyan);
+    transform: translateY(-5px) scale(1.02);
+    @include neon-glow(var(--overlay-color, #{$neon-cyan}), 0.4);
+    
+    .option-label {
+      text-shadow: 0 0 8px rgba(var(--overlay-color, #{$neon-cyan}), 0.6);
+    }
+  }
+  
+  &.active {
+    background: rgba(var(--overlay-color, #{$neon-cyan}), 0.12);
+    border-color: var(--overlay-color, $neon-cyan);
+    border-width: 3px; // Bordo più spesso per l'attivo
+    color: var(--overlay-color, $neon-cyan);
+    @include neon-glow(var(--overlay-color, #{$neon-cyan}), 1.5);
+    animation: activeOptionPulse 2.5s ease-in-out infinite;
+    
+    .option-label {
+      text-shadow: 0 0 12px rgba(var(--overlay-color, #{$neon-cyan}), 1);
+      font-weight: 600;
+    }
+    
+    .option-glow {
+      animation: optionGlowExpand 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+  }
+  
+  &:active {
+    transform: scale(0.95);
+    
+    .option-ripple {
+      animation: rippleAnimation 0.6s ease-out;
+    }
+  }
+}
+
+.option-label {
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  text-align: center;
+  line-height: 1.3;
+}
+
+.option-glow {
+  position: absolute;
+  top: -3px;
+  left: -3px;
+  right: -3px;
+  bottom: -3px;
+  border-radius: 53px;
+  background: linear-gradient(45deg, 
+    transparent 0%, 
+    rgba(var(--overlay-color, #{$neon-cyan}), 0.3) 50%, 
+    transparent 100%
+  );
+  opacity: 0;
+  z-index: -1;
+}
+
+// Corner effects come nell'immagine
+.corner-effects {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  z-index: -1;
+}
+
+.corner-glow {
+  position: absolute;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--overlay-color, $neon-cyan) 0%, transparent 70%);
+  opacity: 0.3;
+  animation: cornerFloat 4s ease-in-out infinite;
+  
+  &.corner-top-left {
+    top: 20px;
+    left: 20px;
+    animation-delay: 0s;
+  }
+  
+  &.corner-top-right {
+    top: 20px;
+    right: 20px;
+    animation-delay: 1s;
+    background: radial-gradient(circle, $neon-magenta 0%, transparent 70%);
+  }
+  
+  &.corner-bottom-left {
+    bottom: 20px;
+    left: 20px;
+    animation-delay: 2s;
+    background: radial-gradient(circle, $neon-green 0%, transparent 70%);
+  }
+  
+  &.corner-bottom-right {
+    bottom: 20px;
+    right: 20px;
+    animation-delay: 3s;
+    background: radial-gradient(circle, $neon-orange 0%, transparent 70%);
+  }
+}
+
+// Footer Actions
+.overlay-footer {
+  display: flex;
+  gap: 20px;
+  padding-top: 24px;
+  border-top: 2px solid rgba(var(--overlay-color, #{$neon-cyan}), 0.3);
+  animation: slideInFromBottom 0.7s cubic-bezier(0.4, 0, 0.2, 1) 0.4s both;
+}
+
+.clear-btn,
+.apply-btn {
+  @include ripple-effect;
+  flex: 1;
+  padding: 18px 32px;
+  border-radius: 30px;
+  font-size: 18px;
+  font-weight: 600;
+  font-family: system-ui, -apple-system, sans-serif;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.clear-btn {
+  background: transparent;
+  border: 2px solid $neon-cyan;
+  color: $neon-cyan;
+  
+  &:hover {
+    background: rgba($neon-cyan, 0.12);
+    transform: translateY(-3px) scale(1.02);
+    @include neon-glow($neon-cyan, 0.8);
+  }
+  
+  &:active {
+    transform: translateY(-1px) scale(0.98);
+    
+    .btn-ripple {
+      animation: rippleAnimation 0.6s ease-out;
+    }
+  }
+}
+
+.apply-btn {
+  background: $neon-magenta;
+  border: 2px solid $neon-magenta;
+  color: $background-dark;
+  
+  &:hover {
+    background: rgba($neon-magenta, 0.9);
+    transform: translateY(-3px) scale(1.02);
+    @include neon-glow($neon-magenta, 1.2);
+  }
+  
+  &:active {
+    transform: translateY(-1px) scale(0.98);
+    
+    .btn-ripple {
+      animation: rippleAnimation 0.6s ease-out;
+    }
+  }
+}
+
+.count-badge {
+  background: $background-dark;
+  color: var(--overlay-color, $neon-cyan);
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 700;
+  animation: badgeBounce 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  @include neon-glow(var(--overlay-color, #{$neon-cyan}), 0.4);
+}
+
+// Backdrop ULTRA RINFORZATO - MASSIMA PROTEZIONE
+.overlay-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.98); // Quasi completamente nero
+  backdrop-filter: blur(15px) brightness(0.1); // Blur estremo e brightness minimo
+  z-index: 1000;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.4s ease;
+  
+  &.show {
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
+// Layer aggiuntivo per bloccare TUTTO
+.backdrop-blocker {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    radial-gradient(circle at 50% 50%, rgba(0, 0, 0, 0.95) 0%, rgba(5, 8, 15, 0.98) 100%),
+    linear-gradient(135deg, rgba(0, 0, 0, 0.9) 0%, rgba(10, 15, 28, 0.95) 100%);
+  z-index: -1;
+}
+
+// ANIMAZIONI
+@keyframes optionGlowExpand {
+  0% { opacity: 0; transform: scale(0.8); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+@keyframes activeOptionPulse {
+  0%, 100% {
+    box-shadow: 
+      0 0 15px rgba(var(--overlay-color, #{$neon-cyan}), 0.8),
+      0 0 30px rgba(var(--overlay-color, #{$neon-cyan}), 0.4),
+      0 0 45px rgba(var(--overlay-color, #{$neon-cyan}), 0.2);
+  }
+  50% {
+    box-shadow: 
+      0 0 25px rgba(var(--overlay-color, #{$neon-cyan}), 1),
+      0 0 50px rgba(var(--overlay-color, #{$neon-cyan}), 0.6),
+      0 0 75px rgba(var(--overlay-color, #{$neon-cyan}), 0.3);
+  }
+}
+
+@keyframes cornerFloat {
+  0%, 100% {
+    opacity: 0.2;
+    transform: scale(1) translateY(0);
+  }
+  50% {
+    opacity: 0.4;
+    transform: scale(1.1) translateY(-10px);
+  }
+}
+
+@keyframes underlineExpand {
+  0% { width: 0; opacity: 0; }
+  100% { width: 60%; opacity: 1; }
+}
+
+@keyframes trackGlow {
+  0%, 100% {
+    box-shadow: 
+      0 0 8px rgba($neon-cyan, 0.6),
+      0 0 16px rgba($neon-cyan, 0.3),
+      0 0 24px rgba($neon-magenta, 0.2);
+  }
+  50% {
+    box-shadow: 
+      0 0 12px rgba($neon-cyan, 0.8),
+      0 0 24px rgba($neon-cyan, 0.4),
+      0 0 36px rgba($neon-magenta, 0.3);
+  }
+}
+
+@keyframes handleFloat {
+  0%, 100% { 
+    transform: translate(-50%, -50%) scale(1); 
+    filter: drop-shadow(0 0 8px rgba($neon-magenta, 1));
+  }
+  50% { 
+    transform: translate(-50%, -55%) scale(1.05); 
+    filter: drop-shadow(0 0 12px rgba($neon-magenta, 1.2));
+  }
+}
+
+@keyframes activeChipPulse {
+  0%, 100% {
+    box-shadow: 
+      0 0 15px rgba(var(--filter-color, #{$neon-cyan}), 0.8),
+      0 0 30px rgba(var(--filter-color, #{$neon-cyan}), 0.4);
+  }
+  50% {
+    box-shadow: 
+      0 0 25px rgba(var(--filter-color, #{$neon-cyan}), 1),
+      0 0 50px rgba(var(--filter-color, #{$neon-cyan}), 0.6);
+  }
+}
+
+@keyframes scrollPulse {
+  0%, 100% {
+    opacity: 0.5;
+    transform: translateX(0);
+  }
+  50% {
+    opacity: 1;
+    transform: translateX(6px);
+  }
+}
+
+@keyframes iconSpin {
+  0% { transform: scale(1) rotate(0deg); }
+  50% { transform: scale(1.2) rotate(180deg); }
+  100% { transform: scale(1) rotate(360deg); }
+}
+
+@keyframes slideInFromTop {
+  0% {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInFromLeft {
+  0% {
+    opacity: 0;
+    transform: translateX(-40px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInFromBottom {
+  0% {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInStagger {
+  0% {
+    opacity: 0;
+    transform: translateY(-30px) scale(0.8);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes badgeBounce {
+  0% { transform: scale(0); }
+  50% { transform: scale(1.3); }
+  100% { transform: scale(1); }
+}
+
+@keyframes rippleAnimation {
+  0% {
+    width: 0;
+    height: 0;
+    opacity: 0.8;
+  }
+  100% {
+    width: 200px;
+    height: 200px;
+    opacity: 0;
+  }
+}
+
+// Responsive
+@media (max-width: 768px) {
+  .filters-scroll {
+    padding: 12px 16px;
+    gap: 10px;
+  }
+  
+  .filter-chip {
+    padding: 10px 16px;
+    font-size: 13px;
+  }
+  
+  .overlay-filter-bar {
+    padding: 20px 16px;
+  }
+  
+  .overlay-title h3 {
+    font-size: 24px;
+  }
+  
+  .filter-options-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+    padding: 20px 10px;
+  }
+  
+  .minimal-option-chip {
+    font-size: 16px;
+    padding: 16px 24px;
+    min-height: 50px;
+  }
+  
+  .corner-glow {
+    width: 60px;
+    height: 60px;
+  }
+}
+
+@media (max-width: 480px) {
+  .slider-handle {
+    width: 28px;
+    height: 28px;
+  }
+  
+  .handle-value {
+    font-size: 11px;
+    padding: 3px 6px;
+  }
+  
+  .current-value span {
+    font-size: 14px;
+    padding: 6px 12px;
+  }
+  
+  .minimal-option-chip {
+    font-size: 14px;
+    padding: 14px 20px;
+  }
+}

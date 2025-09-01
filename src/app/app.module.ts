@@ -6,9 +6,12 @@ import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
+import { CompassSearchButtonComponent } from './compass-search-button/compass-search-button';
+import { ProfileButtonComponent } from './profile-button/profile-button';
+import { MyVibesButtonComponent } from './my-vibes-button/my-vibes-button';
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, CompassSearchButtonComponent, ProfileButtonComponent, MyVibesButtonComponent ],
   imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
   bootstrap: [AppComponent],
