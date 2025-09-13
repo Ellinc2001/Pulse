@@ -1,0 +1,55 @@
+<div class="events-content">
+  <!-- Header -->
+  <div class="header">
+    <ion-button fill="clear" class="back-button" (click)="goBack()">
+      <ion-icon name="chevron-back" slot="icon-only"></ion-icon>
+    </ion-button>
+    <h1 class="header-title">Events</h1>
+  </div>
+
+  <!-- Category Filters -->
+  <div class="category-filters">
+    <div class="filter-scroll">
+      <ion-button
+        *ngFor="let category of categories"
+        [class]="'filter-button ' + (selectedCategory === category ? 'active' : '')"
+        fill="clear"
+        (click)="selectCategory(category)"
+      >
+        {{ category }}
+      </ion-button>
+    </div>
+  </div>
+
+  <!-- Map Container -->
+  <div class="map-section">
+    <div #mapContainer class="map-container"></div>
+    <ion-button class="full-map-button" fill="clear" (click)="openFullMap()">
+      <ion-icon name="expand" slot="start"></ion-icon>
+      Full Map
+    </ion-button>
+  </div>
+
+  <!-- Events List -->
+  <div class="events-section">
+    <div class="section-header">
+      <h2>Upcoming Events</h2>
+      <ion-button fill="clear" class="see-all-button">
+        See all
+      </ion-button>
+    </div>
+
+    <div class="events-list">
+      @for (event of events; track event.id; let i = $index) {
+        <app-event-card
+          [event]="event"
+          [cardId]="'event-' + event.id"
+          [id]="'event-' + event.id"
+          (click)="navigateToEventDetail(event)"
+        ></app-event-card>
+      } @empty {
+        <div class="empty">Nessun evento trovato</div>
+      }
+    </div>
+  </div>
+

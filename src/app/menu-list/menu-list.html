@@ -1,0 +1,21 @@
+<div class="event-menu">
+  <div class="menu-container">
+    <div class="menu-tabs">
+      @for(tab of menuTabs; track tab){
+        <button 
+        class="menu-tab"
+        [class.active]="isActive(tab.id)"
+        (click)="onTabClick(tab.id)"
+        type="button">
+        <div class="tab-content">
+          <ion-icon [name]="tab.icon" class="tab-icon"></ion-icon>
+          <span class="tab-label">{{ tab.label }}</span>
+        </div>
+        @if(isActive(tab.id)){
+          <div class="tab-indicator"></div>
+        }
+      </button>
+      }
+    </div>
+  </div>
+</div>

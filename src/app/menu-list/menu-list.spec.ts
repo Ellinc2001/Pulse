@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { EventSearch } from './events-search';
+import { MenuList } from './menu-list';
 
-describe('EventSearch', () => {
-  let component: EventSearch;
-  let fixture: ComponentFixture<EventSearch>;
+describe('MenuList', () => {
+  let component: MenuList;
+  let fixture: ComponentFixture<MenuList>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [EventSearch]
+      declarations: [MenuList]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(EventSearch);
+    fixture = TestBed.createComponent(MenuList);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

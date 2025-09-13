@@ -1,242 +1,59 @@
-/* Event Card - Colori dinamici tramite binding */
 .event-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  border-radius: 0.75rem;
+  background-color: #1D1D1D;
+  padding: 0.75rem;
+  border: 1px solid;
+  margin-bottom: 1rem;
+}
+
+.event-content {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
   width: 100%;
-  max-width: 343px;
-  height: 240px;
-  background: linear-gradient(135deg, rgba(0, 0, 0, 0.95) 0%, rgba(28, 38, 49, 0.9) 100%);
-  border: 2px solid; /* Colore applicato tramite binding */
-  border-radius: 16px;
-  padding: 20px;
-  position: relative;
-  overflow: hidden;
-  opacity: 0;
-  transform: translateY(20px);
-  animation: slideInCard 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.event-image {
+  width: 5rem;
+  height: 5rem;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  border-radius: 0.5rem;
+  flex-shrink: 0;
+}
+
+.event-details {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  box-sizing: border-box;
-  margin-bottom: 16px;
-
-  &:hover {
-    transform: translateY(-4px);
-    filter: brightness(1.1);
-  }
+  gap: 0.25rem;
 }
 
-@keyframes slideInCard {
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.event-card::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
-  transition: left 0.6s;
-}
-
-.event-card:hover::before {
-  left: 100%;
-}
-
-/* Header della card evento */
-.event-card-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 12px;
-}
-
-.venue-section {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  flex: 1;
-}
-
-.skyline-icon {
-  flex-shrink: 0;
-  width: 20px;
-  height: 14px;
-  filter: drop-shadow(0 0 4px rgba(0, 229, 204, 0.6));
-}
-
-.venue-name {
-  font-size: 15px;
-  font-weight: 600;
-  font-family: system-ui, -apple-system, sans-serif;
-  /* Colore applicato tramite binding */
-}
-
-.status-badge {
-  padding: 4px 12px;
-  border: 1px solid; /* Colore applicato tramite binding */
-  border-radius: 12px;
-  font-size: 10px;
-  font-weight: 600;
-  background: rgba(0, 0, 0, 0.8);
-  font-family: system-ui, -apple-system, sans-serif;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  animation: statusPulse 2s ease-in-out infinite;
-}
-
-@keyframes statusPulse {
-  0%, 100% { opacity: 0.8; }
-  50% { opacity: 1; }
-}
-
-/* Titolo evento */
-.event-title {
-  font-size: 22px;
+.event-category {
+  font-size: 0.875rem;
   font-weight: 700;
-  margin: 0 0 12px 0;
-  line-height: 1.2;
-  font-family: system-ui, -apple-system, sans-serif;
-  /* Colore applicato tramite binding */
-}
-
-/* Sezione centrale */
-.event-middle-section {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  flex: 1;
-}
-
-/* Dettagli evento */
-.event-details-row {
-  display: flex;
-  align-items: center;
-  gap: 24px;
-}
-
-.detail-item {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.detail-item span {
-  font-size: 13px;
-  color: #8b9dc3;
-  font-family: system-ui, -apple-system, sans-serif;
-}
-
-.detail-icon {
-  flex-shrink: 0;
-  width: 14px;
-  height: 14px;
-}
-
-/* Genre Tags e Descrizione */
-.genre-and-description {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.genre-tags {
-  display: flex;
-  gap: 8px;
-}
-
-.genre-tag {
-  padding: 4px 12px;
-  background: rgba(42, 52, 65, 0.8);
-  border: 1px solid #3a4553;
-  border-radius: 12px;
-  font-size: 11px;
-  font-weight: 400;
-  color: #8b9dc3;
-  font-family: system-ui, -apple-system, sans-serif;
-  white-space: nowrap;
-
-  &.status-tag {
-    font-weight: 700;
-    letter-spacing: 0.5px;
-    animation: statusTagGlow 2s ease-in-out infinite;
-    /* Background e box-shadow applicati tramite binding */
-  }
-}
-
-@keyframes statusTagGlow {
-  0%, 100% { 
-    opacity: 0.9;
-  }
-  50% { 
-    opacity: 1;
-    transform: scale(1.02);
-  }
-}
-
-/* Descrizione */
-.event-description {
-  font-size: 12px;
-  color: #6b7280;
+  line-height: normal;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
   margin: 0;
-  font-family: system-ui, -apple-system, sans-serif;
-  line-height: 1.4;
 }
 
-/* Bottoni evento */
-.event-buttons {
-  display: flex;
-  gap: 12px;
-  margin-top: 16px;
+.event-title {
+  color: white;
+  font-size: 1.125rem;
+  font-weight: 700;
+  line-height: 1.2;
+  margin: 0;
 }
 
-.btn-event {
-  flex: 1;
-  height: 36px;
-  border-radius: 8px;
-  font-size: 12px;
-  font-weight: 500;
-  font-family: system-ui, -apple-system, sans-serif;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  border: none;
-}
-
-.btn-outline {
-  background: transparent;
-  border: 1px solid; /* Colore applicato tramite binding */
-  /* Colore testo applicato tramite binding */
-
-  &:hover {
-    background-color: rgba(255, 255, 255, 0.05);
-    transform: translateY(-1px);
-    filter: brightness(1.2);
-  }
-}
-
-.btn-primary {
-  /* Background applicato tramite binding */
-  color: #1c2631;
-  font-weight: 600;
-
-  &:hover {
-    transform: translateY(-1px);
-    filter: brightness(1.1);
-  }
-}
-
-.btn-event:active {
-  transform: translateY(0);
-}
-
-// Responsive
-@media (max-width: 768px) {
-  .event-card {
-    max-width: 100%;
-  }
+.event-location {
+  color: #ab9cba;
+  font-size: 0.875rem;
+  font-weight: 400;
+  line-height: normal;
+  margin: 0;
 }

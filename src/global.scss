@@ -35,3 +35,11 @@
 /* @import "@ionic/angular/css/palettes/dark.always.css"; */
 /* @import "@ionic/angular/css/palettes/dark.class.css"; */
 @import "@ionic/angular/css/palettes/dark.system.css";
+
+/* Leaflet */
+@import "leaflet/dist/leaflet.css";
+
+/* Assicura il layout a piena altezza */
+html, body, app-root, ion-app, ion-content {
+  height: 100%;
+}

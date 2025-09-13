@@ -1,0 +1,130 @@
+<div class="general-chat">
+  
+  <!-- Chat Header -->
+  <div class="chat-header">
+    <div class="header-info">
+      <h3 class="chat-title">General Chat</h3>
+      <div class="online-count">
+        <div class="online-dot"></div>
+        <span>{{ onlineUsers.length + 1 }} online</span>
+      </div>
+    </div>
+    <div class="chat-actions">
+      <ion-button fill="clear" size="small" class="action-btn">
+        <ion-icon name="settings-outline" slot="icon-only"></ion-icon>
+      </ion-button>
+    </div>
+  </div>
+
+  <!-- Messages Container -->
+  <div class="messages-container" #messagesContainer>
+    <div class="messages-list">
+      
+      <!-- Chat Messages -->
+      <div 
+        *ngFor="let message of messages" 
+        class="message-item"
+        [class.own-message]="message.userId === currentUser.id"
+        [class.moderator-message]="message.isModerator">
+        
+        <div class="message-avatar" *ngIf="message.userId !== currentUser.id">
+          <img [src]="message.avatar" [alt]="message.username">
+          <div class="moderator-badge" *ngIf="message.isModerator">
+            <ion-icon name="shield-checkmark"></ion-icon>
+          </div>
+        </div>
+        
+        <div class="message-content">
+          <div class="message-header" *ngIf="message.userId !== currentUser.id">
+            <span class="username" [class.moderator]="message.isModerator">
+              {{ message.username }}
+            </span>
+            <span class="timestamp">{{ formatTime(message.timestamp) }}</span>
+          </div>
+          
+          <div class="message-bubble">
+            <p class="message-text">{{ message.message }}</p>
+            
+            <!-- Message Reactions -->
+            <div class="message-reactions" *ngIf="message.reactions.length > 0">
+              <button 
+                *ngFor="let reaction of message.reactions"
+                class="reaction-btn"
+                [class.user-reacted]="hasUserReacted(message, reaction.emoji)"
+                (click)="addReaction(message.id, reaction.emoji)">
+                <span class="reaction-emoji">{{ reaction.emoji }}</span>
+                <span class="reaction-count">{{ reaction.count }}</span>
+              </button>
+            </div>
+          </div>
+          
+          <!-- Reaction Picker -->
+          <div class="reaction-picker">
+            <button 
+              *ngFor="let emoji of availableReactions"
+              class="emoji-btn"
+              (click)="addReaction(message.id, emoji)">
+              {{ emoji }}
+            </button>
+          </div>
+        </div>
+        
+        <div class="message-time" *ngIf="message.userId === currentUser.id">
+          {{ formatTime(message.timestamp) }}
+        </div>
+      </div>
+      
+      <!-- Typing Indicators -->
+      <div class="typing-indicators" *ngIf="getTypingUsers().length > 0">
+        <div class="typing-item" *ngFor="let user of getTypingUsers()">
+          <div class="typing-avatar">
+            <img [src]="user.avatar" [alt]="user.username">
+          </div>
+          <div class="typing-bubble">
+            <div class="typing-dots">
+              <div class="dot"></div>
+              <div class="dot"></div>
+              <div class="dot"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Message Input -->
+  <div class="message-input-container">
+    <div class="input-wrapper">
+     <textarea
+      class="message-input"
+      [(ngModel)]="newMessage"
+      (input)="onTyping()"
+      (keydown.enter)="onEnter($any($event))"
+      placeholder="Type a message..."
+      rows="1"
+      maxlength="500">
+     </textarea>
+
+      <button 
+        class="send-btn"
+        [disabled]="!newMessage.trim()"
+        (click)="sendMessage()">
+        <ion-icon name="send"></ion-icon>
+      </button>
+    </div>
+    <div class="input-footer">
+      <div class="character-count" [class.warning]="newMessage.length > 450">
+        {{ newMessage.length }}/500
+      </div>
+      <div class="quick-reactions">
+        <button 
+          *ngFor="let emoji of availableReactions.slice(0, 4)"
+          class="quick-emoji"
+          (click)="newMessage = newMessage + emoji">
+          {{ emoji }}
+        </button>
+      </div>
+    </div>
+  </div>
+
+</div>

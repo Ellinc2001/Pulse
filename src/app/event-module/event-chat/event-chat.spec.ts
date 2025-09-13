@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { EventSearch } from './events-search';
+import { EventChat } from './event-chat';
 
-describe('EventSearch', () => {
-  let component: EventSearch;
-  let fixture: ComponentFixture<EventSearch>;
+describe('EventChat', () => {
+  let component: EventChat;
+  let fixture: ComponentFixture<EventChat>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [EventSearch]
+      declarations: [EventChat]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(EventSearch);
+    fixture = TestBed.createComponent(EventChat);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -1,0 +1,81 @@
+<div class="real-time-stats">
+  
+  <!-- Stats Grid -->
+  <div class="stats-grid">
+    @for(stat of stats; track stat){
+      <div 
+        class="stat-card"
+        [style.border-left-color]="stat.color">
+        <div class="stat-header">
+          <div class="stat-icon" [style.color]="stat.color">
+            <ion-icon [name]="stat.icon"></ion-icon>
+          </div>
+          <div class="stat-change" [style.color]="getChangeColor(stat.changeType)">
+            <ion-icon [name]="getChangeIcon(stat.changeType)"></ion-icon>
+            <span>{{ Math.abs(stat.change).toFixed(1) }}%</span>
+          </div>
+        </div>
+          <div class="stat-content">
+            <h3 class="stat-title">{{ stat.title }}</h3>
+            <div class="stat-value">
+              {{ stat.value }}<span class="stat-suffix" *ngIf="stat.suffix">{{ stat.suffix }}</span>
+            </div>
+          </div>
+       </div>
+    }
+  </div>
+
+  <!-- Engagement Trend Chart -->
+  <div class="chart-section">
+    <h3 class="section-title">Engagement Trend</h3>
+    <div class="trend-chart">
+      <div class="chart-container">
+        @for(point of engagementTrend; track point; let i = $index){
+        <div 
+          class="chart-bar"
+          [style.height.%]="point.value"
+          [style.animation-delay.ms]="i * 100">
+          <div class="bar-value">{{ point.value }}%</div>
+        </div>
+        }
+      </div>
+      <div class="chart-labels">
+        @for(point of engagementTrend; track point){
+        <span class="chart-label">
+          {{ point.time }}
+        </span>
+        }
+      </div>
+    </div>
+  </div>
+
+  <!-- Demographics Chart -->
+  <div class="chart-section">
+    <h3 class="section-title">Age Demographics</h3>
+    <div class="demographics-chart">
+        @for(demo of demographicData; track demo){
+        <div 
+          class="demo-item">
+          <div class="demo-bar-container">
+            <div 
+              class="demo-bar" 
+              [style.width.%]="demo.value"
+              [style.background-color]="demo.color">
+            </div>
+          </div>
+          <div class="demo-info">
+            <span class="demo-label">{{ demo.label }}</span>
+            <span class="demo-value">{{ demo.value }}%</span>
+          </div>
+        </div>
+        }
+    </div>
+  </div>
+
+  <!-- Live Indicator -->
+  <div class="live-indicator">
+    <div class="live-dot"></div>
+    <span>Live updates every 5 seconds</span>
+  </div>
+
+</div>

@@ -13,10 +13,11 @@ export class AppComponent {
   activeTab: "home" | "search" | "profile" = "home"
 
   setActiveTab(tab: "home" | "search" | "profile") {
+    console.log('Searxh')
     this.activeTab = tab;
 
     if (tab === "search") {
-      this.router.navigate(['/event-search']); // o il path corretto
+      this.router.navigate(['/events-search']); // o il path corretto
     }
   }
 }

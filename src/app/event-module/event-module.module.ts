@@ -2,20 +2,35 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { EventModuleRoutingModule } from './event-module-routing.module';
-import { EventSearchComponent } from './event-search/event-search';
+import { EventsSearchComponent } from './event-search/events-search';
 import { EventCardComponent } from './event-card/event-card';
 import { FilterBarComponent } from './filter-bar/filter-bar';
+import { IonicModule } from "@ionic/angular";
+import { AppModule } from '../app.module';
+import { EventChat } from './event-chat/event-chat';
+import { LiveVideosComponent } from './live-videos/live-videos';
+import { RealTimeStats } from './real-time-stats/real-time-stats';
+import { LiveEventDetail } from './live-event-detail/live-event-detail';
+import { FormsModule } from '@angular/forms';
+import { UiComponentsModule } from '../ui-components/ui-components.module';
 
 
 @NgModule({
   declarations: [
-    EventSearchComponent,
+    EventsSearchComponent,
     EventCardComponent,
-    FilterBarComponent
+    FilterBarComponent,
+    EventChat,
+    LiveVideosComponent,
+    RealTimeStats,
+    LiveEventDetail
   ],
   imports: [
     CommonModule,
-    EventModuleRoutingModule
-  ]
+    EventModuleRoutingModule,
+    IonicModule,
+    FormsModule,
+    UiComponentsModule
+]
 })
-export class EventModuleModule { }
+export class EventModule { }

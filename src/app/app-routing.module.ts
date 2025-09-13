@@ -11,8 +11,8 @@ const routes: Routes = [
   //   redirectTo: 'home',
   //   pathMatch: 'full'
   // },
-  { path: 'event-search', 
-    loadChildren: () => import('./event-module/event-module.module').then( m => m.EventModuleModule)
+  { path: 'events-search', 
+    loadChildren: () => import('./event-module/event-module.module').then( m => m.EventModule)
   }
 ];
 

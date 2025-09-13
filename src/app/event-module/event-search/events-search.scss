@@ -1,0 +1,249 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
+
+/* il componente ha box e usa il viewport */
+:host {
+  display: block;
+  min-height: 100dvh;
+}
+
+.events-content {
+  --background: #141118;
+  --color: #ffffff;
+  font-family: 'Space Grotesk', sans-serif;
+
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh;
+  overflow: hidden; /* lo scroll sarà SOLO nella lista */
+}
+
+/* Header */
+.header {
+  display: flex;
+  align-items: center;
+  padding: 16px 20px;
+  background: #141118;
+  position: relative;
+  flex: 0 0 auto;
+
+  .back-button {
+    --color: #ffffff;
+    --padding-start: 0;
+    --padding-end: 12px;
+    margin: 0;
+  }
+
+  .header-title {
+    font-size: 20px;
+    font-weight: 600;
+    color: #ffffff;
+    margin: 0;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}
+
+/* Filtri */
+.category-filters {
+  padding: 0 20px 20px;
+  background: #141118;
+  flex: 0 0 auto;
+
+  .filter-scroll {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    padding-bottom: 4px;
+
+    &::-webkit-scrollbar { display: none; }
+  }
+
+  .filter-button {
+    --color: #8b8b8b;
+    --background: transparent;
+    --border-radius: 20px;
+    --padding-start: 16px;
+    --padding-end: 16px;
+    --padding-top: 8px;
+    --padding-bottom: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    white-space: nowrap;
+    min-width: auto;
+    height: 36px;
+    margin: 0;
+
+    &.active {
+      --color: #ffffff;
+      --background: #7f0df2;
+    }
+  }
+}
+
+/* Mappa */
+.map-section {
+  margin: 0 20px 24px;
+  position: relative;
+  flex: 0 0 auto;
+
+  .map-container {
+    width: 100%;
+    height: 200px;
+    border-radius: 16px;
+    overflow: hidden;
+    background: #1a1a1a;
+    touch-action: pan-y; /* lascia passare lo swipe verticale */
+  }
+
+  .full-map-button {
+    --color: #ffffff;
+    --background: rgba(0, 0, 0, 0.7);
+    --border-radius: 20px;
+    --padding-start: 12px;
+    --padding-end: 12px;
+    --padding-top: 8px;
+    --padding-bottom: 8px;
+    position: absolute;
+    bottom: 12px;
+    right: 12px;
+    font-size: 12px;
+    font-weight: 500;
+    height: 36px;
+    margin: 0;
+
+    ion-icon {
+      font-size: 16px;
+      margin-right: 4px;
+    }
+  }
+}
+
+/* Sezione eventi (contenitore della lista) */
+.events-section {
+  padding: 0 20px 100px;
+  flex: 1 1 auto;
+  min-height: 0;              /* sblocca lo scroll dei figli in flex */
+  display: flex;
+  flex-direction: column;
+
+  .section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+    flex: 0 0 auto;
+
+    h2 {
+      font-size: 18px;
+      font-weight: 600;
+      color: #ffffff;
+      margin: 0;
+    }
+
+    .see-all-button {
+      --color: #7f0df2;
+      --padding-start: 0;
+      --padding-end: 0;
+      font-size: 14px;
+      font-weight: 500;
+      margin: 0;
+    }
+  }
+
+  /* 👉 DIV SCROLLABILE: elenco card */
+  .events-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+
+    /* 🔒 bullet-proof: scroll SEMPRE, anche se i genitori non “collaborano” */
+    max-height: calc(100dvh - ( /* viewport */
+      64px   +   /* header approx (padding incluso) - regola se serve */
+      20px   +   /* gap sotto header nei tuoi layout */
+      200px  +   /* mappa */
+      16px   +   /* margin-bottom della section-header */
+      36px   +   /* altezza approx della section-header */
+      120px      /* bottom padding + bottom bar */
+    ));
+    overflow: auto !important;
+    -webkit-overflow-scrolling: touch;
+    padding-right: 4px;
+    padding-bottom: calc(100px + env(safe-area-inset-bottom, 0));
+
+    /* scrollbar opzionali */
+    &::-webkit-scrollbar { width: 4px; }
+    &::-webkit-scrollbar-track { background: rgba(255, 255, 255, 0.08); border-radius: 2px; }
+    &::-webkit-scrollbar-thumb { background: #7f0df2; border-radius: 2px; }
+    &::-webkit-scrollbar-thumb:hover { background: #a45df5; }
+  }
+}
+
+/* Marker e controlli Leaflet */
+:host ::ng-deep .custom-marker {
+  background: transparent !important;
+  border: none !important;
+}
+:host ::ng-deep .leaflet-control-zoom {
+  border: none !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3) !important;
+
+  a {
+    background: rgba(0, 0, 0, 0.7) !important;
+    color: #ffffff !important;
+    border: none !important;
+    font-size: 16px !important;
+    font-weight: bold !important;
+
+    &:hover { background: rgba(0, 0, 0, 0.8) !important; }
+  }
+}
+
+/* contenitore della sezione: lascia respirare la lista */
+.events-section {
+  /* ...le tue regole... */
+  min-height: 0;
+  position: relative;     /* isola la lista da ombre esterne */
+  z-index: 0;
+}
+
+/* 👉 LISTA SCROLLABILE SENZA ALONI */
+.events-section .events-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  /* scroll */
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+  /* spazio “cuscinetto” perché le shadow delle card non vengano tagliate */
+  padding: 8px 12px calc(100px + env(safe-area-inset-bottom, 0)) 12px;
+
+  /* sfondo pieno per evitare trasparenze che mostrano ombre sotto */
+  background: #141118;
+  background-clip: padding-box;
+
+  /* Evita artefatti di compositing su iOS/Android */
+  contain: paint;           /* isola la pittura delle card */
+  will-change: transform;   /* layer dedicato */
+  transform: translateZ(0); /* forza compositing GPU */
+
+  /* scrollbar gradevoli (opzionali) */
+  &::-webkit-scrollbar { width: 4px; }
+  &::-webkit-scrollbar-track { background: rgba(255,255,255,0.08); border-radius: 2px; }
+  &::-webkit-scrollbar-thumb { background: #7f0df2; border-radius: 2px; }
+}
+
+/* se l’alone arriva dalla bottom bar fissa, attenua o rimuovi la sua ombra */
+.bottom-tab-bar,
+.bottom-nav {
+  /* prova a ridurre o togliere questa shadow per test */
+  /* box-shadow: none; */
+  /* oppure più soft: */
+  box-shadow: 0 -1px 6px rgba(0, 229, 204, 0.06);
+}
+
+/* se le card hanno shadow molto “larga”, dai ancora un filo di aria ai lati */
+@media (min-width: 0) {
+  .events-section .events-list { padding-inline: 14px; }
+}

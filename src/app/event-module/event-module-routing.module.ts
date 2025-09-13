@@ -1,16 +1,12 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { EventSearchComponent } from './event-search/event-search';
+import { EventsSearchComponent } from './event-search/events-search';
+import { LiveEventDetail } from './live-event-detail/live-event-detail';
 
 const routes: Routes = [
-  {
-    path: '',
-    redirectTo: 'event-search',
-    pathMatch: 'full'
-  },
-  { path: 'event-search', 
-    component: EventSearchComponent
-  }
+  { path: '', component: EventsSearchComponent }, 
+  { path: 'event-detail', component: LiveEventDetail }
+
 ];
 
 @NgModule({
