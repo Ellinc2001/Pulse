@@ -1,171 +1,187 @@
-<!-- Completely replacing with exact pixel-perfect design matching the provided template -->
-<div class="live-stats-container">
-  <!-- Header -->
-  <header class="stats-header">
-    <div class="header-content">
-      <button class="back-button">
-        <svg fill="currentColor" height="24px" viewBox="0 0 256 256" width="24px" xmlns="http://www.w3.org/2000/svg">
-          <path d="M224,128a8,8,0,0,1-8,8H59.31l58.35,58.34a8,8,0,0,1-11.32,11.32l-72-72a8,8,0,0,1,0-11.32l72-72a8,8,0,0,1,11.32,11.32L59.31,120H216A8,8,0,0,1,224,128Z"></path>
-        </svg>
-      </button>
-      <div class="header-title">
-        <h1>Milano Summer Fest</h1>
-        <p>Live Stats <span class="live-indicator">•</span></p>
-      </div>
-    </div>
-  </header>
+<ion-header class="ion-no-border header-blur">
+  <ion-toolbar color="dark">
+    <ion-buttons slot="start">
+      <ion-button fill="clear" (click)="back()">
+        <ion-icon name="chevron-back-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
 
-  <!-- Main Content -->
-  <main class="stats-main">
-    <!-- Amici e Gruppi Section -->
+    <ion-title class="title-wrap">
+      <div class="title">Milano Summer Fest</div>
+      <div class="subtitle">Live Stats <span class="dot">•</span></div>
+    </ion-title>
+
+    <ion-buttons slot="end">
+      <ion-button fill="clear" (click)="close()">
+        <ion-icon name="close-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="page-bg">
+  <!-- Updated section spacing and structure to match template proportions -->
+  <div class="main-content">
+    <!-- Amici e Gruppi -->
     <section>
       <h2 class="section-title">Amici e Gruppi</h2>
-      <div class="card">
-        <div class="people-section">
-          <div class="people-header">
-            <h3>Persone e gruppi preferiti sul posto</h3>
-            <span class="people-count">23</span>
+      <ion-card class="card">
+        <ion-card-content class="card-content">
+          <div>
+            <div class="flex-between-baseline">
+              <h3 class="card-title">Persone e gruppi preferiti sul posto</h3>
+              <span class="count-badge">{{ statsData.attendees.onSite }}</span>
+            </div>
+            <div class="avatars-container">
+              <ng-container *ngFor="let url of onSiteAvatars">
+                <img [src]="url" class="avatar avatar-solid" alt="avatar" />
+              </ng-container>
+              <div class="avatar avatar-more">+18</div>
+            </div>
           </div>
-          <div class="avatars-scroll">
-            <img alt="Avatar" class="avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAJefmSM--lVYS55fxbhgt336-eRPgu6PqRdjyg9n2qFKhYA2q7l49KnZ0ru9zmYtqESFRXPn6RaJyExdhxMeygeChvIrQyopkNAOa1cgpMw_GcsYKkzlIfPeR6He-4dZCotsGgQGaRAyQvpxKjiErvcYSsOVGkRJPEunlthihMxwyDC9ZtzI4DkP_lsDFScqIQ8ea-ApVqyFmL09UTq8Pn3oj6g9nFcvlpZOBF4yXGf5dly5rAqncuUerO3f63srQ-aYL">
-            <img alt="Avatar" class="avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAF8yj0ShbCfResFMjpROODDaXhdNf921b71WVbw675oGr8G2d3_AEZLpLy7q7b4vezIS9Umi47UQKgWaWcyfZUmg1GN1QShiXsZiHy5wQEdEE9RSBAi-AKmTR8YPRQDebL5LlFR7i0Y_sHxo9EZcS5EohLAycaIl29SeYTZzW_IjcI6W9Ap2MF9wu3EasMaR5nPZ3GW1aAflB9u_MKUugkxyGGsjVX95PUBVScUk2NwGgo7QNVUq5sK5TjtBOqUkDSag0gbz5Q9yYP">
-            <img alt="Avatar" class="avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDL075E4hQpc0pr5xlGirlPCfK0iHz4XJD2xdGaQpjqo7kvARv5WNsToE1KOIHP-9peJccFSEKWZIxOBQxb-w3t5CwgNEdTRWtSPtUQOAZYe6L--1whGHQ5829wDwXzSm66hQFAZD-ywV6haleD0Ug6l09VvHZ3xjSWrc7XTPBnzWiG9Wya4B0yyRdXmZ3z2LfS2QyBnowWnyptn2dmUVAzI6QcDflMDxBm-L6BdzRDvLKNyfal6dzLbJo380vBr9Vaif-ZaV-5E64T">
-            <img alt="Avatar" class="avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBleAJpKSO3obIZ5WXHwVMjH07xoLttA4ozEC0kUH8S535SkC4kC_q4KKMAYJklIRxwhq-qIUPAR1_aT8HuYbcx2Ve9rfSmKGcxK_ErQ7qfPLLeV_adWKhcM8qBq2cLtKraL-3zd-tCs33eCIsByx_jOnzBd0dNIiGm4NugDxNPt5qPPwzq64XV-LvZUN_KciJLmYEqOrxYZdE6NK44xUasrEUKflz_ajnDnOKqxZpBvnDKxKhxji0rPUXgycfeSak0KA013MqRCf0c">
-            <img alt="Avatar" class="avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCBhEzvJuQ1uaAI-Qw2mBj-APnsiyfkydRaNIyaJveXQSavPiNVAjn1Ytgy9Awp1rQF0TKJEmWaeG3Pf6LnK8fmn_SFouch3k97DlqFNE6t61N0ad2keV_Tqj1PFxjayOA-mHOW-mUmFjQVHaZ23_dV4kSZjL-emjBJfAbjmM7qJWLA0GaQTQoTUlAhCxqbql9l9xmbhsvqv5-asnHpvSrisXI4P7kKqETPxtXkZVV8k5bqhggKUyCBPYrgvTrkGZC389LeOnSY249e">
-            <div class="avatar-more">+18</div>
+
+          <div class="section-divider"></div>
+
+          <div>
+            <div class="flex-between-baseline">
+              <h3 class="card-title">In arrivo</h3>
+              <span class="count-badge">{{ statsData.attendees.arriving }}</span>
+            </div>
+            <div class="avatars-container">
+              <ng-container *ngFor="let url of arrivingAvatars">
+                <img [src]="url" class="avatar avatar-dashed" alt="avatar" />
+              </ng-container>
+              <div class="avatar avatar-more avatar-dashed">+4</div>
+            </div>
           </div>
-        </div>
-        
-        <div class="divider"></div>
-        
-        <div class="people-section">
-          <div class="people-header">
-            <h3>In arrivo</h3>
-            <span class="people-count">7</span>
-          </div>
-          <div class="avatars-scroll">
-            <img alt="Avatar" class="avatar arriving" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCBhEzvJuQ1uaAI-Qw2mBj-APnsiyfkydRaNIyaJveXQSavPiNVAjn1Ytgy9Awp1rQF0TKJEmWaeG3Pf6LnK8fmn_SFouch3k97DlqFNE6t61N0ad2keV_Tqj1PFxjayOA-mHOW-mUmFjQVHaZ23_dV4kSZjL-emjBJfAbjmM7qJWLA0GaQTQoTUlAhCxqbql9l9xmbhsvqv5-asnHpvSrisXI4P7kKqETPxtXkZVV8k5bqhggKUyCBPYrgvTrkGZC389LeOnSY249e">
-            <img alt="Avatar" class="avatar arriving" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC9X61uTKk8KOAQqU246IbQat8qGcgpjWVJr0RMh9G1RtMCpmTzVLykdajX6per6eRPuMEwbQDqa30z8LrweqPUGDA-GOWNb1Bn3-mFl8fDitERbaUaRksbYpxnm2yKp1Lp6YnRHKY1Lch3rblSJyfD_1XFLSY4ateaDR0_weIRMmCSKJnb15TmZLDDw3izFkxnwQ8KloLAWSPLR0xXUYjbtDyOhGTUPC-w09hJ5coP940kmnW6H8aBzaAqc8_CVZ5TBvTcVcrFCMn0">
-            <img alt="Avatar" class="avatar arriving" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCApapFrsz_80H7lJPgoBNpQeULr5WojTKeoZe3Vy0OgRy0owC_cPBqsmqgkunm0Zw-u2zquLNkAkm-ByOlO_ssm_CNc5kCye88R9HhB9-FpQf57UL_XnhZFCpJjngJNs_YzpCFgOiEI93RwzWLIyOyUyaGqTCZvB0Omx6A-deyvz6kuOFwlr0-qAXdw9eRoqyadYXfraja1Fd4emS46Iq6lIlF8rBSWuSPkTTIUbJRMIs-wDgqqbZKaYs6v5QxQO4V7v4xMZJulpJA">
-            <div class="avatar-more arriving">+4</div>
-          </div>
-        </div>
-      </div>
+        </ion-card-content>
+      </ion-card>
     </section>
 
-    <!-- Panoramica Section -->
+    <!-- Panoramica -->
     <section>
       <h2 class="section-title">Panoramica</h2>
-      <div class="panoramica-grid">
-        <div class="card panoramica-full">
-          <p class="stat-label">Vibe adesso</p>
-          <p class="stat-value">Tranquilla e rilassata</p>
-        </div>
-        <div class="card">
-          <p class="stat-label">Tempo per arrivare</p>
-          <p class="stat-value">~15 min</p>
-        </div>
-        <div class="card">
-          <p class="stat-label">Ingresso</p>
-          <div class="chip chip-green">
-            <span class="material-symbols-outlined">local_activity</span>
-            Gratuito
-          </div>
-        </div>
-        <div class="card">
-          <p class="stat-label">Disponibilità</p>
-          <div class="chip chip-green">
-            <span class="material-symbols-outlined">check_circle</span>
-            Alta
-          </div>
-        </div>
-        <div class="card">
-          <p class="stat-label">Prezzo indicativo</p>
-          <div class="chip chip-green">€</div>
-        </div>
+      <div class="overview-grid">
+        <ion-card class="card overview-full">
+          <ion-card-content class="card-content">
+            <p class="stat-label">Vibe adesso</p>
+            <p class="stat-value-xl">{{ statsData.vibe }}</p>
+          </ion-card-content>
+        </ion-card>
+
+        <ion-card class="card">
+          <ion-card-content class="card-content">
+            <p class="stat-label">Tempo per arrivare</p>
+            <p class="stat-value-lg">{{ statsData.travelTime }}</p>
+          </ion-card-content>
+        </ion-card>
+
+        <ion-card class="card">
+          <ion-card-content class="card-content">
+            <p class="stat-label">Ingresso</p>
+            <div class="chip chip-green">
+              <ion-icon name="ticket-outline"></ion-icon> Gratuito
+            </div>
+          </ion-card-content>
+        </ion-card>
+
+        <ion-card class="card">
+          <ion-card-content class="card-content">
+            <p class="stat-label">Disponibilità</p>
+            <div class="chip chip-green">
+              <ion-icon name="checkmark-circle-outline"></ion-icon> {{ statsData.availability }}
+            </div>
+          </ion-card-content>
+        </ion-card>
+
+        <ion-card class="card">
+          <ion-card-content class="card-content">
+            <p class="stat-label">Prezzo indicativo</p>
+            <div class="chip chip-green">{{ statsData.pricing }}</div>
+          </ion-card-content>
+        </ion-card>
       </div>
     </section>
 
-    <!-- Valutazioni Section -->
+    <!-- Valutazioni -->
     <section>
       <h2 class="section-title">Valutazioni</h2>
-      <div class="card">
-        <div class="rating-item">
-          <div class="rating-header">
-            <p class="stat-label">Valutazione Media</p>
-            <p class="rating-value">4.2 <span class="rating-max">/ 5</span></p>
+      <ion-card class="card">
+        <ion-card-content class="card-content ratings-content">
+          <div>
+            <div class="flex-between-center">
+              <p class="stat-label">Valutazione Media</p>
+              <p class="rating-value">{{ statsData.ratings.average }} <span class="rating-max">/ 5</span></p>
+            </div>
+            <div class="bar-container">
+              <div *ngFor="let full of getRatingSegments(statsData.ratings.average)" 
+                   class="bar-segment" 
+                   [class.bar-segment-active]="full"></div>
+            </div>
           </div>
-          <div class="bar-container">
-            <div class="bar-segment bar-segment-active"></div>
-            <div class="bar-segment bar-segment-active"></div>
-            <div class="bar-segment bar-segment-active"></div>
-            <div class="bar-segment bar-segment-active"></div>
-            <div class="bar-segment"></div>
+
+          <div>
+            <div class="flex-between-center">
+              <p class="stat-label">Valutazione persone o gruppi preferiti</p>
+              <p class="rating-value-green">{{ statsData.ratings.favorites }} <span class="rating-max">/ 5</span></p>
+            </div>
+            <div class="bar-container">
+              <div *ngFor="let _ of getRatingSegments(5)" class="bar-segment bar-segment-green"></div>
+            </div>
           </div>
-        </div>
-        
-        <div class="rating-item">
-          <div class="rating-header">
-            <p class="stat-label">Valutazione persone o gruppi preferiti</p>
-            <p class="rating-value rating-green">4.8 <span class="rating-max">/ 5</span></p>
-          </div>
-          <div class="bar-container">
-            <div class="bar-segment bar-segment-green"></div>
-            <div class="bar-segment bar-segment-green"></div>
-            <div class="bar-segment bar-segment-green"></div>
-            <div class="bar-segment bar-segment-green"></div>
-            <div class="bar-segment bar-segment-green"></div>
-          </div>
-        </div>
-      </div>
+        </ion-card-content>
+      </ion-card>
     </section>
 
-    <!-- Calore Section -->
+    <!-- Calore -->
     <section>
       <h2 class="section-title">Calore</h2>
-      <div class="card calore-card">
-        <p class="stat-label">Questo evento vs altri stasera</p>
-        <div class="heat-indicators">
-          <span class="material-symbols-outlined heat-icon active">local_fire_department</span>
-          <span class="material-symbols-outlined heat-icon">local_fire_department</span>
-          <span class="material-symbols-outlined heat-icon">local_fire_department</span>
-        </div>
-        <p class="heat-label">Meno caldo</p>
-      </div>
+      <ion-card class="card">
+        <ion-card-content class="card-content heat-content">
+          <p class="stat-label heat-label">Questo evento vs altri stasera</p>
+          <div class="heat-icons">
+            <ion-icon
+              *ngFor="let on of getHeatArray(); let i = index"
+              name="flame-outline"
+              [class.heat-active]="i === 0"
+            ></ion-icon>
+          </div>
+          <p class="heat-status">Meno caldo</p>
+        </ion-card-content>
+      </ion-card>
     </section>
 
-    <!-- Lista Artisti Section -->
+    <!-- Lista artisti -->
     <section>
       <h2 class="section-title">Lista artisti</h2>
-      <div class="card">
-        <div class="current-artist">
-          <p class="artist-status">
-            <span class="material-symbols-outlined live-icon">sensors_krx</span>
-            IN CORSO
-          </p>
-          <p class="artist-name">Artista Principale</p>
-          <p class="artist-details">Main Stage - 22:00 - 23:00</p>
-        </div>
-        
-        <div class="next-artists">
-          <div class="next-artist">
-            <p class="next-artist-name">DJ Set Closing</p>
-            <p class="next-artist-details">Main Stage - 23:15 - 00:30</p>
+      <ion-card class="card">
+        <ion-card-content class="card-content artists-content">
+          <div class="artist-current">
+            <p class="artist-status">
+              <ion-icon name="wifi-outline" class="status-icon"></ion-icon> IN CORSO
+            </p>
+            <p class="artist-name">{{ statsData.currentArtist }}</p>
+            <p class="artist-time">Main Stage - 22:00 - 23:00</p>
           </div>
-          
-          <div class="next-artist">
-            <p class="next-artist-name">Opening Act</p>
-            <p class="next-artist-details">Second Stage - 21:00 - 21:45</p>
+
+          <div class="artist-upcoming">
+            <p class="artist-name-upcoming">{{ statsData.nextArtist }}</p>
+            <p class="artist-time">Main Stage - 23:15 - 00:30</p>
           </div>
-        </div>
-      </div>
+
+          <div class="artist-upcoming">
+            <p class="artist-name-upcoming">Opening Act</p>
+            <p class="artist-time">Second Stage - 21:00 - 21:45</p>
+          </div>
+        </ion-card-content>
+      </ion-card>
     </section>
 
-    <!-- Update Info -->
     <section>
-      <div class="update-info">
+      <div class="footer-text">
         <p>Dati aggiornati 1 min fa. Pull-to-refresh per aggiornare.</p>
       </div>
     </section>
-  </main>
-</div>
+  </div>
+
+</ion-content>

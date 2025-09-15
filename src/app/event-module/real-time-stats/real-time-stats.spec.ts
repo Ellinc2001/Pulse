@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { RealTimeStats } from './real-time-stats';
+import { RealTimeStatsComponent } from './real-time-stats';
 
 describe('RealTimeStats', () => {
-  let component: RealTimeStats;
-  let fixture: ComponentFixture<RealTimeStats>;
+  let component: RealTimeStatsComponent;
+  let fixture: ComponentFixture<RealTimeStatsComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [RealTimeStats]
+      declarations: [RealTimeStatsComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(RealTimeStats);
+    fixture = TestBed.createComponent(RealTimeStatsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

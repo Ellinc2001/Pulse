@@ -1,247 +1,74 @@
-.main-layout {
-  min-height: 100vh;
-  background-color: #0f1419;
-  display: flex;
-  flex-direction: column;
+:host {
+  /* VIOLA USATO FINORA */
+  --violet-50:  #f0e6fd;
+  --violet-300: #a770f5;
+  --violet-500: #7f0df2; /* primary */
+  --violet-700: #5709b2;
+
+  --inactive:   #b5a7c7;
+  --bg:         #141118;
+  --bar-bg:     rgba(35, 30, 42, 0.72);  /* card viola con trasparenza */
+  --bar-border: rgba(48, 41, 58, 0.9);
+}
+
+ion-tabs, ion-content {
+  --ion-background-color: var(--bg);
+  background: var(--bg);
+}
+
+/* TAB BAR stile stitch ma viola */
+.tab-bar {
+  --background: transparent; /* usiamo il nostro background custom sotto */
   position: relative;
-}
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-top: 1px solid var(--bar-border);
+  box-shadow:  0 -8px 28px -8px rgb(127 13 242 / 94%);
 
-/* Top Bar */
-.top-bar {
-  background-color: #1c2631;
-  border-bottom: 1px solid #00e5cc;
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  box-shadow: 0 2px 10px rgba(0, 229, 204, 0.1);
-  height: 64px; /* Altezza fissa */
-  display: flex;
-  align-items: center;
-  padding: 0; /* 👈 RIMUOVI il padding verticale */
-}
-
-
-.logo-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 100%;
-}
-.app-logo {
-  height: 100%;
-  max-height: 64px; /* o il valore esatto della top bar */
-  width: auto;
-  object-fit: contain;
-  transition: all 0.3s ease;
-  filter: drop-shadow(0 0 8px rgba(0, 229, 204, 0.3));
-}
-
-
-.app-logo:hover {
-  filter: drop-shadow(0 0 12px rgba(0, 229, 204, 0.5));
-  transform: scale(1.05);
-}
-
-.main-content {
- flex: 1 1 auto;
- min-height: 0;    
- overflow: hidden;     
-}
-
-/* Bottom Tab Bar */
-.bottom-tab-bar {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background-color: #1c2631;
-  border-top: 1px solid #00e5cc;
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  padding: 12px 0 20px 0;
-  box-shadow: 0 -2px 10px rgba(0, 229, 204, 0.1);
-  z-index: 100;
-}
-
-.tab-button {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 4px;
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 8px 16px;
-  border-radius: 12px;
-  transition: all 0.3s ease;
-  color: #8b9dc3;
-  min-width: 70px;
-}
-
-.tab-button:hover {
-  background-color: rgba(0, 229, 204, 0.05);
-  transform: translateY(-2px);
-}
-
-.tab-button.active {
-  color: #00e5cc;
-  background-color: rgba(0, 229, 204, 0.1);
-}
-
-.tab-button.active .tab-icon,
-.tab-button.active .tab-icon-large {
-  filter: drop-shadow(0 0 6px rgba(0, 229, 204, 0.4));
-}
-
-/* Animazioni pulse per le icone */
-.tab-button:hover .tab-icon path,
-.tab-button:hover .tab-icon circle:last-child,
-.tab-button.active .tab-icon path,
-.tab-button.active .tab-icon circle:last-child {
-  animation: pulse 2s infinite;
-}
-
-@keyframes pulse {
-  0%,
-  100% {
-    opacity: 0.3;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 0.8;
-    transform: scale(1.1);
+  /* strato di colore sotto (per rispettare il blur su iOS/Android) */
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--bar-bg);
+    pointer-events: none;
+    z-index: -1;
   }
 }
 
-/* Search tab speciale */
-.tab-center {
-  position: relative;
-}
+/* Bottoni */
+.tab-item {
+  color: var(--inactive);
+  text-shadow: 0 0 5px rgba(181, 167, 199, .28);
+  transition: color .25s ease, text-shadow .25s ease;
 
-.search-tab-container {
-  width: 50px;
-  height: 50px;
-  background: linear-gradient(135deg, #00e5cc, #00d4bb);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 4px 15px rgba(0, 229, 204, 0.3);
-  transition: all 0.3s ease;
-  position: relative;
-  overflow: hidden;
-}
-
-.search-tab-container::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: conic-gradient(from 0deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-  border-radius: 50%;
-  animation: rotate 3s linear infinite;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
-.tab-center:hover .search-tab-container::before,
-.tab-center.active .search-tab-container::before {
-  opacity: 1;
-}
-
-@keyframes rotate {
-  from {
-    transform: rotate(0deg);
+  ion-icon {
+    font-size: 26px;
+    margin-bottom: 2px;
   }
-  to {
-    transform: rotate(360deg);
+
+  /* stato attivo/selelezionato (Ionic applica .tab-selected) */
+  &.tab-selected {
+    color: var(--violet-500);
+    text-shadow:
+      0 0 8px rgba(127, 13, 242, .75),
+      0 0 16px rgba(127, 13, 242, .45);
+
+    ion-icon { --ionicon-stroke-width: 2.5px; }
+  }
+
+  &:not(.tab-selected):hover {
+    color: var(--violet-50);
   }
 }
 
-.tab-center:hover .search-tab-container {
-  transform: scale(1.1);
-  box-shadow: 0 6px 20px rgba(0, 229, 204, 0.4);
+/* opzionale: font + spacing per l’etichetta */
+ion-label {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: .02em;
 }
 
-.tab-center.active .search-tab-container {
-  background: linear-gradient(135deg, #00d4bb, #00c4ab);
-}
-
-.tab-center .tab-icon-large {
-  color: #1c2631;
-  z-index: 1;
-}
-
-/* Animazione radar per search */
-.tab-center:hover .tab-icon-large circle:last-child,
-.tab-center.active .tab-icon-large circle:last-child {
-  animation: radarPulse 2s infinite;
-}
-
-@keyframes radarPulse {
-  0% {
-    opacity: 0.2;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 0.6;
-    transform: scale(1.2);
-  }
-  100% {
-    opacity: 0.2;
-    transform: scale(1);
-  }
-}
-
-.tab-icon {
-  width: 24px;
-  height: 24px;
-  transition: all 0.3s ease;
-}
-
-.tab-icon-large {
-  width: 28px;
-  height: 28px;
-  transition: all 0.3s ease;
-}
-
-.tab-label {
-  font-size: 11px;
-  font-weight: 500;
-  font-family: system-ui, -apple-system, sans-serif;
-  transition: all 0.3s ease;
-}
-
-.tab-center .tab-label {
-  margin-top: 4px;
-}
-
-/* Responsive */
-@media (max-width: 480px) {
-  .main-content {
-    padding: 0 0 90px 0;
-  }
-
-  .bottom-tab-bar {
-    padding: 8px 0 16px 0;
-  }
-
-  .tab-button {
-    min-width: 60px;
-    padding: 6px 12px;
-  }
-
-  .search-tab-container {
-    width: 45px;
-    height: 45px;
-  }
-
-  .tab-icon-large {
-    width: 24px;
-    height: 24px;
-  }
+ion-tab-bar{
+  height: 8%;
 }
