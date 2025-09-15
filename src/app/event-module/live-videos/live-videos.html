@@ -3,8 +3,8 @@
     <div class="video-wrapper">
       <video #videoEl
         class="main-video"
-        [src]="videoStream?.url"
-        [poster]="videoStream?.thumbnail"
+        [src]="videoStream.url"
+        [poster]="videoStream.thumbnail"
         [muted]="isMuted"
         playsinline
         preload="metadata">
@@ -31,7 +31,7 @@
 
       <div class="viewer-count">
         <ion-icon name="eye-outline"></ion-icon>
-        <span>{{ videoStream?.viewers | number }}</span>
+        <span>{{ videoStream.viewers | number }}</span>
       </div>
     </div>
   </div>
@@ -52,8 +52,8 @@
     <div class="modal-video-wrapper">
       <video #modalVideoEl
         class="modal-video"
-        [src]="videoStream?.url"
-        [poster]="videoStream?.thumbnail"
+        [src]="videoStream.url"
+        [poster]="videoStream.thumbnail"
         [muted]="isMuted"
         playsinline
         preload="metadata">

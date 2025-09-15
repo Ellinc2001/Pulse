@@ -6,10 +6,9 @@ import { EventsSearchComponent } from './event-search/events-search';
 import { EventCardComponent } from './event-card/event-card';
 import { FilterBarComponent } from './filter-bar/filter-bar';
 import { IonicModule } from "@ionic/angular";
-import { AppModule } from '../app.module';
 import { EventChat } from './event-chat/event-chat';
 import { LiveVideosComponent } from './live-videos/live-videos';
-import { RealTimeStats } from './real-time-stats/real-time-stats';
+import { RealTimeStatsComponent } from './real-time-stats/real-time-stats';
 import { LiveEventDetail } from './live-event-detail/live-event-detail';
 import { FormsModule } from '@angular/forms';
 import { UiComponentsModule } from '../ui-components/ui-components.module';
@@ -22,7 +21,7 @@ import { UiComponentsModule } from '../ui-components/ui-components.module';
     FilterBarComponent,
     EventChat,
     LiveVideosComponent,
-    RealTimeStats,
+    RealTimeStatsComponent,
     LiveEventDetail
   ],
   imports: [

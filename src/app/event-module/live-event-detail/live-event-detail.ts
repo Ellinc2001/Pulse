@@ -141,4 +141,8 @@ export class LiveEventDetail {
   // se usi ChangeDetectionStrategy.OnPush:
   // this.cdr.markForCheck();
   }
+
+  navigateToEventToRealimeStats(): void {
+    this.router.navigate(['events-search/real-time-stats'], { state: { event: this.event } });
+  }
 }

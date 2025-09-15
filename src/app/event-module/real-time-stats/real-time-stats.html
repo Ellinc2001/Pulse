@@ -1,81 +1,171 @@
-<div class="real-time-stats">
-  
-  <!-- Stats Grid -->
-  <div class="stats-grid">
-    @for(stat of stats; track stat){
-      <div 
-        class="stat-card"
-        [style.border-left-color]="stat.color">
-        <div class="stat-header">
-          <div class="stat-icon" [style.color]="stat.color">
-            <ion-icon [name]="stat.icon"></ion-icon>
-          </div>
-          <div class="stat-change" [style.color]="getChangeColor(stat.changeType)">
-            <ion-icon [name]="getChangeIcon(stat.changeType)"></ion-icon>
-            <span>{{ Math.abs(stat.change).toFixed(1) }}%</span>
-          </div>
-        </div>
-          <div class="stat-content">
-            <h3 class="stat-title">{{ stat.title }}</h3>
-            <div class="stat-value">
-              {{ stat.value }}<span class="stat-suffix" *ngIf="stat.suffix">{{ stat.suffix }}</span>
-            </div>
-          </div>
-       </div>
-    }
-  </div>
-
-  <!-- Engagement Trend Chart -->
-  <div class="chart-section">
-    <h3 class="section-title">Engagement Trend</h3>
-    <div class="trend-chart">
-      <div class="chart-container">
-        @for(point of engagementTrend; track point; let i = $index){
-        <div 
-          class="chart-bar"
-          [style.height.%]="point.value"
-          [style.animation-delay.ms]="i * 100">
-          <div class="bar-value">{{ point.value }}%</div>
-        </div>
-        }
-      </div>
-      <div class="chart-labels">
-        @for(point of engagementTrend; track point){
-        <span class="chart-label">
-          {{ point.time }}
-        </span>
-        }
+<!-- Completely replacing with exact pixel-perfect design matching the provided template -->
+<div class="live-stats-container">
+  <!-- Header -->
+  <header class="stats-header">
+    <div class="header-content">
+      <button class="back-button">
+        <svg fill="currentColor" height="24px" viewBox="0 0 256 256" width="24px" xmlns="http://www.w3.org/2000/svg">
+          <path d="M224,128a8,8,0,0,1-8,8H59.31l58.35,58.34a8,8,0,0,1-11.32,11.32l-72-72a8,8,0,0,1,0-11.32l72-72a8,8,0,0,1,11.32,11.32L59.31,120H216A8,8,0,0,1,224,128Z"></path>
+        </svg>
+      </button>
+      <div class="header-title">
+        <h1>Milano Summer Fest</h1>
+        <p>Live Stats <span class="live-indicator">•</span></p>
       </div>
     </div>
-  </div>
+  </header>
 
-  <!-- Demographics Chart -->
-  <div class="chart-section">
-    <h3 class="section-title">Age Demographics</h3>
-    <div class="demographics-chart">
-        @for(demo of demographicData; track demo){
-        <div 
-          class="demo-item">
-          <div class="demo-bar-container">
-            <div 
-              class="demo-bar" 
-              [style.width.%]="demo.value"
-              [style.background-color]="demo.color">
-            </div>
+  <!-- Main Content -->
+  <main class="stats-main">
+    <!-- Amici e Gruppi Section -->
+    <section>
+      <h2 class="section-title">Amici e Gruppi</h2>
+      <div class="card">
+        <div class="people-section">
+          <div class="people-header">
+            <h3>Persone e gruppi preferiti sul posto</h3>
+            <span class="people-count">23</span>
           </div>
-          <div class="demo-info">
-            <span class="demo-label">{{ demo.label }}</span>
-            <span class="demo-value">{{ demo.value }}%</span>
+          <div class="avatars-scroll">
+            <img alt="Avatar" class="avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAJefmSM--lVYS55fxbhgt336-eRPgu6PqRdjyg9n2qFKhYA2q7l49KnZ0ru9zmYtqESFRXPn6RaJyExdhxMeygeChvIrQyopkNAOa1cgpMw_GcsYKkzlIfPeR6He-4dZCotsGgQGaRAyQvpxKjiErvcYSsOVGkRJPEunlthihMxwyDC9ZtzI4DkP_lsDFScqIQ8ea-ApVqyFmL09UTq8Pn3oj6g9nFcvlpZOBF4yXGf5dly5rAqncuUerO3f63srQ-aYL">
+            <img alt="Avatar" class="avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAF8yj0ShbCfResFMjpROODDaXhdNf921b71WVbw675oGr8G2d3_AEZLpLy7q7b4vezIS9Umi47UQKgWaWcyfZUmg1GN1QShiXsZiHy5wQEdEE9RSBAi-AKmTR8YPRQDebL5LlFR7i0Y_sHxo9EZcS5EohLAycaIl29SeYTZzW_IjcI6W9Ap2MF9wu3EasMaR5nPZ3GW1aAflB9u_MKUugkxyGGsjVX95PUBVScUk2NwGgo7QNVUq5sK5TjtBOqUkDSag0gbz5Q9yYP">
+            <img alt="Avatar" class="avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDL075E4hQpc0pr5xlGirlPCfK0iHz4XJD2xdGaQpjqo7kvARv5WNsToE1KOIHP-9peJccFSEKWZIxOBQxb-w3t5CwgNEdTRWtSPtUQOAZYe6L--1whGHQ5829wDwXzSm66hQFAZD-ywV6haleD0Ug6l09VvHZ3xjSWrc7XTPBnzWiG9Wya4B0yyRdXmZ3z2LfS2QyBnowWnyptn2dmUVAzI6QcDflMDxBm-L6BdzRDvLKNyfal6dzLbJo380vBr9Vaif-ZaV-5E64T">
+            <img alt="Avatar" class="avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBleAJpKSO3obIZ5WXHwVMjH07xoLttA4ozEC0kUH8S535SkC4kC_q4KKMAYJklIRxwhq-qIUPAR1_aT8HuYbcx2Ve9rfSmKGcxK_ErQ7qfPLLeV_adWKhcM8qBq2cLtKraL-3zd-tCs33eCIsByx_jOnzBd0dNIiGm4NugDxNPt5qPPwzq64XV-LvZUN_KciJLmYEqOrxYZdE6NK44xUasrEUKflz_ajnDnOKqxZpBvnDKxKhxji0rPUXgycfeSak0KA013MqRCf0c">
+            <img alt="Avatar" class="avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCBhEzvJuQ1uaAI-Qw2mBj-APnsiyfkydRaNIyaJveXQSavPiNVAjn1Ytgy9Awp1rQF0TKJEmWaeG3Pf6LnK8fmn_SFouch3k97DlqFNE6t61N0ad2keV_Tqj1PFxjayOA-mHOW-mUmFjQVHaZ23_dV4kSZjL-emjBJfAbjmM7qJWLA0GaQTQoTUlAhCxqbql9l9xmbhsvqv5-asnHpvSrisXI4P7kKqETPxtXkZVV8k5bqhggKUyCBPYrgvTrkGZC389LeOnSY249e">
+            <div class="avatar-more">+18</div>
           </div>
         </div>
-        }
-    </div>
-  </div>
+        
+        <div class="divider"></div>
+        
+        <div class="people-section">
+          <div class="people-header">
+            <h3>In arrivo</h3>
+            <span class="people-count">7</span>
+          </div>
+          <div class="avatars-scroll">
+            <img alt="Avatar" class="avatar arriving" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCBhEzvJuQ1uaAI-Qw2mBj-APnsiyfkydRaNIyaJveXQSavPiNVAjn1Ytgy9Awp1rQF0TKJEmWaeG3Pf6LnK8fmn_SFouch3k97DlqFNE6t61N0ad2keV_Tqj1PFxjayOA-mHOW-mUmFjQVHaZ23_dV4kSZjL-emjBJfAbjmM7qJWLA0GaQTQoTUlAhCxqbql9l9xmbhsvqv5-asnHpvSrisXI4P7kKqETPxtXkZVV8k5bqhggKUyCBPYrgvTrkGZC389LeOnSY249e">
+            <img alt="Avatar" class="avatar arriving" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC9X61uTKk8KOAQqU246IbQat8qGcgpjWVJr0RMh9G1RtMCpmTzVLykdajX6per6eRPuMEwbQDqa30z8LrweqPUGDA-GOWNb1Bn3-mFl8fDitERbaUaRksbYpxnm2yKp1Lp6YnRHKY1Lch3rblSJyfD_1XFLSY4ateaDR0_weIRMmCSKJnb15TmZLDDw3izFkxnwQ8KloLAWSPLR0xXUYjbtDyOhGTUPC-w09hJ5coP940kmnW6H8aBzaAqc8_CVZ5TBvTcVcrFCMn0">
+            <img alt="Avatar" class="avatar arriving" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCApapFrsz_80H7lJPgoBNpQeULr5WojTKeoZe3Vy0OgRy0owC_cPBqsmqgkunm0Zw-u2zquLNkAkm-ByOlO_ssm_CNc5kCye88R9HhB9-FpQf57UL_XnhZFCpJjngJNs_YzpCFgOiEI93RwzWLIyOyUyaGqTCZvB0Omx6A-deyvz6kuOFwlr0-qAXdw9eRoqyadYXfraja1Fd4emS46Iq6lIlF8rBSWuSPkTTIUbJRMIs-wDgqqbZKaYs6v5QxQO4V7v4xMZJulpJA">
+            <div class="avatar-more arriving">+4</div>
+          </div>
+        </div>
+      </div>
+    </section>
 
-  <!-- Live Indicator -->
-  <div class="live-indicator">
-    <div class="live-dot"></div>
-    <span>Live updates every 5 seconds</span>
-  </div>
+    <!-- Panoramica Section -->
+    <section>
+      <h2 class="section-title">Panoramica</h2>
+      <div class="panoramica-grid">
+        <div class="card panoramica-full">
+          <p class="stat-label">Vibe adesso</p>
+          <p class="stat-value">Tranquilla e rilassata</p>
+        </div>
+        <div class="card">
+          <p class="stat-label">Tempo per arrivare</p>
+          <p class="stat-value">~15 min</p>
+        </div>
+        <div class="card">
+          <p class="stat-label">Ingresso</p>
+          <div class="chip chip-green">
+            <span class="material-symbols-outlined">local_activity</span>
+            Gratuito
+          </div>
+        </div>
+        <div class="card">
+          <p class="stat-label">Disponibilità</p>
+          <div class="chip chip-green">
+            <span class="material-symbols-outlined">check_circle</span>
+            Alta
+          </div>
+        </div>
+        <div class="card">
+          <p class="stat-label">Prezzo indicativo</p>
+          <div class="chip chip-green">€</div>
+        </div>
+      </div>
+    </section>
 
+    <!-- Valutazioni Section -->
+    <section>
+      <h2 class="section-title">Valutazioni</h2>
+      <div class="card">
+        <div class="rating-item">
+          <div class="rating-header">
+            <p class="stat-label">Valutazione Media</p>
+            <p class="rating-value">4.2 <span class="rating-max">/ 5</span></p>
+          </div>
+          <div class="bar-container">
+            <div class="bar-segment bar-segment-active"></div>
+            <div class="bar-segment bar-segment-active"></div>
+            <div class="bar-segment bar-segment-active"></div>
+            <div class="bar-segment bar-segment-active"></div>
+            <div class="bar-segment"></div>
+          </div>
+        </div>
+        
+        <div class="rating-item">
+          <div class="rating-header">
+            <p class="stat-label">Valutazione persone o gruppi preferiti</p>
+            <p class="rating-value rating-green">4.8 <span class="rating-max">/ 5</span></p>
+          </div>
+          <div class="bar-container">
+            <div class="bar-segment bar-segment-green"></div>
+            <div class="bar-segment bar-segment-green"></div>
+            <div class="bar-segment bar-segment-green"></div>
+            <div class="bar-segment bar-segment-green"></div>
+            <div class="bar-segment bar-segment-green"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Calore Section -->
+    <section>
+      <h2 class="section-title">Calore</h2>
+      <div class="card calore-card">
+        <p class="stat-label">Questo evento vs altri stasera</p>
+        <div class="heat-indicators">
+          <span class="material-symbols-outlined heat-icon active">local_fire_department</span>
+          <span class="material-symbols-outlined heat-icon">local_fire_department</span>
+          <span class="material-symbols-outlined heat-icon">local_fire_department</span>
+        </div>
+        <p class="heat-label">Meno caldo</p>
+      </div>
+    </section>
+
+    <!-- Lista Artisti Section -->
+    <section>
+      <h2 class="section-title">Lista artisti</h2>
+      <div class="card">
+        <div class="current-artist">
+          <p class="artist-status">
+            <span class="material-symbols-outlined live-icon">sensors_krx</span>
+            IN CORSO
+          </p>
+          <p class="artist-name">Artista Principale</p>
+          <p class="artist-details">Main Stage - 22:00 - 23:00</p>
+        </div>
+        
+        <div class="next-artists">
+          <div class="next-artist">
+            <p class="next-artist-name">DJ Set Closing</p>
+            <p class="next-artist-details">Main Stage - 23:15 - 00:30</p>
+          </div>
+          
+          <div class="next-artist">
+            <p class="next-artist-name">Opening Act</p>
+            <p class="next-artist-details">Second Stage - 21:00 - 21:45</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Update Info -->
+    <section>
+      <div class="update-info">
+        <p>Dati aggiornati 1 min fa. Pull-to-refresh per aggiornare.</p>
+      </div>
+    </section>
+  </main>
 </div>
