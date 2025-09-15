@@ -54,6 +54,7 @@
 
 /* Updated main content spacing to match template */
 .main-content {
+  padding-top: 0 !important;
   padding: 1rem;
   padding-bottom: 6rem;
   
@@ -362,3 +363,11 @@
   }
 }
 
+ion-toolbar{
+  height: 100%;
+  padding-top: 3% !important;
+}
+
+ion-header{
+  height: 9%;
+}

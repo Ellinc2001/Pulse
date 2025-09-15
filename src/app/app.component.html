@@ -11,27 +11,37 @@
   </main>
 
 <ion-tabs>
-
-
-  <!-- TAB BAR -->
   <ion-tab-bar slot="bottom" class="tab-bar">
 
-    <ion-tab-button tab="vibes" href="/tabs/vibes" class="tab-item">
+    <ion-tab-button
+      class="tab-item"
+      [routerLink]="'/tabs/vibes'"
+      routerLinkActive="tab-selected"
+      [routerLinkActiveOptions]="{ exact: true }">
       <ion-icon name="pulse-outline"></ion-icon>
       <ion-label>My Vibes</ion-label>
     </ion-tab-button>
 
-    <ion-tab-button tab="search" href="/tabs/search" class="tab-item">
+    <ion-tab-button
+      class="tab-item"
+      [routerLink]="'/events-search'"
+      routerLinkActive="tab-selected"
+      [routerLinkActiveOptions]="{ exact: true }">
       <ion-icon name="compass-outline"></ion-icon>
       <ion-label>Ricerca Eventi</ion-label>
     </ion-tab-button>
 
-    <ion-tab-button tab="profile" href="/tabs/profile" class="tab-item">
+    <ion-tab-button
+      class="tab-item"
+      [routerLink]="'/tabs/profile'"
+      routerLinkActive="tab-selected"
+      [routerLinkActiveOptions]="{ exact: true }">
       <ion-icon name="person-circle-outline"></ion-icon>
       <ion-label>Profilo</ion-label>
     </ion-tab-button>
 
   </ion-tab-bar>
 </ion-tabs>
+
 
 </div>

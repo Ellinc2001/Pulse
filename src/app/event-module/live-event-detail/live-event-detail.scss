@@ -430,7 +430,7 @@ main {
 // Fixed footer
 .fixed-footer {
   position: fixed;
-  bottom: 80px; // Positioned above the bottom tab bar (80px height)
+  bottom: 0px; // Positioned above the bottom tab bar (80px height)
   left: 0;
   right: 0;
   z-index: 9999;
