@@ -1,0 +1,10 @@
+<div
+  class="draggable-badge"
+  [style.left.px]="position.x"
+  [style.top.px]="position.y"
+  (pointerdown)="onPointerDown($event)"
+  (click)="onClick()"
+>
+  <ion-icon name="radio-outline" class="badge-icon"></ion-icon>
+  <div class="pulse-ring"></div>
+</div>

@@ -43,5 +43,11 @@
   </ion-tab-bar>
 </ion-tabs>
 
+  <app-draggable-badge 
+    *ngIf="badgeData.isVisible"
+    [eventData]="badgeData.eventData"
+    [initialPosition]="badgeData.position ?? { x: 20, y: 100 }"
+    (positionChange)="onBadgePositionChange($event)">
+  </app-draggable-badge>
 
 </div>

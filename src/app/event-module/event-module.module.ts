@@ -12,6 +12,7 @@ import { RealTimeStatsComponent } from './real-time-stats/real-time-stats';
 import { LiveEventDetail } from './live-event-detail/live-event-detail';
 import { FormsModule } from '@angular/forms';
 import { UiComponentsModule } from '../ui-components/ui-components.module';
+import { RealTimeStatsNotify } from './real-time-stats-notify/real-time-stats-notify';
 
 
 @NgModule({
@@ -22,7 +23,8 @@ import { UiComponentsModule } from '../ui-components/ui-components.module';
     EventChat,
     LiveVideosComponent,
     RealTimeStatsComponent,
-    LiveEventDetail
+    LiveEventDetail,
+    RealTimeStatsNotify
   ],
   imports: [
     CommonModule,

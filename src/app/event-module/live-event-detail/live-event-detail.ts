@@ -2,6 +2,7 @@ import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import type { EventData } from "../event-card/event-card.ts"
 import { VideoStream } from '../live-videos/live-videos.js';
+import { BadgeService } from 'src/app/services/badge-service'
 
 
 @Component({
@@ -79,8 +80,10 @@ export class LiveEventDetail {
       angle: "Drone Camera",
     },
   ]
+  isCheckingIn: boolean = false;
+  showBadge: boolean = false;
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private badgeService: BadgeService) {}
 
   ngOnInit() {
     const nav = this.router.getCurrentNavigation();
@@ -112,8 +115,21 @@ export class LiveEventDetail {
   }
 
   onCheckIn() {
-    // Handle check-in functionality
-    console.log("[v0] Check-in clicked")
+    this.isCheckingIn = true
+
+    // Simulate check-in process with animation
+    setTimeout(() => {
+      this.isCheckingIn = false
+      this.showBadge = true
+
+      if (this.event) {
+        this.badgeService.showBadge(this.event)
+      }
+
+      console.log("[v0] Check-in completed, badge shown via service")
+    }, 2000) // 2 second animation
+
+    console.log("[v0] Check-in animation started")
   }
 
   onCheckOut() {
