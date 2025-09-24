@@ -18,6 +18,13 @@ export interface StatsData {
   currentArtist: string
   nextArtist: string
   nextArtistTime: string
+  capacity: number
+  energyLevel: number
+  volumeLevel: number
+  stroboLevel: string
+  securityLevel: number
+  hazeLevel: number
+  timeline: Array<{ title: string; time: string; active?: boolean }>
 }
 
 @Component({
@@ -30,16 +37,27 @@ export class RealTimeStatsComponent implements OnInit {
   event: EventData | null = null
 
   statsData: StatsData = {
-    attendees: { onSite: 23, arriving: 7 },
-    vibe: "Tranquilla e rilassata",
-    availability: "Alta",
-    travelTime: "~15 min",
-    eventHeat: 1,
-    ratings: { average: 4.2, favorites: 4.8 },
-    pricing: "€",
-    currentArtist: "Artista Principale",
-    nextArtist: "DJ Set Closing",
-    nextArtistTime: "45 min",
+    attendees: { onSite: 1200, arriving: 150 },
+    vibe: "Euforico e Scatenato",
+    availability: "Media",
+    travelTime: "~12 min",
+    eventHeat: 2,
+    ratings: { average: 4.8, favorites: 4.9 },
+    pricing: "€15-€50",
+    currentArtist: "Peak Time Energy",
+    nextArtist: "Closing Set",
+    nextArtistTime: "03:00",
+    capacity: 85,
+    energyLevel: 4,
+    volumeLevel: 88,
+    stroboLevel: "Medio",
+    securityLevel: 4,
+    hazeLevel: 70,
+    timeline: [
+      { title: "Guest DJ Set Start", time: "01:15" },
+      { title: "Peak Time Energy", time: "Adesso", active: true },
+      { title: "Closing Set", time: "03:00" },
+    ],
   }
 
   onSiteAvatars = [

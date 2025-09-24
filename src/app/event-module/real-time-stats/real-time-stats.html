@@ -2,186 +2,256 @@
   <ion-toolbar color="dark">
     <ion-buttons slot="start">
       <ion-button fill="clear" (click)="back()">
-        <ion-icon name="chevron-back-outline"></ion-icon>
+        <ion-icon name="chevron-back-outline" class="back-icon"></ion-icon>
       </ion-button>
     </ion-buttons>
 
     <ion-title class="title-wrap">
-      <div class="title">Milano Summer Fest</div>
-      <div class="subtitle">Live Stats <span class="dot">•</span></div>
+      <div class="title">Galaxy Disco Club</div>
+      <div class="subtitle">
+        <span class="time-range">23:45 - 04:00</span>
+        <div class="on-air-badge">
+          <span class="pulse-dot"></span>
+          <span>ON AIR</span>
+        </div>
+        <span class="live-text">Live</span>
+      </div>
     </ion-title>
-
-    <ion-buttons slot="end">
-      <ion-button fill="clear" (click)="close()">
-        <ion-icon name="close-outline"></ion-icon>
-      </ion-button>
-    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true" class="page-bg">
-  <!-- Updated section spacing and structure to match template proportions -->
   <div class="main-content">
-    <!-- Amici e Gruppi -->
-    <section>
-      <h2 class="section-title">Amici e Gruppi</h2>
-      <ion-card class="card">
-        <ion-card-content class="card-content">
-          <div>
-            <div class="flex-between-baseline">
-              <h3 class="card-title">Persone e gruppi preferiti sul posto</h3>
-              <span class="count-badge">{{ statsData.attendees.onSite }}</span>
-            </div>
-            <div class="avatars-container">
-              <ng-container *ngFor="let url of onSiteAvatars">
-                <img [src]="url" class="avatar avatar-solid" alt="avatar" />
-              </ng-container>
-              <div class="avatar avatar-more">+18</div>
-            </div>
-          </div>
-
-          <div class="section-divider"></div>
-
-          <div>
-            <div class="flex-between-baseline">
-              <h3 class="card-title">In arrivo</h3>
-              <span class="count-badge">{{ statsData.attendees.arriving }}</span>
-            </div>
-            <div class="avatars-container">
-              <ng-container *ngFor="let url of arrivingAvatars">
-                <img [src]="url" class="avatar avatar-dashed" alt="avatar" />
-              </ng-container>
-              <div class="avatar avatar-more avatar-dashed">+4</div>
-            </div>
-          </div>
-        </ion-card-content>
-      </ion-card>
-    </section>
-
-    <!-- Panoramica -->
-    <section>
-      <h2 class="section-title">Panoramica</h2>
-      <div class="overview-grid">
-        <ion-card class="card overview-full">
-          <ion-card-content class="card-content">
-            <p class="stat-label">Vibe adesso</p>
-            <p class="stat-value-xl">{{ statsData.vibe }}</p>
-          </ion-card-content>
-        </ion-card>
-
-        <ion-card class="card">
-          <ion-card-content class="card-content">
-            <p class="stat-label">Tempo per arrivare</p>
-            <p class="stat-value-lg">{{ statsData.travelTime }}</p>
-          </ion-card-content>
-        </ion-card>
-
-        <ion-card class="card">
-          <ion-card-content class="card-content">
-            <p class="stat-label">Ingresso</p>
-            <div class="chip chip-green">
-              <ion-icon name="ticket-outline"></ion-icon> Gratuito
-            </div>
-          </ion-card-content>
-        </ion-card>
-
-        <ion-card class="card">
-          <ion-card-content class="card-content">
-            <p class="stat-label">Disponibilità</p>
-            <div class="chip chip-green">
-              <ion-icon name="checkmark-circle-outline"></ion-icon> {{ statsData.availability }}
-            </div>
-          </ion-card-content>
-        </ion-card>
-
-        <ion-card class="card">
-          <ion-card-content class="card-content">
-            <p class="stat-label">Prezzo indicativo</p>
-            <div class="chip chip-green">{{ statsData.pricing }}</div>
-          </ion-card-content>
-        </ion-card>
+    <div class="top-stats-row">
+      <div class="stat-pill">
+        <p class="stat-label">Partecipanti</p>
+        <p class="stat-value">1.2K</p>
       </div>
-    </section>
-
-    <!-- Valutazioni -->
-    <section>
-      <h2 class="section-title">Valutazioni</h2>
-      <ion-card class="card">
-        <ion-card-content class="card-content ratings-content">
-          <div>
-            <div class="flex-between-center">
-              <p class="stat-label">Valutazione Media</p>
-              <p class="rating-value">{{ statsData.ratings.average }} <span class="rating-max">/ 5</span></p>
-            </div>
-            <div class="bar-container">
-              <div *ngFor="let full of getRatingSegments(statsData.ratings.average)" 
-                   class="bar-segment" 
-                   [class.bar-segment-active]="full"></div>
-            </div>
+      <div class="stat-pill">
+        <p class="stat-label">Capacità</p>
+        <div class="capacity-container">
+          <p class="stat-value">85%</p>
+          <div class="capacity-bar">
+            <div class="capacity-fill" style="width: 85%"></div>
           </div>
-
-          <div>
-            <div class="flex-between-center">
-              <p class="stat-label">Valutazione persone o gruppi preferiti</p>
-              <p class="rating-value-green">{{ statsData.ratings.favorites }} <span class="rating-max">/ 5</span></p>
-            </div>
-            <div class="bar-container">
-              <div *ngFor="let _ of getRatingSegments(5)" class="bar-segment bar-segment-green"></div>
-            </div>
-          </div>
-        </ion-card-content>
-      </ion-card>
-    </section>
-
-    <!-- Calore -->
-    <section>
-      <h2 class="section-title">Calore</h2>
-      <ion-card class="card">
-        <ion-card-content class="card-content heat-content">
-          <p class="stat-label heat-label">Questo evento vs altri stasera</p>
-          <div class="heat-icons">
-            <ion-icon
-              *ngFor="let on of getHeatArray(); let i = index"
-              name="flame-outline"
-              [class.heat-active]="i === 0"
-            ></ion-icon>
-          </div>
-          <p class="heat-status">Meno caldo</p>
-        </ion-card-content>
-      </ion-card>
-    </section>
-
-    <!-- Lista artisti -->
-    <section>
-      <h2 class="section-title">Lista artisti</h2>
-      <ion-card class="card">
-        <ion-card-content class="card-content artists-content">
-          <div class="artist-current">
-            <p class="artist-status">
-              <ion-icon name="wifi-outline" class="status-icon"></ion-icon> IN CORSO
-            </p>
-            <p class="artist-name">{{ statsData.currentArtist }}</p>
-            <p class="artist-time">Main Stage - 22:00 - 23:00</p>
-          </div>
-
-          <div class="artist-upcoming">
-            <p class="artist-name-upcoming">{{ statsData.nextArtist }}</p>
-            <p class="artist-time">Main Stage - 23:15 - 00:30</p>
-          </div>
-
-          <div class="artist-upcoming">
-            <p class="artist-name-upcoming">Opening Act</p>
-            <p class="artist-time">Second Stage - 21:00 - 21:45</p>
-          </div>
-        </ion-card-content>
-      </ion-card>
-    </section>
-
-    <section>
-      <div class="footer-text">
-        <p>Dati aggiornati 1 min fa. Pull-to-refresh per aggiornare.</p>
+        </div>
       </div>
-    </section>
+      <div class="stat-pill">
+        <p class="stat-label">Pista Energy</p>
+        <div class="energy-bars">
+          <div class="energy-bar active" style="animation-delay: 0s;"></div>
+          <div class="energy-bar active" style="animation-delay: 0.2s;"></div>
+          <div class="energy-bar active" style="animation-delay: 0.4s;"></div>
+          <div class="energy-bar"></div>
+          <div class="energy-bar"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="cards-grid">
+      <ion-card class="stats-card">
+        <ion-card-content>
+          <div class="card-header">
+            <div>
+              <h3 class="card-title">Code</h3>
+              <p class="card-subtitle">Stima attesa live</p>
+            </div>
+            <div class="status-indicator status-green">
+              ↓ Bassa
+            </div>
+          </div>
+          <div class="code-chips">
+            <div class="code-chip pulsing">Ingresso: ~5m</div>
+            <div class="code-chip pulsing" style="animation-duration: 4s;">Bar: ~2m</div>
+            <div class="code-chip pulsing" style="animation-duration: 5s;">Bagni: ~1m</div>
+            <div class="code-chip">Guardaroba: ~8m</div>
+          </div>
+        </ion-card-content>
+      </ion-card>
+
+      <ion-card class="stats-card">
+        <ion-card-content>
+          <div class="card-header">
+            <div>
+              <h3 class="card-title">Volume percepito</h3>
+              <p class="card-subtitle">DB medi e picchi</p>
+            </div>
+            <div class="volume-indicator">
+              <span class="volume-icon">🔊</span>
+              <span class="status-indicator status-yellow">↑ Alto</span>
+            </div>
+          </div>
+          <div class="volume-slider-container">
+            <input type="range" class="volume-slider" min="0" max="100" value="88">
+            <div class="volume-emojis">
+              <span>🙂</span>
+              <span>😎</span>
+              <span>🤯</span>
+            </div>
+          </div>
+        </ion-card-content>
+      </ion-card>
+
+      <ion-card class="stats-card">
+        <ion-card-content>
+          <div class="card-header">
+            <div>
+              <h3 class="card-title">Strobo/Light Stress</h3>
+              <p class="card-subtitle">Intensità flash</p>
+            </div>
+            <div class="strobo-status">
+              <span class="strobo-level">Medio</span>
+              <span class="status-indicator status-yellow">→ Stabile</span>
+            </div>
+          </div>
+          <div class="strobo-bars">
+            <div class="strobo-bar green"></div>
+            <div class="strobo-bar yellow active"></div>
+            <div class="strobo-bar gray"></div>
+          </div>
+        </ion-card-content>
+      </ion-card>
+
+      <ion-card class="stats-card">
+        <ion-card-content>
+          <div class="card-header">
+            <div>
+              <h3 class="card-title">Sicurezza</h3>
+              <p class="card-subtitle">Percezione generale</p>
+            </div>
+            <div class="security-badge">
+              OTTIMALE
+            </div>
+          </div>
+          <div class="security-shields">
+            <ion-icon name="shield" class="shield active"></ion-icon>
+            <ion-icon name="shield" class="shield active"></ion-icon>
+            <ion-icon name="shield" class="shield active"></ion-icon>
+            <ion-icon name="shield" class="shield active"></ion-icon>
+            <ion-icon name="shield" class="shield"></ion-icon>
+          </div>
+        </ion-card-content>
+      </ion-card>
+
+      <ion-card class="stats-card haze-card">
+        <div class="fog-effect"></div>
+        <ion-card-content class="haze-content">
+          <div class="card-header">
+            <div>
+              <h3 class="card-title">Haze/Fumo</h3>
+              <p class="card-subtitle">Livello densità</p>
+            </div>
+            <div class="haze-status">
+              <span class="haze-level">7/10</span>
+              <span class="status-indicator status-red">↑ Aumento</span>
+            </div>
+          </div>
+          <div class="haze-bar-container">
+            <div class="haze-bar">
+              <div class="haze-fill" style="width: 70%;"></div>
+            </div>
+          </div>
+        </ion-card-content>
+      </ion-card>
+
+      <ion-card class="stats-card">
+        <ion-card-content>
+          <h3 class="card-title">Timeline Live</h3>
+          <div class="timeline">
+            <div class="timeline-item">
+              <div class="timeline-point"></div>
+              <div class="timeline-content">
+                <p class="timeline-title">Guest DJ Set Start</p>
+                <p class="timeline-time">01:15</p>
+              </div>
+            </div>
+            <div class="timeline-item active">
+              <div class="timeline-point pulsating"></div>
+              <div class="timeline-content">
+                <p class="timeline-title active">Peak Time Energy</p>
+                <p class="timeline-time">Adesso</p>
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-point"></div>
+              <div class="timeline-content">
+                <p class="timeline-title">Closing Set</p>
+                <p class="timeline-time">03:00</p>
+              </div>
+            </div>
+          </div>
+        </ion-card-content>
+      </ion-card>
+    </div>
+
+    <div class="warning-alert">
+      <ion-icon name="warning" class="warning-icon"></ion-icon>
+      <p>Attenzione: Luci stroboscopiche intense previste alle 02:00.</p>
+    </div>
+
+    <ion-card class="stats-card">
+      <ion-card-content>
+        <h3 class="card-title">Mood & Hype</h3>
+        <div class="mood-tags">
+          <span class="mood-tag pink">#Euforico</span>
+          <span class="mood-tag teal">#Sognante</span>
+          <span class="mood-tag purple">#Scatenato</span>
+        </div>
+        <div class="likes-container">
+          <div class="likes-info">
+            <ion-icon name="heart" class="heart-icon"></ion-icon>
+            <span class="likes-count">1.8k Likes</span>
+          </div>
+          <div class="sparkline-container">
+            <svg class="sparkline" viewBox="0 0 100 30" xmlns="http://www.w3.org/2000/svg">
+              <polyline fill="none" points="0,25 10,20 20,22 30,15 40,18 50,10 60,12 70,5 80,8 90,15 100,10" stroke-width="2"></polyline>
+            </svg>
+          </div>
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card class="stats-card mb-1">
+      <ion-card-content>
+        <h3 class="card-title">Comfort & Accessibilità</h3>
+        <div class="comfort-items">
+          <div class="comfort-item">
+            <span class="comfort-label">Termico</span>
+            <div class="thermal-slider">
+              <span class="thermal-label cold">Fresco</span>
+              <div class="thermal-bar">
+                <div class="thermal-thumb" style="left: 30%;"></div>
+              </div>
+              <span class="thermal-label hot">Caldo</span>
+            </div>
+          </div>
+          <div class="comfort-item">
+            <span class="comfort-label">Ventilazione</span>
+            <div class="ventilation-status">
+              <ion-icon name="leaf" class="ventilation-icon"></ion-icon>
+              <span class="ventilation-text">Buona</span>
+            </div>
+          </div>
+          <div class="comfort-item">
+            <span class="comfort-label">Pulizia Bagni</span>
+            <div class="rating-stars">
+              <ion-icon name="star" class="star active"></ion-icon>
+              <ion-icon name="star" class="star active"></ion-icon>
+              <ion-icon name="star" class="star active"></ion-icon>
+              <ion-icon name="star-half" class="star active"></ion-icon>
+              <ion-icon name="star-outline" class="star"></ion-icon>
+            </div>
+          </div>
+          <div class="comfort-item">
+            <span class="comfort-label">Posti a Sedere</span>
+            <span class="seating-status">Limitati</span>
+          </div>
+        </div>
+      </ion-card-content>
+    </ion-card>
   </div>
 
+  <div class="footer">
+    <p>Network: <span class="network-status">Stabile</span> • Ultimo Sync: <span class="sync-time">Ora</span></p>
+  </div>
 </ion-content>

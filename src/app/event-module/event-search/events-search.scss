@@ -1,4 +1,6 @@
-@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
+/* 🔤 FONT: gestito globalmente via index.html + variables.scss
+   (niente @import qui per evitare doppie richieste e FOIT) */
+/* @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap'); */
 
 /* il componente ha box e usa il viewport */
 :host {
@@ -9,7 +11,12 @@
 .events-content {
   --background: #141118;
   --color: #ffffff;
-  font-family: 'Space Grotesk', sans-serif;
+
+  /* 🔤 usa la famiglia globale Ionic */
+  font-family: var(--ion-font-family);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 
   display: flex;
   flex-direction: column;
@@ -31,11 +38,13 @@
     --padding-start: 0;
     --padding-end: 12px;
     margin: 0;
+    /* 🔤 i bottoni Ionic ereditano il font */
+    font-family: inherit;
   }
 
   .header-title {
     font-size: 20px;
-    font-weight: 600;
+    font-weight: 600; /* Space Grotesk ha 600: ok */
     color: #ffffff;
     margin: 0;
     position: absolute;
@@ -55,7 +64,6 @@
     gap: 8px;
     overflow-x: auto;
     padding-bottom: 4px;
-
     &::-webkit-scrollbar { display: none; }
   }
 
@@ -68,7 +76,10 @@
     --padding-top: 8px;
     --padding-bottom: 8px;
     font-size: 14px;
-    font-weight: 500;
+    font-weight: 500; /* peso disponibile */
+    /* 🔤 forza l'ereditarietà su ion-button */
+    font-family: inherit;
+
     white-space: nowrap;
     min-width: auto;
     height: 36px;
@@ -109,6 +120,9 @@
     right: 12px;
     font-size: 12px;
     font-weight: 500;
+    /* 🔤 eredità su ion-button */
+    font-family: inherit;
+
     height: 36px;
     margin: 0;
 
@@ -123,7 +137,7 @@
 .events-section {
   padding: 0 20px 100px;
   flex: 1 1 auto;
-  min-height: 0;              /* sblocca lo scroll dei figli in flex */
+  min-height: 0;
   display: flex;
   flex-direction: column;
 
@@ -136,9 +150,9 @@
 
     h2 {
       font-size: 18px;
-      font-weight: 600;
-      color: #ffffff;
+      font-weight: 600; /* ok con Space Grotesk */
       margin: 0;
+      color: #ffffff;
     }
 
     .see-all-button {
@@ -146,8 +160,10 @@
       --padding-start: 0;
       --padding-end: 0;
       font-size: 14px;
-      font-weight: 500;
+      font-weight: 500; /* ok */
       margin: 0;
+      /* 🔤 eredità su ion-button */
+      font-family: inherit;
     }
   }
 
@@ -157,21 +173,18 @@
     flex-direction: column;
     gap: 16px;
 
-    /* 🔒 bullet-proof: scroll SEMPRE, anche se i genitori non “collaborano” */
-    max-height: calc(100dvh - ( /* viewport */
-      64px   +   /* header approx (padding incluso) - regola se serve */
-      20px   +   /* gap sotto header nei tuoi layout */
-      200px  +   /* mappa */
-      16px   +   /* margin-bottom della section-header */
-      36px   +   /* altezza approx della section-header */
-      120px      /* bottom padding + bottom bar */
+    /* 🔤 cifre allineate per date/orari/contatori */
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: 'tnum' 1, 'liga' 1;
+
+    max-height: calc(100dvh - (
+      64px + 20px + 200px + 16px + 36px + 120px
     ));
     overflow: auto !important;
     -webkit-overflow-scrolling: touch;
     padding-right: 4px;
     padding-bottom: calc(100px + env(safe-area-inset-bottom, 0));
 
-    /* scrollbar opzionali */
     &::-webkit-scrollbar { width: 4px; }
     &::-webkit-scrollbar-track { background: rgba(255, 255, 255, 0.08); border-radius: 2px; }
     &::-webkit-scrollbar-thumb { background: #7f0df2; border-radius: 2px; }
@@ -183,6 +196,8 @@
 :host ::ng-deep .custom-marker {
   background: transparent !important;
   border: none !important;
+  /* 🔤 usa lo stesso font anche nei markup custom */
+  font-family: var(--ion-font-family) !important;
 }
 :host ::ng-deep .leaflet-control-zoom {
   border: none !important;
@@ -193,7 +208,9 @@
     color: #ffffff !important;
     border: none !important;
     font-size: 16px !important;
-    font-weight: bold !important;
+    font-weight: 700 !important;  /* bold reale */
+    /* 🔤 eredità esplicita (Leaflet ha stili propri) */
+    font-family: var(--ion-font-family) !important;
 
     &:hover { background: rgba(0, 0, 0, 0.8) !important; }
   }
@@ -203,7 +220,7 @@
 .events-section {
   /* ...le tue regole... */
   min-height: 0;
-  position: relative;     /* isola la lista da ombre esterne */
+  position: relative;
   z-index: 0;
 }
 
@@ -213,37 +230,33 @@
   flex-direction: column;
   gap: 16px;
 
-  /* scroll */
+  /* 🔤 mantieni le impostazioni numeriche anche qui */
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: 'tnum' 1, 'liga' 1;
+
   overflow: auto;
   -webkit-overflow-scrolling: touch;
-  /* spazio “cuscinetto” perché le shadow delle card non vengano tagliate */
   padding: 8px 12px calc(100px + env(safe-area-inset-bottom, 0)) 12px;
 
-  /* sfondo pieno per evitare trasparenze che mostrano ombre sotto */
   background: #141118;
   background-clip: padding-box;
 
-  /* Evita artefatti di compositing su iOS/Android */
-  contain: paint;           /* isola la pittura delle card */
-  will-change: transform;   /* layer dedicato */
-  transform: translateZ(0); /* forza compositing GPU */
+  contain: paint;
+  will-change: transform;
+  transform: translateZ(0);
 
-  /* scrollbar gradevoli (opzionali) */
   &::-webkit-scrollbar { width: 4px; }
   &::-webkit-scrollbar-track { background: rgba(255,255,255,0.08); border-radius: 2px; }
   &::-webkit-scrollbar-thumb { background: #7f0df2; border-radius: 2px; }
 }
 
-/* se l’alone arriva dalla bottom bar fissa, attenua o rimuovi la sua ombra */
+/* bottom bar */
 .bottom-tab-bar,
 .bottom-nav {
-  /* prova a ridurre o togliere questa shadow per test */
-  /* box-shadow: none; */
-  /* oppure più soft: */
   box-shadow: 0 -1px 6px rgba(0, 229, 204, 0.06);
 }
 
-/* se le card hanno shadow molto “larga”, dai ancora un filo di aria ai lati */
+/* lato extra padding */
 @media (min-width: 0) {
   .events-section .events-list { padding-inline: 14px; }
 }

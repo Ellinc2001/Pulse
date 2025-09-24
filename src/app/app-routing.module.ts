@@ -13,6 +13,9 @@ const routes: Routes = [
   // },
   { path: 'events-search', 
     loadChildren: () => import('./event-module/event-module.module').then( m => m.EventModule)
+  },
+  { path: 'my-vibes', 
+    loadChildren: () => import('./my-pulse-module/my-pulse.module').then( m => m.MyPulseModule)
   }
 ];
 

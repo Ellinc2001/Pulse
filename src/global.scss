@@ -43,3 +43,69 @@
 html, body, app-root, ion-app, ion-content {
   height: 100%;
 }
+
+/* GLOBAL TYPOGRAPHY – applica il font e uniforma il rendering */
+html, body, ion-app, ion-content, ion-title, ion-toolbar, ion-item, ion-button, ion-label {
+  font-family: var(--ion-font-family) !important;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* Scala pesi coerente con Space Grotesk */
+h1, .text-display, .score { font-weight: var(--fw-bold, 700); }
+h2, .card-title           { font-weight: 600; }  /* medio/semibold “visivo” */
+body, p, li, label        { font-weight: var(--fw-regular, 400); }
+
+/* Numeri con cifre tabulari (come nel template) */
+.score, .num, .stat {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: 'tnum' 1, 'liga' 1;
+}
+
+/* Titolo header come screenshot */
+.app-title {
+  letter-spacing: .08em;
+  font-weight: var(--fw-bold, 700);
+}
+
+/* Piccola differenza iOS/MD se vuoi rifinire */
+:root.ios  .app-title { letter-spacing: .09em; }
+:root.md   .app-title { letter-spacing: .07em; }
+
+/* Padding/scroll neutri (niente min-height strani) */
+ion-content::part(scroll) { padding-bottom: 24px; }
+
+/* INLINE TEXT: span
+   - usa la famiglia globale Ionic
+   - pesi compatibili con Space Grotesk
+   - smoothing e legibility uniformi
+*/
+span {
+  font-family: var(--ion-font-family) !important;
+  font-weight: var(--fw-regular, 400);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  font-kerning: normal;
+  font-variant-ligatures: common-ligatures contextual;
+}
+
+/* Bold reale (Space Grotesk max 700) */
+b, strong, .bold { font-weight: var(--fw-bold, 700); }
+
+/* Semibold “visivo” quando serve */
+.semibold { font-weight: 600; }
+
+/* Numeri allineati (date, orari, contatori) */
+span.num {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: 'tnum' 1, 'liga' 1;
+}
+
+/* Etichette in maiuscolo come nel template */
+span.label-caps {
+  text-transform: uppercase;
+  letter-spacing: .05em;
+  font-weight: 500;
+}

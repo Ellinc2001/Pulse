@@ -1,2 +1,7 @@
 // For information on how to create your own theme, please see:
 // http://ionicframework.com/docs/theming/
+/* variables.scss */
+:root {
+  --ion-font-family: 'Space Grotesk', system-ui, -apple-system, 'Segoe UI',
+                     Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif;
+}

@@ -1,0 +1,318 @@
+<div class="preferences-detail-container">
+  <!-- Header -->
+  <header class="header">
+    <button class="back-btn" (click)="goBack()">
+      <ion-icon name="arrow-back-outline"></ion-icon>
+    </button>
+    <h1 class="header-title">
+      Dettaglio Preferenze<br />
+      Avanzate
+    </h1>
+    <div class="header-spacer"></div>
+  </header>
+
+  <main class="main-content">
+    <!-- CARD 1: Music -->
+    <div class="card">
+      <h2 class="card-title">
+        Music
+      </h2>
+
+      <!-- Generi / Tag -->
+      <div class="section-group">
+        <p class="label">Generi / Sotto-generi / Tag</p>
+
+        <div class="chips-container">
+          <span
+            *ngFor="let genre of musicGenres; let i = index"
+            class="chip"
+            [class.active]="genre.active"
+            (click)="toggleGenre(i)"
+          >
+            {{ genre.name }} <span class="chip-eq">=</span>
+            <ion-icon name="reorder-three-outline" class="drag-handle"></ion-icon>
+          </span>
+
+          <div class="add-tag-container">
+            <input
+              type="text"
+              class="add-tag-input"
+              placeholder="Aggiungi un tag..."
+              [(ngModel)]="newGenreTag"
+              (keyup.enter)="addGenreTag()"
+            />
+            <button class="add-tag-btn" (click)="addGenreTag()">
+              <ion-icon name="add-circle-outline"></ion-icon>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pesi generi -->
+      <div class="section-group">
+        <div class="slider-group" *ngFor="let genre of musicGenres; let i = index">
+          <div class="slider-label-row">
+            <label class="label">Peso Genere: {{ genre.name }}</label>
+            <span class="slider-value">{{ genre.weight }}</span>
+          </div>
+          <input
+            class="slider"
+            type="range"
+            min="0"
+            max="100"
+            [value]="genre.weight"
+            (input)="updateGenreWeight(i, $any($event.target)?.value)"
+          />
+        </div>
+      </div>
+
+      <!-- Artisti -->
+      <div class="section-group">
+        <p class="label">Artisti</p>
+
+        <div class="artist-search-container">
+          <div class="artist-search-row">
+            <span class="artist-type followed">Seguiti</span>
+            <div class="search-input-container">
+              <input class="search-input" type="text" placeholder="Cerca artista..." />
+              <ion-icon name="search-outline" class="search-icon"></ion-icon>
+            </div>
+          </div>
+
+          <div class="artist-search-row">
+            <span class="artist-type hidden">Nascosti</span>
+            <div class="search-input-container">
+              <input class="search-input" type="text" placeholder="Cerca artista..." />
+              <ion-icon name="search-outline" class="search-icon"></ion-icon>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- BPM & Energy -->
+      <div class="section-group">
+        <div class="slider-group">
+          <div class="slider-label-row">
+            <label class="label">BPM Range</label>
+            <span class="slider-value">120 - 128</span>
+          </div>
+          <input class="slider" type="range" min="60" max="180" [(ngModel)]="bpmRange" />
+        </div>
+
+        <div class="slider-group">
+          <div class="slider-label-row">
+            <label class="label">Livello Energia (1-5)</label>
+            <span class="slider-value">{{ energyLevel }}</span>
+          </div>
+          <input class="slider" type="range" min="1" max="5" [(ngModel)]="energyLevel" />
+        </div>
+      </div>
+
+      <!-- Mood -->
+      <div class="section-group">
+        <p class="label">Mood</p>
+        <div class="segment-control">
+          <button class="segment-btn" [class.active]="activeMood==='Dark'" (click)="setMood('Dark')">Dark</button>
+          <button class="segment-btn" [class.active]="activeMood==='Warm'" (click)="setMood('Warm')">Warm</button>
+          <button class="segment-btn" [class.active]="activeMood==='Uplifting'" (click)="setMood('Uplifting')">Uplifting</button>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- CARD 2: Set + toggles musica -->
+    <div class="card">
+      <div class="slider-group">
+        <div class="slider-label-row">
+          <label class="label">Durata Set Ideale (min)</label>
+          <span class="slider-value">{{ setDuration }} min</span>
+        </div>
+        <input class="slider" type="range" min="30" max="240" [(ngModel)]="setDuration" />
+      </div>
+
+      <div class="section-group toggles-col">
+        <div class="toggle-row">
+          <span class="toggle-label">Analog / Vinyl Friendly</span>
+          <label class="toggle-switch">
+            <input type="checkbox" [(ngModel)]="vinylFriendly" />
+            <div class="toggle-bg"></div>
+          </label>
+        </div>
+
+        <div class="toggle-row">
+          <span class="toggle-label">Evita Mainstream</span>
+          <label class="toggle-switch">
+            <input type="checkbox" [(ngModel)]="avoidMainstream" />
+            <div class="toggle-bg"></div>
+          </label>
+        </div>
+
+        <div class="toggle-row">
+          <span class="toggle-label">Scopri Gemme Nascoste</span>
+          <label class="toggle-switch">
+            <input type="checkbox" [(ngModel)]="discoverGems" />
+            <div class="toggle-bg"></div>
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <!-- CARD 3: Events & Venue -->
+    <div class="card">
+      <h2 class="card-title">
+        Events &amp; Venue
+      </h2>
+
+      <div class="section-group">
+        <p class="label">Dimensione Venue</p>
+        <div class="segment-control small-text">
+          <button class="segment-btn" [class.active]="activeVenueSize==='Piccolo'" (click)="setVenueSize('Piccolo')">Piccolo</button>
+          <button class="segment-btn" [class.active]="activeVenueSize==='Medio'" (click)="setVenueSize('Medio')">Medio</button>
+          <button class="segment-btn" [class.active]="activeVenueSize==='Grande'" (click)="setVenueSize('Grande')">Grande</button>
+          <button class="segment-btn" [class.active]="activeVenueSize==='Arena'" (click)="setVenueSize('Arena')">Arena</button>
+        </div>
+      </div>
+
+      <div class="section-group toggles-col">
+        <div class="toggle-row">
+          <span class="toggle-label">Solo Indoor / Anche Outdoor</span>
+          <label class="toggle-switch">
+            <input type="checkbox" [(ngModel)]="outdoorVenues" />
+            <div class="toggle-bg"></div>
+          </label>
+        </div>
+        <div class="toggle-row">
+          <span class="toggle-label">Presenza Area Fumatori</span>
+          <label class="toggle-switch">
+            <input type="checkbox" [(ngModel)]="smokingArea" />
+            <div class="toggle-bg"></div>
+          </label>
+        </div>
+        <div class="toggle-row">
+          <span class="toggle-label">Guardaroba Obbligatorio</span>
+          <label class="toggle-switch">
+            <input type="checkbox" [(ngModel)]="cloakroomRequired" />
+            <div class="toggle-bg"></div>
+          </label>
+        </div>
+      </div>
+
+      <div class="section-group">
+        <div class="slider-group">
+          <div class="slider-label-row">
+            <label class="label">Numero di bar</label>
+            <span class="slider-value">{{ barsNumber }}+</span>
+          </div>
+          <input class="slider" type="range" min="1" max="5" [(ngModel)]="barsNumber" />
+        </div>
+
+        <div class="slider-group">
+          <div class="slider-label-row">
+            <label class="label">Tempo di attesa bar tollerato</label>
+            <span class="slider-value">{{ queueTime }} min</span>
+          </div>
+          <input class="slider" type="range" min="1" max="30" [(ngModel)]="queueTime" />
+        </div>
+      </div>
+    </div>
+
+    <!-- CARD 4: Budget -->
+    <div class="card">
+      <h2 class="card-title">
+        Budget &amp; Ticketing
+      </h2>
+
+      <div class="section-group">
+        <div class="slider-group">
+          <div class="slider-label-row">
+            <label class="label">Range Prezzo Ticket</label>
+            <span class="slider-value">€15 - €50</span>
+          </div>
+          <input class="slider" type="range" min="5" max="100" [(ngModel)]="ticketPrice" />
+        </div>
+      </div>
+    </div>
+
+    <!-- CARD 5: Time & Logistics -->
+    <div class="card">
+      <h2 class="card-title">
+        Time &amp; Logistics
+      </h2>
+
+      <div class="section-group">
+        <div class="time-input-group">
+          <div class="time-input-header">
+            <label class="label">Orario di arrivo tipico</label>
+            <span class="slider-value">{{ arrivalTime }}</span>
+          </div>
+          <input class="time-input" type="time" [(ngModel)]="arrivalTime" />
+        </div>
+
+        <div class="time-input-group">
+          <div class="time-input-header">
+            <label class="label">Orario di uscita tipico</label>
+            <span class="slider-value">{{ exitTime }}</span>
+          </div>
+          <input class="time-input" type="time" [(ngModel)]="exitTime" />
+        </div>
+      </div>
+    </div>
+
+    <!-- CARD 6: Comfort -->
+    <div class="card">
+      <h2 class="card-title">
+        Comfort &amp; Accessibility
+      </h2>
+
+      <div class="section-group toggles-col">
+        <div class="toggle-row">
+          <span class="toggle-label">Evita Luci Stroboscopiche</span>
+          <label class="toggle-switch">
+            <input type="checkbox" [(ngModel)]="avoidStrobes" />
+            <div class="toggle-bg"></div>
+          </label>
+        </div>
+      </div>
+
+      <div class="section-group">
+        <div class="slider-group">
+          <div class="slider-label-row">
+            <label class="label">Limite Volume Preferito (dB)</label>
+            <span class="slider-value">{{ volumeLimit }} dB</span>
+          </div>
+          <input class="slider" type="range" min="70" max="120" [(ngModel)]="volumeLimit" />
+        </div>
+      </div>
+    </div>
+
+    <!-- CARD 7: Notifications -->
+    <div class="card">
+      <h2 class="card-title">
+        Notifications &amp; Automations
+      </h2>
+
+      <div class="section-group toggles-col">
+        <div class="toggle-row">
+          <span class="toggle-label">Notifiche Smart basate su mood</span>
+          <label class="toggle-switch">
+            <input type="checkbox" [(ngModel)]="moodNotifications" />
+            <div class="toggle-bg"></div>
+          </label>
+        </div>
+
+        <div class="toggle-row">
+          <span class="toggle-label">Automazione acquisto biglietti</span>
+          <label class="toggle-switch">
+            <input type="checkbox" [(ngModel)]="autoBuyTickets" />
+            <div class="toggle-bg"></div>
+          </label>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+
+<div class="floating-cta">
+  <button class="save-button" (click)="savePreferences()">Save Preferences</button>
+</div>
