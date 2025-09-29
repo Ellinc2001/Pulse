@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core"
-import { ActivatedRoute } from "@angular/router"
+import { ActivatedRoute, Router } from "@angular/router"
 import { getStatsForEvent, EventType, STAT_META } from "../../stat-visual-map"
 
 export interface StatisticOption {
@@ -21,7 +21,7 @@ export class StatisticsChoiceComponent implements OnInit {
   eventType!: EventType
   groupedStatistics: { group: string; stats: StatisticOption[] }[] = []
 
-  constructor(private route: ActivatedRoute) {}
+  constructor(private route: ActivatedRoute, private router: Router) {}
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((params) => {
@@ -60,4 +60,10 @@ export class StatisticsChoiceComponent implements OnInit {
   onBackClick(): void {
     window.history.back()
   }
+
+  goToDetailChoice(): void {
+  this.router.navigate(['event/create/detail-choice'], {
+    queryParams: { eventType: this.eventType } // passo anche l'evento corrente
+  });
+}
 }

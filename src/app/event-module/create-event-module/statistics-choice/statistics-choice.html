@@ -1,12 +1,22 @@
 <div class="statistics-choice-container">
   <ion-header class="custom-header">
     <ion-toolbar>
+      <!-- Bottone back -->
       <ion-buttons slot="start">
         <ion-button fill="clear" (click)="onBackClick()">
           <ion-icon name="arrow-back" color="light"></ion-icon>
         </ion-button>
       </ion-buttons>
+
+      <!-- Titolo -->
       <ion-title class="header-title">Seleziona Statistiche</ion-title>
+
+      <!-- Bottone avanti (freccia destra) -->
+      <ion-buttons slot="end">
+        <ion-button fill="clear" (click)="goToDetailChoice()">
+          <ion-icon name="arrow-forward" color="light"></ion-icon>
+        </ion-button>
+      </ion-buttons>
     </ion-toolbar>
   </ion-header>
 

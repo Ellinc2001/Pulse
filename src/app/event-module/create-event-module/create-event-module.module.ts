@@ -4,15 +4,18 @@ import { CreateEventModuleRoutingModule } from './create-event-module-routing.mo
 import { CreateEventComponent } from './create-event/create-event';
 import { StatisticsChoiceComponent } from './statistics-choice/statistics-choice';
 import { IonicModule } from '@ionic/angular';
+import { EventDetailChoiceComponent } from './event-detail-choice/event-detail-choice';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 
 @NgModule({
-  declarations: [CreateEventComponent, StatisticsChoiceComponent],
+  declarations: [CreateEventComponent, StatisticsChoiceComponent, EventDetailChoiceComponent],
   imports: [
     CommonModule,
     CreateEventModuleRoutingModule,
-    IonicModule
+    IonicModule,
+    FormsModule
   ]
 })
 export class CreateEventModuleModule { }
