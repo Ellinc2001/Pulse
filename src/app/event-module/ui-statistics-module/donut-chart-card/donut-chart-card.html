@@ -1,0 +1,37 @@
+<ion-card class="donut-chart-card">
+  <div class="card-header">
+    <p class="card-title">{{ title }}</p>
+    <ion-icon 
+      *ngIf="showMenu"
+      name="ellipsis-horizontal" 
+      class="menu-icon">
+    </ion-icon>
+  </div>
+
+  <div class="chart-container">
+    <div class="donut-wrapper">
+      <div 
+        class="donut-chart" 
+        [style.background-image]="conicGradient">
+        <div class="donut-center">
+          <span class="center-text">{{ centerText }}</span>
+          <p class="center-subtext">{{ centerSubtext }}</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="legend">
+      @for (segment of segments; track $index) {
+        <div class="legend-item">
+          <span 
+            class="legend-dot" 
+            [style.background-color]="segment.color">
+          </span>
+          <span class="legend-text">
+            {{ segment.label }}: {{ getPercentage(segment.value) }}%
+          </span>
+        </div>
+      }
+    </div>
+  </div>
+</ion-card>

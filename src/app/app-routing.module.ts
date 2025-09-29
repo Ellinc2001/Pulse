@@ -2,22 +2,19 @@ import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
-  // {
-  //   path: 'home',
-  //   loadChildren: () => import('./home/home.module').then( m => m.HomePageModule)
-  // },
-  // {
-  //   path: '',
-  //   redirectTo: 'home',
-  //   pathMatch: 'full'
-  // },
-  { path: 'events-search', 
-    loadChildren: () => import('./event-module/event-module.module').then( m => m.EventModule)
+  {
+    path: 'event',
+    loadChildren: () =>
+      import('./event-module/event-module.module').then(m => m.EventModule),
   },
-  { path: 'my-vibes', 
-    loadChildren: () => import('./my-pulse-module/my-pulse.module').then( m => m.MyPulseModule)
-  }
+  {
+    path: 'my-vibes',
+    loadChildren: () =>
+      import('./my-pulse-module/my-pulse.module').then(m => m.MyPulseModule),
+  },
+  { path: '', redirectTo: 'event', pathMatch: 'full' },
 ];
+
 
 @NgModule({
   imports: [

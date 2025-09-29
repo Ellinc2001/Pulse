@@ -326,27 +326,139 @@ header {
   margin-top: 16px;
 }
 
-.event-list {
+.countdown-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 16px;
+  
+  .countdown-title-icon {
+    font-size: 24px;
+    color: var(--primary-color);
+    animation: glow-icon 2.5s ease-in-out infinite alternate;
+  }
+  
+  .section-title {
+    margin-bottom: 0;
+  }
+}
+
+@keyframes glow-icon {
+  from {
+    text-shadow: 0 0 5px #A020F0, 0 0 10px #A020F0, 0 0 15px #A020F0;
+  }
+  to {
+    text-shadow: 0 0 10px #A020F0, 0 0 20px #A020F0, 0 0 30px #A020F0;
+  }
+}
+
+.countdown-list {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 0;
+}
+
+.countdown-card {
+  background: rgba(39, 27, 36, 0.5);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  border: 1px solid rgba(160, 32, 240, 0.15);
+  border-radius: 8px;
+  padding: 12px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  
+  &:hover {
+    transform: scale(1.03);
+    box-shadow: 0 0 20px rgba(160, 32, 240, 0.5);
+    border-color: rgba(160, 32, 240, 0.4);
+  }
+}
+
+.countdown-icon {
+  margin-right: 16px;
+  
+  .event-icon {
+    font-size: 24px;
+    
+    &[name="musical-notes"] {
+      color: #67e8f9; // cyan-300
+    }
+    
+    &[name="headset"] {
+      color: #e879f9; // fuchsia-400
+    }
+    
+    &[name="partly-sunny"] {
+      color: #fde047; // yellow-300
+    }
+  }
+}
+
+.countdown-info {
+  flex-grow: 1;
+  
+  .countdown-event-name {
+    font-size: 16px;
+    font-weight: 600;
+    color: #ffffff;
+    margin-bottom: 4px;
+  }
+  
+  .countdown-venue {
+    font-size: 12px;
+    color: #9ca3af;
+    margin: 0;
+  }
+}
+
+.countdown-badge {
+  background: linear-gradient(135deg, #A020F0, #4158D0);
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 6px 12px;
+  border-radius: 9999px;
+  animation: pulse-bg 3s infinite;
+}
+
+.countdown-badge-urgent {
+  background: linear-gradient(135deg, #F97316, #EF4444);
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 6px 12px;
+  border-radius: 9999px;
+  animation: pulse-urgent-bg 2s infinite;
+}
+
+@keyframes pulse-bg {
+  0% { opacity: 1; }
+  50% { opacity: 0.8; }
+  100% { opacity: 1; }
+}
+
+@keyframes pulse-urgent-bg {
+  0% { transform: scale(1); box-shadow: 0 0 5px #F97316; }
+  50% { transform: scale(1.05); box-shadow: 0 0 15px #EF4444; }
+  100% { transform: scale(1); box-shadow: 0 0 5px #F97316; }
+}
+
+.countdown-divider {
+  width: 100%;
+  height: 1px;
+  background-color: var(--card-border);
+  margin: 12px 0;
+}
+
+.event-list {
+  display: none; // Hide old event list
 }
 
 .event-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  
-  .event-name {
-    font-size: 14px;
-    color: #EAE0E5;
-  }
-  
-  .event-time {
-    font-size: 14px;
-    font-weight: 700;
-    color: var(--primary-color);
-  }
+  display: none; // Hide old event items
 }
 
 .spark-toggle {
@@ -445,50 +557,145 @@ header {
   gap: 12px;
 }
 
-.invitation-item {
+.invite-card {
+  background-color: rgba(39, 27, 36, 0.7);
+  border: 1px solid rgba(160, 32, 240, 0.1);
+  border-radius: 12px;
+  padding: 12px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  padding: 12px;
-  background-color: rgba(0,0,0,0.2);
-  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 0 20px rgba(160, 32, 240, 0.4);
+    border-color: rgba(160, 32, 240, 0.3);
+  }
+  
+  &.fade-out {
+    opacity: 0;
+    transform: translateX(100%);
+    transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+  }
 }
 
-.invitation-info {
-  .invitation-title {
-    font-size: 14px;
-    font-weight: 600;
-    color: #EAE0E5;
+.invite-avatar-container {
+  flex-shrink: 0;
+  margin-right: 16px;
+}
+
+.invite-avatar-text {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: rgba(160, 32, 240, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 14px;
+  color: var(--viola-fluo);
+  border: 2px solid var(--viola-fluo);
+  box-shadow: 0 0 12px var(--viola-fluo), 0 0 4px var(--viola-fluo);
+}
+
+.invite-avatar-img {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--viola-fluo);
+  box-shadow: 0 0 12px var(--viola-fluo), 0 0 4px var(--viola-fluo);
+}
+
+.invite-info {
+  flex-grow: 1;
+  
+  .invite-title {
+    font-size: 16px;
+    font-weight: bold;
+    background: linear-gradient(90deg, #EAE0E5, #A020F0);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-shadow: 0 0 5px rgba(160, 32, 240, 0.3);
     margin-bottom: 4px;
   }
   
-  .invitation-from {
+  .invite-from {
     font-size: 12px;
     color: #9ca3af;
+    margin: 0;
   }
 }
 
-.invitation-actions {
+.invite-actions {
   display: flex;
+  align-items: center;
   gap: 8px;
 }
 
-.accept-btn {
-  background-color: rgba(16,185,129,0.2);
-  color: #4ade80;
+.action-button {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background-color: rgba(0,0,0,0.1);
   border: none;
-  padding: 6px 12px;
-  font-size: 12px;
-  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  
+  ion-icon {
+    font-size: 16px;
+    transition: all 0.2s ease-in-out;
+  }
+  
+  &:hover {
+    animation: pulse-icon 0.5s ease-in-out;
+  }
+  
+  &.accept {
+    ion-icon {
+      color: #22c55e;
+      text-shadow: 0 0 8px #22c55e;
+    }
+    
+    &:hover ion-icon {
+      text-shadow: 0 0 12px #22c55e, 0 0 20px #22c55e;
+    }
+  }
+  
+  &.decline {
+    ion-icon {
+      color: #ef4444;
+      text-shadow: 0 0 8px #ef4444;
+    }
+    
+    &:hover ion-icon {
+      text-shadow: 0 0 12px #ef4444, 0 0 20px #ef4444;
+    }
+  }
 }
 
-.decline-btn {
-  background-color: rgba(239,68,68,0.2);
-  color: #f87171;
-  border: none;
-  padding: 6px 12px;
-  font-size: 12px;
-  border-radius: 6px;
-  cursor: pointer;
+@keyframes pulse-icon {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.15);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.invitation-item {
+  display: none;
+}
+
+.accept-btn, .decline-btn {
+  display: none;
 }

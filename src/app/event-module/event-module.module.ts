@@ -24,7 +24,7 @@ import { RealTimeStatsNotify } from './real-time-stats-notify/real-time-stats-no
     LiveVideosComponent,
     RealTimeStatsComponent,
     LiveEventDetail,
-    RealTimeStatsNotify
+    RealTimeStatsNotify,
   ],
   imports: [
     CommonModule,

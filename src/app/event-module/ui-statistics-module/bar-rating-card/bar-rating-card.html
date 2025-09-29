@@ -1,0 +1,21 @@
+<div class="metric-card">
+  <div class="card-header">
+    <div class="title-section">
+      <ion-icon [name]="icon" class="metric-icon"></ion-icon>
+      <span class="metric-title">{{ title }}</span>
+    </div>
+    <div class="value-section">
+      <span class="metric-value">{{ value }}</span>
+      <span class="metric-unit" *ngIf="showFraction">/ {{ maxValue }}</span>
+    </div>
+  </div>
+  
+    <div class="bars-container">
+    @for (isActive of bars; track $index) {
+        <div 
+        class="rating-bar"
+        [class.active]="isActive">
+        </div>
+    }
+    </div>
+</div>

@@ -1,0 +1,75 @@
+.metric-card {
+  background: var(--ion-color-dark);
+  border: 1px solid rgba(139, 92, 246, 0.3);
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 0 15px rgba(139, 92, 246, 0.2);
+  transition: all 0.3s ease;
+
+  &:hover {
+    box-shadow: 0 0 25px rgba(139, 92, 246, 0.4);
+    transform: translateY(-2px);
+  }
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.title-section {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.metric-icon {
+  font-size: 20px;
+  color: var(--ion-color-medium);
+}
+
+.metric-title {
+  font-size: 16px;
+  color: var(--ion-color-medium);
+  font-weight: 400;
+}
+
+.value-section {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+}
+
+.metric-value {
+  font-size: 36px;
+  font-weight: 700;
+  color: var(--ion-color-light);
+  font-family: 'Space Grotesk', sans-serif;
+}
+
+.metric-unit {
+  font-size: 18px;
+  color: var(--ion-color-medium);
+  font-weight: 400;
+}
+
+.bars-container {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.rating-bar {
+  flex: 1;
+  height: 12px;
+  border-radius: 6px;
+  background: rgba(45, 32, 63, 1);
+  transition: all 0.3s ease;
+  
+  &.active {
+    background: var(--ion-color-primary);
+    box-shadow: 0 0 12px var(--ion-color-primary);
+  }
+}

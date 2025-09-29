@@ -10,38 +10,48 @@
     <ion-router-outlet></ion-router-outlet>
   </main>
 
-<ion-tabs>
-  <ion-tab-bar slot="bottom" class="tab-bar">
+  <ion-tabs>
+    <ion-tab-bar slot="bottom" class="tab-bar">
 
-    <ion-tab-button
-      class="tab-item"
-      [routerLink]="'/my-vibes'"
-      routerLinkActive="tab-selected"
-      [routerLinkActiveOptions]="{ exact: true }">
-      <ion-icon name="pulse-outline"></ion-icon>
-      <ion-label>My Vibes</ion-label>
-    </ion-tab-button>
+      <ion-tab-button
+        class="tab-item"
+        [routerLink]="'/my-vibes'"
+        routerLinkActive="tab-selected"
+        [routerLinkActiveOptions]="{ exact: true }">
+        <ion-icon name="pulse-outline"></ion-icon>
+        <ion-label>My Vibes</ion-label>
+      </ion-tab-button>
 
-    <ion-tab-button
-      class="tab-item"
-      [routerLink]="'/events-search'"
-      routerLinkActive="tab-selected"
-      [routerLinkActiveOptions]="{ exact: true }">
-      <ion-icon name="compass-outline"></ion-icon>
-      <ion-label>Ricerca Eventi</ion-label>
-    </ion-tab-button>
+      <ion-tab-button
+        class="tab-item"
+        [routerLink]="'/event/search'"
+        routerLinkActive="tab-selected"
+        [routerLinkActiveOptions]="{ exact: true }">
+        <ion-icon name="compass-outline"></ion-icon>
+        <ion-label>Ricerca Eventi</ion-label>
+      </ion-tab-button>
 
-    <ion-tab-button
-      class="tab-item"
-      [routerLink]="'/tabs/profile'"
-      routerLinkActive="tab-selected"
-      [routerLinkActiveOptions]="{ exact: true }">
-      <ion-icon name="person-circle-outline"></ion-icon>
-      <ion-label>Profilo</ion-label>
-    </ion-tab-button>
+      <ion-tab-button
+        class="tab-item"
+        [routerLink]="'/tabs/profile'"
+        routerLinkActive="tab-selected"
+        [routerLinkActiveOptions]="{ exact: true }">
+        <ion-icon name="person-circle-outline"></ion-icon>
+        <ion-label>Profilo</ion-label>
+      </ion-tab-button>
 
-  </ion-tab-bar>
-</ion-tabs>
+      <!-- Added new tab for event creation -->
+      <ion-tab-button
+        class="tab-item"
+        [routerLink]="'event/create'"
+        routerLinkActive="tab-selected"
+        [routerLinkActiveOptions]="{ exact: true }">
+        <ion-icon name="add-circle-outline"></ion-icon>
+        <ion-label>Crea Evento</ion-label>
+      </ion-tab-button>
+
+    </ion-tab-bar>
+  </ion-tabs>
 
   <app-draggable-badge 
     *ngIf="badgeData.isVisible"

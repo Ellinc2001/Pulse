@@ -67,17 +67,50 @@
         <p class="tap-to-customize">Tap to customize</p>
       </a>
 
-      <!-- Event Countdowns with proper spacing -->
+      <!-- Updated Event Countdowns section with new design and structure -->
       <div class="event-card">
-        <h2 class="section-title">Event Countdowns</h2>
-        <div class="event-list">
-          <div class="event-item">
-            <p class="event-name">Cosmic Gate Concert</p>
-            <p class="event-time">in 3 days</p>
+        <div class="countdown-header">
+          <ion-icon class="countdown-title-icon" name="hourglass-outline"></ion-icon>
+          <h2 class="section-title">Countdown Eventi Prenotati</h2>
+        </div>
+        <div class="countdown-list">
+          <div class="countdown-card">
+            <div class="countdown-icon">
+              <ion-icon class="event-icon" name="musical-notes"></ion-icon>
+            </div>
+            <div class="countdown-info">
+              <p class="countdown-event-name">Cosmic Gate Concert</p>
+              <p class="countdown-venue">Club XYZ</p>
+            </div>
+            <div class="countdown-badge">
+              3 days
+            </div>
           </div>
-          <div class="event-item">
-            <p class="event-name">Techno Rave Night</p>
-            <p class="event-time">in 1 week</p>
+          <div class="countdown-divider"></div>
+          <div class="countdown-card">
+            <div class="countdown-icon">
+              <ion-icon class="event-icon" name="headset"></ion-icon>
+            </div>
+            <div class="countdown-info">
+              <p class="countdown-event-name">Techno Rave Night</p>
+              <p class="countdown-venue">Warehouse District</p>
+            </div>
+            <div class="countdown-badge">
+              1 week
+            </div>
+          </div>
+          <div class="countdown-divider"></div>
+          <div class="countdown-card">
+            <div class="countdown-icon">
+              <ion-icon class="event-icon" name="partly-sunny"></ion-icon>
+            </div>
+            <div class="countdown-info">
+              <p class="countdown-event-name">Sunrise Afterparty</p>
+              <p class="countdown-venue">Rooftop Bar</p>
+            </div>
+            <div class="countdown-badge-urgent">
+              18 hours
+            </div>
           </div>
         </div>
       </div>
@@ -138,28 +171,61 @@
         </div>
       </div>
 
-      <!-- Invitations section with proper layout -->
+      <!-- Updated Invitations section with new design -->
       <div class="invitations-card">
-        <h2 class="section-title">Invitations (3)</h2>
-        <div class="invitations-list">
-          <div class="invitation-item">
-            <div class="invitation-info">
-              <p class="invitation-title">Warehouse Party Invite</p>
-              <p class="invitation-from">from @dj_alex</p>
+        <h2 class="section-title">Sezione Inviti (3)</h2>
+        <div class="invitations-list" id="invitations-list">
+          <div class="invite-card" id="invite-1">
+            <div class="invite-avatar-container">
+              <div class="invite-avatar-text">
+                @d_j
+              </div>
             </div>
-            <div class="invitation-actions">
-              <button class="accept-btn">Accept</button>
-              <button class="decline-btn">Decline</button>
+            <div class="invite-info">
+              <p class="invite-title">Warehouse Party</p>
+              <p class="invite-from">from @dj_alex</p>
+            </div>
+            <div class="invite-actions">
+              <button class="action-button accept" (click)="acceptInvite('invite-1')">
+                <ion-icon name="checkmark-outline"></ion-icon>
+              </button>
+              <button class="action-button decline" (click)="declineInvite('invite-1')">
+                <ion-icon name="close-outline"></ion-icon>
+              </button>
             </div>
           </div>
-          <div class="invitation-item">
-            <div class="invitation-info">
-              <p class="invitation-title">Indie Film Screening</p>
-              <p class="invitation-from">from Cinephiles Group</p>
+          <div class="invite-card" id="invite-2">
+            <div class="invite-avatar-container">
+              <img class="invite-avatar-img" src="https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=150&h=150&fit=crop&crop=face" alt="Cinephiles Group Avatar">
             </div>
-            <div class="invitation-actions">
-              <button class="accept-btn">Accept</button>
-              <button class="decline-btn">Decline</button>
+            <div class="invite-info">
+              <p class="invite-title">Indie Film Screening</p>
+              <p class="invite-from">from Cinephiles Group</p>
+            </div>
+            <div class="invite-actions">
+              <button class="action-button accept" (click)="acceptInvite('invite-2')">
+                <ion-icon name="checkmark-outline"></ion-icon>
+              </button>
+              <button class="action-button decline" (click)="declineInvite('invite-2')">
+                <ion-icon name="close-outline"></ion-icon>
+              </button>
+            </div>
+          </div>
+          <div class="invite-card" id="invite-3">
+            <div class="invite-avatar-container">
+              <img class="invite-avatar-img" src="https://images.unsplash.com/photo-1541961017774-22349e4a1262?w=150&h=150&fit=crop&crop=face" alt="Art Gallery Vernissage">
+            </div>
+            <div class="invite-info">
+              <p class="invite-title">Art Gallery Vernissage</p>
+              <p class="invite-from">from @arte_viva</p>
+            </div>
+            <div class="invite-actions">
+              <button class="action-button accept" (click)="acceptInvite('invite-3')">
+                <ion-icon name="checkmark-outline"></ion-icon>
+              </button>
+              <button class="action-button decline" (click)="declineInvite('invite-3')">
+                <ion-icon name="close-outline"></ion-icon>
+              </button>
             </div>
           </div>
         </div>

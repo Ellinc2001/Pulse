@@ -1,0 +1,59 @@
+<div class="statistics-choice-container">
+  <ion-header class="custom-header">
+    <ion-toolbar>
+      <ion-buttons slot="start">
+        <ion-button fill="clear" (click)="onBackClick()">
+          <ion-icon name="arrow-back" color="light"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+      <ion-title class="header-title">Seleziona Statistiche</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-content class="main-content">
+    <div class="content-wrapper">
+      <h2 class="main-title">Statistiche per {{ eventType }}</h2>
+
+      <!-- Sezioni dinamiche -->
+      <div *ngFor="let section of groupedStatistics" class="statistics-section">
+        <div class="section-header">
+          <h3 class="section-title">{{ section.group }}</h3>
+        </div>
+        <div class="horizontal-scroll">
+          <div class="statistics-grid">
+            <div
+              *ngFor="let stat of section.stats"
+              class="statistic-card"
+              [class.enabled]="stat.enabled"
+            >
+              <div class="card-content">
+                <p class="stat-title">{{ stat.label }}</p>
+                <p class="stat-description" *ngIf="stat.description">
+                  {{ stat.description }}
+                </p>
+                <div class="toggle-container">
+                  <div class="custom-toggle" (click)="onToggleStatistic(stat)">
+                    <input
+                      type="checkbox"
+                      [checked]="stat.enabled"
+                      [id]="'toggle_' + stat.id"
+                      class="toggle-input"
+                    />
+                    <span
+                      class="toggle-track"
+                      [class.active]="stat.enabled"
+                    ></span>
+                    <span
+                      class="toggle-thumb"
+                      [class.active]="stat.enabled"
+                    ></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ion-content>
+</div>

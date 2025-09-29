@@ -1,0 +1,120 @@
+:host {
+  --primary-color: #7f0df2;
+  --card-bg: #191022;
+  --card-bg-light: #2a1f3a;
+  --card-border: rgba(127, 13, 242, 0.3);
+  --glow-shadow: 0 0 15px rgba(127, 13, 242, 0.5);
+  --text-inactive: #a0a0b0;
+  --text-active: #ffffff;
+  --viola-fluo: #7f0df2;
+  --green-fluo: #00f2a9;
+  --red-fluo: #ff3b30;
+  --amber-fluo: #ffcc00;
+}
+
+.timeline-strip {
+  background: linear-gradient(to right, #2a1f3a, #191022);
+}
+
+.delay-indicator {
+  position: absolute;
+}
+
+.delay-line {
+  position: absolute;
+  height: 12px;
+  width: 1px;
+  transform: translateX(-50%);
+}
+
+.delay-tooltip {
+  position: absolute;
+  padding: 2px 6px;
+  border-radius: 9999px;
+  font-size: 10px;
+  white-space: nowrap;
+  color: var(--text-active);
+  transform: translateX(-50%);
+}
+
+.activity-slot {
+  position: absolute;
+  height: 100%;
+  background-color: rgba(44, 44, 74, 0.5);
+}
+
+.activity-label {
+  position: absolute;
+  top: -24px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: 'Noto Sans', sans-serif;
+  font-size: 12px;
+  color: var(--text-inactive);
+  white-space: nowrap;
+}
+
+.ora-line {
+  position: absolute;
+  top: -24px;
+  bottom: -24px;
+  width: 1.5px;
+  background-color: var(--primary-color);
+  box-shadow: 0 0 8px var(--primary-color);
+}
+
+.ora-label {
+  position: absolute;
+  top: -48px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--primary-color);
+  text-shadow: 0 0 8px var(--primary-color);
+}
+
+// Color utilities
+.bg-red-fluo {
+  background-color: var(--red-fluo);
+}
+
+.bg-amber-fluo {
+  background-color: var(--amber-fluo);
+}
+
+.bg-green-fluo {
+  background-color: var(--green-fluo);
+}
+
+.text-shadow-glow {
+  text-shadow: 0 0 8px var(--primary-color);
+}
+
+.text-shadow-red-glow {
+  text-shadow: 0 0 5px var(--red-fluo);
+}
+
+.text-shadow-amber-glow {
+  text-shadow: 0 0 5px var(--amber-fluo);
+}
+
+.shadow-glow {
+  box-shadow: var(--glow-shadow);
+}
+
+// Responsive adjustments
+@media (max-width: 480px) {
+  .activity-label {
+    font-size: 10px;
+  }
+  
+  .ora-label {
+    font-size: 10px;
+  }
+  
+  .delay-tooltip {
+    font-size: 8px;
+    padding: 1px 4px;
+  }
+}

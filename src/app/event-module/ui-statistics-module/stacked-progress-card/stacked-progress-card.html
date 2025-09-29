@@ -1,0 +1,36 @@
+<ion-card class="stacked-progress-card">
+  <div class="card-header">
+    <p class="card-title">{{ title }}</p>
+    @if (showMenu) {
+      <ion-icon 
+        name="ellipsis-horizontal" 
+        class="menu-icon">
+      </ion-icon>
+    }
+  </div>
+
+  <div class="progress-container">
+    <div class="progress-bar">
+      @for (segment of segments; track $index) {
+        <div 
+          class="progress-segment"
+          [ngStyle]="getSegmentStyle(segment)">
+        </div>
+      }
+    </div>
+  </div>
+
+  <div class="legend">
+    @for (segment of segments; track $index) {
+      <div class="legend-item">
+        <div 
+          class="legend-dot"
+          [ngStyle]="getLegendDotStyle(segment)">
+        </div>
+        <span class="legend-text">
+          {{ segment.label }}: {{ segment.value }}{{ unit }}
+        </span>
+      </div>
+    }
+  </div>
+</ion-card>

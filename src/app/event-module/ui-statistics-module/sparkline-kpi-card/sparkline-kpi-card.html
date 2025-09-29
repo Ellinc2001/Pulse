@@ -1,0 +1,48 @@
+<div class="sparkline-kpi-card">
+  <div class="card-header">
+    <div class="metric-info">
+      <p class="metric-title">{{ data.title }}</p>
+      
+      @if (data.trend) {
+        <div class="trend-indicator">
+          <ion-icon 
+            [name]="getTrendIcon()" 
+            [class]="getTrendColor()">
+          </ion-icon>
+          <span [class]="getTrendColor() + ' trend-value'">
+            {{ formatTrendValue() }}
+          </span>
+        </div>
+      }
+    </div>
+    
+    <div class="metric-value">
+      <h3 class="value-text">{{ data.value }}</h3>
+      @if (data.unit) {
+        <span class="unit-text">{{ data.unit }}</span>
+      }
+    </div>
+  </div>
+
+  @if (sparklinePath) {
+    <div class="sparkline-container">
+      <svg 
+        class="sparkline-svg" 
+        [attr.viewBox]="'0 0 ' + width + ' ' + height"
+        preserveAspectRatio="none">
+        
+        <!-- Fill area under curve -->
+        <path 
+          class="sparkline-fill" 
+          [attr.d]="sparklineFillPath">
+        </path>
+        
+        <!-- Main line -->
+        <path 
+          class="sparkline-line" 
+          [attr.d]="sparklinePath">
+        </path>
+      </svg>
+    </div>
+  }
+</div>

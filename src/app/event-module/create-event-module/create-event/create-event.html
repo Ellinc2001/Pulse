@@ -1,0 +1,45 @@
+<ion-content class="create-event-content">
+  <div class="container">
+    <h1 class="main-title">Crea Evento</h1>
+    
+    <div class="content-sections">
+      <!-- =======================
+           SEZIONE: Categorie evento (da M)
+           ======================= -->
+      <section class="category-section">
+        <h2 class="section-title">Seleziona Tipologia Evento</h2>
+
+        <!-- Loop gruppi (MUSIC, BIZ, FOOD, ...) -->
+        @for (group of eventGroups; track group.key) {
+          <div class="category-group">
+            <h3 class="group-label">{{ group.label }}</h3>
+
+            <div class="category-grid">
+              <!-- Loop tipologie dentro il gruppo -->
+              @for (category of group.items; track category.id) {
+                <div
+                  class="category-card"
+                  [class.selected]="category.selected"
+                  (click)="selectCategory(category.id)">
+                  <ion-icon [name]="category.icon" class="category-icon"></ion-icon>
+                  <p class="category-name">{{ category.name }}</p>
+                </div>
+              }
+            </div>
+          </div>
+        }
+      </section>
+
+   </div>
+
+    <div class="create-button-container">
+      <ion-button 
+        expand="block" 
+        class="create-button"
+        [disabled]="!canCreateEvent"
+        (click)="createEvent()">
+        Crea Evento
+      </ion-button>
+    </div>
+  </div>
+</ion-content>

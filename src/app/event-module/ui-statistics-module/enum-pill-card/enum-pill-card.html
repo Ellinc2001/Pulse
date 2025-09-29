@@ -1,0 +1,22 @@
+<div class="enum-pill-card">
+  <div class="card-header">
+    <div class="title-section">
+      <span class="material-symbols-outlined card-icon" *ngIf="icon">{{ icon }}</span>
+      <p class="card-title">{{ title }}</p>
+    </div>
+  </div>
+  
+  <div class="pills-container">
+    @for (option of options; track $index) {
+      <div 
+        class="pill"
+        [class.active]="isSelected(option)"
+        [class.inactive]="!isSelected(option)"
+        (click)="onOptionSelect(option)"
+      >
+        <span class="material-symbols-outlined pill-icon" *ngIf="option.icon">{{ option.icon }}</span>
+        <span class="pill-label">{{ option.label }}</span>
+      </div>
+    }
+  </div>
+</div>
