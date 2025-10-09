@@ -10,7 +10,7 @@ import { StatisticsChoiceComponent } from './create-event-module/statistics-choi
 const routes: Routes = [
   { path: '', component: EventsSearchComponent },   // /event
   { path: 'search', component: EventsSearchComponent }, // /event/search
-  { path: 'detail/:id', component: LiveEventDetail },  // /event/detail/123
+  { path: 'detail', component: LiveEventDetail },  // /event/detail/123
   { path: 'real-time-stats', component: RealTimeStatsComponent },
   { path: 'real-time-stats-notify', component: RealTimeStatsNotify },
     {

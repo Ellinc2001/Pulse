@@ -1,0 +1,118 @@
+.range-slider {
+  width: 100%;
+}
+
+.slider-label {
+  display: block;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.9);
+  margin-bottom: 1rem;
+}
+
+.slider-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.emoji {
+  font-size: 1.5rem;
+  user-select: none;
+  
+  &.left-emoji, &.right-emoji {
+    flex-shrink: 0;
+  }
+}
+
+.slider-track {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.slider {
+  width: 100%;
+  height: 6px;
+  border-radius: 3px;
+  background: linear-gradient(90deg, 
+    rgba(139, 92, 246, 0.2) 0%, 
+    rgba(139, 92, 246, 0.4) 100%);
+  outline: none;
+  -webkit-appearance: none;
+  appearance: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+
+  &::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #8b5cf6 0%, #a78bfa 100%);
+    cursor: pointer;
+    box-shadow: 0 0 15px rgba(139, 92, 246, 0.6),
+                0 0 30px rgba(139, 92, 246, 0.3);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+    &:hover {
+      transform: scale(1.2);
+      box-shadow: 0 0 20px rgba(139, 92, 246, 0.8),
+                  0 0 40px rgba(139, 92, 246, 0.4);
+    }
+  }
+
+  &::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #8b5cf6 0%, #a78bfa 100%);
+    cursor: pointer;
+    border: none;
+    box-shadow: 0 0 15px rgba(139, 92, 246, 0.6),
+                0 0 30px rgba(139, 92, 246, 0.3);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+    &:hover {
+      transform: scale(1.2);
+      box-shadow: 0 0 20px rgba(139, 92, 246, 0.8),
+                  0 0 40px rgba(139, 92, 246, 0.4);
+    }
+  }
+}
+
+.slider-labels {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 0.25rem;
+  
+  span {
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.5);
+    font-weight: 500;
+  }
+}
+
+.slider-text-labels {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 0.25rem;
+  
+  span {
+    font-size: 0.875rem;
+    color: rgba(255, 255, 255, 0.7);
+    font-weight: 600;
+  }
+}
+
+.center-emoji-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-top: 0.75rem;
+  
+  .center-emoji {
+    font-size: 2rem;
+  }
+}

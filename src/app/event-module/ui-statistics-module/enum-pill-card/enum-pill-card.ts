@@ -23,6 +23,12 @@ export class EnumPillCardComponent {
 
   @Output() selectionChange = new EventEmitter<string>()
 
+    /** Identificatore evento (verrà usato dal data-layer/WebSocket) */
+  @Input() eventId!: string;
+
+  /** Identificatore statistica (es. 'capacity_utilization', 'avg_basket_value', …) */
+  @Input() statId!: string;
+
   onOptionSelect(option: EnumOption) {
     if (this.selectedValue === option.value && this.allowDeselect) {
       this.selectedValue = ""

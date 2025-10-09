@@ -1,0 +1,12 @@
+<div class="toggle-switch-wrapper">
+  <p *ngIf="label" class="control-label">{{ label }}</p>
+  <div class="toggle-container">
+    <span *ngIf="toggleLabel" class="toggle-label">{{ toggleLabel }}</span>
+    <button 
+      class="toggle-switch" 
+      [class.active]="checked"
+      (click)="onToggle()">
+      <span class="toggle-thumb"></span>
+    </button>
+  </div>
+</div>

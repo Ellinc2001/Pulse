@@ -1,5 +1,22 @@
-import { Component, type OnInit } from "@angular/core"
-import { Location } from "@angular/common"
+import { Component, OnInit } from "@angular/core";
+import { Location } from "@angular/common";
+import { CommonModule } from "@angular/common";
+
+/** IMPORT: usa i tuoi export reali */
+import {
+  STAT_META,
+  REGISTRY_COMPONENT_SELECTOR,
+  REGISTRY_INPUT_COMPONENT_SELECTOR,
+} from "../stat-visual-map";
+
+/** Piccolo tipo di appoggio per il rendering */
+type RenderEntry = {
+  id: string;
+  label: string;
+  group: string;
+  inputSelector: string; // es: 'app-range-slider'
+  uiSelector: string;    // es: 'app-progress-metric-card' (se mai ti servisse per preview)
+};
 
 @Component({
   selector: "app-real-time-stats-notify",
@@ -8,80 +25,78 @@ import { Location } from "@angular/common"
   standalone: false,
 })
 export class RealTimeStatsNotify implements OnInit {
-  // Queue time selection
-  selectedQueueTime = "0"
+  /** Event id di esempio (passalo davvero quando navighi qui) */
+  eventId = "evt_12345_demo";
 
-  // Sensory & Comfort controls
-  hazeLevel = 4
-  volumeLevel = 3
-  stroboLevel = "basso"
-  thermalComfort = "ok"
+  /** Esempio: id statistiche scelte dall’organizzatore (ordine intenzionale) */
+  chosenStatIds: string[] = [
+    "capacity_utilization",
+    "area_crowding_pct",
+    "timeline_program",
+    "food_stand_wait",
+    "avg_basket_value",
+    "sound_quality",
+    "sentiment_share",
+    "wifi_quality",
+    "parking_occupancy",
+  ];
 
-  // Ambiente & Servizi controls
-  ventilationRating = 3
-  bathroomRating = 2
-  seatingAvailable = true
-
-  // Vibe & Energia controls
-  energyLevel = 4
-  selectedMoods: string[] = ["Euforico", "Sognante"]
-  moodOptions: string[] = ["Chill", "Euforico", "Rilassato", "Scatenato", "Sognante", "Nostalgico"]
-
-  // Sicurezza & Qualità controls
-  securityRating = 3
-  drinkRating = 3
+  /** Mappa gruppo → entries, per sezioni ordinate */
+  groupedEntries: Array<{ group: string; items: RenderEntry[] }> = [];
 
   constructor(private location: Location) {}
 
-  ngOnInit() {
-    // Initialize component
+  ngOnInit(): void {
+    this.rebuildEntries();
   }
 
-  // Navigation methods
+  /** Ricava dai chosenStatIds i componenti di input corretti e li raggruppa per 'group' */
+  private rebuildEntries(): void {
+    const seenGroups: string[] = [];
+    const byGroup = new Map<string, RenderEntry[]>();
+
+    for (const id of this.chosenStatIds) {
+      const meta = STAT_META[id];
+      if (!meta) {
+        console.warn(`[notify] stat id non trovato in STAT_META: ${id}`);
+        continue;
+      }
+      const inputSelector = REGISTRY_INPUT_COMPONENT_SELECTOR[meta.inputComponent];
+      const uiSelector = REGISTRY_COMPONENT_SELECTOR[meta.uiComponent];
+
+      if (!inputSelector) {
+        console.warn(`[notify] inputSelector non risolto per stat: ${id}`);
+        continue;
+      }
+
+      const entry: RenderEntry = {
+        id,
+        label: meta.label,
+        group: meta.group ?? "Altro",
+        inputSelector,
+        uiSelector,
+      };
+
+      if (!byGroup.has(entry.group)) {
+        byGroup.set(entry.group, []);
+        seenGroups.push(entry.group); // preserva l’ordine di comparsa
+      }
+      byGroup.get(entry.group)!.push(entry);
+    }
+
+    this.groupedEntries = seenGroups.map((g) => ({
+      group: g,
+      items: byGroup.get(g)!,
+    }));
+  }
+
+  // NAV
   goBack() {
-    this.location.back()
+    this.location.back();
   }
 
-  // Queue time selection
-  selectQueueTime(time: string) {
-    this.selectedQueueTime = time
-  }
-
-  // Mood selection (multi-select)
-  toggleMood(mood: string) {
-    const index = this.selectedMoods.indexOf(mood)
-    if (index > -1) {
-      this.selectedMoods.splice(index, 1)
-    } else {
-      this.selectedMoods.push(mood)
-    }
-  }
-
-  // Chat functionality
   openChat() {
-    // Implement chat functionality
-    console.log("Opening chat...")
-  }
-
-  // Submit data (could be used to send data to real-time-stats component)
-  submitData() {
-    const statsData = {
-      queueTime: this.selectedQueueTime,
-      haze: this.hazeLevel,
-      volume: this.volumeLevel,
-      strobo: this.stroboLevel,
-      thermal: this.thermalComfort,
-      ventilation: this.ventilationRating,
-      bathroom: this.bathroomRating,
-      seating: this.seatingAvailable,
-      energy: this.energyLevel,
-      moods: this.selectedMoods,
-      security: this.securityRating,
-      drinks: this.drinkRating,
-    }
-
-    console.log("Submitting stats data:", statsData)
-    // Here you would typically send this data to a service
-    // that updates the real-time-stats component
+    // hook verso la tua chat
+    console.log("open chat");
   }
 }

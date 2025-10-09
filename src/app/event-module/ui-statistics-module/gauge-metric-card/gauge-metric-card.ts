@@ -20,6 +20,12 @@ export interface GaugeData {
   standalone: false
 })
 export class GaugeMetricCardComponent implements OnInit {
+
+    /** Identificatore evento (verrà usato dal data-layer/WebSocket) */
+  @Input() eventId!: string;
+
+  /** Identificatore statistica (es. 'capacity_utilization', 'avg_basket_value', …) */
+  @Input() statId!: string;
   @Input() data: GaugeData = {
     title: "Wait Time",
     icon: "hourglass_empty",

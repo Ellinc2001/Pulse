@@ -32,6 +32,19 @@ import { StackedProgressCardComponent } from './stacked-progress-card/stacked-pr
   imports: [
     CommonModule,
     IonicModule
+  ],
+  exports: [
+    BarRatingCardComponent,
+    CircleRatingCardComponent,
+    DiscreteHistogramCardComponent,
+    DonutChartCardComponent,
+    EnumPillCardComponent,
+    GaugeMetricCardComponent,
+    MinimalTimelineCardComponent,
+    ProgressMetricCardComponent,
+    RankingListCardComponent,
+    SparklineKpiCardComponent,
+    StackedProgressCardComponent,
   ]
 })
 export class UiStatisticsComponentsModule { }

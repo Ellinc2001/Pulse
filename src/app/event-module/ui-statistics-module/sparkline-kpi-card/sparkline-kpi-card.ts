@@ -29,6 +29,12 @@ export class SparklineKpiCardComponent implements OnInit {
   @Input() width = 100
   @Input() height = 30
 
+    /** Identificatore evento (verrà usato dal data-layer/WebSocket) */
+  @Input() eventId!: string;
+
+  /** Identificatore statistica (es. 'capacity_utilization', 'avg_basket_value', …) */
+  @Input() statId!: string;
+  
   sparklinePath = ""
   sparklineFillPath = ""
 

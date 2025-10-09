@@ -19,6 +19,12 @@ export class RankingListCardComponent {
   @Input() items: RankingItem[] = []
   @Input() showMenuIcon = true
 
+    /** Identificatore evento (verrà usato dal data-layer/WebSocket) */
+  @Input() eventId!: string;
+
+  /** Identificatore statistica (es. 'capacity_utilization', 'avg_basket_value', …) */
+  @Input() statId!: string;
+
   getProgressPercentage(item: RankingItem): number {
     if (item.maxValue) {
       return (item.value / item.maxValue) * 100

@@ -15,6 +15,12 @@ export class BarRatingCardComponent {
   @Input() maxValue = 5
   @Input() showFraction = true
 
+    /** Identificatore evento (verrà usato dal data-layer/WebSocket) */
+  @Input() eventId!: string;
+
+  /** Identificatore statistica (es. 'capacity_utilization', 'avg_basket_value', …) */
+  @Input() statId!: string;
+
   get bars(): boolean[] {
     const bars = []
     for (let i = 0; i < this.maxValue; i++) {

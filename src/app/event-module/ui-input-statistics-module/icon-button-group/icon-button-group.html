@@ -1,0 +1,14 @@
+<div class="icon-button-group-wrapper">
+  <p *ngIf="label" class="control-label">{{ label }}</p>
+  <div class="icon-button-group">
+    <button 
+      *ngFor="let option of options"
+      class="icon-btn" 
+      [class.active]="value === option.value"
+      [class.ok-btn]="option.value === 'ok'"
+      (click)="onButtonClick(option.value)">
+      <span *ngIf="option.icon" class="icon-content">{{ option.icon }}</span>
+      <span *ngIf="option.label" class="label-content">{{ option.label }}</span>
+    </button>
+  </div>
+</div>

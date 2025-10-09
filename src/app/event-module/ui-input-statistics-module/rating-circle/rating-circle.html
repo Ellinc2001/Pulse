@@ -1,0 +1,11 @@
+<div class="rating-circles-wrapper">
+  <p *ngIf="label" class="control-label">{{ label }}</p>
+  <div class="rating-circles">
+    <div 
+      *ngFor="let i of circles" 
+      class="rating-circle"
+      [class.active]="value >= i"
+      (click)="onCircleClick(i)">
+    </div>
+  </div>
+</div>

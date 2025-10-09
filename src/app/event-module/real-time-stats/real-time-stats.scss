@@ -692,3 +692,12 @@
     opacity: 1;
   }
 }
+.dynamic-stats-grid {
+  display: grid;
+  gap: 12px;                 /* 👈 spazio verticale/orizzontale tra i componenti */
+  grid-auto-flow: row;
+  /* Se vuoi due colonne su schermi larghi:
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  */
+}
+

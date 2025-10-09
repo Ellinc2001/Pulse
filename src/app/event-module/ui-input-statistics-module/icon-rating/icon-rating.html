@@ -1,0 +1,11 @@
+<div class="icon-rating-wrapper">
+  <p *ngIf="label" class="control-label">{{ label }}</p>
+  <div class="icon-rating">
+    <ion-icon 
+      *ngFor="let i of icons" 
+      [name]="iconName + '-outline'"
+      [class.active]="value >= i"
+      (click)="onIconClick(i)">
+    </ion-icon>
+  </div>
+</div>

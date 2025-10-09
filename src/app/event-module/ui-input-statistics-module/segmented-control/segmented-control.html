@@ -1,0 +1,12 @@
+<div class="segmented-control-wrapper">
+  <p *ngIf="label" class="control-label">{{ label }}</p>
+  <div class="segmented-control">
+    <button 
+      *ngFor="let option of options"
+      class="segment" 
+      [class.active]="value === option.value"
+      (click)="onSegmentClick(option.value)">
+      {{ option.label }}
+    </button>
+  </div>
+</div>

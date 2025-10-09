@@ -11,8 +11,9 @@ import { LiveVideosComponent } from './live-videos/live-videos';
 import { RealTimeStatsComponent } from './real-time-stats/real-time-stats';
 import { LiveEventDetail } from './live-event-detail/live-event-detail';
 import { FormsModule } from '@angular/forms';
-import { UiComponentsModule } from '../ui-components/ui-components.module';
 import { RealTimeStatsNotify } from './real-time-stats-notify/real-time-stats-notify';
+import { UiStatisticsComponentsModule } from './ui-statistics-module/ui-statistics-components.module';
+import { UiInputStatisticsModuleModule } from './ui-input-statistics-module/ui-input-statistics-module.module';
 
 
 @NgModule({
@@ -31,7 +32,8 @@ import { RealTimeStatsNotify } from './real-time-stats-notify/real-time-stats-no
     EventModuleRoutingModule,
     IonicModule,
     FormsModule,
-    UiComponentsModule
+    UiStatisticsComponentsModule,
+    UiInputStatisticsModuleModule
 ]
 })
 export class EventModule { }

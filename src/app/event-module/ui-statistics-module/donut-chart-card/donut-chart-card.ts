@@ -22,6 +22,12 @@ export class DonutChartCardComponent implements OnInit {
   @Input() centerSubtext = "Total"
   @Input() showMenu = true
 
+    /** Identificatore evento (verrà usato dal data-layer/WebSocket) */
+  @Input() eventId!: string;
+
+  /** Identificatore statistica (es. 'capacity_utilization', 'avg_basket_value', …) */
+  @Input() statId!: string;
+
   conicGradient = ""
   totalValue = 0
 

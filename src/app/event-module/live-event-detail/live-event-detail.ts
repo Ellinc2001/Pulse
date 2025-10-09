@@ -159,6 +159,6 @@ export class LiveEventDetail {
   }
 
   navigateToEventToRealimeStats(): void {
-    this.router.navigate(['events-search/real-time-stats'], { state: { event: this.event } });
+    this.router.navigate(['event/real-time-stats'], { state: { event: this.event } });
   }
 }

@@ -12,246 +12,77 @@
   </header>
 
   <main class="main-content">
-    <section class="stats-section">
-      <h2 class="section-title">Attese & Code</h2>
-      <div class="card">
-        <div class="queue-section">
-          <p class="queue-title">Queue (ingresso/bar/bagni/guardaroba)</p>
-          <p class="queue-subtitle">Seleziona il tempo di attesa percepito</p>
-          <div class="queue-chips">
-            <button 
-              class="chip" 
-              [class.active]="selectedQueueTime === '0'"
-              (click)="selectQueueTime('0')">
-              0 min
-            </button>
-            <button 
-              class="chip" 
-              [class.active]="selectedQueueTime === '5'"
-              (click)="selectQueueTime('5')">
-              5 min
-            </button>
-            <button 
-              class="chip" 
-              [class.active]="selectedQueueTime === '10'"
-              (click)="selectQueueTime('10')">
-              10 min
-            </button>
-            <button 
-              class="chip" 
-              [class.active]="selectedQueueTime === '15'"
-              (click)="selectQueueTime('15')">
-              15 min
-            </button>
-            <button 
-              class="chip" 
-              [class.active]="selectedQueueTime === '20'"
-              (click)="selectQueueTime('20')">
-              20 min
-            </button>
-            <button 
-              class="chip" 
-              [class.active]="selectedQueueTime === '30'"
-              (click)="selectQueueTime('30')">
-              30+ min
-            </button>
-          </div>
-        </div>
-      </div>
-    </section>
+    @for (group of groupedEntries; track group.group) {
+      <section class="stats-section">
+        <h2 class="section-title">{{ group.group }}</h2>
 
-    <section class="stats-section">
-      <h2 class="section-title">Sensory & Comfort</h2>
-      <div class="card sensory-card">
-        <div class="control-group fog-effect">
-          <label class="control-label">Haze/Fumo percepito</label>
-          <input 
-            type="range" 
-            min="1" 
-            max="5" 
-            [(ngModel)]="hazeLevel"
-            class="slider haze-slider">
-          <div class="slider-labels">
-            <span>1</span><span>2</span><span>3</span><span>4</span><span>5</span>
-          </div>
-        </div>
+        @for (entry of group.items; track entry.id) {
+          <div class="card">
+            <div class="control-group">
+              <p class="control-label">{{ entry.label }}</p>
 
-        <div class="control-group">
-          <label class="control-label">Volume percepito</label>
-          <div class="volume-control">
-            <span class="volume-emoji">😴</span>
-            <input 
-              type="range" 
-              min="1" 
-              max="5" 
-              [(ngModel)]="volumeLevel"
-              class="slider volume-slider">
-            <span class="volume-emoji">😵</span>
-          </div>
-          <div class="volume-center">
-            <span class="volume-emoji-center">🙂</span>
-          </div>
-        </div>
+              @switch (entry.inputSelector) {
 
-        <div class="control-group">
-          <p class="control-label">Fastidio Strobo</p>
-          <div class="segmented-control">
-            <button 
-              class="segment" 
-              [class.active]="stroboLevel === 'basso'"
-              (click)="stroboLevel = 'basso'">
-              Basso
-            </button>
-            <button 
-              class="segment" 
-              [class.active]="stroboLevel === 'medio'"
-              (click)="stroboLevel = 'medio'">
-              Medio
-            </button>
-            <button 
-              class="segment" 
-              [class.active]="stroboLevel === 'alto'"
-              (click)="stroboLevel = 'alto'">
-              Alto
-            </button>
-          </div>
-        </div>
+                @case ('app-chip-selector') {
+                  <app-chip-selector
+                    [eventId]="eventId"
+                    [statId]="entry.id">
+                  </app-chip-selector>
+                }
 
-        <div class="control-group">
-          <p class="control-label">Comfort Termico</p>
-          <div class="thermal-control">
-            <button 
-              class="thermal-btn" 
-              [class.active]="thermalComfort === 'cold'"
-              (click)="thermalComfort = 'cold'">
-              ❄️
-            </button>
-            <button 
-              class="thermal-btn ok-btn" 
-              [class.active]="thermalComfort === 'ok'"
-              (click)="thermalComfort = 'ok'">
-              OK
-            </button>
-            <button 
-              class="thermal-btn" 
-              [class.active]="thermalComfort === 'hot'"
-              (click)="thermalComfort = 'hot'">
-              🔥
-            </button>
-          </div>
-        </div>
-      </div>
-    </section>
+                @case ('app-icon-button-group') {
+                  <app-icon-button-group
+                    [eventId]="eventId"
+                    [statId]="entry.id">
+                  </app-icon-button-group>
+                }
 
-    <section class="stats-section">
-      <h2 class="section-title">Ambiente & Servizi</h2>
-      <div class="card">
-        <div class="control-group">
-          <p class="control-label">Ventilazione / Aria</p>
-          <div class="rating-circles">
-            <div 
-              *ngFor="let i of [1,2,3,4,5]" 
-              class="rating-circle"
-              [class.active]="ventilationRating >= i"
-              (click)="ventilationRating = i">
+                @case ('app-icon-rating') {
+                  <app-icon-rating
+                    [eventId]="eventId"
+                    [statId]="entry.id">
+                  </app-icon-rating>
+                }
+
+                @case ('app-range-slider') {
+                  <app-range-slider
+                    [eventId]="eventId"
+                    [statId]="entry.id">
+                  </app-range-slider>
+                }
+
+                @case ('app-rating-circle') {
+                  <app-rating-circle
+                    [eventId]="eventId"
+                    [statId]="entry.id">
+                  </app-rating-circle>
+                }
+
+                @case ('app-segmented-control') {
+                  <app-segmented-control
+                    [eventId]="eventId"
+                    [statId]="entry.id">
+                  </app-segmented-control>
+                }
+
+                @case ('app-toggle-switch') {
+                  <app-toggle-switch
+                    [eventId]="eventId"
+                    [statId]="entry.id">
+                  </app-toggle-switch>
+                }
+
+                @default {
+                  <div class="fallback-input">
+                    <em>Configurazione non trovata per “{{ entry.id }}”.</em>
+                  </div>
+                }
+              }
             </div>
           </div>
-        </div>
-
-        <div class="control-group">
-          <p class="control-label">Pulizia Bagni</p>
-          <div class="rating-circles">
-            <div 
-              *ngFor="let i of [1,2,3,4,5]" 
-              class="rating-circle"
-              [class.active]="bathroomRating >= i"
-              (click)="bathroomRating = i">
-            </div>
-          </div>
-        </div>
-
-        <div class="control-group toggle-group">
-          <p class="control-label">Posti a Sedere</p>
-          <div class="toggle-wrapper">
-            <span class="toggle-label">Disponibili?</span>
-            <button 
-              class="toggle-switch" 
-              [class.active]="seatingAvailable"
-              (click)="seatingAvailable = !seatingAvailable">
-              <span class="toggle-thumb"></span>
-            </button>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="stats-section">
-      <h2 class="section-title">Vibe & Energia</h2>
-      <div class="card energy-card">
-        <div class="control-group">
-          <label class="control-label energy-label">Energia Pista</label>
-          <div class="energy-slider-wrapper">
-            <input 
-              type="range" 
-              min="1" 
-              max="5" 
-              [(ngModel)]="energyLevel"
-              class="slider energy-slider">
-            <div class="energy-labels">
-              <span>Low</span>
-              <span>Peak</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="control-group">
-          <p class="control-label">Mood (multi-tag)</p>
-          <div class="mood-chips">
-            <button 
-              *ngFor="let mood of moodOptions" 
-              class="mood-chip" 
-              [class.active]="selectedMoods.includes(mood)"
-              (click)="toggleMood(mood)">
-              {{ mood }}
-            </button>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="stats-section">
-      <h2 class="section-title">Sicurezza & Qualità</h2>
-      <div class="card">
-        <div class="control-group">
-          <p class="control-label">Percezione Sicurezza</p>
-          <div class="security-rating">
-            <ion-icon 
-              *ngFor="let i of [1,2,3,4,5]" 
-              name="shield-checkmark-outline"
-              [class.active]="securityRating >= i"
-              (click)="securityRating = i">
-            </ion-icon>
-          </div>
-        </div>
-
-        <div class="control-group">
-          <p class="control-label">Qualità Drink</p>
-          <div class="drink-rating">
-            <ion-icon 
-              *ngFor="let i of [1,2,3,4,5]" 
-              name="wine-outline"
-              [class.active]="drinkRating >= i"
-              (click)="drinkRating = i">
-            </ion-icon>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="footer-info">
-      <p>Grazie per il tuo contributo! I dati sono anonimi.</p>
-      <p>Pull-to-refresh per vedere le statistiche aggiornate.</p>
-    </section>
+        }
+      </section>
+    }
   </main>
 
   <div class="floating-chat">

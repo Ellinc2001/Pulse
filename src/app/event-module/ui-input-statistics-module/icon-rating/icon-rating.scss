@@ -1,0 +1,35 @@
+.icon-rating-wrapper {
+  width: 100%;
+}
+
+.control-label {
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.9);
+  margin-bottom: 0.75rem;
+}
+
+.icon-rating {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+
+  ion-icon {
+    font-size: 2rem;
+    color: rgba(139, 92, 246, 0.3);
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+    &:hover {
+      color: rgba(139, 92, 246, 0.6);
+      transform: scale(1.15);
+    }
+
+    &.active {
+      color: #a78bfa;
+      filter: drop-shadow(0 0 8px rgba(139, 92, 246, 0.6))
+              drop-shadow(0 0 16px rgba(139, 92, 246, 0.4));
+      transform: scale(1.15);
+    }
+  }
+}

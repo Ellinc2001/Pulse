@@ -20,6 +20,12 @@ export class DiscreteHistogramCardComponent {
   @Input() showMenu = true
   @Input() maxHeight = 120 // Maximum height for bars in pixels
 
+    /** Identificatore evento (verrà usato dal data-layer/WebSocket) */
+  @Input() eventId!: string;
+
+  /** Identificatore statistica (es. 'capacity_utilization', 'avg_basket_value', …) */
+  @Input() statId!: string;
+
   get normalizedData() {
     if (!this.data.length) return []
 

@@ -117,6 +117,6 @@ export class DraggableBadgeComponent implements OnInit, OnDestroy {
       this.suppressNextClick = false;
       return;
     }
-    this.router.navigate(['/events-search/real-time-stats-notify']);
+    this.router.navigate(['event/real-time-stats-notify']);
   }
 }

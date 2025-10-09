@@ -1,0 +1,32 @@
+<div class="range-slider" [class]="'variant-' + variant">
+  <label *ngIf="label" class="slider-label">{{ label }}</label>
+  
+  <div class="slider-wrapper">
+    <span *ngIf="leftEmoji" class="emoji left-emoji">{{ leftEmoji }}</span>
+    
+    <div class="slider-track">
+      <input 
+        type="range" 
+        [min]="min" 
+        [max]="max" 
+        [value]="value"
+        (input)="onValueChange($event)"
+        class="slider">
+      
+      <div *ngIf="showLabels && !leftLabel" class="slider-labels">
+        <span *ngFor="let num of labels">{{ num }}</span>
+      </div>
+      
+      <div *ngIf="leftLabel && rightLabel" class="slider-text-labels">
+        <span>{{ leftLabel }}</span>
+        <span>{{ rightLabel }}</span>
+      </div>
+    </div>
+    
+    <span *ngIf="rightEmoji" class="emoji right-emoji">{{ rightEmoji }}</span>
+  </div>
+  
+  <div *ngIf="centerEmoji" class="center-emoji-wrapper">
+    <span class="emoji center-emoji">{{ centerEmoji }}</span>
+  </div>
+</div>

@@ -1,31 +1,13 @@
-import { Component, type OnInit } from "@angular/core"
-import { Router, ActivatedRoute } from "@angular/router"
+import { Component, OnInit } from "@angular/core";
+import { Router, ActivatedRoute } from "@angular/router";
 
-export interface EventData {
-  id: string
-  title: string
-  // …aggiungi ciò che usi altrove
-}
-
-export interface StatsData {
-  attendees: { onSite: number; arriving: number }
-  vibe: string
-  availability: "Alta" | "Media" | "Bassa"
-  travelTime: string
-  eventHeat: number // 0..3
-  ratings: { average: number; favorites: number } // 0..5
-  pricing: string
-  currentArtist: string
-  nextArtist: string
-  nextArtistTime: string
-  capacity: number
-  energyLevel: number
-  volumeLevel: number
-  stroboLevel: string
-  securityLevel: number
-  hazeLevel: number
-  timeline: Array<{ title: string; time: string; active?: boolean }>
-}
+// 👇 usa SOLO i tipi / mappe già esistenti
+import {
+  STAT_META,
+  REGISTRY_COMPONENT_SELECTOR,
+  type UiComponentKey,
+  type EventType,
+} from "../stat-visual-map";
 
 @Component({
   selector: "app-real-time-stats",
@@ -34,70 +16,109 @@ export interface StatsData {
   standalone: false,
 })
 export class RealTimeStatsComponent implements OnInit {
-  event: EventData | null = null
+  event: { id: string; title: string } | null = null;
 
-  statsData: StatsData = {
-    attendees: { onSite: 1200, arriving: 150 },
-    vibe: "Euforico e Scatenato",
-    availability: "Media",
-    travelTime: "~12 min",
-    eventHeat: 2,
-    ratings: { average: 4.8, favorites: 4.9 },
-    pricing: "€15-€50",
-    currentArtist: "Peak Time Energy",
-    nextArtist: "Closing Set",
-    nextArtistTime: "03:00",
-    capacity: 85,
-    energyLevel: 4,
-    volumeLevel: 88,
-    stroboLevel: "Medio",
-    securityLevel: 4,
-    hazeLevel: 70,
-    timeline: [
-      { title: "Guest DJ Set Start", time: "01:15" },
-      { title: "Peak Time Energy", time: "Adesso", active: true },
-      { title: "Closing Set", time: "03:00" },
-    ],
+  // (opzionale) se lo hai nel dettaglio evento, impostalo per filtrare con appliesTo
+  eventType?: EventType; // es: 'club'
+
+  /** Esempio: id statistiche scelte dall’organizzatore (ordine intenzionale) */
+  chosenStatIds: string[] = [
+    "capacity_utilization",
+    "area_crowding_pct",
+    "timeline_program",
+    "food_stand_wait",
+    "avg_basket_value",
+    "sound_quality",
+    "sentiment_share",
+    "wifi_quality",
+    "parking_occupancy",
+  ];
+
+  /** Risultato per il template (niente tipo custom esportato) */
+  widgets: Array<{
+    id: string;
+    label: string;
+    description?: string;
+    component: UiComponentKey;
+    selector: string;
+  }> = [];
+
+  // ────────────────────────────────────────────────────────────
+  // Algoritmo: variety-first, stable
+  // 1) rispetta l’ordine scelto (stable)
+  // 2) bilancia i componenti alternando i ComponentKey (round-robin per bucket)
+  // 3) (opzionale) filtra per appliesTo se hai eventType
+  // ────────────────────────────────────────────────────────────
+  private buildOrderedWidgets(ids: string[]) {
+    // 1) normalizza e materializza
+    const selected = Array.from(new Set(ids))
+      .map((id) => ({ id, meta: STAT_META[id as keyof typeof STAT_META] }))
+      .filter((x) => !!x.meta);
+
+    // 2) filtro appliesTo (solo se eventType è valorizzato e l’estensione lo ha impostato)
+    const filtered = selected.filter(({ meta }) => {
+      const applies = meta.appliesTo;
+      if (!this.eventType || !applies) return true; // nessun filtro
+      return applies === "ALL" || (applies as EventType[]).includes(this.eventType);
+    });
+
+    // 3) bucket per ComponentKey nell’ordine di prima occorrenza
+    const orderOfComponents: UiComponentKey[] = [];
+    const buckets = new Map<UiComponentKey, Array<{
+      id: string; label: string; description?: string; component: UiComponentKey; selector: string;
+    }>>();
+
+    for (const { id, meta } of filtered) {
+      const comp = meta.uiComponent;
+      if (!buckets.has(comp)) {
+        buckets.set(comp, []);
+        orderOfComponents.push(comp);
+      }
+      buckets.get(comp)!.push({
+        id,
+        label: meta.label ?? id,
+        description: meta.description,
+        component: comp,
+        selector: REGISTRY_COMPONENT_SELECTOR[comp],
+      });
+    }
+
+    // 4) interleaving round-robin tra i bucket (variety-first, stable by-bucket)
+    const out: typeof this.widgets = [];
+    let remaining = true;
+    while (remaining) {
+      remaining = false;
+      for (const comp of orderOfComponents) {
+        const arr = buckets.get(comp)!;
+        if (arr.length) {
+          out.push(arr.shift()!);
+          remaining = true;
+        }
+      }
+    }
+    return out;
   }
 
-  onSiteAvatars = [
-    "https://lh3.googleusercontent.com/aida-public/AB6AXuAJefmSM--lVYS55fxbhgt336-eRPgu6PqRdjyg9n2qFKhYA2q7l49KnZ0ru9zmYtqESFRXPn6RaJyExdhxMeygeChvIrQyopkNAOa1cgpMw_GcsYKkzlIfPeR6He-4dZCotsGgQGaRAyQvpxKjiErvcYSsKzIV-lcQsOVGkRJPEunlthihMxwyDC9ZtzI4DkP_lsDFScqIQ8ea-ApVqyFmL09UTq8Pn3oj6g9nFcvlpZOBF4yXGf5dly5rAqncuUerO3f63srQ-aYL",
-    "https://lh3.googleusercontent.com/aida-public/AB6AXuAF8yj0ShbCfResFMjpROODDaXhdNf921b71WVbw675oGr8G2d3_AEZLpLy7q7b4vezIS9Umi47UQKgWaWcyfZUmg1GN1QShiXsZiHy5wQEdEE9RSBAi-AKmTR8YPRQDebL5LlFR7i0Y_sHxo9EZcS5EohLAycaIl29SeYTZzW_IjcI6W9Ap2MF9wu3EasMaR5nPZ3GW1aAflB9u_MKUugkxyGGsjVX95PUBVScUk2NwGgo7QNVUq5sK5TjtBOqUkDSag0gbz5Q9yYP",
-    "https://lh3.googleusercontent.com/aida-public/AB6AXuDL075E4hQpc0pr5xlGirlPCfK0iHz4XJD2xdGaQpjqo7kvARv5WNsToE1KOIHP-9peJccFSEKWZIxOBQxb-w3t5CwgNEdTRWtSPtUQOAZYe6L--1whGHQ5829wDwXzSm66hQFAZD-ywV6haleD0Ug6l09VvHZ3xjSWrc7XTPBnzWiG9Wya4B0yyRdXmZ3z2LfS2QyBnowWnyptn2dmUVAzI6QcDflMDxBm-L6BdzRDvLKNyfal6dzLbJo380vBr9Vaif-ZaV-5E64T",
-    "https://lh3.googleusercontent.com/aida-public/AB6AXuCvPanbxBDr0Gx43SOhCwwYUGZcuYB3-im518rQJploIwT3cDQJUEEvzskTLKpH4kTZXbEbUlGuKejdN5TdN4zEaF1D59usxwoeCxCkDOCBTftWT_fFlJeNUoVkPGbLDNnLQUTzXf9BxlEn4S-KqhU2rxjyDrKlOMz1gLAplFWhn3cbLLHzConJHVe1j14YQaR_8oilAhjEwTswZ7QDm0oe_-3ouG3rZyBfYqVBydWYITcGrl0OMfhOTDrK5TgTVcWN-gQG4LAFMTxn",
-    "https://lh3.googleusercontent.com/aida-public/AB6AXuBleAJpKSO3obIZ5WXHwVMjH07xoLttA4ozEC0kUH8S535SkC4kC_q4KKMAYJklIRxwhq-qIUPAR1_aT8HuYbcx2Ve9rfSmKGcxK_ErQ7qfPLLeV_adWKhcM8qBq2cLtKraL-3zd-tCs33eCIsByx_jOnzBd0dNIiGm4NugDxNPt5qPPwzq64XV-LvZUN_KciJLmYEqOrxYZdE6NK44xUasrEUKflz_ajnDnOKqxZpBvnDKxKhxji0rPUXgycfeSak0KA013MqRCf0c",
-  ]
-
-  arrivingAvatars = [
-    "https://lh3.googleusercontent.com/aida-public/AB6AXuCBhEzvJuQ1uaAI-Qw2mBj-APnsiyfkydRaNIyaJveXQSavPiNVAjn1Ytgy9Awp1rQF0TKJEmWaeG3Pf6LnK8fmn_SFouch3k97DlqFNE6t61N0ad2keV_Tqj1PFxjayOA-mHOW-mUmFjQVHaZ23_dV4kSZjL-emjBJfAbjmM7qJWLA0GaQTQoTUlAhCxqbql9l9xmbhsvqv5-asnHpvSrisXI4P7kKqETPxtXkZVV8k5bqhggKUyCBPYrgvTrkGZC389LeOnSY249e",
-    "https://lh3.googleusercontent.com/aida-public/AB6AXuC9X61uTKk8KOAQqU246IbQat8qGcgpjWVJr0RMh9G1RtMCpmTzVLykdajX6per6eRPuMEwbQDqa30z8LrweqPUGDA-GOWNb1Bn3-mFl8fDitERbaUaRksbYpxnm2yKp1Lp6YnRHKY1Lch3rblSJyfD_1XFLSY4ateaDR0_weIRMmCSKJnb15TmZLDDw3izFkxnwQ8KloLAWSPLR0xXUYjbtDyOhGTUPC-w09hJ5coP940kmnW6H8aBzaAqc8_CVZ5TBvTcVcrFCMn0",
-    "https://lh3.googleusercontent.com/aida-public/AB6AXuCApapFrsz_80H7lJPgoBNpQeULr5WojTKeoZe3Vy0OgRy0owC_cPBqsmqgkunm0Zw-u2zquLNkAkm-ByOlO_ssm_CNc5kCye88R9HhB9-FpQf57UL_XnhZFCpJjngJNs_YzpCFgOiEI93RwzWLIyOyUyaGqTCZvB0Omx6A-deyvz6kuOFwlr0-qAXdw9eRoqyadYXfraja1Fd4emS46Iq6lIlF8rBSWuSPkTTIUbJRMIs-wDgqqbZKaYs6v5QxQO4V7v4xMZJulpJA",
-  ]
-
-  constructor(
-    private router: Router,
-    private route: ActivatedRoute,
-  ) {}
+  // ────────────────────────────────────────────────────────────
+  // Lifecycle + azioni già presenti
+  // ────────────────────────────────────────────────────────────
+  constructor(private router: Router, private route: ActivatedRoute) {}
 
   ngOnInit(): void {
-    const nav = this.router.getCurrentNavigation()
-    this.event = (nav?.extras?.state as any)?.event ?? history.state?.event ?? null
+    const nav = this.router.getCurrentNavigation();
+    this.event = (nav?.extras?.state as any)?.event ?? history.state?.event ?? null;
+
+    // se da backend hai il tipo evento, assegnalo:
+    // this.eventType = 'club';
+
+    this.widgets = this.buildOrderedWidgets(this.chosenStatIds);
   }
 
   back() {
-    this.router.navigate(["/event-detail", this.event?.id])
+    this.router.navigate(["/event-detail", this.event?.id]);
   }
 
   close() {
-    this.router.navigate(["/events"])
-  }
-
-  getHeatArray(): number[] {
-    return [0, 1, 2].map((i) => (i < this.statsData.eventHeat ? 1 : 0))
-  }
-
-  getRatingSegments(rating: number): boolean[] {
-    const filled = Math.floor(rating)
-    return Array.from({ length: 5 }, (_, i) => i < filled)
+    this.router.navigate(["/events"]);
   }
 }

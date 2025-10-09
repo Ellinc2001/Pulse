@@ -49,6 +49,12 @@ export class MinimalTimelineCardComponent {
     timeLabels: ["22:00", "23:00", "00:00", "01:00"],
   }
 
+    /** Identificatore evento (verrà usato dal data-layer/WebSocket) */
+  @Input() eventId!: string;
+
+  /** Identificatore statistica (es. 'capacity_utilization', 'avg_basket_value', …) */
+  @Input() statId!: string;
+
   getDelayColorClass(color: "red" | "amber" | "green"): string {
     const colorMap = {
       red: "red-fluo",

@@ -169,6 +169,6 @@ events: EventData[] = [
 
   navigateToEventDetail(event: EventData): void {
     console.log('Event: ', event)
-    this.router.navigate(['events-search/event-detail'], { state: { event } });
+    this.router.navigate(['event/detail'], { state: { event } });
   }
 }

@@ -21,6 +21,12 @@ export class StackedProgressCardComponent {
   @Input() showMenu = true
   @Input() unit = "%"
 
+    /** Identificatore evento (verrà usato dal data-layer/WebSocket) */
+  @Input() eventId!: string;
+
+  /** Identificatore statistica (es. 'capacity_utilization', 'avg_basket_value', …) */
+  @Input() statId!: string;
+
   get totalValue(): number {
     return this.segments.reduce((sum, segment) => sum + segment.value, 0)
   }

@@ -9,7 +9,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { CompassSearchButtonComponent } from './compass-search-button/compass-search-button';
 import { ProfileButtonComponent } from './profile-button/profile-button';
 import { MyVibesButtonComponent } from './my-vibes-button/my-vibes-button';
-import { MenuListComponent } from './menu-list/menu-list';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DraggableBadgeComponent } from './draggable-badge/draggable-badge';
 
