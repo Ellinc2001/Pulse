@@ -1,0 +1,13 @@
+<div class="spinner-container" [class]="variantClass">
+  <div class="spinner-wrapper" [class]="sizeClass">
+    <div class="spinner-ring spinner-ring-outer"></div>
+    
+    <div class="spinner-ring spinner-ring-middle"></div>
+    
+    <div class="spinner-ring spinner-ring-inner"></div>
+    
+    <div class="spinner-center"></div>
+  </div>
+  
+  <p class="spinner-message" *ngIf="message">{{ message }}</p>
+</div>

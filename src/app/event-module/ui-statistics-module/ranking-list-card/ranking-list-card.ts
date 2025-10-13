@@ -15,23 +15,25 @@ export interface RankingItem {
   styleUrls: ["./ranking-list-card.scss"],
 })
 export class RankingListCardComponent {
-  @Input() title = "Ranking"
-  @Input() items: RankingItem[] = []
+  @Input() title: string | null | undefined = "Ranking"
+  @Input() items: RankingItem[] | null | undefined = []
   @Input() showMenuIcon = true
 
-    /** Identificatore evento (verrà usato dal data-layer/WebSocket) */
-  @Input() eventId!: string;
+  /** Identificatore evento (verrà usato dal data-layer/WebSocket) */
+  @Input() eventId!: string
 
   /** Identificatore statistica (es. 'capacity_utilization', 'avg_basket_value', …) */
-  @Input() statId!: string;
+  @Input() statId!: string
 
   getProgressPercentage(item: RankingItem): number {
+    const list = this.items ?? [] // 👈 fallback sicuro
+
     if (item.maxValue) {
       return (item.value / item.maxValue) * 100
     }
 
-    // If no maxValue provided, use the highest value in the list as max
-    const maxValue = Math.max(...this.items.map((i) => i.value))
+    const values = list.map((i) => i.value)
+    const maxValue = values.length ? Math.max(...values) : 0
     return maxValue > 0 ? (item.value / maxValue) * 100 : 0
   }
 

@@ -1,20 +1,22 @@
 <div class="metric-card">
-  <div class="card-header">
-    <div class="title-section">
-      <ion-icon [name]="icon" class="metric-icon"></ion-icon>
-      <span class="metric-title">{{ title }}</span>
+  <div class="card-content">
+    <!-- Reorganized layout: header and value on same line for compactness -->
+    <div class="top-row">
+      <div class="header">
+        <ion-icon [name]="icon" class="icon"></ion-icon>
+        <span class="title">{{ title }}</span>
+      </div>
+      <div class="value">
+        <span class="number">{{ value }}</span>
+        <span class="unit" *ngIf="unit">{{ unit }}</span>
+      </div>
     </div>
-    <div class="value-section">
-      <span class="metric-value">{{ value }}</span>
-      <span class="metric-unit" *ngIf="unit">{{ unit }}</span>
-    </div>
-  </div>
-  
-  <div class="progress-container">
-    <div class="progress-track">
+    
+    <!-- Progress bar remains full width below -->
+    <div class="progress-bar">
       <div 
         class="progress-fill"
-        [class.gradient-fill]="showGradient"
+        [class.gradient]="showGradient"
         [style.width.%]="progressPercentage">
       </div>
     </div>

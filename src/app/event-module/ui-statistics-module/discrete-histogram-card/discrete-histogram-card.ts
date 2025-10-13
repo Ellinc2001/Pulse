@@ -15,24 +15,25 @@ export interface HistogramDataPoint {
   styleUrls: ["./discrete-histogram-card.scss"],
 })
 export class DiscreteHistogramCardComponent {
-  @Input() title = ""
-  @Input() data: HistogramDataPoint[] = []
+  @Input() title: string | null | undefined = ""
+  @Input() data: HistogramDataPoint[] | null | undefined = []  // 👈 ora può essere undefined/null
   @Input() showMenu = true
   @Input() maxHeight = 120 // Maximum height for bars in pixels
 
-    /** Identificatore evento (verrà usato dal data-layer/WebSocket) */
-  @Input() eventId!: string;
+  /** Identificatore evento (verrà usato dal data-layer/WebSocket) */
+  @Input() eventId!: string
 
   /** Identificatore statistica (es. 'capacity_utilization', 'avg_basket_value', …) */
-  @Input() statId!: string;
+  @Input() statId!: string
 
   get normalizedData() {
-    if (!this.data.length) return []
+    const dataset = this.data ?? [] // 👈 fallback sicuro
+    if (!dataset.length) return []
 
-    const maxValue = Math.max(...this.data.map((d) => d.value))
+    const maxValue = Math.max(...dataset.map((d) => d.value))
     const minBarHeight = 32 // Minimum bar height in pixels
 
-    return this.data.map((point) => ({
+    return dataset.map((point) => ({
       ...point,
       height: Math.max(minBarHeight, (point.value / maxValue) * this.maxHeight),
       percentage: (point.value / maxValue) * 100,
@@ -40,8 +41,10 @@ export class DiscreteHistogramCardComponent {
   }
 
   onBarHover(event: Event, show: boolean) {
-    const target = event.currentTarget as HTMLElement
-    const valueLabel = target.querySelector(".value-label") as HTMLElement
+    const target = event.currentTarget as HTMLElement | null
+    if (!target) return
+
+    const valueLabel = target.querySelector(".value-label") as HTMLElement | null
     if (valueLabel) {
       valueLabel.style.opacity = show ? "1" : "0"
     }

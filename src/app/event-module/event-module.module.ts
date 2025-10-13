@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { EventModuleRoutingModule } from './event-module-routing.module';
@@ -14,6 +14,10 @@ import { FormsModule } from '@angular/forms';
 import { RealTimeStatsNotify } from './real-time-stats-notify/real-time-stats-notify';
 import { UiStatisticsComponentsModule } from './ui-statistics-module/ui-statistics-components.module';
 import { UiInputStatisticsModuleModule } from './ui-input-statistics-module/ui-input-statistics-module.module';
+import { SpinnerComponent } from '../spinner/spinner';
+import { CarouselComponent } from './carousel/carousel';
+import { WaitTimePillsComponent } from './wait-time-pills/wait-time-pills';
+import { CircleRatingCardComponent } from './ui-statistics-module/circle-rating-card/circle-rating-card';
 
 
 @NgModule({
@@ -26,6 +30,8 @@ import { UiInputStatisticsModuleModule } from './ui-input-statistics-module/ui-i
     RealTimeStatsComponent,
     LiveEventDetail,
     RealTimeStatsNotify,
+    CarouselComponent,
+    WaitTimePillsComponent
   ],
   imports: [
     CommonModule,
@@ -33,7 +39,10 @@ import { UiInputStatisticsModuleModule } from './ui-input-statistics-module/ui-i
     IonicModule,
     FormsModule,
     UiStatisticsComponentsModule,
-    UiInputStatisticsModuleModule
-]
+    UiInputStatisticsModuleModule,
+    SpinnerComponent
+  ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
+
 })
 export class EventModule { }

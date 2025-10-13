@@ -10,26 +10,15 @@ import { IonicModule } from "@ionic/angular"
 })
 export class CircleRatingCardComponent {
   @Input() title = ""
-  @Input() icon = ""
-  @Input() value = 0
-  @Input() maxValue = 5
-  @Input() showFraction = true
+  @Input() value = 0 // Percentage value (0-100)
+  @Input() label = "" // Label shown below the percentage
+  @Input() size: "small" | "medium" | "large" = "medium"
 
-    /** Identificatore evento (verrà usato dal data-layer/WebSocket) */
-  @Input() eventId!: string;
-
-  /** Identificatore statistica (es. 'capacity_utilization', 'avg_basket_value', …) */
-  @Input() statId!: string;
-
-  get circles(): boolean[] {
-    const circles = []
-    for (let i = 0; i < this.maxValue; i++) {
-      circles.push(i < this.value)
-    }
-    return circles
+  get percentage(): number {
+    return Math.min(100, Math.max(0, this.value))
   }
 
-  trackByIndex(index: number): number {
-    return index
+  get sizeClass(): string {
+    return `gauge-${this.size}`
   }
 }

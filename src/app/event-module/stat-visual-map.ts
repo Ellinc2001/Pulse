@@ -19,7 +19,8 @@ export type UiComponentKey =
   | 'ProgressMetricCardComponent'
   | 'RankingListCardComponent'
   | 'SparklineKpiCardComponent'
-  | 'StackedProgressCardComponent';
+  | 'StackedProgressCardComponent'
+  | 'WaitTimePillsComponent'
 
   export type InputComponentKey = 
    | 'ChipSelectorComponent'
@@ -42,6 +43,7 @@ export const REGISTRY_COMPONENT_SELECTOR: Record<UiComponentKey, string> = {
   RankingListCardComponent:      'app-ranking-list-card',
   SparklineKpiCardComponent:     'app-sprkline-kpi-card',
   StackedProgressCardComponent:  'app-stacked-progress-card',
+  WaitTimePillsComponent:        'app-wait-time-pills'
 };
 
 export const REGISTRY_INPUT_COMPONENT_SELECTOR: Record<InputComponentKey, string> = {
@@ -156,17 +158,21 @@ export interface StatMeta {
   recommendedFor?: EventType[];
   tags?: string[];
   label: string;
-  description?: string       // descrizione estesa (opzionale)
+  description?: string 
+  icon?: string;      // descrizione estesa (opzionale)
   group?: string       // descrizione estesa (opzionale)
   inputComponent: InputComponentKey
+  [key: string]: any; // 👈 aggiungi questa riga per permettere metadati extra
+  unit?: string;
+
 }
 
 export let STAT_META: Record<string, StatMeta> = {
   // Queue & Flow
-  queue_wait_time:      { label: 'Tempo Attesa Coda', description: 'Tempo medio di attesa per l’ingresso', group: 'Dati Affollamento', uiComponent: 'GaugeMetricCardComponent', inputComponent: 'RangeSliderComponent' },
+  queue_wait_time:      { label: 'Tempo Attesa Coda', description: 'Tempo medio di attesa per l’ingresso', group: 'Dati Affollamento', uiComponent: 'WaitTimePillsComponent', inputComponent: 'RangeSliderComponent' },
   queue_p95:            { label: 'Coda (95° Percentile)', description: 'Attesa massima per il 95% dei partecipanti', group: 'Dati Affollamento', uiComponent: 'ProgressMetricCardComponent', inputComponent: 'RangeSliderComponent' },
-  entries_per_min:      { label: 'Ingressi al Minuto', description: 'Numero ingressi al minuto', group: 'Dati Affollamento', uiComponent: 'SparklineKpiCardComponent', inputComponent: 'RangeSliderComponent' },
-  throughput_gate:      { label: 'Flusso Ingressi Gate', description: 'Flusso medio per gate', group: 'Dati Affollamento', uiComponent: 'SparklineKpiCardComponent', inputComponent: 'RangeSliderComponent' },
+  entries_per_min:      { label: 'Ingressi al Minuto', description: 'Numero ingressi al minuto', group: 'Dati Affollamento', uiComponent: 'RankingListCardComponent', inputComponent: 'RangeSliderComponent' },
+  throughput_gate:      { label: 'Flusso Ingressi Gate', description: 'Flusso medio per gate', group: 'Dati Affollamento', uiComponent: 'GaugeMetricCardComponent', inputComponent: 'RangeSliderComponent' },
 
   // Crowding / Capacity
   area_crowding_pct:    { label: 'Affollamento Aree (%)', description: 'Percentuale di affollamento nelle aree', group: 'Dati Affollamento', uiComponent: 'ProgressMetricCardComponent', inputComponent: 'RangeSliderComponent' },
@@ -253,7 +259,7 @@ export let STAT_META: Record<string, StatMeta> = {
 
   // eSports / Gaming
   payments_mix_arena:   { label: 'Pagamenti Arena', description: 'Distribuzione pagamenti in arena', group: 'Gaming & eSports', uiComponent: 'DonutChartCardComponent', inputComponent: 'IconButtonGroupComponent' },
-  act_popularity_match: { label: 'Popolarità Match', description: 'Gradimento match eSports', group: 'Gaming & eSports', uiComponent: 'BarRatingCardComponent', inputComponent: 'RatingCirclesComponent' },
+  act_popularity_match: { label: 'Popolarità Match', description: 'Gradimento match eSports', group: 'Gaming & eSports', uiComponent: 'CircleRatingCardComponent', inputComponent: 'RatingCirclesComponent' },
 
   // Expo / Book Fair
   avg_basket_value_book:{ label: 'Scontrino Medio Libri', description: 'Valore medio acquisti libri', group: 'Commercio & Merch', uiComponent: 'ProgressMetricCardComponent', inputComponent: 'RangeSliderComponent' },
@@ -699,9 +705,21 @@ export function getDescriptionFieldsForEvent(eventType: EventType): Array<{ type
 // ─────────────────────────────────────────────────────────────────────────────
 // Helper: ricavare cosa mostrare per una tipologia evento
 // ─────────────────────────────────────────────────────────────────────────────
-export function getStatsForEvent(eventType: EventType) {
+export function getStatsForEvent(
+  eventType: EventType,
+  selectedStatIds?: string[]
+) {
   const entries = Object.entries(STAT_META)
-    .filter(([_, meta]) => meta.appliesTo === 'ALL' || (meta.appliesTo as EventType[]).includes(eventType))
+    .filter(([id, meta]) => {
+      const applies =
+        meta.appliesTo === "ALL" ||
+        (meta.appliesTo as EventType[]).includes(eventType);
+
+      // Se viene passata una lista di selezionati, filtra anche per quelli
+      const selectedOk = !selectedStatIds || selectedStatIds.includes(id);
+
+      return applies && selectedOk;
+    })
     .map(([id, meta]) => ({
       id,
       component: meta.uiComponent,
@@ -709,7 +727,7 @@ export function getStatsForEvent(eventType: EventType) {
       recommended: !!meta.recommendedFor?.includes(eventType),
     }));
 
-  // Ordina mettendo prima le consigliate
+  // Ordina: prima quelli raccomandati, poi alfabetico
   entries.sort((a, b) => Number(b.recommended) - Number(a.recommended) || a.id.localeCompare(b.id));
   return entries;
 }
@@ -727,4 +745,298 @@ export function resolveComponentForStat(
     return { component: comp, selector: REGISTRY_COMPONENT_SELECTOR[comp] };
   }
   return null;
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Base inputs minimi per ogni componente (sempre presenti)
+// ─────────────────────────────────────────────────────────────────────────────
+export interface BaseComponentInputs {
+  eventId: string;
+  statId: string;
+}
+
+// Normalizza il payload grezzo in chiavi "tipiche" per il componente UI.
+// Non importiamo pickInputsForComponent qui per evitare cicli;
+// il filtro finale lo farà il Carousel con pickInputsForComponent(this.componentKey, data).
+function normalizePayloadForComponent(component: UiComponentKey, payload: any): Record<string, any> {
+  if (payload == null) return {};
+
+  switch (component) {
+    case 'ProgressMetricCardComponent':
+    case 'GaugeMetricCardComponent':
+      if (typeof payload === 'number') return { value: payload };
+      return typeof payload === 'object' ? payload : {};
+
+    case 'BarRatingCardComponent':
+    case 'CircleRatingCardComponent':
+      if (typeof payload === 'number') return { value: payload, maxValue: 5, showFraction: true };
+      return typeof payload === 'object' ? payload : {};
+
+    case 'EnumPillCardComponent':
+      if (typeof payload === 'string') return { selectedValue: payload };
+      if (typeof payload === 'boolean') return { selectedValue: payload ? 'yes' : 'no' };
+      return typeof payload === 'object' ? payload : {};
+
+    case 'SparklineKpiCardComponent':
+      if (Array.isArray(payload)) return { series: payload, value: payload[payload.length - 1] };
+      return typeof payload === 'object' ? payload : {};
+
+    case 'DonutChartCardComponent':
+    case 'StackedProgressCardComponent':
+      if (Array.isArray(payload)) return { segments: payload };
+      if (typeof payload === 'object') {
+        const segments = Object.entries(payload).map(([label, value]) => ({ label, value: Number(value) }));
+        return { segments };
+      }
+      return {};
+
+    case 'DiscreteHistogramCardComponent':
+      if (Array.isArray(payload)) return { data: payload };
+      return {};
+
+    case 'MinimalTimelineCardComponent':
+      if (Array.isArray(payload)) return { timeline: payload };
+      return {};
+
+    case 'RankingListCardComponent':
+      if (Array.isArray(payload)) return { items: payload };
+      return {};
+
+    default:
+      return typeof payload === 'object' ? payload : {};
+  }
+}
+
+/**
+ * Costruisce il pacchetto { component, selector, inputs } per una stat.
+ * - Risolve il componente corretto dalla mappa (o fallback).
+ * - Aggiunge sempre { eventId, statId }.
+ * - Normalizza il payload per quel componente (value/segments/series/...).
+ * Il filtro finale degli @Input permessi viene fatto nel Carousel via pickInputsForComponent.
+ */
+export function buildInputsFor(
+  statId: string,
+  payload: any,
+  ctx: { eventId: string }
+): { component: UiComponentKey; selector: string; inputs: BaseComponentInputs & Record<string, any> } {
+  // 1️⃣ Risolvi il componente da STAT_META o fallback
+  const resolved =
+    resolveComponentForStat(statId) ?? {
+      component: DATATYPE_DEFAULTS.number,
+      selector: REGISTRY_COMPONENT_SELECTOR[DATATYPE_DEFAULTS.number],
+    };
+
+  const component = resolved.component;
+  const selector = resolved.selector;
+
+  // 2️⃣ Base inputs sempre presenti
+  const base: BaseComponentInputs = {
+    eventId: ctx.eventId,
+    statId,
+  };
+
+  // 3️⃣ Recupera metadati (label, unit, ecc.) da STAT_META
+  const meta = STAT_META[statId];
+  const staticDefaults: Record<string, any> = {};
+
+  if (meta?.label) staticDefaults['title'] = meta.label;
+  if (meta?.icon) staticDefaults['icon'] = meta.icon;
+  if (meta?.unit) staticDefaults['unit'] = meta.unit;
+
+  // fallback automatico per l’unità se non definita
+  if (!staticDefaults['unit']) {
+    if (statId.includes("pct") || statId.includes("utilization")) staticDefaults['unit'] = "%";
+    else if (statId.includes("value") || statId.includes("price")) staticDefaults['unit'] = "€";
+    else if (statId.includes("time")) staticDefaults['unit'] = "min";
+    else staticDefaults['unit'] = "";
+  }
+
+  // 4️⃣ Normalizza il payload (es. numero, array, object)
+  const normalized = normalizePayloadForComponent(component, payload);
+
+  // 5️⃣ Unisci tutto (payload + meta + base)
+  const merged = {
+    ...staticDefaults,
+    ...normalized,
+    ...base,
+  };
+
+  // 6️⃣ Filtra solo gli @Input accettati dal componente
+  const filtered = pickInputsForComponent(component, merged);
+
+  // 7️⃣ Restituisci pacchetto finale
+  return {
+    component,
+    selector,
+    inputs: filtered as BaseComponentInputs & Record<string, any>,
+  };
+}
+
+
+
+export type ComponentInputsMap = Partial<Record<UiComponentKey, ReadonlyArray<string>>>
+
+export const UI_COMPONENT_INPUTS: ComponentInputsMap = {
+  BarRatingCardComponent:        ['title','icon','value','maxValue','showFraction','eventId','statId'],
+  CircleRatingCardComponent:     ['title','icon','value','maxValue','showFraction','eventId','statId'],
+  DiscreteHistogramCardComponent:['title','data','showMenu','maxHeight','eventId','statId'],
+  DonutChartCardComponent:       ['title','segments','centerText','centerSubtext','showMenu','eventId','statId'],
+  EnumPillCardComponent:         ['title','icon','options','selectedValue','allowDeselect','eventId','statId'],
+  ProgressMetricCardComponent:   ['eventId', 'statId', 'title', 'icon', 'value', 'unit', 'maxValue', 'showGradient',],
+  StackedProgressCardComponent:  ['title','segments','showMenu','unit','eventId','statId'],
+  GaugeMetricCardComponent:      ['title','value','min','max','unit','showMenu','eventId','statId'],
+  MinimalTimelineCardComponent:  ['title','timeline','showMenu','eventId','statId'],
+  RankingListCardComponent:      ['title','items','showMenu','eventId','statId'],
+  SparklineKpiCardComponent:     ['title','series','unit','showMenu','value','eventId','statId'],
+}
+
+export function pickInputsForComponent(
+  component: UiComponentKey,
+  raw: Record<string, any>
+): Record<string, any> {
+  const allowed = new Set(UI_COMPONENT_INPUTS[component] ?? []);
+  if (!allowed.size) return {};
+
+  const out: Record<string, any> = {};
+  for (const [k, v] of Object.entries(raw)) {
+    if (allowed.has(k)) out[k] = v;
+  }
+
+  switch (component) {
+    // ─────────────────────────────
+    // ✅ Sparkline KPI Card
+    // ─────────────────────────────
+    case "SparklineKpiCardComponent":
+      return {
+        data: {
+          title: out['title'] ?? "KPI Live",
+          value: out['value'] ?? 0,
+          unit: out['unit'] ?? "%",
+          trend: out['trend'] ?? {
+            value: Math.floor(Math.random() * 10) - 5, // variazione casuale
+            direction: Math.random() > 0.5 ? "up" : "down",
+          },
+          sparklineData:
+            out['sparklineData'] ??
+            out['series'] ??
+            Array.from({ length: 10 }, () => ({
+              value: Math.floor(Math.random() * 100),
+            })),
+          icon: out['icon'] ?? "trending-up-outline",
+        },
+        eventId: out['eventId'],
+        statId: out['statId'],
+      };
+
+    case "ProgressMetricCardComponent":
+      return {
+        eventId: out['eventId'],
+        statId: out['statId'],
+        title: out['title'] ?? "Capienza",
+        icon: out['icon'] ?? "speedometer-outline",
+        value: out['value'] ?? 85,
+        unit: out['unit'] ?? "%",
+        maxValue: out['maxValue'] ?? 100,
+        showGradient: out['showGradient'] ?? true,
+      };
+
+      case "BarRatingCardComponent":
+        return {
+          eventId: out['eventId'],
+          statId: out['statId'],
+          title: out['title'] ?? "Soddisfazione Clienti",
+          icon: out['icon'] ?? "star-outline",
+          value: out['value'] ?? 4,
+          maxValue: out['maxValue'] ?? 5,
+          showFraction: out['showFraction'] ?? true,
+        };
+
+      case "DonutChartCardComponent":
+        const demoSegments = [
+          { label: "A", value: 40, color: "#8B5CF6" },
+          { label: "B", value: 30, color: "#10B981" },
+          { label: "C", value: 20, color: "#F59E0B" },
+          { label: "D", value: 10, color: "#EF4444" },
+        ]
+
+        return {
+          eventId: out['eventId'],
+          statId: out['statId'],
+          title: out['title'] ?? "Distribuzione Partecipanti",
+          segments: out['segments'] ?? demoSegments,
+          centerText:
+            out['centerText'] ??
+            `${demoSegments.reduce((sum, s) => sum + s.value, 0)}%`,
+          centerSubtext: out['centerSubtext'] ?? "Totale",
+          showMenu: out['showMenu'] ?? true,
+        }
+      case "EnumPillCardComponent":
+        const demoOptions = [
+          { value: "low", label: "Bassa", icon: "" },
+          { value: "medium", label: "Media", icon: "" },
+          { value: "high", label: "Alta", icon: "" },
+        ]
+        return {
+          eventId: out['eventId'],
+          statId: out['statId'],
+          title: out['title'] ?? "Livello Attività",
+          icon: out['icon'] ?? "options-outline",
+          options: out['options'] ?? demoOptions,
+          selectedValue: out['selectedValue'] ?? "medium",
+          allowDeselect: out['allowDeselect'] ?? true,
+        }
+      case "StackedProgressCardComponent":
+        // Se non arrivano segmenti reali, creiamo dei segmenti demo
+        const demoSegments2 = [
+          { label: "Positivo", value: 60, color: "#10B981", glowColor: "#6EE7B7" },
+          { label: "Neutro", value: 25, color: "#F59E0B", glowColor: "#FCD34D" },
+          { label: "Negativo", value: 15, color: "#EF4444", glowColor: "#FCA5A5" },
+        ];
+        return {
+          eventId: out['eventId'],
+          statId: out['statId'],
+          title: out['title'] ?? "Distribuzione Sentiment",
+          segments: out['segments'] ?? demoSegments2,
+          showMenu: out['showMenu'] ?? true,
+          unit: out['unit'] ?? "%",
+        };
+      case "MinimalTimelineCardComponent":
+        const demoTimelineData = {
+          points: out['points'] ?? [
+            { label: "Creazione", position: 10, color: "green" },
+            { label: "Check-in", position: 35, color: "amber" },
+            { label: "Inizio", position: 60, color: "primary" },
+            { label: "Fine", position: 85, color: "muted" },
+          ],
+          currentTimePercent: out['currentTimePercent'] ?? 50,
+          currentTimeLabel: out['currentTimeLabel'] ?? "Ora corrente",
+        }
+
+        return {
+          eventId: out['eventId'],
+          statId: out['statId'],
+          data: demoTimelineData,
+        }
+
+      case "RankingListCardComponent":
+        const demoItems = [
+          { name: "Area A", value: 86 },
+          { name: "Area B", value: 72 },
+          { name: "Area C", value: 55 },
+          { name: "Area D", value: 40 },
+          { name: "Area E", value: 20 },
+        ]
+
+        return {
+          eventId: out['eventId'],
+          statId: out['statId'],
+          title: out['title'] ?? "Ranking Aree",
+          items: out['items'] ?? demoItems,
+          showMenuIcon: out['showMenuIcon'] ?? true,
+        }
+
+
+    default:
+      return out;
+  }
 }

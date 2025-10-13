@@ -1,76 +1,19 @@
-<div class="bg-card-bg border border-card-border rounded-lg p-4 shadow-glow flex flex-col w-full max-w-md">
-  <!-- Header -->
-  <div class="flex justify-between items-start mb-8">
-    <div class="flex items-center gap-2">
-      <ion-icon 
-        [name]="data.icon" 
-        class="text-viola-fluo text-shadow-glow text-lg">
-      </ion-icon>
-      <p class="text-text-inactive text-sm font-sans">{{ data.title }}</p>
+<div class="card">
+  <div class="timeline-container">
+    <div class="timeline"></div>
+    
+    <div 
+      *ngFor="let point of data.points"
+      class="timeline-point"
+      [class]="getPointColorClass(point.color)"
+      [style.left.%]="point.position">
+      <span class="point-label">{{ point.label }}</span>
     </div>
-    <ion-icon 
-      name="ellipsis-horizontal" 
-      class="text-text-inactive">
-    </ion-icon>
-  </div>
-
-  <!-- Timeline Container -->
-  <div class="flex-grow flex flex-col justify-center h-40 relative">
-    <!-- Timeline Strip -->
-    <div class="w-full h-8 rounded-full timeline-strip relative flex">
-      
-      <!-- Activity Slots -->
-      @for (slot of data.slots; let i = $index; track $index) {
-        <div 
-          class="activity-slot"
-          [class.rounded-l-full]="i === 0"
-          [class.rounded-r-full]="i === data.slots.length - 1"
-          [style.left.%]="slot.startPercent"
-          [style.width.%]="slot.widthPercent">
-          <span class="activity-label">{{ slot.label }}</span>
-        </div>
-      }
-
-      <!-- Delay Indicators -->
-      @for (delay of data.delayIndicators; track $index) {
-        <div 
-          class="delay-indicator"
-          [style.left.%]="delay.position"
-          [style.top.px]="delay.direction === 'down' ? 40 : -45">
-          
-          <!-- Delay Line -->
-          <div 
-            class="delay-line w-px"
-            [class]="'bg-' + getDelayColorClass(delay.color) + ' ' + getDelayShadowClass(delay.color)"
-            [style.top]="delay.direction === 'down' ? '0' : 'auto'"
-            [style.bottom]="delay.direction === 'up' ? '0' : 'auto'">
-          </div>
-          
-          <!-- Delay Tooltip -->
-          <div 
-            class="delay-tooltip"
-            [class]="'bg-' + getDelayColorClass(delay.color) + '/80 ' + getDelayGlowClass(delay.color)"
-            [style.top.px]="delay.direction === 'down' ? 16 : null"
-            [style.bottom.px]="delay.direction === 'up' ? 16 : null">
-            {{ delay.label }}
-          </div>
-        </div>
-      }
-
-      <!-- Current Time Line -->
-      <div 
-        class="absolute h-full"
-        [style.left.%]="data.currentTimePercent">
-        <div class="ora-line animate-pulse"></div>
-        <div class="ora-label">{{ data.currentTimeLabel }}</div>
-      </div>
+    
+    <div 
+      class="current-time-marker"
+      [style.left.%]="data.currentTimePercent">
+      <div class="marker-label">{{ data.currentTimeLabel }}</div>
     </div>
-  </div>
-
-  <!-- Time Scale -->
-  <div class="border-t border-card-border mt-4 pt-2 flex justify-between text-text-inactive text-xs">
-    @for (timeLabel of data.timeLabels; track $index) {
-      <span>{{ timeLabel }}</span>
-    }
   </div>
 </div>

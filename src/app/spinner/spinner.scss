@@ -1,0 +1,214 @@
+:host {
+  display: block;
+}
+
+.spinner-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 20px;
+}
+
+.spinner-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  // Size variants
+  &.spinner-small {
+    width: 40px;
+    height: 40px;
+  }
+  
+  &.spinner-medium {
+    width: 60px;
+    height: 60px;
+  }
+  
+  &.spinner-large {
+    width: 80px;
+    height: 80px;
+  }
+}
+
+.spinner-ring {
+  position: absolute;
+  border-radius: 50%;
+  border: 3px solid transparent;
+  animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+// Primary variant - full glow effect
+.spinner-primary {
+  .spinner-ring-outer {
+    width: 100%;
+    height: 100%;
+    border-top-color: var(--violet-300);
+    border-right-color: var(--violet-400);
+    animation: spin-outer 1.5s linear infinite;
+    filter: drop-shadow(0 0 8px rgba(127, 13, 242, 0.6));
+  }
+  
+  .spinner-ring-middle {
+    width: 70%;
+    height: 70%;
+    border-bottom-color: var(--violet-400);
+    border-left-color: var(--violet-500);
+    animation: spin-middle 1.2s linear infinite reverse;
+    filter: drop-shadow(0 0 6px rgba(127, 13, 242, 0.5));
+  }
+  
+  .spinner-ring-inner {
+    width: 40%;
+    height: 40%;
+    border-top-color: var(--violet-500);
+    border-right-color: var(--violet-600);
+    animation: spin-inner 0.9s linear infinite;
+    filter: drop-shadow(0 0 4px rgba(127, 13, 242, 0.4));
+  }
+  
+  .spinner-center {
+    width: 20%;
+    height: 20%;
+    background: var(--gradient-primary);
+    border-radius: 50%;
+    animation: pulse 1.5s ease-in-out infinite;
+    box-shadow: 
+      0 0 12px rgba(127, 13, 242, 0.8),
+      0 0 24px rgba(127, 13, 242, 0.4);
+  }
+}
+
+// Secondary variant - subtle glow
+.spinner-secondary {
+  .spinner-ring-outer {
+    width: 100%;
+    height: 100%;
+    border-top-color: var(--violet-200);
+    border-right-color: var(--violet-300);
+    animation: spin-outer 1.5s linear infinite;
+    filter: drop-shadow(0 0 4px rgba(167, 112, 245, 0.4));
+  }
+  
+  .spinner-ring-middle {
+    width: 70%;
+    height: 70%;
+    border-bottom-color: var(--violet-300);
+    border-left-color: var(--violet-400);
+    animation: spin-middle 1.2s linear infinite reverse;
+  }
+  
+  .spinner-ring-inner {
+    width: 40%;
+    height: 40%;
+    border-top-color: var(--violet-400);
+    border-right-color: var(--violet-500);
+    animation: spin-inner 0.9s linear infinite;
+  }
+  
+  .spinner-center {
+    width: 20%;
+    height: 20%;
+    background: linear-gradient(135deg, var(--violet-300) 0%, var(--violet-500) 100%);
+    border-radius: 50%;
+    animation: pulse 1.5s ease-in-out infinite;
+    box-shadow: 0 0 8px rgba(127, 13, 242, 0.5);
+  }
+}
+
+// Minimal variant - no glow
+.spinner-minimal {
+  .spinner-ring-outer {
+    width: 100%;
+    height: 100%;
+    border-top-color: var(--violet-400);
+    border-right-color: var(--violet-500);
+    animation: spin-outer 1.5s linear infinite;
+  }
+  
+  .spinner-ring-middle {
+    width: 70%;
+    height: 70%;
+    border-bottom-color: var(--violet-500);
+    border-left-color: var(--violet-600);
+    animation: spin-middle 1.2s linear infinite reverse;
+  }
+  
+  .spinner-ring-inner {
+    width: 40%;
+    height: 40%;
+    border-top-color: var(--violet-600);
+    border-right-color: var(--violet-700);
+    animation: spin-inner 0.9s linear infinite;
+  }
+  
+  .spinner-center {
+    width: 20%;
+    height: 20%;
+    background: var(--violet-500);
+    border-radius: 50%;
+    animation: pulse 1.5s ease-in-out infinite;
+  }
+}
+
+.spinner-message {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--violet-300);
+  text-align: center;
+  letter-spacing: 0.02em;
+  text-shadow: 0 0 8px rgba(127, 13, 242, 0.4);
+  animation: fade-in-out 2s ease-in-out infinite;
+}
+
+// Animations
+@keyframes spin-outer {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes spin-middle {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes spin-inner {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 0.8;
+  }
+}
+
+@keyframes fade-in-out {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.6;
+  }
+}

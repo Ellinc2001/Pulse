@@ -26,7 +26,7 @@ export class GaugeMetricCardComponent implements OnInit {
 
   /** Identificatore statistica (es. 'capacity_utilization', 'avg_basket_value', …) */
   @Input() statId!: string;
-  @Input() data: GaugeData = {
+  @Input() data: GaugeData | null= {
     title: "Wait Time",
     icon: "hourglass_empty",
     value: 42,
@@ -49,12 +49,14 @@ export class GaugeMetricCardComponent implements OnInit {
   }
 
   private calculateGaugeValues() {
-    const range = this.data.maxValue - (this.data.minValue || 0)
-    const adjustedValue = this.data.value - (this.data.minValue || 0)
-    this.gaugePercentage = Math.min(Math.max((adjustedValue / range) * 100, 0), 100)
+    if(this.data){
+      const range = this.data.maxValue - (this.data.minValue || 0)
+      const adjustedValue = this.data.value - (this.data.minValue || 0)
+      this.gaugePercentage = Math.min(Math.max((adjustedValue / range) * 100, 0), 100)
 
-    // Needle rotation: -90deg to +90deg (180deg total)
-    this.needleRotation = (this.gaugePercentage / 100) * 180 - 90
+      // Needle rotation: -90deg to +90deg (180deg total)
+      this.needleRotation = (this.gaugePercentage / 100) * 180 - 90
+    }
   }
 
   private generateTicks() {

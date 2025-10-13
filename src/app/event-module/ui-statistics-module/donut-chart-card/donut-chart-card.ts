@@ -16,10 +16,10 @@ export interface DonutSegment {
   standalone: false,
 })
 export class DonutChartCardComponent implements OnInit {
-  @Input() title = "Donut Chart"
-  @Input() segments: DonutSegment[] = []
-  @Input() centerText = "100%"
-  @Input() centerSubtext = "Total"
+  @Input() title: string | undefined = "Donut Chart"
+  @Input() segments: DonutSegment[] | null | undefined = []
+  @Input() centerText: string | null | undefined = "100%"
+  @Input() centerSubtext: string | null | undefined = "Total"
   @Input() showMenu = true
 
     /** Identificatore evento (verrà usato dal data-layer/WebSocket) */
@@ -36,24 +36,27 @@ export class DonutChartCardComponent implements OnInit {
   }
 
   private calculateGradient() {
-    this.totalValue = this.segments.reduce((sum, segment) => sum + segment.value, 0)
+    if(this.segments){
+      this.totalValue = this.segments.reduce((sum, segment) => sum + segment.value, 0)
 
-    let currentPercentage = 0
-    const gradientStops: string[] = []
+      let currentPercentage = 0
+      const gradientStops: string[] = []
 
-    this.segments.forEach((segment, index) => {
-      const segmentPercentage = (segment.value / this.totalValue) * 100
+      this.segments.forEach((segment, index) => {
+        const segmentPercentage = (segment.value / this.totalValue) * 100
 
-      if (index === 0) {
-        gradientStops.push(`${segment.color} 0 ${segmentPercentage}%`)
-      } else {
-        gradientStops.push(`${segment.color} ${currentPercentage}% ${currentPercentage + segmentPercentage}%`)
-      }
+        if (index === 0) {
+          gradientStops.push(`${segment.color} 0 ${segmentPercentage}%`)
+        } else {
+          gradientStops.push(`${segment.color} ${currentPercentage}% ${currentPercentage + segmentPercentage}%`)
+        }
 
-      currentPercentage += segmentPercentage
-    })
+        currentPercentage += segmentPercentage
+      })
 
-    this.conicGradient = `conic-gradient(from 0deg, ${gradientStops.join(", ")})`
+      this.conicGradient = `conic-gradient(from 0deg, ${gradientStops.join(", ")})`
+    }
+
   }
 
   getPercentage(value: number): number {

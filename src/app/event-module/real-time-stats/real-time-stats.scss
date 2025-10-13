@@ -19,6 +19,9 @@
 .header-blur {
   backdrop-filter: saturate(180%) blur(8px);
   --background: rgba(26, 17, 24, 0.8);
+  padding-top: calc(env(safe-area-inset-top) + 1rem);
+  min-height: calc(80px + env(safe-area-inset-top));
+  padding-bottom: 1rem;
 }
 
 .back-icon {
@@ -27,12 +30,14 @@
 
 .title-wrap {
   text-align: center;
+  padding: 1rem 0;
 }
 
 .title {
-  font-size: 1.25rem;
+  font-size: 1.5rem;
   font-weight: 700;
   color: var(--text-primary);
+  line-height: 1.2;
 }
 
 .subtitle {
@@ -41,7 +46,8 @@
   justify-content: center;
   gap: 1rem;
   font-size: 0.875rem;
-  margin-top: 0.25rem;
+  margin-top: 0.75rem;
+  flex-wrap: wrap;
 }
 
 .time-range {
@@ -93,6 +99,7 @@
 
 .main-content {
   padding: 1rem;
+  padding-top: 2rem;
   padding-bottom: 6rem;
 }
 
@@ -692,12 +699,75 @@
     opacity: 1;
   }
 }
-.dynamic-stats-grid {
-  display: grid;
-  gap: 12px;                 /* 👈 spazio verticale/orizzontale tra i componenti */
-  grid-auto-flow: row;
-  /* Se vuoi due colonne su schermi larghi:
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  */
+
+.carousel-section {
+  margin-bottom: 2rem;
 }
 
+.carousel-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0 0 1rem 0;
+  padding: 0 0.5rem;
+  background: linear-gradient(135deg, var(--primary-purple), #c084fc);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-shadow: 0 0 20px rgba(160, 32, 240, 0.3);
+}
+
+swiper-container {
+  width: 100%;
+  padding-bottom: 2.5rem;
+  
+  &.progress-carousel,
+  &.bar-rating-carousel {
+    --swiper-pagination-color: var(--primary-purple);
+    --swiper-pagination-bullet-inactive-color: rgba(160, 32, 240, 0.3);
+    --swiper-pagination-bullet-inactive-opacity: 1;
+    --swiper-pagination-bullet-size: 8px;
+    --swiper-pagination-bullet-horizontal-gap: 6px;
+  }
+}
+
+swiper-slide {
+  height: auto;
+  display: flex;
+  
+  app-progress-metric-card,
+  app-bar-rating-card {
+    width: 100%;
+    display: block;
+  }
+}
+
+::ng-deep {
+  .swiper-pagination {
+    bottom: 0 !important;
+  }
+  
+  .swiper-pagination-bullet {
+    transition: all 0.3s ease;
+    
+    &.swiper-pagination-bullet-active {
+      width: 24px;
+      border-radius: 4px;
+      box-shadow: 0 0 12px var(--primary-purple);
+    }
+  }
+}
+
+.carousels-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+  width: 100%;
+  min-height: 200px;
+
+  app-component-carousel {
+    display: block;
+    width: 100%;
+  }
+}

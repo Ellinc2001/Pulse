@@ -1,4 +1,4 @@
-import { Component, Input, type OnInit } from "@angular/core"
+import { Component, Input, OnInit, OnChanges, SimpleChanges } from "@angular/core"
 
 export interface SparklineDataPoint {
   value: number
@@ -24,16 +24,21 @@ export interface SparklineKpiData {
   styleUrls: ["./sparkline-kpi-card.scss"],
   standalone: false
 })
-export class SparklineKpiCardComponent implements OnInit {
-  @Input() data!: SparklineKpiData
-  @Input() width = 100
-  @Input() height = 30
+export class SparklineKpiCardComponent implements OnInit, OnChanges {
+  /**
+   * Dati del KPI con sparkline.
+   * Può essere `undefined` o `null` finché non arriva il payload reale.
+   */
+  @Input() data?: SparklineKpiData | null
 
-    /** Identificatore evento (verrà usato dal data-layer/WebSocket) */
-  @Input() eventId!: string;
+  @Input() width: number | null | undefined = 100
+  @Input() height: number | null | undefined = 30
+
+  /** Identificatore evento (verrà usato dal data-layer/WebSocket) */
+  @Input() eventId!: string
 
   /** Identificatore statistica (es. 'capacity_utilization', 'avg_basket_value', …) */
-  @Input() statId!: string;
+  @Input() statId!: string
   
   sparklinePath = ""
   sparklineFillPath = ""
@@ -42,59 +47,69 @@ export class SparklineKpiCardComponent implements OnInit {
     this.generateSparklinePaths()
   }
 
-  ngOnChanges() {
+  ngOnChanges(_: SimpleChanges) {
     this.generateSparklinePaths()
   }
 
-  private generateSparklinePaths() {
-    if (!this.data?.sparklineData || this.data.sparklineData.length === 0) {
+  private resetPaths(): void {
+    this.sparklinePath = ""
+    this.sparklineFillPath = ""
+  }
+
+  private generateSparklinePaths(): void {
+    const points = this.data?.sparklineData ?? []
+    if (!points.length) {
+      this.resetPaths()
       return
     }
 
-    const points = this.data.sparklineData
+    // 👇 fallback numerico sicuro
+    const width = this.width ?? 100
+    const height = this.height ?? 30
+
     const maxValue = Math.max(...points.map((p) => p.value))
     const minValue = Math.min(...points.map((p) => p.value))
     const range = maxValue - minValue || 1
 
-    // Generate path points
     const pathPoints = points.map((point, index) => {
-      const x = (index / (points.length - 1)) * this.width
-      const y = this.height - ((point.value - minValue) / range) * this.height
+      const x = (index / (points.length - 1)) * width
+      const y = height - ((point.value - minValue) / range) * height
       return { x, y }
     })
 
-    // Create line path
-    this.sparklinePath = pathPoints.map((point, index) => `${index === 0 ? "M" : "L"} ${point.x} ${point.y}`).join(" ")
+    this.sparklinePath = pathPoints
+      .map((p, i) => `${i === 0 ? "M" : "L"} ${p.x} ${p.y}`)
+      .join(" ")
 
-    // Create fill path (area under curve)
-    const fillPoints = [...pathPoints, { x: this.width, y: this.height }, { x: 0, y: this.height }]
-
+    const fillPoints = [...pathPoints, { x: width, y: height }, { x: 0, y: height }]
     this.sparklineFillPath =
-      fillPoints.map((point, index) => `${index === 0 ? "M" : "L"} ${point.x} ${point.y}`).join(" ") + " Z"
+      fillPoints.map((p, i) => `${i === 0 ? "M" : "L"} ${p.x} ${p.y}`).join(" ") + " Z"
   }
 
   getTrendIcon(): string {
-    if (!this.data.trend) return ""
-    return this.data.trend.direction === "up" ? "arrow-up-outline" : "arrow-down-outline"
+    const t = this.data?.trend
+    return !t ? "" : t.direction === "up" ? "arrow-up-outline" : "arrow-down-outline"
   }
 
   getTrendColor(): string {
-    if (!this.data.trend) return ""
+    const t = this.data?.trend
+    if (!t) return ""
 
-    if (this.data.trend.color) {
-      return this.data.trend.color === "success"
-        ? "text-green-400"
-        : this.data.trend.color === "danger"
-          ? "text-red-400"
-          : "text-yellow-400"
+    if (t.color) {
+      switch (t.color) {
+        case "success": return "text-green-400"
+        case "danger": return "text-red-400"
+        case "warning": return "text-yellow-400"
+      }
     }
 
-    return this.data.trend.direction === "up" ? "text-green-400" : "text-red-400"
+    return t.direction === "up" ? "text-green-400" : "text-red-400"
   }
 
   formatTrendValue(): string {
-    if (!this.data.trend) return ""
-    const sign = this.data.trend.direction === "up" ? "+" : "-"
-    return `${sign}${Math.abs(this.data.trend.value)}%`
+    const t = this.data?.trend
+    if (!t) return ""
+    const sign = t.direction === "up" ? "+" : "-"
+    return `${sign}${Math.abs(t.value)}%`
   }
 }

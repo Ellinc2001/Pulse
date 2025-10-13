@@ -14,7 +14,7 @@ import { DraggableBadgeComponent } from './draggable-badge/draggable-badge';
 
 
 @NgModule({
-  declarations: [AppComponent, CompassSearchButtonComponent, ProfileButtonComponent, MyVibesButtonComponent, DraggableBadgeComponent ],
+  declarations: [AppComponent, CompassSearchButtonComponent, ProfileButtonComponent, MyVibesButtonComponent, DraggableBadgeComponent],
   imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, BrowserAnimationsModule],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
   bootstrap: [AppComponent]

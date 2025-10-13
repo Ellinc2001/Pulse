@@ -2,27 +2,16 @@ import { Component, Input } from "@angular/core"
 import { CommonModule } from "@angular/common"
 import { IonicModule } from "@ionic/angular"
 
-export interface TimelineSlot {
+export interface TimelinePoint {
   label: string
-  startPercent: number
-  widthPercent: number
-}
-
-export interface DelayIndicator {
-  label: string
-  position: number // percentage
-  color: "red" | "amber" | "green"
-  direction: "up" | "down"
+  position: number // percentage 0-100
+  color: "green" | "amber" | "primary" | "muted"
 }
 
 export interface TimelineData {
-  title: string
-  icon: string
-  slots: TimelineSlot[]
+  points: TimelinePoint[]
   currentTimePercent: number
   currentTimeLabel: string
-  delayIndicators: DelayIndicator[]
-  timeLabels: string[]
 }
 
 @Component({
@@ -33,52 +22,17 @@ export interface TimelineData {
 })
 export class MinimalTimelineCardComponent {
   @Input() data: TimelineData = {
-    title: "Timeline Minimale",
-    icon: "timeline",
-    slots: [
-      { label: "Warmup Set", startPercent: 0, widthPercent: 25 },
-      { label: "Live Performance", startPercent: 25, widthPercent: 45 },
-      { label: "Closing Set", startPercent: 70, widthPercent: 30 },
+    points: [
+      { label: "Creazione", position: 10, color: "green" },
+      { label: "Check-in", position: 35, color: "amber" },
+      { label: "Inizio", position: 60, color: "primary" },
+      { label: "Fine", position: 85, color: "muted" },
     ],
-    currentTimePercent: 60,
+    currentTimePercent: 50,
     currentTimeLabel: "Ora",
-    delayIndicators: [
-      { label: "+15m", position: 45, color: "red", direction: "down" },
-      { label: "Ritardo", position: 72, color: "amber", direction: "up" },
-    ],
-    timeLabels: ["22:00", "23:00", "00:00", "01:00"],
   }
 
-    /** Identificatore evento (verrà usato dal data-layer/WebSocket) */
-  @Input() eventId!: string;
-
-  /** Identificatore statistica (es. 'capacity_utilization', 'avg_basket_value', …) */
-  @Input() statId!: string;
-
-  getDelayColorClass(color: "red" | "amber" | "green"): string {
-    const colorMap = {
-      red: "red-fluo",
-      amber: "amber-fluo",
-      green: "green-fluo",
-    }
-    return colorMap[color]
-  }
-
-  getDelayGlowClass(color: "red" | "amber" | "green"): string {
-    const glowMap = {
-      red: "text-shadow-red-glow",
-      amber: "text-shadow-amber-glow",
-      green: "text-shadow-glow",
-    }
-    return glowMap[color]
-  }
-
-  getDelayShadowClass(color: "red" | "amber" | "green"): string {
-    const shadowMap = {
-      red: "shadow-[0_0_4px_var(--red-fluo)]",
-      amber: "shadow-[0_0_4px_var(--amber-fluo)]",
-      green: "shadow-[0_0_4px_var(--green-fluo)]",
-    }
-    return shadowMap[color]
+  getPointColorClass(color: string): string {
+    return `point-${color}`
   }
 }

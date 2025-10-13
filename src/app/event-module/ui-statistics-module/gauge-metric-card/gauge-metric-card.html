@@ -1,8 +1,8 @@
 <div class="gauge-card">
   <div class="card-header">
     <div class="title-section">
-      <ion-icon [name]="data.icon" class="title-icon"></ion-icon>
-      <span class="title-text">{{ data.title }}</span>
+      <ion-icon [name]="data?.icon" class="title-icon"></ion-icon>
+      <span class="title-text">{{ data?.title }}</span>
     </div>
   </div>
 
@@ -39,20 +39,20 @@
 
     <!-- Center value display -->
     <div class="gauge-value">
-      <span class="value-number">{{ data.value }}</span>
-      <span class="value-unit">{{ data.unit }}</span>
+      <span class="value-number">{{ data?.value }}</span>
+      <span class="value-unit">{{ data?.unit }}</span>
     </div>
   </div>
 
   <!-- Statistics section -->
-  <div class="stats-section" *ngIf="data.p50 !== undefined || data.p95 !== undefined">
-    <div class="stat-item" *ngIf="data.p50 !== undefined">
+  <div class="stats-section" *ngIf="data?.p50 !== undefined || data?.p95 !== undefined">
+    <div class="stat-item" *ngIf="data?.p50 !== undefined">
       <span class="stat-label">p50</span>
-      <span class="stat-value">{{ data.p50 }} {{ data.p50Unit || data.unit }}</span>
+      <span class="stat-value">{{ data?.p50 }} {{ data?.p50Unit || data?.unit }}</span>
     </div>
-    <div class="stat-item" *ngIf="data.p95 !== undefined">
+    <div class="stat-item" *ngIf="data?.p95 !== undefined">
       <span class="stat-label">p95</span>
-      <span class="stat-value">{{ data.p95 }} {{ data.p95Unit || data.unit }}</span>
+      <span class="stat-value">{{ data?.p95 }} {{ data?.p95Unit || data?.unit }}</span>
     </div>
   </div>
 </div>

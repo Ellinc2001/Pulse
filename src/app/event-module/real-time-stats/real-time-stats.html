@@ -48,55 +48,20 @@
       </div>
     </div>
 
-    <!-- Griglia dinamica -->
-    <div class="dynamic-stats-grid">
-      @for (w of widgets; track w.id) {
-        @switch (w.selector) {
-          @case ('app-progress-metric-card') {
-            <app-progress-metric-card [statId]="w.id"></app-progress-metric-card>
-          }
-          @case ('app-gauge-metric-card') {
-            <app-gauge-metric-card [statId]="w.id"></app-gauge-metric-card>
-          }
-          @case ('app-sparkline-kpi-card') {
-            <app-sparkline-kpi-card [statId]="w.id"></app-sparkline-kpi-card>
-          }
-          @case ('app-stacked-progress-card') {
-            <app-stacked-progress-card [statId]="w.id"></app-stacked-progress-card>
-          }
-          @case ('app-donut-chart-card') {
-            <app-donut-chart-card [statId]="w.id"></app-donut-chart-card>
-          }
-          @case ('app-ranking-list-card') {
-            <app-ranking-list-card [statId]="w.id"></app-ranking-list-card>
-          }
-          @case ('app-discrete-histogram-card') {
-            <app-discrete-histogram-card [statId]="w.id"></app-discrete-histogram-card>
-          }
-          @case ('app-bar-rating-card') {
-            <app-bar-rating-card [statId]="w.id"></app-bar-rating-card>
-          }
-          @case ('app-circle-rating-card') {
-            <app-circle-rating-card [statId]="w.id"></app-circle-rating-card>
-          }
-          @case ('app-enum-pill-card') {
-            <app-enum-pill-card [statId]="w.id"></app-enum-pill-card>
-          }
-          @case ('app-minimal-timeline-card') {
-            <app-minimal-timeline-card [statId]="w.id"></app-minimal-timeline-card>
-          }
-          <!-- @default {
-            <ion-card>
-              <ion-card-content>
-                <h3>{{ w.label }}</h3>
-                <p class="ion-text-wrap">{{ w.description || 'Nessuna descrizione' }}</p>
-                <ion-note>Componente non mappato: {{ w.selector }}</ion-note>
-              </ion-card-content>
-            </ion-card>
-          } -->
-        }
+    <!-- stack di caroselli: qui ce n'è uno solo (ProgressMetric) -->
+    <div class="carousels-stack">
+      @for (g of carousels; track g.key) {
+        <app-component-carousel
+          [title]="g.title"
+          [componentType]="g.componentType"
+          [componentKey]="g.key"
+          [dataList]="g.dataList"
+          [config]="carouselConfig">
+        </app-component-carousel>
       }
     </div>
+
+
 
     <div class="warning-alert">
       <ion-icon name="warning" class="warning-icon"></ion-icon>

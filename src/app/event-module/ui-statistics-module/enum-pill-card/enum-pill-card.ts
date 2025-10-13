@@ -15,31 +15,33 @@ export interface EnumOption {
   styleUrls: ["./enum-pill-card.scss"],
 })
 export class EnumPillCardComponent {
-  @Input() title = ""
-  @Input() icon = ""
-  @Input() options: EnumOption[] = []
-  @Input() selectedValue = ""
+  @Input() title: string | null | undefined = ""
+  @Input() icon: string | null | undefined = ""
+  @Input() options: EnumOption[] | null | undefined = []
+  @Input() selectedValue: string | null | undefined = ""
   @Input() allowDeselect = false
 
   @Output() selectionChange = new EventEmitter<string>()
 
-    /** Identificatore evento (verrà usato dal data-layer/WebSocket) */
-  @Input() eventId!: string;
+  /** Identificatore evento (verrà usato dal data-layer/WebSocket) */
+  @Input() eventId!: string
 
   /** Identificatore statistica (es. 'capacity_utilization', 'avg_basket_value', …) */
-  @Input() statId!: string;
+  @Input() statId!: string
 
   onOptionSelect(option: EnumOption) {
-    if (this.selectedValue === option.value && this.allowDeselect) {
-      this.selectedValue = ""
-      this.selectionChange.emit("")
-    } else {
-      this.selectedValue = option.value
-      this.selectionChange.emit(option.value)
-    }
+    if (!option) return
+
+    const current = this.selectedValue ?? ""
+    const nextValue =
+      current === option.value && this.allowDeselect ? "" : option.value
+
+    this.selectedValue = nextValue
+    this.selectionChange.emit(nextValue)
   }
 
   isSelected(option: EnumOption): boolean {
+    if (!option || !this.selectedValue) return false
     return this.selectedValue === option.value
   }
 }
