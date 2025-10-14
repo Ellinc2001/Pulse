@@ -13,7 +13,9 @@
       <div class="carousel-scroll-container" #scrollContainer>
         @for (data of dataList; track trackByIndex($index)) {
           <div class="carousel-item">
-             <ng-container *ngComponentOutlet="componentType; inputs: toInputs(data)"></ng-container>
+            <ng-container
+              *ngComponentOutlet="componentType; inputs: data">
+            </ng-container>
           </div>
         }
       </div>
@@ -21,8 +23,8 @@
       @if (carouselConfig.showPagination && dataList.length > 1) {
         <div class="carousel-pagination">
           @for (dot of paginationDots; track dot) {
-            <button 
-              class="pagination-dot" 
+            <button
+              class="pagination-dot"
               [class.active]="dot === currentIndex"
               (click)="scrollToIndex(dot)">
             </button>

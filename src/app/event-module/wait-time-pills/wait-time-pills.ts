@@ -14,7 +14,7 @@ export interface WaitTimeData {
   standalone: false
 })
 export class WaitTimePillsComponent {
-  @Input() waitTimes: WaitTimeData[] = []
+  @Input() waitTime!: WaitTimeData
   @Input() title?: string
 
   constructor() {
@@ -22,6 +22,6 @@ export class WaitTimePillsComponent {
   }
 
   ngOnInit() {
-    console.log("[v0] WaitTimePillsComponent waitTimes:", this.waitTimes)
+    console.log("[v0] WaitTimePillsComponent waitTime:", this.waitTime)
   }
 }

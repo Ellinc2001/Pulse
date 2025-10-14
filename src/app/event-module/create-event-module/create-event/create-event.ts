@@ -43,8 +43,12 @@ export class CreateEventComponent implements OnInit {
   eventGroups: UIEventGroup[] = [];
 
   /** Ordine visuale dei gruppi (escludiamo 'ALL') */
+  // private readonly GROUP_ORDER: GroupKey[] = [
+  //   "MUSIC", "BIZ", "FOOD", "ARTS", "SPORT", "GAMING", "PARK", "NICHE",
+  // ];
+  
   private readonly GROUP_ORDER: GroupKey[] = [
-    "MUSIC", "BIZ", "FOOD", "ARTS", "SPORT", "GAMING", "PARK", "NICHE",
+    "MUSIC"
   ];
 
   /** Statistiche (puoi sostituirle con la build dinamica dal mapping) */
@@ -94,7 +98,7 @@ export class CreateEventComponent implements OnInit {
       return {
         key,
         label: group.label,
-        items: group.items.map((id) => ({
+        items: group.items.map((id: string) => ({
           id,
           name: this.humanizeEvent(id),
           icon: this.iconForEvent(id),
@@ -151,8 +155,6 @@ export class CreateEventComponent implements OnInit {
   private humanizeEvent(id: string): string {
     const map: Record<string, string> = {
       club: "Discoteca / Club",
-      concert: "Concerto",
-      festival: "Festival musicale",
       conference: "Conferenza",
       expo: "Fiera / Expo",
       theater: "Teatro",
@@ -181,7 +183,6 @@ export class CreateEventComponent implements OnInit {
   private iconForEvent(id: string): string {
     const map: Record<string, string> = {
       club: "musical-notes",
-      concert: "mic",
       festival: "disc",
       conference: "briefcase",
       expo: "business",

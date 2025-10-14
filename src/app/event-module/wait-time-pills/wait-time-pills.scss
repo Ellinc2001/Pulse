@@ -13,21 +13,6 @@
   text-shadow: 0 0 10px rgba(160, 32, 240, 0.5);
 }
 
-.pills-scroll-container {
-  display: flex;
-  gap: 12px;
-  overflow-x: auto;
-  overflow-y: hidden;
-  padding: 8px 16px;
-  scroll-snap-type: x mandatory;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: none;
-  
-  &::-webkit-scrollbar {
-    display: none;
-  }
-}
-
 .pill {
   display: flex;
   align-items: center;
@@ -35,11 +20,11 @@
   padding: 12px 20px;
   border-radius: 9999px;
   flex-shrink: 0;
-  scroll-snap-align: start;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   cursor: pointer;
   backdrop-filter: blur(10px);
   border: 1px solid transparent;
+  margin: 0 16px;
   
   &:hover {
     transform: translateY(-2px) scale(1.02);

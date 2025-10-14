@@ -1,14 +1,16 @@
-import { Component, OnInit } from "@angular/core"
-import { ActivatedRoute, Router } from "@angular/router"
-import { getStatsForEvent, EventType, STAT_META } from "../../stat-visual-map"
+// statistics-choice.ts
+import { Component, OnInit } from "@angular/core";
+import { ActivatedRoute, Router } from "@angular/router";
+import { EventType } from "../../stat-visual-map";
+import { StatsProviderFactory } from "../../services/stats-provider-factory";
 
 export interface StatisticOption {
-  id: string
-  label: string
-  description?: string
-  enabled: boolean
-  recommended: boolean
-  group: string // sezione (es: "Dati Affollamento")
+  id: string;
+  label: string;
+  description?: string;
+  enabled: boolean;     
+  recommended: boolean; 
+  group: string;  
 }
 
 @Component({
@@ -18,52 +20,63 @@ export interface StatisticOption {
   standalone: false,
 })
 export class StatisticsChoiceComponent implements OnInit {
-  eventType!: EventType
-  groupedStatistics: { group: string; stats: StatisticOption[] }[] = []
+  eventType!: EventType;
+  groupedStatistics: { group: string; stats: StatisticOption[] }[] = [];
 
-  constructor(private route: ActivatedRoute, private router: Router) {}
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private providers: StatsProviderFactory
+  ) {}
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((params) => {
-      this.eventType = params['eventType'] as EventType
+      this.eventType = params['eventType'] as EventType;
 
-      // recupera tutte le statistiche per tipo evento
-      const stats = getStatsForEvent(this.eventType).map((s) => ({
-        id: s.id,
-        label: STAT_META[s.id]?.label ?? s.id,
-        description: STAT_META[s.id]?.description ?? "Descrizione",
-        enabled: s.recommended,
-        recommended: s.recommended,
-        group: STAT_META[s.id]?.group ?? "Altro",
-      }))
+      const provider = this.providers.getProvider(this.eventType);
 
-      // raggruppa per sezione
-      const groups: Record<string, StatisticOption[]> = {}
+      const metaMap = provider.getStatsMeta();
+      const recommendedIds = new Set(
+        provider.getRecommendedStatIds?.(this.eventType) ?? []
+      );
+
+      const stats: StatisticOption[] = Object.entries(metaMap).map(
+        ([id, meta]) => ({
+          id,
+          label: meta.label ?? id,
+          description: meta.description ?? '',
+          enabled: recommendedIds.has(id),    
+          recommended: recommendedIds.has(id),
+          group: meta.group ?? 'Altro',
+        })
+      );
+
+      const groups: Record<string, StatisticOption[]> = {};
       for (const stat of stats) {
-        if (!groups[stat.group]) groups[stat.group] = []
-        groups[stat.group].push(stat)
+        (groups[stat.group] ??= []).push(stat);
       }
 
-      // crea array ordinato
-      this.groupedStatistics = Object.entries(groups).map(([group, stats]) => ({
-        group,
-        stats,
-      }))
-    })
+      this.groupedStatistics = Object.entries(groups)
+        .map(([group, list]) => ({
+          group,
+          stats: list.sort((a, b) => a.label.localeCompare(b.label)),
+        }))
+        .sort((a, b) => a.group.localeCompare(b.group));
+    });
   }
 
   onToggleStatistic(stat: StatisticOption): void {
-    stat.enabled = !stat.enabled
-    console.log(`[statistics-choice] Toggled ${stat.id}: ${stat.enabled}`)
+    stat.enabled = !stat.enabled;
+    console.log(`[statistics-choice] Toggled ${stat.id}: ${stat.enabled}`);
   }
 
   onBackClick(): void {
-    window.history.back()
+    window.history.back();
   }
 
   goToDetailChoice(): void {
-  this.router.navigate(['event/create/detail-choice'], {
-    queryParams: { eventType: this.eventType } // passo anche l'evento corrente
-  });
-}
+    this.router.navigate(['event/create/detail-choice'], {
+      queryParams: { eventType: this.eventType },
+    });
+  }
 }

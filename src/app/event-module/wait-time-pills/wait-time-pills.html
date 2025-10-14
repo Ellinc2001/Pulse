@@ -1,19 +1,14 @@
-<div class="wait-time-pills-container">
-  <h3 *ngIf="title" class="pills-title">{{ title }}</h3>
+<div class="wait-time-pill-container">
   
-  <div class="pills-scroll-container">
-    <div class="pill" 
-         *ngFor="let item of waitTimes"
-         [ngClass]="'pill-' + item.color">
-      <ion-icon 
-        *ngIf="item.icon" 
-        [name]="item.icon" 
-        class="pill-icon">
-      </ion-icon>
-      <div class="pill-content">
-        <span class="pill-queue-name">{{ item.queueName }}</span>
-        <span class="pill-wait-time">{{ item.waitTime }}</span>
-      </div>
+  <div class="pill" [ngClass]="'pill-' + waitTime.color">
+    <ion-icon 
+      *ngIf="waitTime.icon" 
+      [name]="waitTime.icon" 
+      class="pill-icon">
+    </ion-icon>
+    <div class="pill-content">
+      <span class="pill-queue-name">{{ waitTime.queueName }}</span>
+      <span class="pill-wait-time">{{ waitTime.waitTime }}</span>
     </div>
   </div>
 </div>
