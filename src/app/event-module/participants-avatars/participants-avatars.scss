@@ -1,34 +1,66 @@
-.participants-container {
+.scroll-container {
+  position: relative;
   width: 100%;
-  display: flex;
-  justify-content: center;
-  padding: 1rem 0;
+  margin: 0;
+  padding: 0;
+  display: block; // Ensuring container takes full width
+
+  // Fade gradients on edges
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 3rem;
+    z-index: 10;
+    pointer-events: none;
+  }
+
+  &::before {
+    left: 0;
+    background: linear-gradient(to right, rgba(13, 6, 20, 1), rgba(13, 6, 20, 0));
+  }
+
+  &::after {
+    right: 0;
+    background: linear-gradient(to left, rgba(13, 6, 20, 1), rgba(13, 6, 20, 0));
+  }
 }
 
-// Compact variant: overlapping avatars
-.avatars-compact {
+.avatars-scrollable {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-left: -1rem;
+  overflow-x: scroll; // Ensuring horizontal scroll is always enabled
+  overflow-y: hidden;
+  padding: 1rem;
+  gap: 1rem;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  width: 100%;
 
-  .avatar-wrapper {
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  .avatar-item {
     position: relative;
-    margin-left: -1rem;
+    flex-shrink: 0;
+    scroll-snap-align: start;
     transition: transform 0.3s ease;
 
     &:hover {
-      transform: translateY(-4px);
-      z-index: 10;
+      transform: scale(1.05);
     }
 
     .avatar {
-      width: 48px;
-      height: 48px;
+      width: 56px;
+      height: 56px;
       border-radius: 50%;
-      border: 2px solid var(--ion-background-color, #0d0614);
+      border: 2px solid transparent;
       object-fit: cover;
       transition: all 0.3s ease;
+      cursor: pointer;
 
       &:hover {
         animation: pulse-glow 1.5s infinite alternate;
@@ -37,42 +69,41 @@
 
     .badge {
       position: absolute;
-      bottom: -8px;
-      right: -8px;
+      bottom: -4px;
+      right: -4px;
       font-size: 10px;
       font-weight: bold;
       padding: 2px 6px;
       border-radius: 12px;
-      border: 2px solid var(--ion-background-color, #0d0614);
+      border: 2px solid #0d0614;
       text-shadow: 0 0 2px currentColor, 0 0 4px currentColor;
       white-space: nowrap;
 
       &.badge-vip {
-        background: linear-gradient(135deg, #a855f7, #7c3aed);
+        background: #9333ea;
         color: white;
-        box-shadow: 0 0 8px rgba(168, 85, 247, 0.6);
       }
 
       &.badge-host {
-        background: linear-gradient(135deg, #06b6d4, #0891b2);
+        background: #06b6d4;
         color: white;
-        box-shadow: 0 0 8px rgba(6, 182, 212, 0.6);
       }
     }
   }
 
   .avatar-more {
-    position: relative;
-    margin-left: -1rem;
-    width: 48px;
-    height: 48px;
+    flex-shrink: 0;
+    width: 56px;
+    height: 56px;
     border-radius: 50%;
-    border: 2px dashed rgba(156, 163, 175, 0.5);
+    border: 2px dashed #6b7280;
     background: rgba(31, 41, 55, 0.5);
     display: flex;
     align-items: center;
     justify-content: center;
     transition: all 0.3s ease;
+    cursor: pointer;
+    scroll-snap-align: start;
 
     &:hover {
       border-color: rgba(168, 85, 247, 0.8);
@@ -87,100 +118,26 @@
   }
 }
 
-// Scrollable variant: horizontal scroll
-.avatars-scrollable {
-  display: flex;
-  gap: 12px;
-  overflow-x: auto;
-  padding: 4px 8px;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-
-  &::-webkit-scrollbar {
-    display: none;
+@keyframes pulse-glow {
+  0% {
+    box-shadow: 0 0 4px #0ff, 0 0 8px #0ff;
   }
-
-  .avatar-wrapper-small {
-    position: relative;
-    flex-shrink: 0;
-    transition: transform 0.3s ease;
-
-    &:hover {
-      transform: scale(1.1);
-    }
-
-    .avatar-small {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      background-size: cover;
-      background-position: center;
-      transition: all 0.3s ease;
-
-      &:hover {
-        animation: pulse-glow 1.5s infinite alternate;
-      }
-    }
-
-    .badge-small {
-      position: absolute;
-      bottom: -4px;
-      right: -4px;
-      font-size: 9px;
-      font-weight: bold;
-      padding: 1px 4px;
-      border-radius: 8px;
-      border: 1px solid var(--ion-background-color, #0d0614);
-      text-shadow: 0 0 2px currentColor;
-      white-space: nowrap;
-
-      &.badge-vip {
-        background: linear-gradient(135deg, #a855f7, #7c3aed);
-        color: white;
-        box-shadow: 0 0 6px rgba(168, 85, 247, 0.6);
-      }
-
-      &.badge-host {
-        background: linear-gradient(135deg, #06b6d4, #0891b2);
-        color: white;
-        box-shadow: 0 0 6px rgba(6, 182, 212, 0.6);
-      }
-    }
+  50% {
+    box-shadow: 0 0 8px #f0f, 0 0 16px #f0f;
   }
-
-  .avatar-more-small {
-    flex-shrink: 0;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    border: 1px dashed rgba(156, 163, 175, 0.6);
-    background: rgba(31, 41, 55, 0.5);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.3s ease;
-
-    &:hover {
-      border-color: rgba(168, 85, 247, 0.8);
-      background: rgba(168, 85, 247, 0.1);
-    }
-
-    .more-count-small {
-      font-weight: bold;
-      color: white;
-      font-size: 12px;
-    }
+  100% {
+    box-shadow: 0 0 4px #a020f0, 0 0 8px #a020f0;
   }
 }
 
-@keyframes pulse-glow {
-  0% {
-    box-shadow: 0 0 5px #0ff, 0 0 10px #0ff;
-  }
-  50% {
-    box-shadow: 0 0 10px #f0f, 0 0 20px #f0f;
-  }
-  100% {
-    box-shadow: 0 0 5px #a020f0, 0 0 10px #a020f0;
-  }
+.participants-header {
+  padding: 0 1rem 0.75rem 1rem;
+}
+
+.participants-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: white;
+  margin: 0;
+  text-align: left;
 }

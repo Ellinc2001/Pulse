@@ -16,10 +16,10 @@ export interface Participant {
 export class ParticipantsAvatarsComponent {
   @Input() participants: Participant[] = []
   @Input() totalCount = 0
-  @Input() variant: "compact" | "scrollable" = "compact"
+  @Input() title = "Partecipanti"
 
   get visibleParticipants(): Participant[] {
-    return this.variant === "compact" ? this.participants.slice(0, 4) : this.participants
+    return this.participants
   }
 
   get remainingCount(): number {

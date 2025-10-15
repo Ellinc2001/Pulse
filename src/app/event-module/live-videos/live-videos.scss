@@ -6,7 +6,6 @@
   text-rendering: optimizeLegibility;
   /* END FONT-ONLY */
 
-  padding: 20px 0;
 
   &.fullscreen {
     position: fixed; top: 0; left: 0; right: 0; bottom: 0;
@@ -24,12 +23,28 @@
 
       .main-video {
         position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-        object-fit: cover; border-radius: 12px;
+        object-fit: contain; border-radius: 12px;
+      }
+
+      .play-button-overlay {
+        position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+        z-index: 5;
+
+        .play-button-circle {
+          width: 60px; height: 60px; background: rgba(255,0,255,.9);
+          border-radius: 50%; display: flex; align-items: center; justify-content: center;
+          cursor: pointer; transition: all .3s ease; backdrop-filter: blur(10px);
+          border: 2px solid rgba(255,255,255,.2);
+
+          &:hover { background: rgba(255,0,255,1); transform: scale(1.1); box-shadow: 0 0 20px rgba(255,0,255,.5); }
+
+          ion-icon { color: white; font-size: 24px; margin-left: 2px; }
+        }
       }
 
       .custom-video-overlay {
         position: absolute; top: 0; left: 0; right: 0; bottom: 0;
-        background: rgba(0,0,0,0.2); opacity: 0; transition: opacity .3s ease;
+        background: transparent; opacity: 1; transition: opacity .3s ease;
         display: flex; align-items: center; justify-content: center; border-radius: 12px;
 
         /* FONT-ONLY: eredita la famiglia anche nei controlli overlay */
@@ -49,20 +64,6 @@
             &:hover { background: rgba(255,0,255,1); transform: scale(1.1); box-shadow: 0 0 20px rgba(255,0,255,.5); }
 
             ion-icon { color: white; font-size: 24px; margin-left: 2px; }
-          }
-        }
-
-        .progress-container {
-          position: absolute; bottom: 0; left: 0; right: 0; padding: 0 16px 16px;
-
-          .progress-bar {
-            width: 100%; height: 3px; background: rgba(255,255,255,.3);
-            border-radius: 2px; overflow: hidden;
-
-            .progress-fill {
-              height: 100%; background: linear-gradient(90deg, #ff00ff, #ff0080);
-              border-radius: 2px; transition: width .3s ease;
-            }
           }
         }
       }
@@ -126,7 +127,7 @@
             .mini-video-overlay {
               position: absolute; top: 0; left: 0; right: 0; bottom: 0;
               background: rgba(0,0,0,.3); display: flex; align-items: center; justify-content: center;
-              opacity: 0; transition: opacity .3s ease;
+              opacity: 1; transition: opacity .3s ease; // Made play button always visible instead of only on hover
 
               .mini-play-button {
                 width: 32px; height: 32px; background: rgba(255,0,255,.9); border-radius: 50%;
@@ -143,8 +144,6 @@
                 .mini-progress-fill { height: 100%; background: #ff00ff; border-radius: 1px; transition: width .3s ease; }
               }
             }
-
-            &:hover .mini-video-overlay { opacity: 1; }
           }
 
           .live-indicator {
@@ -223,7 +222,7 @@
     }
 
     .modal-video-wrapper { position: relative; width: 100%; height: 600px; background: #000;
-      .modal-video { width: 100%; height: 100%; object-fit: cover; }
+      .modal-video { width: 100%; height: 100%; object-fit: contain; }
     }
 
     .modal-controls {

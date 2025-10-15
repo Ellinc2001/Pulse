@@ -108,13 +108,6 @@
   padding-bottom: 6rem;
 }
 
-.participants-section {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 1.5rem;
-  padding: 1rem 0;
-}
-
 .capacity-container {
   display: flex;
   align-items: center;
@@ -755,4 +748,150 @@ swiper-slide {
     display: block;
     width: 100%;
   }
+}
+
+app-participants-avatars {
+  display: block;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.videos-card {
+  background: transparent;
+  border-radius: 16px;
+  overflow: hidden;
+  margin-bottom: 24px;
+}
+
+.videos-header {
+  padding: 16px;
+}
+
+.section-title {
+  font-size: 20px;
+  font-weight: bold;
+  line-height: 1.2;
+  letter-spacing: -0.025em;
+  margin: 0;
+  color: white;
+}
+
+.videos-scroll-container {
+  display: flex;
+  overflow-x: auto;
+  gap: 16px;
+  padding: 0 16px 16px;
+  
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  scrollbar-width: none;
+}
+
+.videos-horizontal-list {
+  display: flex;
+  gap: 16px;
+  min-width: max-content;
+}
+
+.video-item-template {
+  flex-shrink: 0;
+  width: 256px;
+  margin: 0;
+  padding: 0;
+}
+
+.video-container-template {
+  position: relative;
+  aspect-ratio: 16/9;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #2a2a2a;
+}
+
+.video-thumbnail-template {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.video-overlay-template {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.play-icon-template {
+  font-size: 48px;
+  color: #ff00ff;
+  filter: drop-shadow(0 0 10px rgba(255, 0, 255, 0.5));
+}
+
+.video-info-template {
+  margin-top: 8px;
+}
+
+.video-title-template {
+  font-weight: bold;
+  color: white;
+  margin: 0 0 4px 0;
+  font-size: 16px;
+}
+
+.video-subtitle-template {
+  font-size: 14px;
+  color: #9ca3af;
+  margin: 0;
+}
+
+.video-viewers {
+  font-size: 12px;
+  color: #9ca3af;
+  margin: 4px 0 0 0;
+}
+
+.static-video-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+  transition: transform 0.2s;
+  
+  &:hover {
+    transform: scale(1.02);
+  }
+}
+
+.live-indicator {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: #ff0000;
+  padding: 2px 6px;
+  border-radius: 12px;
+  font-size: 10px;
+  font-weight: bold;
+  color: white;
+  text-transform: uppercase;
+  position: absolute;
+  top: 8px;
+  left: 8px;
+}
+
+.live-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: white;
+  animation: pulse 1.5s infinite;
+}
+
+.live-text {
+  font-size: 10px;
+  font-weight: bold;
+  text-transform: uppercase;
 }

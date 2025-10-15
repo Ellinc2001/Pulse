@@ -65,14 +65,7 @@ export const STAT_META_CLUB: Record<string, StatMeta> = {
     group: 'Comfort & Sicurezza',
     uiComponent: 'EnumPillCardComponent',
     inputComponent: 'ChipSelectorComponent',
-  },
-  sentiment_share_now: {
-    label: 'Sentiment pubblico',
-    group: 'Social Proof',
-    uiComponent: 'StackedProgressCardComponent',
-    inputComponent: 'ChipSelectorComponent',
-    unit: '%',
-  },
+  }
 }
 // services/club-service.ts
 @Injectable({ providedIn: 'root' })

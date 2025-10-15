@@ -22,11 +22,39 @@
 
 <ion-content [fullscreen]="true" class="page-bg">
   <div class="main-content">
+    <!-- Added live videos section at the beginning -->
+    <div class="videos-card">
+      <div class="videos-header">
+        <h2 class="section-title">Live Videos</h2>
+      </div>
+      
+      <div class="videos-scroll-container">
+        <div class="videos-horizontal-list">
+          @for (video of videoStreams; track video; let i = $index) {
+            <div class="video-item-template">
+              <div class="video-container-template">
+                <app-live-videos
+                  [videoStream]="video"
+                  [showControls]="true">
+                </app-live-videos>
+              </div>
+
+              <div class="video-info-template">
+                <p class="video-title-template">{{ video.title }}</p>
+                <p class="video-subtitle-template">{{ video.angle || 'DJ Set' }}</p>
+                <p class="video-viewers">{{ video.viewers }} viewers</p>
+              </div>
+            </div>
+          }
+        </div>
+      </div>
+    </div>
+
     <div class="participants-section">
       <app-participants-avatars
         [participants]="participants"
         [totalCount]="totalParticipants"
-        variant="compact">
+        variant="scrollable">
       </app-participants-avatars>
     </div>
 

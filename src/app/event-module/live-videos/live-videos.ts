@@ -36,12 +36,14 @@ export class LiveVideosComponent implements OnInit, OnDestroy, AfterViewInit {
   @Input() showControls = true
 
   @ViewChild("videoEl") videoEl!: ElementRef<HTMLVideoElement>
+  @ViewChild("modalVideoEl") modalVideoEl!: ElementRef<HTMLVideoElement>
 
-  isPlaying = true
-  isMuted = true // autoplay mobile richiede muted
+  isPlaying = false
+  isModalPlaying = false
+  isMuted = true
   isFullscreen = false
   currentVolume = 80
-  showVideoControls = true // <-- questo governa l’overlay
+  showVideoControls = true
   isModalOpen = false
   modalProgress = 0
   modalCurrentTime = "0:00"
@@ -49,33 +51,18 @@ export class LiveVideosComponent implements OnInit, OnDestroy, AfterViewInit {
   private controlsTimeout?: any
   private progressUpdateInterval?: any
 
-  // ...qualityOptions, ecc.
-
   ngOnInit() {
     /* no-op */
   }
 
   ngAfterViewInit() {
-    // prova ad avviare l’autoplay in modo robusto
     const v = this.videoEl.nativeElement
     v.loop = true
-    v.play()
-      .then(() => {
-        this.isPlaying = true
-      })
-      .catch(() => {
-        // se il browser blocca l’autoplay, mostra il bottone
-        this.isPlaying = false
-        this.showVideoControls = true
-      })
+    this.isPlaying = false
+    this.showVideoControls = true
 
-    if (this.showControls) this.startControlsTimer()
-
-    // sincronizza lo stato con gli eventi nativi
     v.addEventListener("pause", () => (this.isPlaying = false))
     v.addEventListener("play", () => (this.isPlaying = true))
-    v.addEventListener("timeupdate", () => this.updateProgress())
-    v.addEventListener("loadedmetadata", () => this.updateDuration())
   }
 
   ngOnDestroy() {
@@ -87,6 +74,7 @@ export class LiveVideosComponent implements OnInit, OnDestroy, AfterViewInit {
     if (this.controlsTimeout) clearTimeout(this.controlsTimeout)
     this.controlsTimeout = setTimeout(() => (this.showVideoControls = false), 3000)
   }
+
   private showControlsTemporarily() {
     if (!this.showControls) return
     this.showVideoControls = true
@@ -94,51 +82,78 @@ export class LiveVideosComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   togglePlay() {
-    const v = this.videoEl.nativeElement
-    if (v.paused) {
-      v.play()
-      this.isPlaying = true
+    this.openModal()
+  }
+
+  toggleModalPlay() {
+    if (!this.modalVideoEl) return
+    const modalVideo = this.modalVideoEl.nativeElement
+
+    if (this.isModalPlaying) {
+      modalVideo.pause()
+      this.isModalPlaying = false
     } else {
-      v.pause()
-      this.isPlaying = false
+      modalVideo.play()
+      this.isModalPlaying = true
     }
-    this.showControlsTemporarily()
   }
 
   toggleMute() {
     this.isMuted = !this.isMuted
-    this.videoEl.nativeElement.muted = this.isMuted
+    if (this.modalVideoEl) {
+      this.modalVideoEl.nativeElement.muted = this.isMuted
+    }
     this.showControlsTemporarily()
   }
 
   changeVolume(event: any) {
     this.currentVolume = +event.target.value
-    const v = this.videoEl.nativeElement
-    v.volume = Math.min(1, Math.max(0, this.currentVolume / 100))
-    this.isMuted = v.volume === 0
-    v.muted = this.isMuted
+    if (this.modalVideoEl) {
+      const v = this.modalVideoEl.nativeElement
+      v.volume = Math.min(1, Math.max(0, this.currentVolume / 100))
+      this.isMuted = v.volume === 0
+      v.muted = this.isMuted
+    }
     this.showControlsTemporarily()
   }
 
   onVideoClick() {
-    this.openModal()
+    this.showControlsTemporarily()
   }
 
   openModal() {
     this.isModalOpen = true
     document.body.style.overflow = "hidden"
-    this.updateProgress()
-    this.updateDuration()
+
+    // Aspetta che la modale sia renderizzata
+    setTimeout(() => {
+      if (this.modalVideoEl) {
+        const modalVideo = this.modalVideoEl.nativeElement
+        modalVideo.addEventListener("timeupdate", () => this.updateProgress())
+        modalVideo.addEventListener("loadedmetadata", () => this.updateDuration())
+        modalVideo.addEventListener("pause", () => (this.isModalPlaying = false))
+        modalVideo.addEventListener("play", () => (this.isModalPlaying = true))
+
+        modalVideo.play()
+        this.isModalPlaying = true
+      }
+    }, 100)
   }
 
   closeModal() {
     this.isModalOpen = false
     document.body.style.overflow = "auto"
+
+    if (this.modalVideoEl) {
+      const modalVideo = this.modalVideoEl.nativeElement
+      modalVideo.pause()
+      this.isModalPlaying = false
+    }
   }
 
   private updateProgress() {
-    if (!this.videoEl) return
-    const v = this.videoEl.nativeElement
+    if (!this.modalVideoEl) return
+    const v = this.modalVideoEl.nativeElement
     if (v.duration) {
       this.modalProgress = (v.currentTime / v.duration) * 100
       this.modalCurrentTime = this.formatTime(v.currentTime)
@@ -146,8 +161,8 @@ export class LiveVideosComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   private updateDuration() {
-    if (!this.videoEl) return
-    const v = this.videoEl.nativeElement
+    if (!this.modalVideoEl) return
+    const v = this.modalVideoEl.nativeElement
     if (v.duration) {
       this.modalDuration = this.formatTime(v.duration)
     }
@@ -160,12 +175,12 @@ export class LiveVideosComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   onProgressClick(event: MouseEvent) {
-    if (!this.videoEl) return
+    if (!this.modalVideoEl) return
     const progressBar = event.currentTarget as HTMLElement
     const rect = progressBar.getBoundingClientRect()
     const clickX = event.clientX - rect.left
     const percentage = clickX / rect.width
-    const v = this.videoEl.nativeElement
+    const v = this.modalVideoEl.nativeElement
     v.currentTime = percentage * v.duration
     this.updateProgress()
   }

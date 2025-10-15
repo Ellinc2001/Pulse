@@ -1,6 +1,8 @@
 import { Component, type OnInit } from "@angular/core"
 import { Router, ActivatedRoute } from "@angular/router"
 import { ClubService } from "../services/club-service"
+import { VideoStream } from "../live-videos/live-videos"
+import { ModalController } from "@ionic/angular"
 import { Participant } from "../participants-avatars/participants-avatars"
 
 @Component({
@@ -35,14 +37,106 @@ export class RealTimeStatsComponent implements OnInit {
       name: "Sofia Neri",
       avatarUrl: "https://i.pravatar.cc/150?img=47",
     },
+    {
+      id: "5",
+      name: "Luca Ferrari",
+      avatarUrl: "https://i.pravatar.cc/150?img=15",
+      badge: "VIP",
+    },
+    {
+      id: "6",
+      name: "Giulia Romano",
+      avatarUrl: "https://i.pravatar.cc/150?img=23",
+    },
+    {
+      id: "7",
+      name: "Andrea Colombo",
+      avatarUrl: "https://i.pravatar.cc/150?img=68",
+    },
+    {
+      id: "8",
+      name: "Francesca Ricci",
+      avatarUrl: "https://i.pravatar.cc/150?img=29",
+      badge: "VIP",
+    },
+    {
+      id: "9",
+      name: "Matteo Marino",
+      avatarUrl: "https://i.pravatar.cc/150?img=51",
+    },
+    {
+      id: "10",
+      name: "Chiara Greco",
+      avatarUrl: "https://i.pravatar.cc/150?img=38",
+    },
+    {
+      id: "11",
+      name: "Alessandro Bruno",
+      avatarUrl: "https://i.pravatar.cc/150?img=14",
+      badge: "VIP",
+    },
+    {
+      id: "12",
+      name: "Valentina Gallo",
+      avatarUrl: "https://i.pravatar.cc/150?img=44",
+    },
+    {
+      id: "13",
+      name: "Davide Costa",
+      avatarUrl: "https://i.pravatar.cc/150?img=56",
+    },
+    {
+      id: "14",
+      name: "Elena Fontana",
+      avatarUrl: "https://i.pravatar.cc/150?img=31",
+    },
+    {
+      id: "15",
+      name: "Simone Caruso",
+      avatarUrl: "https://i.pravatar.cc/150?img=62",
+      badge: "VIP",
+    },
   ]
 
   totalParticipants = 1200
+
+  videoStreams: VideoStream[] = [
+    {
+      id: "main",
+      title: "Main Stage",
+      url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+      thumbnail: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/images/BigBuckBunny.jpg",
+      isLive: true,
+      viewers: 1247,
+      quality: "FHD",
+    },
+    {
+      id: "stage2",
+      title: "Techno Beats",
+      url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
+      thumbnail: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/images/ElephantsDream.jpg",
+      isLive: true,
+      viewers: 892,
+      quality: "HD",
+      angle: "DJ Booth",
+    },
+    {
+      id: "crowd",
+      title: "Crowd Energy",
+      url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+      thumbnail: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/images/ForBiggerBlazes.jpg",
+      isLive: true,
+      viewers: 654,
+      quality: "HD",
+      angle: "Audience View",
+    },
+  ]
 
   constructor(
     private router: Router,
     private route: ActivatedRoute,
     private clubService: ClubService,
+    private modalController: ModalController,
   ) {}
 
   ngOnInit(): void {

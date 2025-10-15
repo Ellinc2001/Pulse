@@ -1,5 +1,5 @@
 <div class="live-videos" [class.fullscreen]="isFullscreen">
-  <div class="main-video-container" (click)="onVideoClick()" (mousemove)="onMouseMove()" (touchstart)="onMouseMove()">
+  <div class="main-video-container" (click)="openModal()" (mousemove)="onMouseMove()" (touchstart)="onMouseMove()">
     <div class="video-wrapper">
       <video #videoEl
         class="main-video"
@@ -10,18 +10,9 @@
         preload="metadata">
       </video>
 
-      <!-- usa showVideoControls, non showControls -->
-      <div class="custom-video-overlay" [class.visible]="showVideoControls && showControls">
-        <div class="central-play-button" (click)="togglePlay(); $event.stopPropagation()">
-          <div class="play-button-circle">
-            <ion-icon [name]="isPlaying ? 'pause' : 'play'"></ion-icon>
-          </div>
-        </div>
-
-        <div class="progress-container">
-          <div class="progress-bar">
-            <div class="progress-fill" [style.width]="'45%'"></div>
-          </div>
+      <div class="play-button-overlay">
+        <div class="play-button-circle">
+          <ion-icon name="play"></ion-icon>
         </div>
       </div>
 
@@ -37,18 +28,14 @@
   </div>
 </div>
 
-<!-- Added video modal overlay -->
 <div class="video-modal-overlay" [class.active]="isModalOpen" (click)="closeModal()">
   <div class="video-modal-container" (click)="$event.stopPropagation()">
-    <!-- Modal handle -->
     <div class="modal-handle"></div>
     
-    <!-- Close button -->
     <button class="modal-close-btn" (click)="closeModal()">
       <ion-icon name="close"></ion-icon>
     </button>
 
-    <!-- Video container -->
     <div class="modal-video-wrapper">
       <video #modalVideoEl
         class="modal-video"
@@ -60,7 +47,6 @@
       </video>
     </div>
 
-    <!-- Video controls -->
     <div class="modal-controls">
       <button class="modal-play-btn" (click)="togglePlay()">
         <ion-icon [name]="isPlaying ? 'pause' : 'play'"></ion-icon>
