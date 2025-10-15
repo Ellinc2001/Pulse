@@ -17,8 +17,7 @@ import { UiInputStatisticsModuleModule } from './ui-input-statistics-module/ui-i
 import { SpinnerComponent } from '../spinner/spinner';
 import { CarouselComponent } from './carousel/carousel';
 import { WaitTimePillsComponent } from './wait-time-pills/wait-time-pills';
-import { CircleRatingCardComponent } from './ui-statistics-module/circle-rating-card/circle-rating-card';
-
+import { ParticipantsAvatarsComponent } from './participants-avatars/participants-avatars';
 
 @NgModule({
   declarations: [
@@ -31,7 +30,8 @@ import { CircleRatingCardComponent } from './ui-statistics-module/circle-rating-
     LiveEventDetail,
     RealTimeStatsNotify,
     CarouselComponent,
-    WaitTimePillsComponent
+    WaitTimePillsComponent,
+    ParticipantsAvatarsComponent
   ],
   imports: [
     CommonModule,

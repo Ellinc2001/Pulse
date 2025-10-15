@@ -1,0 +1,40 @@
+<div class="participants-container" [class.compact]="variant === 'compact'" [class.scrollable]="variant === 'scrollable'">
+  <div *ngIf="variant === 'compact'" class="avatars-compact">
+    <div *ngFor="let participant of visibleParticipants" class="avatar-wrapper">
+      <img 
+        [src]="participant.avatarUrl" 
+        [alt]="participant.name"
+        class="avatar"
+      />
+      <span 
+        *ngIf="participant.badge" 
+        class="badge"
+        [ngClass]="getBadgeClass(participant.badge)"
+      >
+        {{ participant.badge }}
+      </span>
+    </div>
+    <div *ngIf="remainingCount > 0" class="avatar-more">
+      <span class="more-count">+{{ remainingCount }}</span>
+    </div>
+  </div>
+
+  <div *ngIf="variant === 'scrollable'" class="avatars-scrollable">
+    <div *ngFor="let participant of visibleParticipants" class="avatar-wrapper-small">
+      <div 
+        class="avatar-small"
+        [style.background-image]="'url(' + participant.avatarUrl + ')'"
+      ></div>
+      <span 
+        *ngIf="participant.badge" 
+        class="badge-small"
+        [ngClass]="getBadgeClass(participant.badge)"
+      >
+        {{ participant.badge }}
+      </span>
+    </div>
+    <div *ngIf="remainingCount > 0" class="avatar-more-small">
+      <span class="more-count-small">+{{ remainingCount }}</span>
+    </div>
+  </div>
+</div>

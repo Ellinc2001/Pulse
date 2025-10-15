@@ -22,30 +22,12 @@
 
 <ion-content [fullscreen]="true" class="page-bg">
   <div class="main-content">
-    <div class="top-stats-row">
-      <div class="stat-pill">
-        <p class="stat-label">Partecipanti</p>
-        <p class="stat-value">1.2K</p>
-      </div>
-      <div class="stat-pill">
-        <p class="stat-label">Capacità</p>
-        <div class="capacity-container">
-          <p class="stat-value">85%</p>
-          <div class="capacity-bar">
-            <div class="capacity-fill" style="width: 85%"></div>
-          </div>
-        </div>
-      </div>
-      <div class="stat-pill">
-        <p class="stat-label">Mood</p>
-        <div class="energy-bars">
-          <div class="energy-bar active" style="animation-delay: 0s;"></div>
-          <div class="energy-bar active" style="animation-delay: 0.2s;"></div>
-          <div class="energy-bar active" style="animation-delay: 0.4s;"></div>
-          <div class="energy-bar"></div>
-          <div class="energy-bar"></div>
-        </div>
-      </div>
+    <div class="participants-section">
+      <app-participants-avatars
+        [participants]="participants"
+        [totalCount]="totalParticipants"
+        variant="compact">
+      </app-participants-avatars>
     </div>
 
     <!-- stack di caroselli: qui ce n'è uno solo (ProgressMetric) -->
@@ -60,8 +42,6 @@
         </app-component-carousel>
       }
     </div>
-
-
 
     <div class="warning-alert">
       <ion-icon name="warning" class="warning-icon"></ion-icon>
@@ -90,5 +70,4 @@
       </ion-card-content>
     </ion-card>
   </div>
-
 </ion-content>
