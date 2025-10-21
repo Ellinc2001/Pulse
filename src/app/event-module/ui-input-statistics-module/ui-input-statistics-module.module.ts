@@ -8,6 +8,7 @@ import { RangeSliderComponent } from './range-slider/range-slider';
 import { RatingCirclesComponent } from './rating-circle/rating-circle';
 import { SegmentedControlComponent } from './segmented-control/segmented-control';
 import { ToggleSwitchComponent } from './toggle-switch/toggle-switch';
+import { UserRatingCardComponent } from './user-rating-card/user-rating-card';
 
 
 
@@ -19,7 +20,8 @@ import { ToggleSwitchComponent } from './toggle-switch/toggle-switch';
     RangeSliderComponent,
     RatingCirclesComponent,
     SegmentedControlComponent,
-    ToggleSwitchComponent
+    ToggleSwitchComponent,
+    UserRatingCardComponent
   ],
   imports: [
     CommonModule,
@@ -32,7 +34,8 @@ import { ToggleSwitchComponent } from './toggle-switch/toggle-switch';
     RangeSliderComponent,
     RatingCirclesComponent,
     SegmentedControlComponent,
-    ToggleSwitchComponent
+    ToggleSwitchComponent,
+    UserRatingCardComponent
   ]
 })
 export class UiInputStatisticsModuleModule { }
