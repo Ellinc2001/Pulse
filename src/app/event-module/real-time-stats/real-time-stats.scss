@@ -82,6 +82,9 @@
 
 .live-text {
   color: rgba(255, 255, 255, 0.8);
+  font-size: 10px;
+  font-weight: bold;
+  text-transform: uppercase;
 }
 
 @keyframes pulse-light {
@@ -890,8 +893,29 @@ app-participants-avatars {
   animation: pulse 1.5s infinite;
 }
 
-.live-text {
-  font-size: 10px;
-  font-weight: bold;
-  text-transform: uppercase;
+.stacked-progress-section {
+  margin-bottom: 24px;
+  
+  app-stacked-progress-card {
+    display: block;
+    width: 100%;
+  }
+}
+
+.timeline-section {
+  margin-bottom: 24px;
+  
+  app-minimal-timeline-card {
+    display: block;
+    width: 100%;
+  }
+}
+
+.participants-section {
+  margin-bottom: 24px;
+  
+  app-participants-avatars {
+    display: block;
+    width: 100%;
+  }
 }

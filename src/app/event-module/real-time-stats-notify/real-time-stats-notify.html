@@ -1,87 +1,23 @@
+<!-- real-time-stats-notify.html -->
 <div class="real-time-stats-notify">
   <header class="header">
     <div class="header-content">
-      <button class="back-btn" (click)="goBack()">
+      <button class="back-btn" (click)="back()">
         <ion-icon name="arrow-back"></ion-icon>
       </button>
       <div class="title-wrap">
         <h1 class="title">Milano Summer Fest</h1>
-        <p class="subtitle">Live Stats <span class="live-indicator">•</span></p>
+        <p class="subtitle">Live Inputs <span class="live-indicator">•</span></p>
       </div>
     </div>
   </header>
 
   <main class="main-content">
-    @for (group of groupedEntries; track group.group) {
-      <section class="stats-section">
-        <h2 class="section-title">{{ group.group }}</h2>
-
-        @for (entry of group.items; track entry.id) {
-          <div class="card">
-            <div class="control-group">
-              <p class="control-label">{{ entry.label }}</p>
-
-              @switch (entry.inputSelector) {
-
-                @case ('app-chip-selector') {
-                  <app-chip-selector
-                    [eventId]="eventId"
-                    [statId]="entry.id">
-                  </app-chip-selector>
-                }
-
-                @case ('app-icon-button-group') {
-                  <app-icon-button-group
-                    [eventId]="eventId"
-                    [statId]="entry.id">
-                  </app-icon-button-group>
-                }
-
-                @case ('app-icon-rating') {
-                  <app-icon-rating
-                    [eventId]="eventId"
-                    [statId]="entry.id">
-                  </app-icon-rating>
-                }
-
-                @case ('app-range-slider') {
-                  <app-range-slider
-                    [eventId]="eventId"
-                    [statId]="entry.id">
-                  </app-range-slider>
-                }
-
-                @case ('app-rating-circle') {
-                  <app-rating-circle
-                    [eventId]="eventId"
-                    [statId]="entry.id">
-                  </app-rating-circle>
-                }
-
-                @case ('app-segmented-control') {
-                  <app-segmented-control
-                    [eventId]="eventId"
-                    [statId]="entry.id">
-                  </app-segmented-control>
-                }
-
-                @case ('app-toggle-switch') {
-                  <app-toggle-switch
-                    [eventId]="eventId"
-                    [statId]="entry.id">
-                  </app-toggle-switch>
-                }
-
-                @default {
-                  <div class="fallback-input">
-                    <em>Configurazione non trovata per “{{ entry.id }}”.</em>
-                  </div>
-                }
-              }
-            </div>
-          </div>
-        }
-      </section>
+    @for (car of carousels; track car.componentKey) {
+      <app-input-context-carousel
+        [items]="car.items"
+        [config]="car.config">
+      </app-input-context-carousel>
     }
   </main>
 

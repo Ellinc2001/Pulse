@@ -1,30 +1,42 @@
 import { Injectable, Type } from '@angular/core'
 import { StatMeta } from '../stat-visual-map'
-import { UiComponentKey, UI_COMPONENT_INPUTS } from '../ui-reflection-map'
+import { UiComponentKey, UI_COMPONENT_INPUTS, InputComponentKey, REGISTRY_INPUT_COMPONENT_SELECTOR, INPUT_COMPONENT_INPUTS } from '../ui-reflection-map'
 import { REGISTRY_COMPONENT_TYPE } from '../ui-reflection-map'  // <-- mappa dei Type
 import { CarouselConfig } from '../carousel/carousel'
 import { StatsProvider } from './stats-provider'
+import { InputSlide } from '../input-context-carousel/input-context-carousel'
+
+type InputCarouselVM = {
+  componentKey: InputComponentKey;
+  items: InputSlide[];
+  config: {
+    slidesPerView?: number; spaceBetween?: number;
+    autoplay?: boolean; autoplayDelay?: number;
+    showNavigation?: boolean; showPagination?: boolean;
+  };
+};
+
 
 export const STAT_META_CLUB: Record<string, StatMeta> = {
   queue_wait_time_now: {
     label: "Tempo in coda per l'ingresso",
     group: 'Ingresso',
     uiComponent: 'WaitTimePillsComponent',
-    inputComponent: 'RangeSliderComponent',
+    inputComponent: 'ChipSelectorComponent',
     unit: 'min',
   },
   capacity_utilization_now: {
     label: 'Capienza occupata',
     group: 'Ingresso',
     uiComponent: 'ProgressMetricCardComponent',
-    inputComponent: 'RangeSliderComponent',
+    inputComponent: null,
     unit: '%',
   },
   vibe_dancefloor_now: {
     label: 'Vibe del dancefloor',
     group: 'Dancefloor & Vibe',
     uiComponent: 'EnumPillCardComponent',
-    inputComponent: 'ChipSelectorComponent',
+    inputComponent: 'SegmentedControlComponent',
     options: [
       { value: 'low', label: 'Bassa' },
       { value: 'med', label: 'Media' },
@@ -50,7 +62,7 @@ export const STAT_META_CLUB: Record<string, StatMeta> = {
     label: 'Coda al bar',
     group: 'Bar & Servizi',
     uiComponent: 'WaitTimePillsComponent',
-    inputComponent: 'RangeSliderComponent',
+    inputComponent: 'ChipSelectorComponent',
     unit: 'min',
   },
   drink_quality_now: {
@@ -64,7 +76,12 @@ export const STAT_META_CLUB: Record<string, StatMeta> = {
     label: 'Temperatura percepita',
     group: 'Comfort & Sicurezza',
     uiComponent: 'EnumPillCardComponent',
-    inputComponent: 'ChipSelectorComponent',
+    inputComponent: 'SegmentedControlComponent',
+    options: [
+      { value: 'cold',  label: 'Freddo 🥶' },
+      { value: 'ok',    label: 'OK 🙂' },
+      { value: 'warm',  label: 'Caldo 🥵' }
+    ]
   }
 }
 // services/club-service.ts
@@ -212,6 +229,95 @@ export class ClubService implements StatsProvider  {
 
   getStatsMeta(): Record<string, StatMeta> {
     return STAT_META_CLUB;
+  }
+
+
+ getInputCarouselsForClub(eventId = 'club-demo'): InputCarouselVM[] {
+    const byType = new Map<InputComponentKey, InputSlide[]>();
+
+    Object.entries(STAT_META_CLUB).forEach(([statId, meta]) => {
+      const key = meta.inputComponent as InputComponentKey | null | undefined;
+      if (!key) return;
+
+      const inputs = this.buildInputsForInputComponent(key, statId, meta, eventId);
+      const slide: InputSlide = (inputs && Object.keys(inputs).length)
+        ? { key, inputs }
+        : key;
+
+      const list = byType.get(key) ?? [];
+      list.push(slide);
+      byType.set(key, list);
+    });
+
+    const ORDER: InputComponentKey[] = [
+      'ChipSelectorComponent',
+      'IconButtonGroupComponent',
+      'RangeSliderComponent',
+      'RatingCirclesComponent',
+      'IconRatingComponent',
+      'SegmentedControlComponent',
+      'ToggleSwitchComponent',
+    ];
+
+    return Array.from(byType.entries())
+      .sort((a, b) => ORDER.indexOf(a[0]) - ORDER.indexOf(b[0]))
+      .map(([componentKey, items]) => ({
+        componentKey,
+        items,
+        config: { slidesPerView: 1.2, spaceBetween: 16, showPagination: true, showNavigation: true },
+      }));
+  }
+
+  /** Costruisce gli input ammessi per il componente, *filtrando* tramite INPUT_COMPONENT_INPUTS */
+  private buildInputsForInputComponent(
+    key: InputComponentKey,
+    statId: string,
+    meta: StatMeta,
+    eventId: string
+  ): Record<string, any> {
+    const allowed = INPUT_COMPONENT_INPUTS[key] ?? [];
+    const out: Record<string, any> = {};
+    const label = meta.label;
+
+    // title/label (solo se previsti dal componente)
+    if (allowed.includes('title')) out['title'] = label;
+    if (allowed.includes('label')) out['label'] = label;
+
+    // options (SegmentedControl, ChipSelector, IconButtonGroup…)
+    const options = (meta as any).options as Array<{ value: string; label: string }> | undefined;
+    if (allowed.includes('options') && options?.length) {
+      out['options'] = options;
+    }
+
+    // value: default coerenti per i vari componenti (solo se ammesso)
+    if (allowed.includes('value')) {
+      if (key === 'SegmentedControlComponent') {
+        // default: prima opzione se presente
+        // default: prima opzione se presente
+        out['value'] = options?.[0]?.value ?? '';
+      } else if (key === 'IconRatingComponent' || key === 'RatingCirclesComponent') {
+        out['value'] = this.mockRating(); // 1..5
+      } else if (key === 'RangeSliderComponent') {
+        // usa i default del componente (min=1,max=5) ma diamo un value centrale
+        // usa i default del componente (min=1,max=5) ma diamo un value centrale
+        out['value'] = 3;
+      } else {
+        out['value'] = '';
+      }
+    }
+
+    // parametri numeric/visual opzionali (solo se ammessi)
+    if (key === 'IconRatingComponent' && allowed.includes('max')) out['max'] = 5;
+    if (key === 'RatingCirclesComponent' && allowed.includes('max')) out['max'] = 5;
+
+    // eventId/statId SOLO se previsti dalla mappa
+    if (allowed.includes('eventId')) out['eventId'] = eventId;
+    if (allowed.includes('statId'))  out['statId']  = statId;
+
+    // ChipSelector: se non passiamo options, il componente usa i suoi preset minuti.
+    // (Se vuoi forzare opzioni minute in base a meta.unit === 'min', qui è il posto giusto.)
+
+    return out;
   }
 
 }

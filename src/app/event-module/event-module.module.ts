@@ -18,6 +18,7 @@ import { SpinnerComponent } from '../spinner/spinner';
 import { CarouselComponent } from './carousel/carousel';
 import { WaitTimePillsComponent } from './wait-time-pills/wait-time-pills';
 import { ParticipantsAvatarsComponent } from './participants-avatars/participants-avatars';
+import { InputContextCarousel } from './input-context-carousel/input-context-carousel';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { ParticipantsAvatarsComponent } from './participants-avatars/participant
     RealTimeStatsNotify,
     CarouselComponent,
     WaitTimePillsComponent,
-    ParticipantsAvatarsComponent
+    ParticipantsAvatarsComponent,
+    InputContextCarousel
   ],
   imports: [
     CommonModule,

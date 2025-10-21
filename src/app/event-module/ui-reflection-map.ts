@@ -76,6 +76,13 @@ import { RankingListCardComponent } from './ui-statistics-module/ranking-list-ca
 import { SparklineKpiCardComponent } from './ui-statistics-module/sparkline-kpi-card/sparkline-kpi-card';
 import { StackedProgressCardComponent } from './ui-statistics-module/stacked-progress-card/stacked-progress-card';
 import { WaitTimePillsComponent } from './wait-time-pills/wait-time-pills';
+import { ChipSelectorComponent } from './ui-input-statistics-module/chip-selector/chip-selector';
+import { IconButtonGroupComponent } from './ui-input-statistics-module/icon-button-group/icon-button-group';
+import { IconRatingComponent } from './ui-input-statistics-module/icon-rating/icon-rating';
+import { RangeSliderComponent } from './ui-input-statistics-module/range-slider/range-slider';
+import { RatingCirclesComponent } from './ui-input-statistics-module/rating-circle/rating-circle';
+import { SegmentedControlComponent } from './ui-input-statistics-module/segmented-control/segmented-control';
+import { ToggleSwitchComponent } from './ui-input-statistics-module/toggle-switch/toggle-switch';
 
 export const REGISTRY_COMPONENT_TYPE: Record<UiComponentKey, Type<any>> = {
   BarRatingCardComponent,
@@ -91,3 +98,26 @@ export const REGISTRY_COMPONENT_TYPE: Record<UiComponentKey, Type<any>> = {
   StackedProgressCardComponent,
   WaitTimePillsComponent,
 }
+
+export const REGISTRY_INPUT_COMPONENT_TYPE: Record<InputComponentKey, Type<any>> = {
+  ChipSelectorComponent,
+  IconButtonGroupComponent,
+  IconRatingComponent,
+  RangeSliderComponent,
+  RatingCirclesComponent,
+  SegmentedControlComponent,
+  ToggleSwitchComponent
+};
+
+// ui-input-reflection-map.ts (o accanto a dove tieni UI_COMPONENT_INPUTS)
+export type InputComponentInputsMap = Partial<Record<InputComponentKey, ReadonlyArray<string>>>;
+
+export const INPUT_COMPONENT_INPUTS: InputComponentInputsMap = {
+  ChipSelectorComponent: ['minuteSuffix','autoLabel','options','selectedValue','selectedValues','multiSelect','title','subtitle','eventId','statId',],
+  IconButtonGroupComponent: ['options','value','label','eventId','statId',],
+  IconRatingComponent: ['label','max','value','iconName','eventId','statId'],
+  RangeSliderComponent: ['label','min','max','value','showLabels','leftEmoji','rightEmoji','centerEmoji','leftLabel','rightLabel','variant','eventId','statId'],
+  RatingCirclesComponent: ['label','max','value','eventId','statId'],
+  SegmentedControlComponent: ['options','value','label','eventId','statId'],
+  ToggleSwitchComponent: ['label','toggleLabel','checked','eventId','statId'],
+};

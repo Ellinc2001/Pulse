@@ -12,7 +12,7 @@ export interface StatMeta {
   description?: string | null;
   icon?: string;
   group?: string;
-  inputComponent: InputComponentKey;
+  inputComponent: InputComponentKey | null;
   unit?: string;
   // extra liberi
   updateFreqMin?: number;

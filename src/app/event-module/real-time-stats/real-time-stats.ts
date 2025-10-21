@@ -1,8 +1,7 @@
 import { Component, type OnInit } from "@angular/core"
-import { Router, ActivatedRoute } from "@angular/router"
 import { ClubService } from "../services/club-service"
 import { VideoStream } from "../live-videos/live-videos"
-import { ModalController } from "@ionic/angular"
+import { TimelineData } from "../ui-statistics-module/minimal-timeline-card/minimal-timeline-card"
 import { Participant } from "../participants-avatars/participants-avatars"
 
 @Component({
@@ -13,6 +12,17 @@ import { Participant } from "../participants-avatars/participants-avatars"
 })
 export class RealTimeStatsComponent implements OnInit {
   carousels: any[] = []
+
+  eventTimeline: TimelineData = {
+    points: [
+      { label: "Apertura", position: 0, color: "green" },
+      { label: "Warm-up", position: 25, color: "amber" },
+      { label: "Peak Time", position: 60, color: "primary" },
+      { label: "Chiusura", position: 100, color: "muted" },
+    ],
+    currentTimePercent: 45,
+    currentTimeLabel: "Ora: 01:30",
+  }
 
   participants: Participant[] = [
     {
@@ -133,10 +143,7 @@ export class RealTimeStatsComponent implements OnInit {
   ]
 
   constructor(
-    private router: Router,
-    private route: ActivatedRoute,
     private clubService: ClubService,
-    private modalController: ModalController,
   ) {}
 
   ngOnInit(): void {

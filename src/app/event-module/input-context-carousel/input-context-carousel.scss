@@ -1,0 +1,233 @@
+:host {
+  display: block;
+  width: 100%;
+}
+
+.carousel-container {
+  width: 100%;
+  padding: 0;
+  margin-top: 5%;
+}
+
+.carousel-header {
+  padding: 0 20px 16px;
+  
+  .carousel-title {
+    margin: 0 0 4px;
+    font-size: 20px;
+    font-weight: 700;
+    background: linear-gradient(135deg, #A020F0 0%, #E040FB 50%, #FF6EC7 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    letter-spacing: -0.02em;
+    text-shadow: 0 0 20px rgba(160, 32, 240, 0.3);
+  }
+
+  .carousel-subtitle {
+    margin: 0;
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.6);
+    font-weight: 400;
+  }
+}
+
+.component-carousel {
+  width: 100%;
+  position: relative;
+  overflow: visible;
+
+  .carousel-scroll-container {
+    display: flex;
+    gap: 20px;
+    overflow-x: auto;
+    overflow-y: visible;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none; // Firefox
+    
+    &::-webkit-scrollbar {
+      display: none; // Chrome, Safari, Edge
+    }
+
+    // Add padding to show peek effect
+    &::before,
+    &::after {
+      content: '';
+      flex-shrink: 0;
+      width: calc((100vw - 320px) / 2 - 20px);
+    }
+  }
+
+  .carousel-item {
+    padding-top: 3%;
+    padding-bottom: 3%;
+    flex-shrink: 0;
+    width: 320px;
+    scroll-snap-align: center;
+    scroll-snap-stop: always;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transform-origin: center;
+    
+    // Default state (side items)
+    transform: scale(0.85);
+    opacity: 0.5;
+    filter: blur(2px);
+    
+    // Center item (active)
+    &:nth-child(1) {
+      transform: scale(1);
+      opacity: 1;
+      filter: blur(0);
+
+    }
+  }
+
+  .carousel-pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 20px;
+    padding: 0 20px;
+  }
+
+  .pagination-dot {
+    width: 8px;
+    height: 8px;
+    padding: 0;
+    background: rgba(160, 32, 240, 0.3);
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 0 8px rgba(160, 32, 240, 0.2);
+
+    &:hover {
+      background: rgba(160, 32, 240, 0.5);
+      transform: scale(1.2);
+    }
+
+    &.active {
+      width: 24px;
+      background: linear-gradient(135deg, #A020F0 0%, #E040FB 100%);
+      box-shadow: 
+        0 0 12px rgba(160, 32, 240, 0.6),
+        0 0 24px rgba(160, 32, 240, 0.3);
+    }
+  }
+}
+
+.slide-content {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+
+  > * {
+    width: 100%;
+    flex: 1;
+  }
+}
+
+.unsupported-component {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 32px 20px;
+  background: transparent;
+  backdrop-filter: none;
+  border: 1px solid rgba(160, 32, 240, 0.2);
+  border-radius: 16px;
+  min-height: 200px;
+
+  ion-icon {
+    font-size: 48px;
+    color: rgba(255, 255, 255, 0.3);
+    margin-bottom: 12px;
+  }
+
+  p {
+    margin: 0;
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.5);
+    text-align: center;
+  }
+}
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 20px;
+  background: transparent;
+  backdrop-filter: none;
+  border: 1px dashed rgba(160, 32, 240, 0.3);
+  border-radius: 16px;
+  margin: 0 20px;
+
+  .empty-icon {
+    font-size: 64px;
+    color: rgba(160, 32, 240, 0.4);
+    margin-bottom: 16px;
+    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+
+  .empty-text {
+    margin: 0;
+    font-size: 16px;
+    color: rgba(255, 255, 255, 0.5);
+    font-weight: 500;
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+@media (min-width: 768px) {
+  .carousel-header {
+    padding: 0 32px 20px;
+
+    .carousel-title {
+      font-size: 24px;
+    }
+
+    .carousel-subtitle {
+      font-size: 16px;
+    }
+  }
+
+  .component-carousel {
+    .carousel-scroll-container {
+      padding: 40px 32px;
+      gap: 24px;
+
+      &::before,
+      &::after {
+        width: calc((100vw - 400px) / 2 - 32px);
+      }
+    }
+
+    .carousel-item {
+      width: 400px;
+    }
+  }
+
+  .empty-state {
+    margin: 0 32px;
+  }
+
+  .carousel-pagination {
+    padding: 0 32px;
+  }
+}
