@@ -45,42 +45,32 @@
     scroll-snap-type: x mandatory;
     scroll-behavior: smooth;
     -webkit-overflow-scrolling: touch;
-    scrollbar-width: none; // Firefox
-    
-    &::-webkit-scrollbar {
-      display: none; // Chrome, Safari, Edge
-    }
+    scrollbar-width: none;
+    padding: 0 20px;
 
-    // Add padding to show peek effect
-    &::before,
-    &::after {
-      content: '';
-      flex-shrink: 0;
-      width: calc((100vw - 320px) / 2 - 20px);
+    &::-webkit-scrollbar {
+      display: none;
     }
   }
 
   .carousel-item {
-    padding-top: 3%;
-    padding-bottom: 3%;
+    padding: 12px 0;
     flex-shrink: 0;
-    width: 320px;
+    width: calc(100vw - 80px);
+    max-width: 320px;
     scroll-snap-align: center;
     scroll-snap-stop: always;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     transform-origin: center;
-    
-    // Default state (side items)
+
     transform: scale(0.85);
     opacity: 0.5;
     filter: blur(2px);
-    
-    // Center item (active)
-    &:nth-child(1) {
+
+    &:first-child {
       transform: scale(1);
       opacity: 1;
       filter: blur(0);
-
     }
   }
 
@@ -209,17 +199,13 @@
 
   .component-carousel {
     .carousel-scroll-container {
-      padding: 40px 32px;
+      padding: 12px 32px;
       gap: 24px;
-
-      &::before,
-      &::after {
-        width: calc((100vw - 400px) / 2 - 32px);
-      }
     }
 
     .carousel-item {
       width: 400px;
+      max-width: 400px;
     }
   }
 
