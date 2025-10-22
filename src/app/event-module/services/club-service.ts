@@ -232,7 +232,7 @@ export class ClubService implements StatsProvider  {
   }
 
 
- getInputCarouselsForClub(eventId = 'club-demo'): InputCarouselVM[] {
+  getInputCarouselsForClub(eventId = 'club-demo'): InputCarouselVM[] {
     const byType = new Map<InputComponentKey, InputSlide[]>();
 
     Object.entries(STAT_META_CLUB).forEach(([statId, meta]) => {
@@ -249,6 +249,12 @@ export class ClubService implements StatsProvider  {
       byType.set(key, list);
     });
 
+    // ⬇️ AGGIUNTA: crea e inserisci le slide della UserRatingCard
+    const userRatingSlides = this.buildUserRatingSlides(eventId);
+    if (userRatingSlides.length) {
+      byType.set('UserRatingCardComponent', userRatingSlides);
+    }
+
     const ORDER: InputComponentKey[] = [
       'ChipSelectorComponent',
       'IconButtonGroupComponent',
@@ -257,6 +263,7 @@ export class ClubService implements StatsProvider  {
       'IconRatingComponent',
       'SegmentedControlComponent',
       'ToggleSwitchComponent',
+      'UserRatingCardComponent', // resta in coda o spostalo dove preferisci
     ];
 
     return Array.from(byType.entries())
@@ -318,6 +325,25 @@ export class ClubService implements StatsProvider  {
     // (Se vuoi forzare opzioni minute in base a meta.unit === 'min', qui è il posto giusto.)
 
     return out;
+  }
+
+
+  private getUsersToRate(eventId: string) {
+    return [
+      { id: 'u1', name: 'Luca Bianchi', avatar: 'https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=400' },
+      { id: 'u2', name: 'Sara Neri',   avatar: 'https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&w=400' },
+      { id: 'u3', name: 'Marco Verdi', avatar: 'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=400' },
+    ];
+  }
+
+  private buildUserRatingSlides(eventId: string): InputSlide[] {
+    return this.getUsersToRate(eventId).map(u => ({
+      key: 'UserRatingCardComponent',
+      inputs: {
+        userName: u.name,
+        userAvatar: u.avatar,
+      },
+    }));
   }
 
 }

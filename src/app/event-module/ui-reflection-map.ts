@@ -19,7 +19,8 @@ export type InputComponentKey =
   | 'RangeSliderComponent'
   | 'RatingCirclesComponent'
   | 'SegmentedControlComponent'
-  | 'ToggleSwitchComponent';
+  | 'ToggleSwitchComponent'
+  | 'UserRatingCardComponent'
 
 export type ComponentInputsMap = Partial<Record<UiComponentKey, ReadonlyArray<string>>>;
 export const UI_COMPONENT_INPUTS: ComponentInputsMap = {
@@ -60,6 +61,8 @@ export const REGISTRY_INPUT_COMPONENT_SELECTOR: Record<InputComponentKey, string
   RatingCirclesComponent:      'app-rating-circle',
   SegmentedControlComponent:   'app-segmented-control',
   ToggleSwitchComponent:       'app-toggle-switch',
+  UserRatingCardComponent:     'app-user-rating-card',
+
 };
 
 // ui-reflection-map.ts (o un file ad hoc)
@@ -83,6 +86,7 @@ import { RangeSliderComponent } from './ui-input-statistics-module/range-slider/
 import { RatingCirclesComponent } from './ui-input-statistics-module/rating-circle/rating-circle';
 import { SegmentedControlComponent } from './ui-input-statistics-module/segmented-control/segmented-control';
 import { ToggleSwitchComponent } from './ui-input-statistics-module/toggle-switch/toggle-switch';
+import { UserRatingCardComponent } from './ui-input-statistics-module/user-rating-card/user-rating-card';
 
 export const REGISTRY_COMPONENT_TYPE: Record<UiComponentKey, Type<any>> = {
   BarRatingCardComponent,
@@ -106,7 +110,8 @@ export const REGISTRY_INPUT_COMPONENT_TYPE: Record<InputComponentKey, Type<any>>
   RangeSliderComponent,
   RatingCirclesComponent,
   SegmentedControlComponent,
-  ToggleSwitchComponent
+  ToggleSwitchComponent,
+  UserRatingCardComponent
 };
 
 // ui-input-reflection-map.ts (o accanto a dove tieni UI_COMPONENT_INPUTS)
