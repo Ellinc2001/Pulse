@@ -51,3 +51,88 @@
   0%   { transform: scale(1);   opacity: 1; }
   100% { transform: scale(1.5); opacity: 0; }
 }
+
+.popover-menu {
+  position: fixed;
+  width: 230px;
+  z-index: 10000;
+  opacity: 0;
+  visibility: hidden;
+  transform: scale(0.95);
+  transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
+  pointer-events: none;
+
+  &.visible {
+    opacity: 1;
+    visibility: visible;
+    transform: scale(1);
+    pointer-events: auto;
+  }
+}
+
+.popover-arrow {
+  position: absolute;
+  left: -6px;
+  top: 50%;
+  transform: translateY(-50%) rotate(45deg);
+  width: 12px;
+  height: 12px;
+  background: rgba(20, 17, 24, 0.85);
+  border-bottom: 1px solid rgba(138, 63, 241, 0.25);
+  border-left: 1px solid rgba(138, 63, 241, 0.25);
+  backdrop-filter: blur(8px);
+}
+
+.popover-content {
+  background: rgba(20, 17, 24, 0.85);
+  backdrop-filter: blur(8px);
+  border-radius: 12px;
+  border: 1px solid rgba(138, 63, 241, 0.25);
+  box-shadow: 0 0 16px rgba(138, 63, 241, 0.25), 0 4px 20px rgba(0, 0, 0, 0.5);
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  height: 44px;
+  padding: 0 12px;
+  border-radius: 8px;
+  color: #e5e7eb;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+  }
+
+  &.danger {
+    color: rgba(248, 113, 113, 0.9);
+
+    &:hover {
+      background-color: rgba(239, 68, 68, 0.1);
+    }
+  }
+}
+
+.menu-icon {
+  font-size: 20px;
+  flex-shrink: 0;
+
+  &.cyan {
+    color: #22d3ee;
+  }
+
+  &.magenta {
+    color: #f0abfc;
+  }
+}
+
+.menu-text {
+  font-size: 14px;
+  font-weight: 600;
+}

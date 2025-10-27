@@ -17,6 +17,8 @@ export class DraggableBadgeComponent implements OnInit, OnDestroy {
 
   isVisible = false;
   position = { x: 20, y: 100 };
+  isPopoverVisible = false;
+  popoverPosition = { x: 0, y: 0 };
 
   private isDragging = false;
   private dragOffset = { x: 0, y: 0 };
@@ -40,10 +42,10 @@ export class DraggableBadgeComponent implements OnInit, OnDestroy {
 
     if (this.initialPosition) this.position = { ...this.initialPosition };
 
-    // Listener globali pointermove/up (una sola volta)
     document.addEventListener("pointermove", this.onPointerMove, { passive: false });
     document.addEventListener("pointerup", this.onPointerUp, { passive: true });
     document.addEventListener("pointercancel", this.onPointerUp, { passive: true });
+    document.addEventListener("click", this.onDocumentClick);
   }
 
   ngOnDestroy() {
@@ -51,6 +53,7 @@ export class DraggableBadgeComponent implements OnInit, OnDestroy {
     document.removeEventListener("pointermove", this.onPointerMove as any);
     document.removeEventListener("pointerup", this.onPointerUp as any);
     document.removeEventListener("pointercancel", this.onPointerUp as any);
+    document.removeEventListener("click", this.onDocumentClick);
   }
 
   onPointerDown = (ev: PointerEvent) => {
@@ -112,11 +115,60 @@ export class DraggableBadgeComponent implements OnInit, OnDestroy {
   }
 
   onClick() {
-    // se abbiamo già generato il click manualmente da pointerup, non ripeterlo
     if (this.suppressNextClick) {
       this.suppressNextClick = false;
       return;
     }
-    this.router.navigate(['event/real-time-stats-notify']);
+    this.togglePopover();
+  }
+
+  togglePopover() {
+    this.isPopoverVisible = !this.isPopoverVisible;
+    if (this.isPopoverVisible) {
+      this.calculatePopoverPosition();
+    }
+  }
+
+  calculatePopoverPosition() {
+    const badgeSize = 60;
+    const popoverWidth = 230;
+    const popoverHeight = 150;
+    const margin = 12;
+
+    let x = this.position.x + badgeSize + margin;
+    let y = this.position.y + (badgeSize / 2) - (popoverHeight / 2);
+
+    if (x + popoverWidth > window.innerWidth) {
+      x = this.position.x - popoverWidth - margin;
+    }
+
+    if (y < 0) {
+      y = 0;
+    } else if (y + popoverHeight > window.innerHeight) {
+      y = window.innerHeight - popoverHeight;
+    }
+
+    this.popoverPosition = { x, y };
+  }
+
+  onDocumentClick = (event: MouseEvent) => {
+    if (this.isPopoverVisible) {
+      this.isPopoverVisible = false;
+    }
+  };
+
+  onInviteFriends() {
+    console.log('Invite friends clicked');
+    this.isPopoverVisible = false;
+  }
+
+  onShareProfile() {
+    console.log('Share profile clicked');
+    this.isPopoverVisible = false;
+  }
+
+  onReportIssue() {
+    console.log('Report issue clicked');
+    this.isPopoverVisible = false;
   }
 }

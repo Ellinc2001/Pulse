@@ -8,3 +8,27 @@
   <ion-icon name="radio-outline" class="badge-icon"></ion-icon>
   <div class="pulse-ring"></div>
 </div>
+
+<div
+  class="popover-menu"
+  [class.visible]="isPopoverVisible"
+  [style.left.px]="popoverPosition.x"
+  [style.top.px]="popoverPosition.y"
+  (click)="$event.stopPropagation()"
+>
+  <div class="popover-arrow"></div>
+  <div class="popover-content">
+    <a class="menu-item" (click)="onInviteFriends()">
+      <ion-icon name="person-add-outline" class="menu-icon cyan"></ion-icon>
+      <span class="menu-text">Invite friends</span>
+    </a>
+    <a class="menu-item" (click)="onShareProfile()">
+      <ion-icon name="share-social-outline" class="menu-icon magenta"></ion-icon>
+      <span class="menu-text">Share profile</span>
+    </a>
+    <a class="menu-item danger" (click)="onReportIssue()">
+      <ion-icon name="warning-outline" class="menu-icon"></ion-icon>
+      <span class="menu-text">Report issue</span>
+    </a>
+  </div>
+</div>
