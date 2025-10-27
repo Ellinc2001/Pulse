@@ -1,15 +1,17 @@
 <div
+  #badgeRef
   class="draggable-badge"
   [style.left.px]="position.x"
   [style.top.px]="position.y"
   (pointerdown)="onPointerDown($event)"
-  (click)="onClick()"
+  (click)="onClick($event)"
 >
-  <ion-icon name="radio-outline" class="badge-icon"></ion-icon>
+  <ion-icon name="share-social-outline" class="badge-icon"></ion-icon>
   <div class="pulse-ring"></div>
 </div>
 
 <div
+  #popoverRef
   class="popover-menu"
   [class.visible]="isPopoverVisible"
   [style.left.px]="popoverPosition.x"
@@ -18,13 +20,13 @@
 >
   <div class="popover-arrow"></div>
   <div class="popover-content">
-    <a class="menu-item" (click)="onInviteFriends()">
-      <ion-icon name="person-add-outline" class="menu-icon cyan"></ion-icon>
-      <span class="menu-text">Invite friends</span>
+    <a class="menu-item" (click)="goToRealTime()">
+      <ion-icon name="radio-outline" class="menu-icon cyan"></ion-icon>
+      <span class="menu-text">Real time stats</span>
     </a>
-    <a class="menu-item" (click)="onShareProfile()">
-      <ion-icon name="share-social-outline" class="menu-icon magenta"></ion-icon>
-      <span class="menu-text">Share profile</span>
+    <a class="menu-item" (click)="goToChat()">
+      <ion-icon name="chatbubble" class="menu-icon magenta"></ion-icon>
+      <span class="menu-text">Event chat</span>
     </a>
     <a class="menu-item danger" (click)="onReportIssue()">
       <ion-icon name="warning-outline" class="menu-icon"></ion-icon>

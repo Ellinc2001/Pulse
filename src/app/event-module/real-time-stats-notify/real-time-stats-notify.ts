@@ -19,5 +19,4 @@ export class RealTimeStatsNotify implements OnInit {
   }
 
   back() {}
-  openChat() {}
 }

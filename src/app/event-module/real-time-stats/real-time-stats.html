@@ -22,12 +22,6 @@
 
 <ion-content [fullscreen]="true" class="page-bg">
   <div class="main-content">
-    <!-- Replaced stacked progress card with minimal timeline card -->
-    <div class="timeline-section">
-      <app-minimal-timeline-card
-        [data]="eventTimeline">
-      </app-minimal-timeline-card>
-    </div>
 
     <!-- Added live videos section at the beginning -->
     <div class="videos-card">
@@ -76,6 +70,12 @@
           [config]="g.carouselConfig">
         </app-component-carousel>
       }
+    </div>
+
+    <div class="timeline-section">
+      <app-minimal-timeline-card
+        [data]="eventTimeline">
+      </app-minimal-timeline-card>
     </div>
 
     <div class="warning-alert">

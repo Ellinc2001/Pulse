@@ -2,7 +2,6 @@
   background-color: #141118;
   color: #ffffff;
   min-height: 100vh;
-  height: 100vh;
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -580,48 +579,9 @@
   }
 }
 
-// Floating Chat Button
-.floating-chat {
-  position: fixed;
-  bottom: 16px;
-  right: 16px;
-  z-index: 30;
-}
-
-.chat-btn {
-  background-color: var(--primary-500);
-  border: none;
-  border-radius: 50%;
-  width: 56px;
-  height: 56px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #ffffff;
-  cursor: pointer;
-  box-shadow: 0 4px 12px rgba(127, 13, 242, 0.5);
-  transition: all 0.2s ease;
-
-  &:hover {
-    background-color: var(--primary-600);
-    transform: scale(1.05);
-  }
-
-  &:active {
-    transform: scale(0.95);
-  }
-
-  ion-icon {
-    font-size: 1.5rem;
-  }
-}
 
 // Responsive Design
 @media (max-width: 480px) {
-  .main-content {
-    padding: 12px;
-  }
-
   .card {
     padding: 16px;
   }

@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, OnInit, OnDestroy } from "@angular/core";
+import { Component, Input, Output, EventEmitter, OnInit, OnDestroy, ElementRef, ViewChild } from "@angular/core";
 import { Router } from "@angular/router";
 import { BadgeService, BadgeData } from "src/app/services/badge-service";
 import type { EventData } from "../event-module/event-card/event-card";
@@ -15,6 +15,9 @@ export class DraggableBadgeComponent implements OnInit, OnDestroy {
   @Input() initialPosition: { x: number; y: number } = { x: 20, y: 100 };
   @Output() positionChange = new EventEmitter<{ x: number; y: number }>();
 
+  @ViewChild('badgeRef', { static: true }) badgeRef!: ElementRef<HTMLElement>;
+  @ViewChild('popoverRef', { static: true }) popoverRef!: ElementRef<HTMLElement>;
+
   isVisible = false;
   position = { x: 20, y: 100 };
   isPopoverVisible = false;
@@ -24,7 +27,6 @@ export class DraggableBadgeComponent implements OnInit, OnDestroy {
   private dragOffset = { x: 0, y: 0 };
   private startPoint?: { x: number; y: number };
   private moved = false;
-  private suppressNextClick = false; // evita doppio trigger (manuale + (click))
 
   private badgeSubscription?: Subscription;
 
@@ -45,7 +47,7 @@ export class DraggableBadgeComponent implements OnInit, OnDestroy {
     document.addEventListener("pointermove", this.onPointerMove, { passive: false });
     document.addEventListener("pointerup", this.onPointerUp, { passive: true });
     document.addEventListener("pointercancel", this.onPointerUp, { passive: true });
-    document.addEventListener("click", this.onDocumentClick);
+    document.addEventListener("click", this.onDocumentClick, true); // capture per intercettare prima se serve
   }
 
   ngOnDestroy() {
@@ -53,34 +55,26 @@ export class DraggableBadgeComponent implements OnInit, OnDestroy {
     document.removeEventListener("pointermove", this.onPointerMove as any);
     document.removeEventListener("pointerup", this.onPointerUp as any);
     document.removeEventListener("pointercancel", this.onPointerUp as any);
-    document.removeEventListener("click", this.onDocumentClick);
+    document.removeEventListener("click", this.onDocumentClick, true);
   }
 
   onPointerDown = (ev: PointerEvent) => {
     const target = ev.currentTarget as HTMLElement;
     const rect = target.getBoundingClientRect();
-
-    // calcola offset iniziale
     this.dragOffset.x = ev.clientX - rect.left;
     this.dragOffset.y = ev.clientY - rect.top;
     this.startPoint = { x: ev.clientX, y: ev.clientY };
     this.moved = false;
     this.isDragging = true;
-
-    // cattura tutti i successivi pointer events anche fuori dal badge
-    target.setPointerCapture?.(ev.pointerId); // Safari iOS 13+ supporta Pointer Events. :contentReference[oaicite:3]{index=3}
+    target.setPointerCapture?.(ev.pointerId);
   };
 
   onPointerMove = (ev: PointerEvent) => {
     if (!this.isDragging) return;
-
-    // blocca lo scroll mentre trascini (consentito perché abbiamo touch-action:none)
     ev.preventDefault();
-
     const nextX = ev.clientX - this.dragOffset.x;
     const nextY = ev.clientY - this.dragOffset.y;
 
-    // soglia per distinguere tap da drag (anti-jitter)
     if (!this.moved && this.startPoint) {
       const dx = Math.abs(ev.clientX - this.startPoint.x);
       const dy = Math.abs(ev.clientY - this.startPoint.y);
@@ -95,13 +89,7 @@ export class DraggableBadgeComponent implements OnInit, OnDestroy {
 
   onPointerUp = (_ev: PointerEvent) => {
     if (!this.isDragging) return;
-
-    // se non si è mosso abbastanza, trattalo come tap e invoca onClick
-    if (!this.moved) {
-      this.suppressNextClick = true; // evitiamo doppio trigger con il (click) del template
-      this.onClick();
-    }
-
+    // Non chiamare onClick qui: lascia che il (click) nativo scatti da solo
     this.isDragging = false;
     this.startPoint = undefined;
     this.moved = false;
@@ -114,19 +102,11 @@ export class DraggableBadgeComponent implements OnInit, OnDestroy {
     this.position.y = Math.max(0, Math.min(this.position.y, maxY));
   }
 
-  onClick() {
-    if (this.suppressNextClick) {
-      this.suppressNextClick = false;
-      return;
-    }
-    this.togglePopover();
-  }
-
-  togglePopover() {
+  onClick(ev?: MouseEvent) {
+    // evita che il click arrivi al document handler
+    ev?.stopPropagation();
     this.isPopoverVisible = !this.isPopoverVisible;
-    if (this.isPopoverVisible) {
-      this.calculatePopoverPosition();
-    }
+    if (this.isPopoverVisible) this.calculatePopoverPosition();
   }
 
   calculatePopoverPosition() {
@@ -141,34 +121,35 @@ export class DraggableBadgeComponent implements OnInit, OnDestroy {
     if (x + popoverWidth > window.innerWidth) {
       x = this.position.x - popoverWidth - margin;
     }
-
-    if (y < 0) {
-      y = 0;
-    } else if (y + popoverHeight > window.innerHeight) {
+    if (y < 0) y = 0;
+    else if (y + popoverHeight > window.innerHeight) {
       y = window.innerHeight - popoverHeight;
     }
-
     this.popoverPosition = { x, y };
   }
 
   onDocumentClick = (event: MouseEvent) => {
-    if (this.isPopoverVisible) {
+    if (!this.isPopoverVisible) return;
+
+    const badgeEl = this.badgeRef?.nativeElement;
+    const popoverEl = this.popoverRef?.nativeElement;
+    const target = event.target as Node;
+
+    const clickInsideBadge = badgeEl?.contains(target);
+    const clickInsidePopover = popoverEl?.contains(target);
+
+    if (!clickInsideBadge && !clickInsidePopover) {
       this.isPopoverVisible = false;
     }
   };
 
-  onInviteFriends() {
-    console.log('Invite friends clicked');
-    this.isPopoverVisible = false;
+  goToRealTime() { 
+    this.router.navigate(['event/real-time-stats-notify']);
+    this.isPopoverVisible = false; 
   }
-
-  onShareProfile() {
-    console.log('Share profile clicked');
+  goToChat()  { 
+    this.router.navigate(['event/event-chat']);
     this.isPopoverVisible = false;
-  }
-
-  onReportIssue() {
-    console.log('Report issue clicked');
-    this.isPopoverVisible = false;
-  }
+   }
+  onReportIssue()   { console.log('Report issue clicked');   this.isPopoverVisible = false; }
 }
