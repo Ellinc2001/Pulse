@@ -1,0 +1,30 @@
+<div class="invite-card" [class.fade-out]="isAnimating">
+  <div class="invite-glow-effect"></div>
+  
+  <div class="invite-avatar-container">
+    <div class="avatar-glow"></div>
+    <div *ngIf="invite.avatarText && !invite.avatarUrl" class="invite-avatar-text">
+      {{ invite.avatarText }}
+    </div>
+    <img *ngIf="invite.avatarUrl" 
+         class="invite-avatar-img" 
+         [src]="invite.avatarUrl" 
+         [alt]="invite.eventTitle + ' avatar'">
+  </div>
+  
+  <div class="invite-info">
+    <p class="invite-title">{{ invite.eventTitle }}</p>
+    <p class="invite-from">from {{ invite.fromUser }}</p>
+  </div>
+  
+  <div class="invite-actions">
+    <button class="action-button accept" (click)="onAccept()" [disabled]="isAnimating">
+      <div class="button-glow accept-glow"></div>
+      <ion-icon name="checkmark-outline"></ion-icon>
+    </button>
+    <button class="action-button decline" (click)="onDecline()" [disabled]="isAnimating">
+      <div class="button-glow decline-glow"></div>
+      <ion-icon name="close-outline"></ion-icon>
+    </button>
+  </div>
+</div>

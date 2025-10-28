@@ -1,31 +1,49 @@
 :host {
-  /* VIOLA USATO FINORA */
+  /* ENHANCED VIOLET THEME */
   --violet-50:  #f0e6fd;
+  --violet-100: #e4d4fb;
+  --violet-200: #d1b3f7;
   --violet-300: #a770f5;
+  --violet-400: #9146f3;
   --violet-500: #7f0df2; /* primary */
+  --violet-600: #6b0bd1;
   --violet-700: #5709b2;
+  --violet-800: #430793;
+  --violet-900: #2f0574;
 
+  /* MODERN GRADIENTS */
+  --gradient-primary: linear-gradient(135deg, #7f0df2 0%, #a770f5 50%, #d1b3f7 100%);
+  --gradient-card: linear-gradient(145deg, rgba(25, 16, 34, 0.95) 0%, rgba(42, 31, 58, 0.85) 100%);
+  --gradient-glass: linear-gradient(145deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+  
+  /* ENHANCED BACKGROUNDS */
   --inactive:   #b5a7c7;
-  --bg:         #141118;
-  --bar-bg:     rgba(35, 30, 42, 0.72);  /* card viola con trasparenza */
-  --bar-border: rgba(48, 41, 58, 0.9);
+  --bg:         radial-gradient(ellipse at top, #1a0f2e 0%, #141118 50%, #0d0614 100%);
+  --bar-bg:     rgba(25, 16, 34, 0.8);
+  --bar-border: rgba(127, 13, 242, 0.3);
+  
+  /* GLASSMORPHISM EFFECTS */
+  --glass-bg: rgba(255, 255, 255, 0.1);
+  --glass-border: rgba(255, 255, 255, 0.2);
+  --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
 }
 
 ion-tabs, ion-content {
-  --ion-background-color: var(--bg);
+  --ion-background-color: transparent;
   background: var(--bg);
 }
 
-/* TAB BAR stile stitch ma viola */
 .tab-bar {
-  --background: transparent; /* usiamo il nostro background custom sotto */
+  --background: transparent;
   position: relative;
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   border-top: 1px solid var(--bar-border);
-  box-shadow:  0 -8px 28px -8px rgb(127 13 242 / 94%);
+  box-shadow: 
+    0 -8px 32px rgba(127, 13, 242, 0.3),
+    0 -4px 16px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
 
-  /* strato di colore sotto (per rispettare il blur su iOS/Android) */
   &::before {
     content: '';
     position: absolute;
@@ -36,40 +54,121 @@ ion-tabs, ion-content {
   }
 }
 
-/* Bottoni */
 .tab-item {
   color: var(--inactive);
-  text-shadow: 0 0 5px rgba(181, 167, 199, .28);
-  transition: color .25s ease, text-shadow .25s ease;
+  text-shadow: 0 0 8px rgba(181, 167, 199, 0.3);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
 
   ion-icon {
     font-size: 26px;
     margin-bottom: 2px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
-  /* stato attivo/selelezionato (Ionic applica .tab-selected) */
   &.tab-selected {
-    color: var(--violet-500);
+    color: var(--violet-300);
     text-shadow:
-      0 0 8px rgba(127, 13, 242, .75),
-      0 0 16px rgba(127, 13, 242, .45);
+      0 0 12px rgba(127, 13, 242, 0.8),
+      0 0 24px rgba(127, 13, 242, 0.4),
+      0 0 36px rgba(127, 13, 242, 0.2);
 
-    ion-icon { --ionicon-stroke-width: 2.5px; }
+    ion-icon { 
+      --ionicon-stroke-width: 2.5px;
+      transform: scale(1.1);
+      filter: drop-shadow(0 0 8px rgba(127, 13, 242, 0.6));
+    }
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: -2px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 4px;
+      height: 4px;
+      background: var(--gradient-primary);
+      border-radius: 50%;
+      box-shadow: 0 0 12px rgba(127, 13, 242, 0.8);
+    }
   }
 
   &:not(.tab-selected):hover {
-    color: var(--violet-50);
+    color: var(--violet-100);
+    transform: translateY(-2px);
+    
+    ion-icon {
+      transform: scale(1.05);
+    }
   }
 }
 
-/* opzionale: font + spacing per l’etichetta */
 ion-label {
   font-size: 12px;
   font-weight: 600;
-  letter-spacing: .02em;
+  letter-spacing: 0.02em;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-ion-tab-bar{
+ion-tab-bar {
   height: 8%;
 }
 
+ion-router-outlet.modal-blur-background,
+ion-nav.modal-blur-background {
+  filter: blur(15px) brightness(0.7);
+  transition: filter 0.3s ease-in-out;
+}
+
+.user-profile-modal-wrapper {
+  --backdrop-opacity: 1;
+  filter: none !important; // Prevent blur from affecting modal
+  
+  ion-backdrop {
+    backdrop-filter: none !important; // Remove backdrop blur since we blur the page directly
+    -webkit-backdrop-filter: none !important;
+    background: rgba(13, 6, 20, 0.8) !important;
+    opacity: 1 !important;
+  }
+
+  .modal-wrapper {
+    background: transparent !important;
+  }
+  
+  ion-modal {
+    --background: transparent;
+    --ion-background-color: transparent;
+  }
+
+  // Remove white background from ion-page if it exists
+  .ion-page {
+    background: transparent !important;
+    --background: transparent !important;
+    --ion-background-color: transparent !important;
+  }
+
+  // Ensure modal content wrapper is transparent
+  .modal-content,
+  .modal-shadow {
+    background: transparent !important;
+  }
+}
+
+ion-modal.user-profile-modal-wrapper {
+  --backdrop-opacity: 1;
+  
+  &::part(backdrop) {
+    backdrop-filter: none !important; // Remove backdrop blur since we blur the page directly
+    -webkit-backdrop-filter: none !important;
+    background: rgba(13, 6, 20, 0.8);
+  }
+}
+
+ion-app.modal-blur-active,
+ion-router-outlet.modal-blur-active,
+ion-content.modal-blur-active {
+  filter: blur(20px) brightness(0.6) !important;
+  transition: filter 0.4s ease-in-out !important;
+  transform: translateZ(0); // Force GPU acceleration
+  will-change: filter;
+}

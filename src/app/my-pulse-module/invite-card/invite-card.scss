@@ -1,0 +1,302 @@
+:host {
+  display: block;
+  --accept-color: #22c55e;
+  --decline-color: #ef4444;
+  --primary-glow: #A020F0;
+  --card-bg: rgba(39, 27, 36, 0.7);
+}
+
+.invite-card {
+  position: relative;
+  background: linear-gradient(135deg, rgba(39, 27, 36, 0.9) 0%, rgba(29, 29, 29, 0.8) 100%);
+  border: 1px solid rgba(160, 32, 240, 0.2);
+  border-radius: 16px;
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+  overflow: hidden;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, 
+      transparent 0%, 
+      var(--primary-glow) 50%, 
+      transparent 100%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  
+  &:hover {
+    transform: translateY(-4px) scale(1.02);
+    box-shadow: 
+      0 8px 32px rgba(160, 32, 240, 0.4),
+      0 0 40px rgba(160, 32, 240, 0.2),
+      inset 0 0 20px rgba(160, 32, 240, 0.1);
+    border-color: rgba(160, 32, 240, 0.5);
+    
+    &::before {
+      opacity: 1;
+    }
+    
+    .invite-glow-effect {
+      opacity: 0.6;
+      transform: scale(1.2);
+    }
+  }
+  
+  &.fade-out {
+    opacity: 0;
+    transform: translateX(100%) scale(0.8);
+    transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  }
+}
+
+.invite-glow-effect {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle, rgba(160, 32, 240, 0.15) 0%, transparent 70%);
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  transition: all 0.4s ease;
+  pointer-events: none;
+}
+
+.invite-avatar-container {
+  position: relative;
+  flex-shrink: 0;
+  margin-right: 16px;
+}
+
+.avatar-glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle, var(--primary-glow) 0%, transparent 70%);
+  transform: translate(-50%, -50%);
+  opacity: 0.3;
+  animation: avatar-pulse 3s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes avatar-pulse {
+  0%, 100% { 
+    opacity: 0.3; 
+    transform: translate(-50%, -50%) scale(1);
+  }
+  50% { 
+    opacity: 0.6; 
+    transform: translate(-50%, -50%) scale(1.2);
+  }
+}
+
+.invite-avatar-text {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(160, 32, 240, 0.3), rgba(160, 32, 240, 0.1));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 16px;
+  color: var(--primary-glow);
+  border: 2px solid var(--primary-glow);
+  box-shadow: 
+    0 0 20px rgba(160, 32, 240, 0.6),
+    0 0 40px rgba(160, 32, 240, 0.3),
+    inset 0 0 20px rgba(160, 32, 240, 0.2);
+  position: relative;
+  z-index: 1;
+  transition: all 0.3s ease;
+  
+  .invite-card:hover & {
+    box-shadow: 
+      0 0 30px rgba(160, 32, 240, 0.8),
+      0 0 60px rgba(160, 32, 240, 0.4),
+      inset 0 0 30px rgba(160, 32, 240, 0.3);
+    transform: scale(1.05);
+  }
+}
+
+.invite-avatar-img {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--primary-glow);
+  box-shadow: 
+    0 0 20px rgba(160, 32, 240, 0.6),
+    0 0 40px rgba(160, 32, 240, 0.3);
+  position: relative;
+  z-index: 1;
+  transition: all 0.3s ease;
+  
+  .invite-card:hover & {
+    box-shadow: 
+      0 0 30px rgba(160, 32, 240, 0.8),
+      0 0 60px rgba(160, 32, 240, 0.4);
+    transform: scale(1.05);
+  }
+}
+
+.invite-info {
+  flex-grow: 1;
+  min-width: 0;
+  
+  .invite-title {
+    font-size: 17px;
+    font-weight: 700;
+    background: linear-gradient(135deg, #EAE0E5 0%, var(--primary-glow) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 4px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    filter: drop-shadow(0 0 8px rgba(160, 32, 240, 0.4));
+    transition: filter 0.3s ease;
+    
+    .invite-card:hover & {
+      filter: drop-shadow(0 0 12px rgba(160, 32, 240, 0.6));
+    }
+  }
+  
+  .invite-from {
+    font-size: 13px;
+    color: #9ca3af;
+    margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
+.invite-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+.action-button {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  overflow: hidden;
+  
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+  
+  ion-icon {
+    font-size: 20px;
+    position: relative;
+    z-index: 2;
+    transition: all 0.3s ease;
+  }
+  
+  &:hover:not(:disabled) {
+    transform: scale(1.15);
+    
+    .button-glow {
+      opacity: 1;
+      transform: scale(1.5);
+    }
+  }
+  
+  &:active:not(:disabled) {
+    transform: scale(0.95);
+  }
+  
+  &.accept {
+    ion-icon {
+      color: var(--accept-color);
+      filter: drop-shadow(0 0 8px var(--accept-color));
+    }
+    
+    &:hover:not(:disabled) {
+      background: rgba(34, 197, 94, 0.2);
+      border-color: var(--accept-color);
+      box-shadow: 
+        0 0 20px rgba(34, 197, 94, 0.5),
+        0 0 40px rgba(34, 197, 94, 0.3);
+      
+      ion-icon {
+        filter: drop-shadow(0 0 12px var(--accept-color));
+      }
+    }
+  }
+  
+  &.decline {
+    ion-icon {
+      color: var(--decline-color);
+      filter: drop-shadow(0 0 8px var(--decline-color));
+    }
+    
+    &:hover:not(:disabled) {
+      background: rgba(239, 68, 68, 0.2);
+      border-color: var(--decline-color);
+      box-shadow: 
+        0 0 20px rgba(239, 68, 68, 0.5),
+        0 0 40px rgba(239, 68, 68, 0.3);
+      
+      ion-icon {
+        filter: drop-shadow(0 0 12px var(--decline-color));
+      }
+    }
+  }
+}
+
+.button-glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  opacity: 0;
+  transform: translate(-50%, -50%);
+  transition: all 0.3s ease;
+  pointer-events: none;
+  
+  &.accept-glow {
+    background: radial-gradient(circle, var(--accept-color) 0%, transparent 70%);
+  }
+  
+  &.decline-glow {
+    background: radial-gradient(circle, var(--decline-color) 0%, transparent 70%);
+  }
+}
+
+@keyframes pulse-button {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+}

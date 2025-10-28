@@ -6,10 +6,11 @@ import { MyPulseComponent } from './my-pulse/my-pulse';
 import { IonicModule } from '@ionic/angular';
 import { PreferencesConfigComponent } from './preferences-config/preferences-config';
 import { FormsModule } from '@angular/forms';
+import { InviteCard } from './invite-card/invite-card';
 
 
 @NgModule({
-  declarations: [MyPulseComponent, PreferencesConfigComponent],
+  declarations: [MyPulseComponent, PreferencesConfigComponent, InviteCard],
   imports: [
     CommonModule,
     MyPulseRoutingModule,

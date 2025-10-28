@@ -36,37 +36,6 @@
     </header>
 
     <main class="main-content">
-      <!-- Personal Preferences section with proper spacing -->
-      <a class="preferences-card" (click)="navigateToPreferences()">
-        <div class="preferences-header">
-          <h2 class="section-title">Personal Preferences</h2>
-          <ion-icon class="chevron-icon" name="chevron-forward-outline"></ion-icon>
-        </div>
-        <div class="preferences-content">
-          <div class="preference-row">
-            <ion-icon class="preference-icon" name="musical-notes-outline"></ion-icon>
-            <div class="preference-chips">
-              <span class="chip">Techno</span>
-              <span class="chip">Trance</span>
-              <span class="chip">+3 more</span>
-            </div>
-          </div>
-          <div class="preference-row">
-            <ion-icon class="preference-icon" name="happy-outline"></ion-icon>
-            <span class="preference-text">Mood: Social, High Energy</span>
-          </div>
-          <div class="preference-row">
-            <ion-icon class="preference-icon" name="location-outline"></ion-icon>
-            <span class="preference-text">Venues: Medium to Large</span>
-          </div>
-          <div class="preference-row">
-            <ion-icon class="preference-icon" name="people-outline"></ion-icon>
-            <span class="preference-text">Social: Open to meeting new people</span>
-          </div>
-        </div>
-        <p class="tap-to-customize">Tap to customize</p>
-      </a>
-
       <!-- Updated Event Countdowns section with new design and structure -->
       <div class="event-card">
         <div class="countdown-header">
@@ -123,49 +92,33 @@
           <button class="spark-button" 
                   [class.active]="sparkTab === 'me'"
                   (click)="sparkTab = 'me'">
-            Sparked Me (12)
+            Sparked Me ({{ sparkMeUsers.length }})
           </button>
           <button class="spark-button"
                   [class.active]="sparkTab === 'mine'"
                   (click)="sparkTab = 'mine'">
-            My Sparks (45)
+            My Sparks ({{ mySparkUsers.length }})
           </button>
         </div>
-        <!-- Added people list with avatars for Sparked Me tab -->
+        <!-- Updated to iterate over sparkMeUsers array and pass user data to openUserProfile -->
         <div class="spark-content" *ngIf="sparkTab === 'me'">
           <p class="spark-description">Persone che hanno lasciato uno spark</p>
           <div class="spark-avatars">
-            <div class="spark-avatar-item">
-              <!-- Updated with test photo links -->
-              <img class="spark-avatar" src="https://images.unsplash.com/photo-1494790108755-2616b612b786?w=150&h=150&fit=crop&crop=face" alt="User avatar 1">
-            </div>
-            <div class="spark-avatar-item">
-              <img class="spark-avatar" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face" alt="User avatar 2">
-            </div>
-            <div class="spark-avatar-item">
-              <img class="spark-avatar" src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop&crop=face" alt="User avatar 3">
-            </div>
-            <div class="spark-avatar-item">
-              <img class="spark-avatar" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face" alt="User avatar 4">
-            </div>
-            <div class="spark-avatar-item">
-              <img class="spark-avatar" src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=150&h=150&fit=crop&crop=face" alt="User avatar 5">
+            <div class="spark-avatar-item" 
+                 *ngFor="let user of sparkMeUsers"
+                 (click)="openUserProfile(user)">
+              <img class="spark-avatar" [src]="user.avatarUrl" [alt]="user.name">
             </div>
           </div>
         </div>
-        <!-- Added people list with avatars for My Sparks tab -->
+        <!-- Updated to iterate over mySparkUsers array and pass user data to openUserProfile -->
         <div class="spark-content" *ngIf="sparkTab === 'mine'">
-          <p class="spark-description">Persone... ai quali hai lasciato uno spark</p>
+          <p class="spark-description">Persone ai quali hai lasciato uno spark</p>
           <div class="spark-avatars">
-            <div class="spark-avatar-item">
-              <!-- Updated with different test photo links -->
-              <img class="spark-avatar" src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&h=150&fit=crop&crop=face" alt="User avatar 6">
-            </div>
-            <div class="spark-avatar-item">
-              <img class="spark-avatar" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&h=150&fit=crop&crop=face" alt="User avatar 7">
-            </div>
-            <div class="spark-avatar-item">
-              <img class="spark-avatar" src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=150&h=150&fit=crop&crop=face" alt="User avatar 8">
+            <div class="spark-avatar-item" 
+                 *ngFor="let user of mySparkUsers"
+                 (click)="openUserProfile(user)">
+              <img class="spark-avatar" [src]="user.avatarUrl" [alt]="user.name">
             </div>
           </div>
         </div>
@@ -173,61 +126,15 @@
 
       <!-- Updated Invitations section with new design -->
       <div class="invitations-card">
-        <h2 class="section-title">Sezione Inviti (3)</h2>
-        <div class="invitations-list" id="invitations-list">
-          <div class="invite-card" id="invite-1">
-            <div class="invite-avatar-container">
-              <div class="invite-avatar-text">
-                @d_j
-              </div>
-            </div>
-            <div class="invite-info">
-              <p class="invite-title">Warehouse Party</p>
-              <p class="invite-from">from @dj_alex</p>
-            </div>
-            <div class="invite-actions">
-              <button class="action-button accept" (click)="acceptInvite('invite-1')">
-                <ion-icon name="checkmark-outline"></ion-icon>
-              </button>
-              <button class="action-button decline" (click)="declineInvite('invite-1')">
-                <ion-icon name="close-outline"></ion-icon>
-              </button>
-            </div>
-          </div>
-          <div class="invite-card" id="invite-2">
-            <div class="invite-avatar-container">
-              <img class="invite-avatar-img" src="https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=150&h=150&fit=crop&crop=face" alt="Cinephiles Group Avatar">
-            </div>
-            <div class="invite-info">
-              <p class="invite-title">Indie Film Screening</p>
-              <p class="invite-from">from Cinephiles Group</p>
-            </div>
-            <div class="invite-actions">
-              <button class="action-button accept" (click)="acceptInvite('invite-2')">
-                <ion-icon name="checkmark-outline"></ion-icon>
-              </button>
-              <button class="action-button decline" (click)="declineInvite('invite-2')">
-                <ion-icon name="close-outline"></ion-icon>
-              </button>
-            </div>
-          </div>
-          <div class="invite-card" id="invite-3">
-            <div class="invite-avatar-container">
-              <img class="invite-avatar-img" src="https://images.unsplash.com/photo-1541961017774-22349e4a1262?w=150&h=150&fit=crop&crop=face" alt="Art Gallery Vernissage">
-            </div>
-            <div class="invite-info">
-              <p class="invite-title">Art Gallery Vernissage</p>
-              <p class="invite-from">from @arte_viva</p>
-            </div>
-            <div class="invite-actions">
-              <button class="action-button accept" (click)="acceptInvite('invite-3')">
-                <ion-icon name="checkmark-outline"></ion-icon>
-              </button>
-              <button class="action-button decline" (click)="declineInvite('invite-3')">
-                <ion-icon name="close-outline"></ion-icon>
-              </button>
-            </div>
-          </div>
+        <h2 class="section-title">Sezione Inviti ({{ invites.length }})</h2>
+        <div class="invitations-list">
+          <!-- Fixed binding to pass entire invite object instead of individual properties -->
+          <app-invite-card
+            *ngFor="let invite of invites"
+            [invite]="invite"
+            (accept)="acceptInvite($event)"
+            (decline)="declineInvite($event)"
+          ></app-invite-card>
         </div>
       </div>
     </main>

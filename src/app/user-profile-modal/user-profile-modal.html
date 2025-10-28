@@ -1,0 +1,76 @@
+<div class="modal-backdrop" (click)="dismiss()">
+  <div class="modal-container" (click)="$event.stopPropagation()">
+    <!-- Background blur effect -->
+    <div class="background-blur">
+      <img [src]="userData.avatarUrl" alt="Background" class="blur-image">
+      <div class="overlay"></div>
+    </div>
+
+    <!-- Modal content -->
+    <div class="modal-content">
+      <!-- Avatar with glow ring -->
+      <div class="avatar-container">
+        <div class="avatar-wrapper">
+          <img [src]="userData.avatarUrl" [alt]="userData.name" class="avatar-image">
+          <div class="avatar-ring"></div>
+          <div class="avatar-glow"></div>
+        </div>
+      </div>
+
+      <!-- User info -->
+      <div class="user-info">
+        <h2 class="user-name">{{ userData.name }}</h2>
+        <p class="user-username">@{{ userData.username }}</p>
+      </div>
+
+      <!-- Social links -->
+      <div class="social-links" *ngIf="userData.socialLinks">
+        <button 
+          *ngIf="userData.socialLinks.instagram" 
+          (click)="openSocialLink('instagram')"
+          class="social-button instagram"
+          aria-label="Instagram">
+          <ion-icon name="logo-instagram"></ion-icon>
+        </button>
+        <button 
+          *ngIf="userData.socialLinks.facebook" 
+          (click)="openSocialLink('facebook')"
+          class="social-button facebook"
+          aria-label="Facebook">
+          <ion-icon name="logo-facebook"></ion-icon>
+        </button>
+        <button 
+          *ngIf="userData.socialLinks.tinder" 
+          (click)="openSocialLink('tinder')"
+          class="social-button tinder"
+          aria-label="Tinder">
+          <ion-icon name="flame"></ion-icon>
+        </button>
+        <button 
+          *ngIf="userData.socialLinks.tiktok" 
+          (click)="openSocialLink('tiktok')"
+          class="social-button tiktok"
+          aria-label="TikTok">
+          <ion-icon name="logo-tiktok"></ion-icon>
+        </button>
+      </div>
+
+      <!-- Action buttons -->
+      <div class="action-buttons">
+        <button class="spark-button" (click)="onSpark()">
+          <ion-icon name="flash"></ion-icon>
+          <span>Spark</span>
+        </button>
+        <button class="message-button" (click)="onMessage()">
+          <ion-icon name="chatbubble"></ion-icon>
+          <span>Messaggia</span>
+        </button>
+      </div>
+
+      <!-- Close button -->
+      <button class="close-button" (click)="dismiss()">
+        Chiudi
+      </button>
+    </div>
+  </div>
+</div>
