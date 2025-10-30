@@ -1,9 +1,8 @@
 import { Component } from "@angular/core"
 import { Router } from "@angular/router"
 import type { EventData } from "../event-card/event-card.ts"
-import type { VideoStream } from "../ui-statistics-module/live-videos/live-videos.js"
+import { VideoStream } from "../ui-statistics-module/live-videos/live-videos"
 import { BadgeService } from "src/app/services/badge-service"
-
 
 @Component({
   selector: "app-live-event-detail",
@@ -213,10 +212,19 @@ export class LiveEventDetail {
   onPillClick(pill: string) {
     this.activePill = pill
     this.highlightedCard = pill
-    console.log("[v0] Pill clicked:", pill)
-  }
 
-  navigateToEventToRealimeStats(): void {
-    this.router.navigate(['event/real-time-stats'], { state: { event: this.event } });
+    // Scroll to the corresponding section
+    const sectionId = `${pill}-section`
+    const element = document.getElementById(sectionId)
+
+    if (element) {
+      element.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+        inline: "nearest",
+      })
+    }
+
+    console.log("[v0] Pill clicked and scrolled to:", pill)
   }
 }

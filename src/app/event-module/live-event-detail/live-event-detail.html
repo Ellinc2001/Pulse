@@ -24,7 +24,7 @@
             <h1 class="event-title">{{ event?.title || 'Indie Rock Night' }}</h1>
             
             <!-- Added Statistiche Live button -->
-            <button class="stats-live-btn" (click)="navigateToEventToRealimeStats()">
+            <button class="stats-live-btn" (click)="openStatsOverlay()">
               <ion-icon name="bar-chart-outline"></ion-icon>
               <span class="live-pulse"></span>
               <span>Statistiche Live</span>
@@ -51,6 +51,14 @@
         </div>
 
         <div class="content-padding">
+          <!-- Added event description section -->
+          <div class="event-description">
+            <h2 class="description-title">Descrizione Evento</h2>
+            <p class="description-text">
+              Immergiti in una notte di pura energia indie rock. Goditi le performance live di talenti emergenti, seguiti da DJ set che ti faranno ballare fino all'alba. Un'esperienza musicale unica in una location iconica.
+            </p>
+          </div>
+
           <!-- Added scrollable pills section -->
           <div class="pills-container">
             <div class="pills-scroll">
@@ -81,30 +89,33 @@
             </div>
           </div>
 
-          <!-- Added event description section -->
-          <div class="event-description">
-            <h2 class="description-title">Descrizione Evento</h2>
-            <p class="description-text">
-              Immergiti in una notte di pura energia indie rock. Goditi le performance live di talenti emergenti, seguiti da DJ set che ti faranno ballare fino all'alba. Un'esperienza musicale unica in una location iconica.
-            </p>
-          </div>
-
-          <!-- Added thematic cards section -->
+          <!-- Added id attributes to card sections for scroll targeting -->
           <div class="cards-section">
-            <app-music-card 
-              [data]="musicData" 
-              [isHighlighted]="highlightedCard === 'music'">
-            </app-music-card>
+            <div id="music-section">
+              <app-music-card 
+                [data]="musicData" 
+                [isHighlighted]="highlightedCard === 'music'">
+              </app-music-card>
+            </div>
 
-            <app-food-card 
-              [data]="foodData" 
-              [isHighlighted]="highlightedCard === 'food'">
-            </app-food-card>
+            <div id="food-section">
+              <app-food-card 
+                [data]="foodData" 
+                [isHighlighted]="highlightedCard === 'food'">
+              </app-food-card>
+            </div>
 
-            <app-location-card 
-              [data]="locationData" 
-              [isHighlighted]="highlightedCard === 'location'">
-            </app-location-card>
+            <div id="location-section">
+              <app-location-card 
+                [data]="locationData" 
+                [isHighlighted]="highlightedCard === 'location'">
+              </app-location-card>
+            </div>
+
+            <!-- Added placeholder for tickets section -->
+            <div id="tickets-section" class="tickets-placeholder">
+              <p>Sezione biglietti in arrivo...</p>
+            </div>
           </div>
         </div>
       </main>

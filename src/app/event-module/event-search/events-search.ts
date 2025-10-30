@@ -655,7 +655,7 @@ export class EventsSearchComponent implements OnInit, AfterViewInit {
   }
 
   openFilters() {
-    this.router.navigate(["/format-choice"])
+    this.router.navigate(["event/format"])
   }
 
   openFullMap() {
