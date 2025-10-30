@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { LiveEventDetail } from './live-event-detail';
+import { MusicCard } from './music-card';
 
-describe('LiveEventDetail', () => {
-  let component: LiveEventDetail;
-  let fixture: ComponentFixture<LiveEventDetail>;
+describe('MusicCard', () => {
+  let component: MusicCard;
+  let fixture: ComponentFixture<MusicCard>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [LiveEventDetail]
+      declarations: [MusicCard]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(LiveEventDetail);
+    fixture = TestBed.createComponent(MusicCard);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

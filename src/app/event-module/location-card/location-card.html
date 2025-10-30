@@ -1,0 +1,28 @@
+<div class="thematic-card" [class.card-highlight]="isHighlighted">
+  <div class="card-header">
+    <div class="header-left">
+      <ion-icon name="location-outline" class="card-icon"></ion-icon>
+      <h2 class="card-title">Location & Spazi</h2>
+    </div>
+    <div class="area-tags">
+      <span *ngFor="let area of data.areas; let i = index" class="area-tag" [class.indoor]="i === 0" [class.outdoor]="i === 1" [class.count]="i === 2">
+        {{ area }}
+      </span>
+    </div>
+  </div>
+
+  <div class="card-content">
+    <p class="card-description">{{ data.description }}</p>
+
+    <!-- <div class="crowd-meter">
+      <div class="meter-labels">
+        <span class="meter-label">Empty</span>
+        <span class="meter-label-center">Crowd Meter</span>
+        <span class="meter-label">Full</span>
+      </div>
+      <div class="meter-bar">
+        <div class="meter-fill" [style.width.%]="data.crowdLevel"></div>
+      </div>
+    </div> -->
+  </div>
+</div>

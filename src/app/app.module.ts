@@ -12,11 +12,13 @@ import { MyVibesButtonComponent } from './my-vibes-button/my-vibes-button';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DraggableBadgeComponent } from './draggable-badge/draggable-badge';
 import { UserProfileModalComponent } from './user-profile-modal/user-profile-modal';
+import { UserSearchModalComponent } from './user-search-modal/user-search-modal';
+import { FormsModule } from '@angular/forms';
 
 
 @NgModule({
-  declarations: [AppComponent, CompassSearchButtonComponent, ProfileButtonComponent, MyVibesButtonComponent, DraggableBadgeComponent, UserProfileModalComponent],
-  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, BrowserAnimationsModule],
+  declarations: [AppComponent, CompassSearchButtonComponent, ProfileButtonComponent, MyVibesButtonComponent, DraggableBadgeComponent, UserProfileModalComponent, UserSearchModalComponent],
+  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, BrowserAnimationsModule, FormsModule],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
   bootstrap: [AppComponent]
 })

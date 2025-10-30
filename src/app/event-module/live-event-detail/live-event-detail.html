@@ -3,7 +3,7 @@
     <div class="flex-grow">
       <main class="space-y-6 pb-40">
         <!-- Hero section with background image and overlay -->
-        <div class="hero-section" [style.background-image]="'url(' + (event?.imageUrl || 'https://lh3.googleusercontent.com/aida-public/AB6AXuBAOPwItSSJ3TdWMNe5edZldypnR5l_y1_9hVK3opQimf-uflaH35cGBg0q-MN2qeawbuNK7HVuUvQoFCcbSAX4FRELJJBKlCoz2_zT3lGpE4amn8jXOdsJImef35YlrYf8B1man5TLsaehy1lWrMZKytMe-tEhKw_W8Joh8eQRlqPeafEU55Pb5NtomUbbWkZaeZTNMnJWuQ_-J4EbXsICnrNAduz_8V3a_fX3Dqu96bq1vC2_sKjvCI96GMUV3vZLi8lMj1tEdm_u') + ')'">
+        <div class="hero-section" [style.background-image]="'url(' + (event?.imageUrl || 'https://lh3.googleusercontent.com/aida-public/AB6AXuA5TVjp7f7bfDbKQzyrsun_ZVgyYZxV5wzcPJqVJtnJ6dr15UnSijsKIteGa5LtLxa-PDiVenjwBEOAg2znpUUi2kqMegV6In220eH5phGF-MUkf4AdC5x_g7twHhOks1mQHA3uJynt5qcViT7-ybXPDhFzS6l2lzJ7GNL_FExXQaVHpZLoTSPQFnhMUTu9kKhVNpypOtXupN22hDWl6ntJoYsSX8EIb0BpFZoeCqJHiKZ8ibZlVOx-6Ja6i0Z5BG8yXBrRy9G6KOs') + ')'">
           <div class="hero-overlay"></div>
           <div class="hero-header">
             <button class="header-btn" (click)="onBackClick()">
@@ -18,144 +18,93 @@
               </button>
             </div>
           </div>
-        </div>
 
-        <div class="content-padding">
-          <!-- Event info card -->
-          <div class="event-info-card">
-            <h1 class="event-title">{{ event?.title || 'Neon Nights' }}</h1>
+          <!-- Event info card moved inside hero section -->
+          <div class="event-info-card-hero">
+            <h1 class="event-title">{{ event?.title || 'Indie Rock Night' }}</h1>
+            
+            <!-- Added Statistiche Live button -->
+            <button class="stats-live-btn" (click)="navigateToEventToRealimeStats()">
+              <ion-icon name="bar-chart-outline"></ion-icon>
+              <span class="live-pulse"></span>
+              <span>Statistiche Live</span>
+            </button>
+
             <div class="event-meta-grid">
               <div class="meta-item">
                 <ion-icon name="calendar-outline" class="meta-icon"></ion-icon>
                 <span class="meta-label">Date</span>
-                <p class="meta-value">  {{ event?.date ? (event?.date | date:'EEE MMM d, y') : '—' }}</p>
+                <p class="meta-value">{{ event?.date ? (event?.date | date:'EEE MMM d, y') : 'Tue Oct 28, 2025' }}</p>
               </div>
-              <div class="meta-item">
+              <div class="meta-item meta-item-border">
                 <ion-icon name="time-outline" class="meta-icon"></ion-icon>
                 <span class="meta-label">Time</span>
-                <p class="meta-value">{{ event?.time || '9:00 PM' }}</p>
+                <p class="meta-value">{{ event?.time || '19:20' }}</p>
               </div>
               <div class="meta-item">
                 <ion-icon name="location-outline" class="meta-icon"></ion-icon>
                 <span class="meta-label">Venue</span>
-                <p class="meta-value">{{ event?.location || 'Electric Ballroom' }}</p>
+                <p class="meta-value">{{ event?.location || 'The Fillmore' }}</p>
               </div>
             </div>
           </div>
+        </div>
 
-          <!-- Added users section with attendees and stats -->
-          <div class="users-card">
-            <div class="users-header">
-              <h2 class="section-title users-title">Real-time Stats</h2>
-              <ion-icon name="chevron-forward" class="users-arrow"></ion-icon>
-            </div>
-            
-            <div class="users-scroll-container" (click)="navigateToEventToRealimeStats()">
-              <div class="users-list">
-                <div class="user-item">
-                  <img class="user-avatar checked-in" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBRoLkp861sNt1_Ux_RusJuhJuKRcK_J9OirLsJRqe6Fgqxxi3qoBLjOxoKL0nw5OwwhF1U0FsvgO_XRIrp_qfn-6yyvgdQOdUV8ohI3ueyGfAsjg60SaCUS91YDrdvNoaPe8DCWVfgI5MxvMYcK2IswtjyNdijmjJGeSzo9y_qJ_Z-W_5MKhEjeZoFyvleeTTVqYMjp_hnNdZywXsExhuKOpp2EQ7REtPn13t1gOeIeLV4wLDuaq0lAmLMt1DM215675ksSqutk8aN" alt="Alex Morgan">
-                  <p class="user-name">Alex Morgan</p>
-                  <p class="user-status">Checked-in</p>
-                </div>
-                <div class="user-item">
-                  <img class="user-avatar booked" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAr1_uHKx0lxZl3oYqzf9ULKx_v3Ldb9iqLg-AB6SUQiJdPmv4AoOI01HcRN4qlgs5XRtcxxBkz9yrCQlzAwHoITQB7FlGQwX2p3Oiu0FPu-Mcaien5DgdbOeNx33yS4a3wZFUcx5ZT5WRRx-y1HojspyNdp2Us-PslL26MDC7rB37TWfFoqUKOtPP-mg8LlfMXWi5TXl_BUWFr4SzLx3NjnFvKWE1ZeXwPic7MCLSvpTQoZ7sSet1FWbr-222ZEECMHuj82R7_x8Iq" alt="Mia Khalifa">
-                  <p class="user-name">Mia Khalifa</p>
-                  <p class="user-status">Booked</p>
-                </div>
-                <div class="user-item">
-                  <img class="user-avatar checked-in" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAbcTxW6YF7KYc_cVWrZfYGCIt8s2dO1vmNq8HBDghTMmq9EOEfP44XICaOxvU4WqfE6YQ1APBWS8AA4MrZ1e9Ym_r63UoHzWaMGLgz3rHaBLs7q3Hbq2Wa0Ft_gfyiCzgX6ugTxaKd2W1Rs2mDqVLE9gC-7d1kQqJ6Sj8znQjFs7-1cZOZd7P1YmIA5x_Ssgeur0yolnLPoMwVNJ2sYaILrsctqs7dEInGuuInWr8lW2olySVWBoH32-hIE3Kv_ha4Yb_UhFrmFMyo" alt="Chris Evans">
-                  <p class="user-name">Chris Evans</p>
-                  <p class="user-status">Checked-in</p>
-                </div>
-                <div class="user-item">
-                  <img class="user-avatar booked" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDzW_vIsdsgMkCJHYkW1SkRfAHzVbcJlIbdD6BTiVq7wDMWTTkKzB3Rp26ocil4ba29jtpBSHRWpOtDwX8vtNjPxz3-yF_wODWNkkecEEL_vnmso62MsQgi7mSRaLIxXjSNeB2IvEUQFfpDf3S6BsZdrtUYgJc8KVCj1F0mhZx824TxRQIDcgknvUwXppoaJ4QG_vUX6JbxERQo6luW28eVgRBFVUaHdT3yJNAAbG9oGFrF9uGzLkj72ig6KiMsbm6v5rK0k5_CSwnG" alt="Jenna Ortega">
-                  <p class="user-name">Jenna Ortega</p>
-                  <p class="user-status">Booked</p>
-                </div>
-                <div class="user-item more-users">
-                  <div class="more-users-circle">+246</div>
-                </div>
-              </div>
-            </div>
-            
-            <div class="stats-grid">
-              <div class="stat-item">
-                <p class="stat-label">Booked</p>
-                <p class="stat-value">250</p>
-              </div>
-              <div class="stat-item">
-                <p class="stat-label">Checked-in</p>
-                <p class="stat-value">180</p>
-              </div>
-              <div class="stat-item">
-                <p class="stat-label">Online</p>
-                <p class="stat-value">45</p>
-              </div>
+        <div class="content-padding">
+          <!-- Added scrollable pills section -->
+          <div class="pills-container">
+            <div class="pills-scroll">
+              <button 
+                class="pill" 
+                [class.pill-active]="activePill === 'music'"
+                (click)="onPillClick('music')">
+                Musica
+              </button>
+              <button 
+                class="pill" 
+                [class.pill-active]="activePill === 'food'"
+                (click)="onPillClick('food')">
+                Food
+              </button>
+              <button 
+                class="pill" 
+                [class.pill-active]="activePill === 'location'"
+                (click)="onPillClick('location')">
+                Location
+              </button>
+              <button 
+                class="pill" 
+                [class.pill-active]="activePill === 'tickets'"
+                (click)="onPillClick('tickets')">
+                Biglietti
+              </button>
             </div>
           </div>
 
-          <!-- Menu section -->
-          <div class="menu-card">
-            <h2 class="section-title">Menu</h2>
-            <div class="menu-items">
-              <div class="menu-item">
-                <img class="menu-image" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBPIzkcrmrTyEQfE6BwrIXBufUo5OoMXc_b8XE-BPO1c1C_UX4jUL3YUYBJ0nEIglMRQKPRIyC8KS5fzJnhOEGJvun6K_12Sa7MaCkdZInSqrSFbV5g9EFsdyf7rv49DpGKl6VudRuZTsN_lF6YB4M6rrFwcLIkeDoLEQjLCdvuk2j0QqUxfGAhRI7rFhhzWhrH1mJlWUvz-7jWOPIS-a1InC6_8e91XSHhpOBWv8xDHDoAwO_uMlqXI9RL-I22BzqZuV7G6kFmxIm4" alt="Burger">
-                <div class="menu-info">
-                  <p class="menu-name">Neon Burger</p>
-                  <p class="menu-description">Glowing with flavor</p>
-                </div>
-                <p class="menu-price">$15</p>
-              </div>
-              <div class="menu-item">
-                <img class="menu-image" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCxV_djtLrZ-NlOU2QRG-8abPZwjPCZOYs6EoPAWuRxOHm5-ldhIMdrXkl6EqzBFqqolQA6bzVgT5cfSKkma7hsrLwtVz9C_3HMIgwE5Lu3jLOMHjfmAbyxQHZiAMjtY5P4Coc8F2LqRGH3oUIzReutwBoWrl8RtJvA9ktox9I_3j-rAE3v6PSCl6TfSuJoMkiBwmfrXA6bDyZDYMiihosmLuae84GwGONwdaSfbFnz2idvXIOexUJpU2MPkm2-9Uqb2jaNXGYZ9XnK" alt="Fries">
-                <div class="menu-info">
-                  <p class="menu-name">Glowstick Fries</p>
-                  <p class="menu-description">Crispy and vibrant</p>
-                </div>
-                <p class="menu-price">$8</p>
-              </div>
-            </div>
+          <!-- Added event description section -->
+          <div class="event-description">
+            <h2 class="description-title">Descrizione Evento</h2>
+            <p class="description-text">
+              Immergiti in una notte di pura energia indie rock. Goditi le performance live di talenti emergenti, seguiti da DJ set che ti faranno ballare fino all'alba. Un'esperienza musicale unica in una location iconica.
+            </p>
           </div>
 
-          <!-- Updated Live Videos section to match template exactly with simplified layout -->
-          <div class="videos-card">
-            <div class="videos-header">
-              <h2 class="section-title">Live Videos</h2>
-            </div>
-            
-            <div class="videos-scroll-container">
-              <div class="videos-horizontal-list">
-                <!-- Main video using live-videos component -->
-                @for (video of videoStreams; track video; let i = $index) {
-                  <div class="video-item-template">
-                    <div class="video-container-template">
-                      @if (i === activeVideoIndex) {
-                        <app-live-videos
-                          [videoStream]="video"
-                          [showControls]="true">
-                        </app-live-videos>
-                      } @else {
-                        <div class="static-video-container" (click)="setActive(i)">
-                          <img class="video-thumbnail-template" [src]="video.thumbnail" [alt]="video.title">
-                          <div class="video-overlay-template">
-                            <ion-icon name="play-circle" class="play-icon-template"></ion-icon>
-                            <div class="live-indicator" *ngIf="video.isLive">
-                              <span class="live-dot"></span><span class="live-text">LIVE</span>
-                            </div>
-                          </div>
-                        </div>
-                      }
-                    </div>
+          <!-- Added thematic cards section -->
+          <div class="cards-section">
+            <app-music-card 
+              [data]="musicData" 
+              [isHighlighted]="highlightedCard === 'music'">
+            </app-music-card>
 
-                    <div class="video-info-template">
-                      <p class="video-title-template">{{ video.title }}</p>
-                      <p class="video-subtitle-template">{{ video.angle || 'DJ Set' }}</p>
-                      <p class="video-viewers">{{ video.viewers }} viewers</p>
-                    </div>
-                  </div>
-                }
-              </div>
-            </div>
+            <app-food-card 
+              [data]="foodData" 
+              [isHighlighted]="highlightedCard === 'food'">
+            </app-food-card>
+
+            <app-location-card 
+              [data]="locationData" 
+              [isHighlighted]="highlightedCard === 'location'">
+            </app-location-card>
           </div>
         </div>
       </main>
@@ -163,11 +112,6 @@
 
     <!-- Fixed footer with chat button and action buttons -->
     <footer class="fixed-footer">
-      <div class="chat-container">
-        <button class="chat-button" (click)="openChat()">
-          <ion-icon name="chatbubble"></ion-icon>
-        </button>
-      </div>
       <div class="footer-actions">
         <div class="action-buttons">
           <button class="check-in-btn" (click)="onCheckIn()">

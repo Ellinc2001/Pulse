@@ -1,0 +1,60 @@
+<ion-content class="format-choice-content">
+  <div class="format-choice-container">
+    <!-- Header -->
+    <div class="header-section">
+      <div class="header-bar">
+        <div class="header-icon">
+          <ion-icon name="options-outline"></ion-icon>
+        </div>
+        <h1 class="header-title">Filtra eventi</h1>
+        <button class="close-button" (click)="close()">
+          <ion-icon name="close"></ion-icon>
+        </button>
+      </div>
+
+      <!-- Search Bar -->
+      <div class="search-container">
+        <div class="search-bar">
+          <div class="search-icon">
+            <ion-icon name="search"></ion-icon>
+          </div>
+          <input
+            type="text"
+            class="search-input"
+            placeholder="Cerca format..."
+            [(ngModel)]="searchQuery"
+            (input)="onSearchChange()"
+          />
+        </div>
+      </div>
+    </div>
+
+    <!-- Formats List -->
+    <div class="formats-list">
+      <div
+        *ngFor="let format of filteredFormats"
+        class="format-card"
+        [class.selected]="selectedFormat === format.id"
+        [class.disabled]="!format.enabled"
+        (click)="selectFormat(format)"
+      >
+        <div class="format-icon">
+          <ion-icon [name]="format.icon"></ion-icon>
+        </div>
+        <div class="format-info">
+          <p class="format-name">{{ format.name }}</p>
+          <p class="format-description">{{ format.description }}</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer Button -->
+    <div class="footer-section">
+      <div class="footer-gradient">
+        <button class="continue-button" (click)="continue()">
+          Scegli e continua
+        </button>
+      </div>
+    </div>
+  </div>
+</ion-content>

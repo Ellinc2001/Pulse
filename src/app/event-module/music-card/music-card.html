@@ -1,0 +1,45 @@
+<div class="thematic-card" [class.card-highlight]="isHighlighted">
+  <div class="card-header">
+    <div class="header-left">
+      <ion-icon name="musical-notes-outline" class="card-icon"></ion-icon>
+      <h2 class="card-title">Musica & Intrattenimento</h2>
+    </div>
+    <div class="genre-tags">
+      <span *ngFor="let genre of data.genres" class="genre-tag">{{ genre }}</span>
+    </div>
+  </div>
+
+  <div class="card-content">
+    <p class="card-description">{{ data.description }}</p>
+
+    <!-- <div class="energy-meter">
+      <div class="meter-labels">
+        <span class="meter-label">Low Energy</span>
+        <span class="meter-label-center">Energy Index</span>
+        <span class="meter-label">High Energy</span>
+      </div>
+      <div class="meter-bar">
+        <div class="meter-fill" [style.width.%]="data.energyLevel"></div>
+      </div>
+    </div> -->
+  </div>
+
+  <div class="card-footer">
+    <button class="expand-button" (click)="toggleExpand()">
+      <span>{{ isExpanded ? 'Mostra meno' : 'Mostra di più' }}</span>
+      <ion-icon [name]="isExpanded ? 'chevron-up-outline' : 'chevron-down-outline'"></ion-icon>
+    </button>
+
+    <div class="expanded-content" [class.is-open]="isExpanded" *ngIf="data.timeline">
+      <div class="timeline-section">
+        <h3 class="timeline-title">Artist Timeline</h3>
+        <ul class="timeline-list">
+          <li *ngFor="let item of data.timeline" class="timeline-item">
+            <span class="timeline-time">{{ item.time }}:</span>
+            <span class="timeline-artist">{{ item.artist }}</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

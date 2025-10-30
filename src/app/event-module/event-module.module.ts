@@ -19,6 +19,10 @@ import { CarouselComponent } from './carousel/carousel';
 import { WaitTimePillsComponent } from './wait-time-pills/wait-time-pills';
 import { ParticipantsAvatarsComponent } from './participants-avatars/participants-avatars';
 import { InputContextCarousel } from './input-context-carousel/input-context-carousel';
+import { FoodCardComponent } from './food-card/food-card';
+import { LocationCardComponent } from './location-card/location-card';
+import { MusicCardComponent } from './music-card/music-card';
+import { FilterModule } from './filter-module/filter.module';
 
 @NgModule({
   declarations: [
@@ -33,7 +37,10 @@ import { InputContextCarousel } from './input-context-carousel/input-context-car
     CarouselComponent,
     WaitTimePillsComponent,
     ParticipantsAvatarsComponent,
-    InputContextCarousel
+    InputContextCarousel,
+    FoodCardComponent,
+    LocationCardComponent,
+    MusicCardComponent
   ],
   imports: [
     CommonModule,
@@ -42,6 +49,7 @@ import { InputContextCarousel } from './input-context-carousel/input-context-car
     FormsModule,
     UiStatisticsComponentsModule,
     UiInputStatisticsModuleModule,
+    FilterModule,
     SpinnerComponent
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

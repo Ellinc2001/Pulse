@@ -18,6 +18,11 @@ const routes: Routes = [
     loadChildren: () =>
       import('./create-event-module/create-event-module.module').then(m => m.CreateEventModuleModule),
   },
+  {
+    path: 'filter',
+    loadChildren: () =>
+      import('./filter-module/filter.module').then(m => m.FilterModule),
+  },
 ];
 
 

@@ -1,0 +1,37 @@
+<div class="thematic-card" [class.card-highlight]="isHighlighted">
+  <div class="card-header">
+    <div class="header-left">
+      <ion-icon name="restaurant-outline" class="card-icon"></ion-icon>
+      <h2 class="card-title">Food & Beverage (Menu)</h2>
+    </div>
+    <div class="food-tags">
+      <span *ngFor="let tag of data.tags" class="food-tag" [class.vegan]="tag === 'Vegan'">{{ tag }}</span>
+    </div>
+  </div>
+
+  <div class="card-content">
+    <p class="card-description">{{ data.description }}</p>
+
+    <div class="menu-grid">
+      <div *ngFor="let category of data.menuCategories" class="menu-category">
+        {{ category }}
+      </div>
+    </div>
+  </div>
+
+  <div class="card-footer">
+    <button class="expand-button" (click)="toggleExpand()">
+      <span>{{ isExpanded ? 'Nascondi menù' : 'Mostra menù' }}</span>
+      <ion-icon [name]="isExpanded ? 'chevron-up-outline' : 'chevron-down-outline'"></ion-icon>
+    </button>
+
+    <div class="expanded-content" [class.is-open]="isExpanded" *ngIf="data.menuDetails">
+      <div class="menu-details">
+        <div *ngFor="let item of data.menuDetails" class="menu-item">
+          <span class="menu-item-name">{{ item.name }}:</span>
+          <span class="menu-item-desc">{{ item.description }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

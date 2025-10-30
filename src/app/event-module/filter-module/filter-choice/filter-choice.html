@@ -1,0 +1,131 @@
+<ion-content [fullscreen]="true" class="filter-choice-content">
+  <div class="filter-choice-container">
+    <!-- Header Sticky -->
+    <div class="filter-header">
+      <div class="header-top">
+        <!-- Format Chip -->
+        <div class="format-chip">
+          <ion-icon [name]="selectedFormat.icon"></ion-icon>
+          <span>{{ selectedFormat.label }}</span>
+        </div>
+
+        <!-- Actions -->
+        <div class="header-actions">
+          <button class="clear-button" (click)="clearAll()">Pulisci tutto</button>
+          <button class="apply-button" (click)="applyFilters()">Applica</button>
+        </div>
+      </div>
+
+      <!-- Active Filters Pills -->
+      <div class="active-filters-scroll" *ngIf="activeFilters.length > 0">
+        <div class="active-filter-pill" *ngFor="let filter of activeFilters">
+          <span>{{ filter.label }}</span>
+          <ion-icon name="close" (click)="removeFilter(filter)"></ion-icon>
+        </div>
+      </div>
+    </div>
+
+    <!-- Filters Content -->
+    <div class="filters-content">
+      <!-- Musica -->
+      <div class="filter-section">
+        <p class="section-title">Musica</p>
+        <div class="pills-container">
+          <button 
+            *ngFor="let genre of musicGenres" 
+            class="filter-pill"
+            [class.selected]="genre.selected"
+            (click)="toggleMusicGenre(genre)">
+            {{ genre.label }}
+          </button>
+          <button class="show-more-button" (click)="showMoreMusic()">Mostra di più</button>
+        </div>
+      </div>
+
+      <!-- Accesso -->
+      <div class="filter-section">
+        <p class="section-title">Accesso</p>
+        <div class="toggle-row">
+          <p class="toggle-label">Ingresso con biglietto</p>
+          <ion-toggle [(ngModel)]="ticketRequired" class="custom-toggle"></ion-toggle>
+        </div>
+      </div>
+
+      <!-- Dress Code -->
+      <div class="filter-section">
+        <p class="section-title">Dress code</p>
+        <div class="segmented-control">
+          <input type="radio" id="dc_none" name="dresscode" value="none" [(ngModel)]="dressCode">
+          <label for="dc_none">Nessuno</label>
+          <input type="radio" id="dc_casual" name="dresscode" value="casual" [(ngModel)]="dressCode">
+          <label for="dc_casual">Casual</label>
+        </div>
+      </div>
+
+      <!-- Capienza -->
+      <div class="filter-section">
+        <p class="section-title">Capienza</p>
+        <div class="range-labels">
+          <span>&lt;300</span>
+          <span>&gt;1500</span>
+        </div>
+        <input type="range" min="0" max="100" [(ngModel)]="capacityValue" class="capacity-slider">
+      </div>
+
+      <!-- Età minima -->
+      <div class="filter-section">
+        <p class="section-title">Età minima</p>
+        <div class="segmented-control">
+          <input type="radio" id="age_all" name="age" value="all" [(ngModel)]="ageFilter">
+          <label for="age_all">Tutte</label>
+          <input type="radio" id="age_18" name="age" value="18plus" [(ngModel)]="ageFilter">
+          <label for="age_18">18+</label>
+        </div>
+      </div>
+
+      <!-- Affollamento previsto -->
+      <div class="filter-section">
+        <p class="section-title">Affollamento previsto</p>
+        <div class="pills-container">
+          <button 
+            *ngFor="let level of crowdLevels" 
+            class="filter-pill"
+            [class.selected]="level.selected"
+            (click)="toggleCrowdLevel(level)">
+            {{ level.label }}
+          </button>
+        </div>
+      </div>
+
+      <!-- Spazi -->
+      <div class="filter-section">
+        <p class="section-title">Spazi</p>
+        <div class="segmented-control">
+          <input type="radio" id="space_indoor" name="space" value="indoor" [(ngModel)]="spaceType">
+          <label for="space_indoor">Indoor</label>
+          <input type="radio" id="space_outdoor" name="space" value="outdoor" [(ngModel)]="spaceType">
+          <label for="space_outdoor">Outdoor</label>
+        </div>
+        <div class="checkboxes-grid">
+          <label class="checkbox-label">
+            <input type="checkbox" [(ngModel)]="vipArea">
+            <span>Area VIP</span>
+          </label>
+          <label class="checkbox-label">
+            <input type="checkbox" [(ngModel)]="cloakroom">
+            <span>Guardaroba</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- Food & Beverage -->
+      <div class="filter-section">
+        <p class="section-title">Food & Beverage</p>
+        <div class="toggle-row">
+          <p class="toggle-label">Menu Cibo</p>
+          <ion-toggle [(ngModel)]="foodMenu" class="custom-toggle"></ion-toggle>
+        </div>
+      </div>
+    </div>
+  </div>
+</ion-content>

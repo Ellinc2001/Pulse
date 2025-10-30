@@ -1,0 +1,91 @@
+<div class="user-search-modal">
+  <!-- Header -->
+  <div class="modal-header">
+    <div class="search-container">
+      <ion-icon name="search-outline" class="search-icon"></ion-icon>
+      <input 
+        type="search" 
+        class="search-input" 
+        placeholder="Cerca utenti..."
+        [(ngModel)]="searchQuery"
+        (input)="onSearch($event)"
+      />
+    </div>
+    <button class="close-button" (click)="dismiss()">
+      <ion-icon name="close-outline"></ion-icon>
+    </button>
+  </div>
+
+  <!-- Filters Pills -->
+  <div class="filters-container">
+    <div class="filters-scroll">
+      <button 
+        *ngFor="let filter of filters"
+        class="filter-pill"
+        [class.active]="activeFilter === filter.id"
+        (click)="selectFilter(filter.id)"
+      >
+        {{ filter.label }}
+      </button>
+    </div>
+  </div>
+
+  <!-- Content -->
+  <div class="modal-content">
+    <!-- Recent Searches -->
+    <section class="section" *ngIf="recentSearches.length > 0">
+      <h2 class="section-title">Ricerche recenti</h2>
+      <ul class="recent-list">
+        <li *ngFor="let search of recentSearches" class="recent-item">
+          <img [src]="search.avatarUrl" [alt]="search.name" class="user-avatar-small" />
+          <div class="user-info">
+            <p class="user-name">{{ search.name }}</p>
+            <p class="user-username">{{ search.username }}</p>
+          </div>
+          <button class="remove-button" (click)="removeRecentSearch(search.id)">
+            <ion-icon name="close-outline"></ion-icon>
+          </button>
+        </li>
+      </ul>
+    </section>
+
+    <!-- Suggested Users -->
+    <section class="section">
+      <h2 class="section-title">Suggeriti per te</h2>
+      <ul class="suggested-list">
+        <li *ngFor="let user of suggestedUsers" class="suggested-item">
+          <img [src]="user.avatarUrl" [alt]="user.name" class="user-avatar" />
+          <div class="user-details">
+            <p class="user-name">{{ user.name }}</p>
+            <p class="user-username">{{ user.username }}</p>
+            <div class="user-badges">
+              <span class="badge" *ngIf="user.distance">
+                <ion-icon name="location-outline"></ion-icon>
+                {{ user.distance }}
+              </span>
+              <span class="badge" *ngIf="user.commonInterests">
+                <ion-icon name="heart-outline"></ion-icon>
+                {{ user.commonInterests }} interessi
+              </span>
+            </div>
+          </div>
+          <div class="action-buttons">
+            <button class="action-button spark" (click)="sparkUser(user.id)">
+              <ion-icon name="flash-outline"></ion-icon>
+            </button>
+            <button class="action-button message" (click)="messageUser(user.id)">
+              <ion-icon name="chatbubble-outline"></ion-icon>
+            </button>
+          </div>
+        </li>
+      </ul>
+    </section>
+  </div>
+
+  <!-- Footer -->
+  <div class="modal-footer">
+    <button class="advanced-filters-button" (click)="openAdvancedFilters()">
+      Filtri avanzati
+    </button>
+  </div>
+</div>
