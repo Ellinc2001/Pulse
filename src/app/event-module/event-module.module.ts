@@ -7,7 +7,6 @@ import { EventCardComponent } from './event-card/event-card';
 import { FilterBarComponent } from './filter-bar/filter-bar';
 import { IonicModule } from "@ionic/angular";
 import { EventChat } from './event-chat/event-chat';
-import { LiveVideosComponent } from './live-videos/live-videos';
 import { RealTimeStatsComponent } from './real-time-stats/real-time-stats';
 import { LiveEventDetail } from './live-event-detail/live-event-detail';
 import { FormsModule } from '@angular/forms';
@@ -17,7 +16,6 @@ import { UiInputStatisticsModuleModule } from './ui-input-statistics-module/ui-i
 import { SpinnerComponent } from '../spinner/spinner';
 import { CarouselComponent } from './carousel/carousel';
 import { WaitTimePillsComponent } from './wait-time-pills/wait-time-pills';
-import { ParticipantsAvatarsComponent } from './participants-avatars/participants-avatars';
 import { InputContextCarousel } from './input-context-carousel/input-context-carousel';
 import { FoodCardComponent } from './food-card/food-card';
 import { LocationCardComponent } from './location-card/location-card';
@@ -30,13 +28,11 @@ import { FilterModule } from './filter-module/filter.module';
     EventCardComponent,
     FilterBarComponent,
     EventChat,
-    LiveVideosComponent,
     RealTimeStatsComponent,
     LiveEventDetail,
     RealTimeStatsNotify,
     CarouselComponent,
     WaitTimePillsComponent,
-    ParticipantsAvatarsComponent,
     InputContextCarousel,
     FoodCardComponent,
     LocationCardComponent,

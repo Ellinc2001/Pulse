@@ -1,4 +1,5 @@
 import { Component, type OnInit } from "@angular/core"
+import { Router } from "@angular/router"
 import { ModalController } from "@ionic/angular"
 
 interface EventFormat {
@@ -52,7 +53,7 @@ export class FormatChoiceComponent implements OnInit {
 
   filteredFormats: EventFormat[] = []
 
-  constructor(private modalController: ModalController) {}
+  constructor(private router: Router) {}
 
   ngOnInit() {
     this.filteredFormats = this.formats
@@ -76,14 +77,9 @@ export class FormatChoiceComponent implements OnInit {
   }
 
   close() {
-    this.modalController.dismiss()
   }
 
   continue() {
-    if (this.selectedFormat) {
-      this.modalController.dismiss({
-        format: this.selectedFormat,
-      })
-    }
+    this.router.navigate(['/event/format/filter']);
   }
 }

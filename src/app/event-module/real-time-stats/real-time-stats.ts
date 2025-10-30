@@ -1,8 +1,8 @@
 import { Component, type OnInit } from "@angular/core"
 import { ClubService } from "../services/club-service"
-import { VideoStream } from "../live-videos/live-videos"
+import { VideoStream } from "../ui-statistics-module/live-videos/live-videos"
 import { TimelineData } from "../ui-statistics-module/minimal-timeline-card/minimal-timeline-card"
-import { Participant } from "../participants-avatars/participants-avatars"
+import { Participant } from "../ui-statistics-module/participants-avatars/participants-avatars"
 
 @Component({
   selector: "app-real-time-stats",

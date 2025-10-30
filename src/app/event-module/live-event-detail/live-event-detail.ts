@@ -1,7 +1,7 @@
 import { Component } from "@angular/core"
 import { Router } from "@angular/router"
 import type { EventData } from "../event-card/event-card.ts"
-import type { VideoStream } from "../live-videos/live-videos"
+import type { VideoStream } from "../ui-statistics-module/live-videos/live-videos.js"
 import { BadgeService } from "src/app/services/badge-service"
 
 

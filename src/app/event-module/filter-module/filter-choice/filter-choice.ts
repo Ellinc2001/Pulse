@@ -1,4 +1,5 @@
 import { Component, type OnInit } from "@angular/core"
+import { Router } from "@angular/router"
 import { NavController } from "@ionic/angular"
 
 interface ActiveFilter {
@@ -60,12 +61,11 @@ export class FilterChoiceComponent implements OnInit {
   // Food & Beverage
   foodMenu = true
 
-  constructor(private navCtrl: NavController) {}
+  constructor(private router: Router) {}
 
   ngOnInit() {}
 
   close() {
-    this.navCtrl.back()
   }
 
   clearAll() {
@@ -97,7 +97,8 @@ export class FilterChoiceComponent implements OnInit {
       foodMenu: this.foodMenu,
     })
     // Navigate back or emit event with filters
-    this.navCtrl.back()
+    this.router.navigate(['/event/search']);
+
   }
 
   removeFilter(filter: ActiveFilter) {

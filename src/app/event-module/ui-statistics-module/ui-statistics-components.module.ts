@@ -12,6 +12,8 @@ import { ProgressMetricCardComponent } from './progress-metric-card/progress-met
 import { RankingListCardComponent } from './ranking-list-card/ranking-list-card';
 import { SparklineKpiCardComponent } from './sparkline-kpi-card/sparkline-kpi-card';
 import { StackedProgressCardComponent } from './stacked-progress-card/stacked-progress-card';
+import { LiveVideosComponent } from './live-videos/live-videos';
+import { ParticipantsAvatarsComponent } from './participants-avatars/participants-avatars';
 
 
 
@@ -28,6 +30,8 @@ import { StackedProgressCardComponent } from './stacked-progress-card/stacked-pr
     RankingListCardComponent,
     SparklineKpiCardComponent,
     StackedProgressCardComponent,
+    LiveVideosComponent,
+    ParticipantsAvatarsComponent
   ],
   imports: [
     CommonModule,
@@ -45,6 +49,8 @@ import { StackedProgressCardComponent } from './stacked-progress-card/stacked-pr
     RankingListCardComponent,
     SparklineKpiCardComponent,
     StackedProgressCardComponent,
+    LiveVideosComponent,
+    ParticipantsAvatarsComponent
   ]
 })
 export class UiStatisticsComponentsModule { }
