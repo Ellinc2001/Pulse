@@ -26,14 +26,22 @@
   <div class="events-section">
     <div class="section-header">
       <h2>Upcoming</h2>
-      <ion-segment [value]="selectedSegment" (ionChange)="onSegmentChange($event)" class="events-segment">
-        <ion-segment-button value="events">
-          <ion-label>Events</ion-label>
-        </ion-segment-button>
-        <ion-segment-button value="groups">
-          <ion-label>Groups</ion-label>
-        </ion-segment-button>
-      </ion-segment>
+      <!-- Replaced ion-segment with custom styled toggle like in my-pulse -->
+      <div class="events-groups-toggle">
+        <div class="toggle-slider" [style.transform]="selectedSegment === 'groups' ? 'translateX(100%)' : 'translateX(0)'"></div>
+        <button 
+          class="toggle-button" 
+          [class.active]="selectedSegment === 'events'"
+          (click)="onSegmentChange({detail: {value: 'events'}})">
+          Events
+        </button>
+        <button 
+          class="toggle-button" 
+          [class.active]="selectedSegment === 'groups'"
+          (click)="onSegmentChange({detail: {value: 'groups'}})">
+          Groups
+        </button>
+      </div>
     </div>
 
     <!-- Show events list when Events segment is selected -->
@@ -83,6 +91,9 @@
             <div class="user-actions">
               <ion-button fill="clear" class="action-button spark-button" (click)="$event.stopPropagation()">
                 <ion-icon name="flash" slot="icon-only"></ion-icon>
+              </ion-button>
+              <ion-button fill="clear" class="action-button message-button" (click)="$event.stopPropagation()">
+                <ion-icon name="chatbubble-outline" slot="icon-only"></ion-icon>
               </ion-button>
             </div>
           </div>

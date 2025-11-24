@@ -18,7 +18,11 @@
   
   /* ENHANCED BACKGROUNDS */
   --inactive:   #b5a7c7;
-  --bg:         radial-gradient(ellipse at top, #1a0f2e 0%, #141118 50%, #0d0614 100%);
+  --bg:         
+    radial-gradient(ellipse 800px 600px at 10% 20%, rgba(138, 63, 241, 0.15) 0%, transparent 50%),
+    radial-gradient(ellipse 700px 500px at 95% 10%, rgba(240, 67, 213, 0.08) 0%, transparent 50%),
+    radial-gradient(ellipse 900px 700px at 90% 95%, rgba(59, 227, 255, 0.12) 0%, transparent 50%),
+    radial-gradient(ellipse 100% 100% at 50% 50%, #050816 0%, #000000 100%);
   --bar-bg:     rgba(25, 16, 34, 0.8);
   --bar-border: rgba(127, 13, 242, 0.3);
   
@@ -155,6 +159,48 @@ ion-nav.modal-blur-background {
 }
 
 ion-modal.user-profile-modal-wrapper {
+  --backdrop-opacity: 1;
+  
+  &::part(backdrop) {
+    backdrop-filter: none !important; // Remove backdrop blur since we blur the page directly
+    -webkit-backdrop-filter: none !important;
+    background: rgba(13, 6, 20, 0.8);
+  }
+}
+
+.user-search-modal-wrapper {
+  --backdrop-opacity: 1;
+  filter: none !important;
+  
+  ion-backdrop {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    background: rgba(13, 6, 20, 0.8) !important;
+    opacity: 1 !important;
+  }
+
+  .modal-wrapper {
+    background: transparent !important;
+  }
+  
+  ion-modal {
+    --background: transparent;
+    --ion-background-color: transparent;
+  }
+
+  .ion-page {
+    background: transparent !important;
+    --background: transparent !important;
+    --ion-background-color: transparent !important;
+  }
+
+  .modal-content,
+  .modal-shadow {
+    background: transparent !important;
+  }
+}
+
+ion-modal.user-search-modal-wrapper {
   --backdrop-opacity: 1;
   
   &::part(backdrop) {

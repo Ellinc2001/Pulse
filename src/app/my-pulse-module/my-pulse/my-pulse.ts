@@ -1,6 +1,22 @@
-import { Component } from "@angular/core"
+import { Component, type OnInit } from "@angular/core"
 import { Router } from "@angular/router"
 import { UserProfileModalService } from "src/app/services/user-profile-modal-service"
+import { trigger, style, transition, animate } from "@angular/animations"
+
+interface UserData {
+  id: string
+  name: string
+  username: string
+  avatarUrl: string
+  bio: string
+  location: string
+  interests: string[]
+  stats: {
+    events: number
+    friends: number
+    sparks: number
+  }
+}
 
 interface Invite {
   id: string
@@ -10,112 +26,219 @@ interface Invite {
   avatarText?: string
 }
 
-interface SparkUser {
+interface CountdownEvent {
   id: string
   name: string
-  username: string
-  avatarUrl: string
-  socialLinks?: {
-    instagram?: string
-    facebook?: string
-    tinder?: string
-    tiktok?: string
-  }
+  venue: string
+  icon: string
+  countdown: string
+  isUrgent?: boolean
+}
+
+interface Level {
+  number: number
+  name: string
+  description: string
+  xpThreshold: number
 }
 
 @Component({
   selector: "app-my-pulse",
-  standalone: false,
   templateUrl: "./my-pulse.html",
   styleUrls: ["./my-pulse.scss"],
+  standalone: false,
+  animations: [
+    trigger("inviteAnimation", [
+      transition(":leave", [
+        animate(
+          "300ms ease-out",
+          style({
+            opacity: 0,
+            transform: "translateX(100px)",
+          }),
+        ),
+      ]),
+    ]),
+  ],
 })
-export class MyPulseComponent {
+export class MyPulseComponent implements OnInit {
   sparkTab: "me" | "mine" = "me"
+  eventsTab: "countdown" | "invites" = "countdown"
 
-  sparkMeUsers: SparkUser[] = [
+  currentXP = 4250
+
+  countdownEvents: CountdownEvent[] = [
     {
-      id: "user-1",
-      name: "Sarah Johnson",
-      username: "sarahj",
-      avatarUrl: "https://images.unsplash.com/photo-1494790108755-2616b612b786?w=150&h=150&fit=crop&crop=face",
-      socialLinks: {
-        instagram: "https://instagram.com/sarahj",
-        tiktok: "https://tiktok.com/@sarahj",
-      },
+      id: "event-1",
+      name: "Cosmic Gate Concert",
+      venue: "Club XYZ",
+      icon: "musical-notes",
+      countdown: "3 days",
     },
     {
-      id: "user-2",
-      name: "Michael Chen",
-      username: "mchen",
-      avatarUrl: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face",
-      socialLinks: {
-        instagram: "https://instagram.com/mchen",
-        facebook: "https://facebook.com/mchen",
-      },
+      id: "event-2",
+      name: "Techno Rave Night",
+      venue: "Warehouse District",
+      icon: "headset",
+      countdown: "1 week",
     },
     {
-      id: "user-3",
-      name: "Emma Wilson",
-      username: "emmaw",
-      avatarUrl: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop&crop=face",
-      socialLinks: {
-        instagram: "https://instagram.com/emmaw",
-        tiktok: "https://tiktok.com/@emmaw",
-      },
+      id: "event-3",
+      name: "Sunrise Afterparty",
+      venue: "Rooftop Bar",
+      icon: "partly-sunny",
+      countdown: "18 hours",
+      isUrgent: true,
     },
     {
-      id: "user-4",
-      name: "David Martinez",
-      username: "davidm",
-      avatarUrl: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face",
-      socialLinks: {
-        facebook: "https://facebook.com/davidm",
-        tinder: "https://tinder.com/@davidm",
-      },
+      id: "event-4",
+      name: "Jazz Night Live",
+      venue: "Blue Note",
+      icon: "mic",
+      countdown: "10 days",
     },
     {
-      id: "user-5",
-      name: "Olivia Brown",
-      username: "oliviab",
-      avatarUrl: "https://images.unsplash.com/photo-1544005313942-cad84cf45f1d?w=150&h=150&fit=crop&crop=face",
-      socialLinks: {
-        instagram: "https://instagram.com/oliviab",
-        tiktok: "https://tiktok.com/@oliviab",
-      },
+      id: "event-5",
+      name: "Electronic Festival",
+      venue: "City Park",
+      icon: "flash",
+      countdown: "2 weeks",
     },
   ]
 
-  mySparkUsers: SparkUser[] = [
+  levels: Level[] = [
+    { number: 1, name: "Urban Scout", description: "Sei all'inizio, stai esplorando.", xpThreshold: 0 },
     {
-      id: "user-6",
-      name: "James Anderson",
-      username: "janderson",
-      avatarUrl: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&h=150&fit=crop&crop=face",
-      socialLinks: {
-        instagram: "https://instagram.com/janderson",
-        facebook: "https://facebook.com/janderson",
-      },
+      number: 2,
+      name: "City Wanderer",
+      description: "Ti muovi curioso, inizi a capire dove andare.",
+      xpThreshold: 250,
     },
     {
-      id: "user-7",
-      name: "Sophia Lee",
-      username: "sophial",
-      avatarUrl: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&h=150&fit=crop&crop=face",
-      socialLinks: {
-        instagram: "https://instagram.com/sophial",
-        tiktok: "https://tiktok.com/@sophial",
-      },
+      number: 3,
+      name: "Social Seeker",
+      description: "Non guardi solo: inizi a cercare persone e contesti.",
+      xpThreshold: 700,
     },
     {
-      id: "user-8",
-      name: "Ryan Taylor",
-      username: "ryant",
-      avatarUrl: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=150&h=150&fit=crop&crop=face",
-      socialLinks: {
-        instagram: "https://instagram.com/ryant",
-        facebook: "https://facebook.com/ryant",
-        tinder: "https://tinder.com/@ryant",
-      },
+      number: 4,
+      name: "Urban Pathfinder",
+      description: "Sai scegliere luoghi e gruppi adatti a te.",
+      xpThreshold: 1400,
+    },
+    { number: 5, name: "Social Anchor", description: "Quando ci sei tu, il gruppo sta meglio.", xpThreshold: 2400 },
+    { number: 6, name: "Crosslinker", description: "Fai da ponte tra cerchie diverse.", xpThreshold: 3800 },
+    { number: 7, name: "Urban Guide", description: "Gli altri si fidano delle tue proposte.", xpThreshold: 5800 },
+    {
+      number: 8,
+      name: "City Cartographer",
+      description: 'Hai "mappato" la città in momenti e vibes.',
+      xpThreshold: 8500,
+    },
+    {
+      number: 9,
+      name: "Urban Navigator",
+      description: "Ti muovi con naturalezza tra gruppi e situazioni.",
+      xpThreshold: 12000,
+    },
+    { number: 10, name: "Urban Legend", description: "Sei un punto fisso del paesaggio sociale.", xpThreshold: 17000 },
+  ]
+
+  get currentLevel(): Level {
+    for (let i = this.levels.length - 1; i >= 0; i--) {
+      if (this.currentXP >= this.levels[i].xpThreshold) {
+        return this.levels[i]
+      }
+    }
+    return this.levels[0]
+  }
+
+  get nextLevel(): Level | null {
+    const currentIndex = this.levels.indexOf(this.currentLevel)
+    return currentIndex < this.levels.length - 1 ? this.levels[currentIndex + 1] : null
+  }
+
+  get levelProgress(): number {
+    if (!this.nextLevel) return 100
+    const xpInCurrentLevel = this.currentXP - this.currentLevel.xpThreshold
+    const xpNeededForNextLevel = this.nextLevel.xpThreshold - this.currentLevel.xpThreshold
+    return Math.min((xpInCurrentLevel / xpNeededForNextLevel) * 100, 100)
+  }
+
+  get xpToNextLevel(): number {
+    if (!this.nextLevel) return 0
+    return this.nextLevel.xpThreshold - this.currentXP
+  }
+
+  get displayedCountdownEvents(): CountdownEvent[] {
+    return this.countdownEvents.slice(0, 3)
+  }
+
+  get hasMoreCountdownEvents(): boolean {
+    return this.countdownEvents.length > 3
+  }
+
+  get displayedInvites(): Invite[] {
+    return this.invites.slice(0, 3)
+  }
+
+  get hasMoreInvites(): boolean {
+    return this.invites.length > 3
+  }
+
+  sparkMeUsers: UserData[] = [
+    {
+      id: "u1",
+      name: "Sofia Bianchi",
+      username: "@sofiabianchi",
+      avatarUrl: "https://i.pravatar.cc/150?img=1",
+      bio: "Music lover and tech enthusiast",
+      location: "Milano, IT",
+      interests: ["Techno", "House", "Art"],
+      stats: { events: 42, friends: 156, sparks: 89 },
+    },
+    {
+      id: "u2",
+      name: "Luca Moretti",
+      username: "@lucamoretti",
+      avatarUrl: "https://i.pravatar.cc/150?img=2",
+      bio: "DJ and music producer",
+      location: "Roma, IT",
+      interests: ["Electronic", "Indie", "Jazz"],
+      stats: { events: 67, friends: 234, sparks: 145 },
+    },
+    {
+      id: "u3",
+      name: "Giulia Conti",
+      username: "@giuliaconti",
+      avatarUrl: "https://i.pravatar.cc/150?img=3",
+      bio: "Art curator and event organizer",
+      location: "Firenze, IT",
+      interests: ["Art", "Culture", "Live Music"],
+      stats: { events: 38, friends: 198, sparks: 112 },
+    },
+  ]
+
+  mySparkUsers: UserData[] = [
+    {
+      id: "u4",
+      name: "Marco Verdi",
+      username: "@marcoverdi",
+      avatarUrl: "https://i.pravatar.cc/150?img=4",
+      bio: "Festival enthusiast",
+      location: "Torino, IT",
+      interests: ["Rock", "Alternative", "Concerts"],
+      stats: { events: 29, friends: 87, sparks: 56 },
+    },
+    {
+      id: "u5",
+      name: "Anna Rossi",
+      username: "@annarossi",
+      avatarUrl: "https://i.pravatar.cc/150?img=5",
+      bio: "Nightlife explorer",
+      location: "Bologna, IT",
+      interests: ["Dance", "Electronic", "Clubs"],
+      stats: { events: 51, friends: 176, sparks: 98 },
     },
   ]
 
@@ -124,7 +247,7 @@ export class MyPulseComponent {
       id: "invite-1",
       eventTitle: "Warehouse Party",
       fromUser: "@dj_alex",
-      avatarText: "@d_j",
+      avatarText: "WP",
     },
     {
       id: "invite-2",
@@ -142,7 +265,13 @@ export class MyPulseComponent {
       id: "invite-4",
       eventTitle: "Techno Underground Night",
       fromUser: "@techno_beats",
-      avatarText: "@tb",
+      avatarText: "TU",
+    },
+    {
+      id: "invite-5",
+      eventTitle: "Rooftop Sunset Session",
+      fromUser: "@sunset_vibes",
+      avatarUrl: "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=150&h=150&fit=crop&crop=face",
     },
   ]
 
@@ -151,36 +280,38 @@ export class MyPulseComponent {
     private userProfileModalService: UserProfileModalService,
   ) {}
 
-  navigateToPreferences() {
-    this.router.navigate(["/my-vibes", "preferences-config"])
+  ngOnInit() {}
+
+  goToPreferences() {
+    this.router.navigate(["/preferences"])
+  }
+
+  openUserProfile(user: UserData) {
+    this.userProfileModalService.openUserProfile(user)
   }
 
   acceptInvite(inviteId: string) {
-    const index = this.invites.findIndex((invite) => invite.id === inviteId)
-    if (index !== -1) {
-      this.invites.splice(index, 1)
-    }
+    console.log("Accepted invite:", inviteId)
+    this.invites = this.invites.filter((inv) => inv.id !== inviteId)
   }
 
   declineInvite(inviteId: string) {
-    const index = this.invites.findIndex((invite) => invite.id === inviteId)
-    if (index !== -1) {
-      this.invites.splice(index, 1)
-    }
+    console.log("Declined invite:", inviteId)
+    this.invites = this.invites.filter((inv) => inv.id !== inviteId)
   }
 
-  async openUserProfile(user: SparkUser) {
-    const result = await this.userProfileModalService.openUserProfile({
-      avatarUrl: user.avatarUrl,
-      name: user.name,
-      username: user.username,
-      socialLinks: user.socialLinks || {},
-    })
+  openInviteDetail(inviteId: string) {
+    console.log("Opening invite detail:", inviteId)
+    // TODO: Navigate to invite detail page
+  }
 
-    if (result?.action === "spark") {
-      console.log("[v0] Spark action for user:", user.id)
-    } else if (result?.action === "message") {
-      console.log("[v0] Message action for user:", user.id)
-    }
+  async openAllCountdownEvents() {
+    console.log("[v0] Opening all countdown events modal")
+    // TODO: Implement modal service to show all countdown events
+  }
+
+  async openAllInvites() {
+    console.log("[v0] Opening all invites modal")
+    // TODO: Implement modal service to show all invites
   }
 }

@@ -8,8 +8,9 @@
 
 .invite-card {
   position: relative;
-  background: linear-gradient(135deg, rgba(39, 27, 36, 0.9) 0%, rgba(29, 29, 29, 0.8) 100%);
-  border: 1px solid rgba(160, 32, 240, 0.2);
+  background: none;
+  border: 1px solid;
+  border-color: rgba(160, 32, 240, 0.4);
   border-radius: 16px;
   padding: 16px;
   display: flex;
@@ -17,8 +18,10 @@
   cursor: pointer;
   transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
   overflow: hidden;
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(0px);
+  -webkit-backdrop-filter: blur(5px);
+    box-shadow: 0 0 20px rgba(160, 32, 240, 0.5);
+
   
   &::before {
     content: '';
@@ -300,3 +303,4 @@
     transform: scale(1.1);
   }
 }
+
