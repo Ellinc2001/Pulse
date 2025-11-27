@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { BadgeService, BadgeData } from "src/app/services/badge-service"
+import { XpAnimationService } from './services/xp-lightning.service';
 
 
 @Component({
@@ -12,7 +13,8 @@ import { BadgeService, BadgeData } from "src/app/services/badge-service"
 })
 
 export class AppComponent {
-  constructor(private router: Router, private badgeService: BadgeService) {}
+  constructor(private router: Router, private badgeService: BadgeService, private xpAnimationService: XpAnimationService
+) {}
 
   badgeData: BadgeData = {
     isVisible: false,

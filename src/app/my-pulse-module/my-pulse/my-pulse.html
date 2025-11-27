@@ -15,7 +15,8 @@
           <p class="profile-greeting">Ciao, Martina 👋</p>
           <!-- Put XP and level badges on the same row -->
           <div class="badges-row">
-            <div class="xp-compact">
+            <!-- Added xp-badge class for animation targeting -->
+            <div class="xp-compact xp-badge" id="xp-badge">
               <ion-icon name="flash" class="xp-icon"></ion-icon>
               <span class="xp-value-compact">{{ currentXP }} XP</span>
             </div>
@@ -37,8 +38,12 @@
             </p>
           </div>
         </div>
-        <!-- Removed profile-right section with settings icon -->
       </div>
+      
+      <!-- Added test button for XP animation -->
+      <button class="test-xp-button" (click)="testXpAnimation()">
+        Test XP Animation
+      </button>
     </header>
 
     <main class="main-content">

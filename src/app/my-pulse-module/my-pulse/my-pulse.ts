@@ -2,6 +2,7 @@ import { Component, type OnInit } from "@angular/core"
 import { Router } from "@angular/router"
 import { UserProfileModalService } from "src/app/services/user-profile-modal-service"
 import { trigger, style, transition, animate } from "@angular/animations"
+import { XpAnimationService } from "src/app/services/xp-lightning.service"
 
 interface UserData {
   id: string
@@ -278,6 +279,7 @@ export class MyPulseComponent implements OnInit {
   constructor(
     private router: Router,
     private userProfileModalService: UserProfileModalService,
+    private xpAnimationService: XpAnimationService,
   ) {}
 
   ngOnInit() {}
@@ -313,5 +315,20 @@ export class MyPulseComponent implements OnInit {
   async openAllInvites() {
     console.log("[v0] Opening all invites modal")
     // TODO: Implement modal service to show all invites
+  }
+
+  testXpAnimation() {
+    // Find the XP badge element
+    const xpBadgeElement = document.querySelector(".xp-badge")
+    if (xpBadgeElement) {
+      // Trigger animation with 50 XP gain
+      this.xpAnimationService.triggerXpGain({
+        amount: 50,
+        sourceElement: xpBadgeElement as HTMLElement,
+      })
+
+      // Simulate XP gain (in real app, this would come from backend)
+      this.currentXP += 50
+    }
   }
 }
