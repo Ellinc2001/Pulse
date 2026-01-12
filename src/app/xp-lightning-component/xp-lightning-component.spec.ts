@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { UserProfileModal } from './user-profile-modal';
+import { XpLightningComponent } from './xp-lightning-component';
 
-describe('UserProfileModal', () => {
-  let component: UserProfileModal;
-  let fixture: ComponentFixture<UserProfileModal>;
+describe('XpLightningComponent', () => {
+  let component: XpLightningComponent;
+  let fixture: ComponentFixture<XpLightningComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [UserProfileModal]
+      declarations: [XpLightningComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(UserProfileModal);
+    fixture = TestBed.createComponent(XpLightningComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

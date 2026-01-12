@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core"
 import { ModalController } from "@ionic/angular"
-import { UserSearchModalComponent } from "../user-search-modal/user-search-modal"
+import { UserSearchModalComponent } from "../user-profile-modal/user-search-modal/user-search-modal
 
 @Injectable({
   providedIn: "root",

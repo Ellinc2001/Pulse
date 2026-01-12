@@ -1,8 +1,11 @@
-import { Component, type OnInit } from "@angular/core"
+import { Component, OnInit } from "@angular/core"
 import { Router } from "@angular/router"
 import { UserProfileModalService } from "src/app/services/user-profile-modal-service"
 import { trigger, style, transition, animate } from "@angular/animations"
 import { XpAnimationService } from "src/app/services/xp-lightning.service"
+import { ModalController } from "@ionic/angular"
+import { CountdownEventsModalComponent } from "src/app/modals/countdown-events-modal/countdown-events-modal.component"
+import { InvitesModalComponent } from "src/app/modals/invites-modal/invites-modal.component"
 
 interface UserData {
   id: string
@@ -280,6 +283,7 @@ export class MyPulseComponent implements OnInit {
     private router: Router,
     private userProfileModalService: UserProfileModalService,
     private xpAnimationService: XpAnimationService,
+    private modalController: ModalController, // Added ModalController
   ) {}
 
   ngOnInit() {}
@@ -308,13 +312,31 @@ export class MyPulseComponent implements OnInit {
   }
 
   async openAllCountdownEvents() {
-    console.log("[v0] Opening all countdown events modal")
-    // TODO: Implement modal service to show all countdown events
+    const modal = await this.modalController.create({
+      component: CountdownEventsModalComponent,
+      componentProps: {
+        events: this.countdownEvents,
+      },
+      cssClass: "countdown-events-modal-wrapper",
+      backdropDismiss: true,
+      showBackdrop: true,
+    })
+
+    await modal.present()
   }
 
   async openAllInvites() {
-    console.log("[v0] Opening all invites modal")
-    // TODO: Implement modal service to show all invites
+    const modal = await this.modalController.create({
+      component: InvitesModalComponent,
+      componentProps: {
+        invites: this.invites,
+      },
+      cssClass: "invites-modal-wrapper",
+      backdropDismiss: true,
+      showBackdrop: true,
+    })
+
+    await modal.present()
   }
 
   testXpAnimation() {

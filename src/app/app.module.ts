@@ -11,14 +11,27 @@ import { ProfileButtonComponent } from './profile-button/profile-button';
 import { MyVibesButtonComponent } from './my-vibes-button/my-vibes-button';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DraggableBadgeComponent } from './draggable-badge/draggable-badge';
-import { UserProfileModalComponent } from './user-profile-modal/user-profile-modal';
-import { UserSearchModalComponent } from './user-search-modal/user-search-modal';
 import { FormsModule } from '@angular/forms';
 import { XpLightningComponent } from './xp-lightning-component/xp-lightning-component';
+import { UserProfileModalComponent } from './modals/user-profile-modal/user-profile-modal';
+import { UserSearchModalComponent } from './modals/user-search-modal/user-search-modal';
+import { CountdownEventsModalComponent } from './modals/countdown-events-modal/countdown-events-modal.component';
+import { InvitesModalComponent } from './modals/invites-modal/invites-modal.component';
 
 
 @NgModule({
-  declarations: [AppComponent, CompassSearchButtonComponent, ProfileButtonComponent, MyVibesButtonComponent, DraggableBadgeComponent, UserProfileModalComponent, UserSearchModalComponent, XpLightningComponent],
+  declarations: [
+    AppComponent,
+    CompassSearchButtonComponent, 
+    ProfileButtonComponent, 
+    MyVibesButtonComponent, 
+    DraggableBadgeComponent, 
+    UserProfileModalComponent, 
+    UserSearchModalComponent, 
+    XpLightningComponent, 
+    CountdownEventsModalComponent, 
+    InvitesModalComponent
+  ],
   imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, BrowserAnimationsModule, FormsModule],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
   bootstrap: [AppComponent]

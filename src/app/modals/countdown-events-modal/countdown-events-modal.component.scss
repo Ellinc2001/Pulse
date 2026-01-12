@@ -1,0 +1,383 @@
+:host {
+  background: transparent !important;
+}
+
+::ng-deep {
+  .ion-page {
+    background: transparent !important;
+  }
+  
+  ion-modal {
+    --background: transparent !important;
+  }
+}
+
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(10px);
+  animation: fadeIn 0.3s ease-out;
+}
+
+.modal-container {
+  position: relative;
+  width: 100%;
+  max-width: 480px;
+  max-height: 90vh;
+  margin: 0 auto;
+  animation: slideUp 0.3s ease-out;
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-content {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  padding: 2rem;
+  background: radial-gradient(ellipse at 50% bottom, rgba(255, 26, 255, 0.4) 0%, transparent 60%),
+              radial-gradient(ellipse at 50% bottom, rgba(160, 32, 240, 0.3) 0%, transparent 70%),
+              linear-gradient(180deg, #050816 0%, #0a0f2e 30%, #1a0a4e 50%, #2d1a5e 70%, #050816 100%);
+  border: 1px solid rgba(138, 63, 241, 0.3);
+  border-radius: 24px;
+  backdrop-filter: blur(20px);
+  box-shadow: 
+    0 0 40px rgba(138, 63, 241, 0.4),
+    0 0 80px rgba(57, 137, 210, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  overflow: hidden;
+  flex: 1;
+  min-height: 0;
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+  flex-shrink: 0;
+
+  .header-title {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+
+    ion-icon {
+      font-size: 28px;
+      color: #3BE3FF;
+      filter: drop-shadow(0 0 12px rgba(59, 227, 255, 0.8));
+    }
+
+    h2 {
+      margin: 0;
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: #ffffff;
+      text-shadow: 0 0 20px rgba(138, 63, 241, 0.5);
+    }
+  }
+
+  .close-icon-button {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+
+    ion-icon {
+      font-size: 24px;
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    &:hover {
+      background: rgba(255, 69, 58, 0.2);
+      border-color: rgba(255, 69, 58, 0.6);
+      box-shadow: 0 0 20px rgba(255, 69, 58, 0.4);
+      
+      ion-icon {
+        color: #ff453a;
+        filter: drop-shadow(0 0 10px rgba(255, 69, 58, 0.8));
+      }
+    }
+
+    &:active {
+      transform: scale(0.95);
+    }
+  }
+}
+
+.events-list {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding-right: 0.5rem;
+  min-height: 0;
+  -webkit-overflow-scrolling: touch;
+  
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+  
+  &::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 3px;
+  }
+  
+  &::-webkit-scrollbar-thumb {
+    background: linear-gradient(135deg, #8A3FF1 0%, #3BE3FF 100%);
+    border-radius: 3px;
+    
+    &:hover {
+      background: linear-gradient(135deg, #A020F0 0%, #50E8FF 100%);
+    }
+  }
+}
+
+.event-item {
+  display: flex;
+  align-items: center;
+  gap: 0.875rem;
+  padding: 1rem;
+  background: linear-gradient(
+    135deg,
+    rgba(57, 137, 210, 0.15) 0%,
+    rgba(138, 104, 201, 0.15) 100%
+  );
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+  flex-shrink: 0;
+
+  &:hover {
+    transform: translateY(-2px);
+    background: linear-gradient(
+      135deg,
+      rgba(57, 137, 210, 0.25) 0%,
+      rgba(138, 104, 201, 0.25) 100%
+    );
+    border-color: rgba(138, 63, 241, 0.4);
+    box-shadow: 0 4px 20px rgba(138, 63, 241, 0.3);
+  }
+
+  &:active {
+    transform: translateY(0) scale(0.98);
+  }
+
+  .event-icon {
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(138, 63, 241, 0.2);
+    border: 1px solid rgba(138, 63, 241, 0.4);
+    border-radius: 12px;
+    flex-shrink: 0;
+
+    ion-icon {
+      font-size: 24px;
+      color: #8A3FF1;
+      filter: drop-shadow(0 0 8px rgba(138, 63, 241, 0.6));
+    }
+  }
+
+  .event-info {
+    flex: 1;
+    min-width: 0;
+
+    .event-name {
+      font-size: 1rem;
+      font-weight: 600;
+      color: #ffffff;
+      margin-bottom: 0.25rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .event-venue {
+      font-size: 0.875rem;
+      color: rgba(255, 255, 255, 0.6);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+
+  .countdown-pill {
+    padding: 0.5rem 0.875rem;
+    background: linear-gradient(135deg, #8A3FF1 0%, #3BE3FF 100%);
+    border-radius: 999px;
+    font-size: 0.8125rem;
+    font-weight: 700;
+    color: #ffffff;
+    white-space: nowrap;
+    box-shadow: 0 0 15px rgba(138, 63, 241, 0.4);
+    flex-shrink: 0;
+
+    &.urgent {
+      background: linear-gradient(135deg, #F043D5 0%, #FF6B35 100%);
+      box-shadow: 0 0 20px rgba(240, 67, 213, 0.5);
+      animation: urgentPulse 2s ease-in-out infinite;
+    }
+  }
+}
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 2rem;
+  color: rgba(255, 255, 255, 0.6);
+  text-align: center;
+
+  ion-icon {
+    font-size: 64px;
+    margin-bottom: 1rem;
+    color: rgba(138, 63, 241, 0.5);
+    filter: drop-shadow(0 0 20px rgba(138, 63, 241, 0.3));
+  }
+
+  p {
+    margin: 0;
+    font-size: 1rem;
+  }
+}
+
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  flex-shrink: 0;
+
+  .pagination-button {
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+
+    ion-icon {
+      font-size: 18px;
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    &:hover:not(:disabled) {
+      background: rgba(138, 63, 241, 0.2);
+      border-color: rgba(138, 63, 241, 0.6);
+      box-shadow: 0 0 15px rgba(138, 63, 241, 0.3);
+
+      ion-icon {
+        color: #ffffff;
+        filter: drop-shadow(0 0 8px rgba(138, 63, 241, 0.6));
+      }
+    }
+
+    &:active:not(:disabled) {
+      transform: scale(0.95);
+    }
+
+    &:disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
+    }
+  }
+
+  .page-numbers {
+    display: flex;
+    gap: 0.5rem;
+
+    .page-number {
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 10px;
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: rgba(255, 255, 255, 0.7);
+      cursor: pointer;
+      transition: all 0.3s ease;
+
+      &:hover {
+        background: rgba(138, 63, 241, 0.2);
+        border-color: rgba(138, 63, 241, 0.5);
+        box-shadow: 0 0 12px rgba(138, 63, 241, 0.3);
+      }
+
+      &:active {
+        transform: scale(0.95);
+      }
+
+      &.active {
+        background: linear-gradient(135deg, #8A3FF1 0%, #3BE3FF 100%);
+        border-color: transparent;
+        color: #ffffff;
+        box-shadow: 0 0 15px rgba(138, 63, 241, 0.4);
+        cursor: default;
+
+        &:hover {
+          transform: none;
+        }
+      }
+    }
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes urgentPulse {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(240, 67, 213, 0.5);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(240, 67, 213, 0.8);
+  }
+}

@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core"
 import { ModalController } from "@ionic/angular"
-import { UserProfileData, UserProfileModalComponent } from "../user-profile-modal/user-profile-modal"
+import { UserProfileData, UserProfileModalComponent } from "../modals/user-profile-modal/user-profile-modal"
 
 @Injectable({
   providedIn: "root",

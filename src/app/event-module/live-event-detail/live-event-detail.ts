@@ -195,7 +195,7 @@ export class LiveEventDetail {
 
   openStatsOverlay() {
     this.showStatsOverlay = true
-    console.log("[v0] Stats overlay opened")
+    this.router.navigate(['event/real-time-stats'])
   }
 
   closeStatsOverlay() {

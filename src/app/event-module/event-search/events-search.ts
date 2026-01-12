@@ -2,8 +2,8 @@ import { Component, type OnInit, type AfterViewInit, ViewChild, type ElementRef 
 import * as L from "leaflet"
 import type { EventData } from "../event-card/event-card.ts"
 import { Router } from "@angular/router"
-import { UserProfileData } from "src/app/user-profile-modal/user-profile-modal"
 import { UserProfileModalService } from "src/app/services/user-profile-modal-service"
+import { UserProfileData } from "src/app/modals/user-profile-modal/user-profile-modal.js"
 
 interface UserData {
   id: string
@@ -655,7 +655,7 @@ export class EventsSearchComponent implements OnInit, AfterViewInit {
   }
 
   openFilters() {
-    this.router.navigate(["/format-choice"])
+    this.router.navigate(["/event/format-choice"])
   }
 
   openFullMap() {

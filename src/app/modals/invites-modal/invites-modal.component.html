@@ -1,0 +1,82 @@
+<div class="modal-backdrop" (click)="dismiss()">
+  <div class="modal-container" (click)="$event.stopPropagation()">
+    <div class="modal-content">
+      <!-- Header -->
+      <div class="modal-header">
+        <div class="header-icon">
+          <ion-icon name="mail-outline"></ion-icon>
+        </div>
+        <h2 class="modal-title">Inviti Ricevuti</h2>
+        <button class="close-icon-button" (click)="dismiss()">
+          <ion-icon name="close"></ion-icon>
+        </button>
+      </div>
+
+      <!-- Invites list -->
+      <div class="invites-list">
+        <div 
+          *ngFor="let invite of paginatedInvites" 
+          class="invite-item"
+          (click)="openEventDetail(invite.id, $event)">
+          
+          <div class="invite-avatar" (click)="openUserProfile(invite, $event)">
+            <img 
+              *ngIf="invite.avatarUrl" 
+              [src]="invite.avatarUrl" 
+              [alt]="invite.fromUser">
+            <div *ngIf="!invite.avatarUrl" class="avatar-text">
+              {{ invite.avatarText || invite.fromUser.substring(0, 2).toUpperCase() }}
+            </div>
+          </div>
+
+          <div class="invite-info">
+            <div class="event-title">{{ invite.eventTitle }}</div>
+            <div class="invite-from">
+              <span>da</span>
+              <span class="user-link" (click)="openUserProfile(invite, $event)">
+                {{ invite.fromUser }}
+              </span>
+              <span *ngIf="invite.date" class="invite-date">• {{ invite.date }}</span>
+            </div>
+          </div>
+
+          <div class="status-pill">
+            In attesa
+          </div>
+        </div>
+
+        <div *ngIf="invites.length === 0" class="empty-state">
+          <ion-icon name="mail-outline"></ion-icon>
+          <p>Nessun invito ricevuto</p>
+        </div>
+      </div>
+
+      <!-- Pagination -->
+      <div class="pagination" *ngIf="totalPages > 1">
+        <button 
+          class="pagination-button" 
+          (click)="prevPage()" 
+          [disabled]="currentPage === 1">
+          <ion-icon name="chevron-back"></ion-icon>
+        </button>
+        
+        <div class="page-numbers">
+          <button 
+            *ngFor="let page of pageNumbers" 
+            class="page-number"
+            [class.active]="page === currentPage"
+            (click)="goToPage(page)">
+            {{ page }}
+          </button>
+        </div>
+
+        <button 
+          class="pagination-button" 
+          (click)="nextPage()" 
+          [disabled]="currentPage === totalPages">
+          <ion-icon name="chevron-forward"></ion-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

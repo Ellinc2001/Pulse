@@ -80,6 +80,6 @@ export class FormatChoiceComponent implements OnInit {
   }
 
   continue() {
-    this.router.navigate(['/event/format/filter']);
+    this.router.navigate(['/event/format-choice/filter']);
   }
 }

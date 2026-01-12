@@ -19,7 +19,7 @@ const routes: Routes = [
       import('./create-event-module/create-event-module.module').then(m => m.CreateEventModuleModule),
   },
   {
-    path: 'format',
+    path: 'format-choice',
     loadChildren: () =>
       import('./filter-module/filter.module').then(m => m.FilterModule),
   },

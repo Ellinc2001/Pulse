@@ -8,14 +8,13 @@
     [style.--lightning-dy.px]="lightning.endY - lightning.startY"
     [style.--lightning-hue]="lightning.hue"
     [style.animation-delay.ms]="lightning.delay"
-    width="40"
-    height="60"
+    width="30"
+    height="45"
     viewBox="0 0 32 48"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
     preserveAspectRatio="xMidYMid meet">
     <defs>
-      <!-- Increased filter region further and adjusted blur levels for cleaner glow -->
       <filter [id]="'glow-' + lightning.id" x="-200%" y="-200%" width="500%" height="500%" filterUnits="objectBoundingBox">
         <feGaussianBlur stdDeviation="2" result="blur1"/>
         <feGaussianBlur stdDeviation="5" result="blur2"/>
@@ -28,10 +27,10 @@
         </feMerge>
       </filter>
       
+      <!-- Removed white from gradient, now only colored gradient -->
       <linearGradient [id]="'lightning-gradient-' + lightning.id" x1="0%" y1="0%" x2="0%" y2="100%">
-        <stop offset="0%" stop-color="#FFFFFF" stop-opacity="1"/>
-        <stop offset="20%" stop-color="#F043D5" stop-opacity="1"/>
-        <stop offset="60%" stop-color="#8A3FF1" stop-opacity="1"/>
+        <stop offset="0%" stop-color="#F043D5" stop-opacity="1"/>
+        <stop offset="50%" stop-color="#8A3FF1" stop-opacity="1"/>
         <stop offset="100%" stop-color="#3BE3FF" stop-opacity="1"/>
       </linearGradient>
     </defs>

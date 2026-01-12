@@ -1,0 +1,68 @@
+<div class="modal-backdrop" (click)="dismiss()">
+  <div class="modal-container" (click)="$event.stopPropagation()">
+    <div class="modal-content">
+      <!-- Header -->
+      <div class="modal-header">
+        <div class="header-icon">
+          <ion-icon name="time-outline"></ion-icon>
+        </div>
+        <h2 class="modal-title">Eventi Prenotati</h2>
+        <button class="close-icon-button" (click)="dismiss()">
+          <ion-icon name="close"></ion-icon>
+        </button>
+      </div>
+
+      <!-- Events list -->
+      <div class="events-list">
+        <div 
+          *ngFor="let event of paginatedEvents" 
+          class="event-item"
+          [class.urgent]="event.isUrgent"
+          (click)="openEventDetail(event.id)">
+          <div class="event-icon">
+            <ion-icon [name]="event.icon"></ion-icon>
+          </div>
+          <div class="event-info">
+            <div class="event-name">{{ event.name }}</div>
+            <div class="event-venue">{{ event.venue }}</div>
+          </div>
+          <div class="countdown-pill" [class.urgent]="event.isUrgent">
+            {{ event.countdown }}
+          </div>
+        </div>
+
+        <div *ngIf="events.length === 0" class="empty-state">
+          <ion-icon name="calendar-outline"></ion-icon>
+          <p>Nessun evento prenotato</p>
+        </div>
+      </div>
+
+      <!-- Pagination -->
+      <div class="pagination" *ngIf="totalPages > 1">
+        <button 
+          class="pagination-button" 
+          (click)="prevPage()" 
+          [disabled]="currentPage === 1">
+          <ion-icon name="chevron-back"></ion-icon>
+        </button>
+        
+        <div class="page-numbers">
+          <button 
+            *ngFor="let page of pageNumbers" 
+            class="page-number"
+            [class.active]="page === currentPage"
+            (click)="goToPage(page)">
+            {{ page }}
+          </button>
+        </div>
+
+        <button 
+          class="pagination-button" 
+          (click)="nextPage()" 
+          [disabled]="currentPage === totalPages">
+          <ion-icon name="chevron-forward"></ion-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
