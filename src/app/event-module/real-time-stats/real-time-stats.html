@@ -1,108 +1,291 @@
-<ion-header class="ion-no-border header-blur">
-  <ion-toolbar color="dark">
+<ion-header class="ion-no-border">
+  <ion-toolbar class="header-toolbar">
     <ion-buttons slot="start">
       <ion-button fill="clear" (click)="back()">
         <ion-icon name="chevron-back-outline" class="back-icon"></ion-icon>
       </ion-button>
     </ion-buttons>
-
-    <ion-title class="title-wrap">
-      <div class="title">Galaxy Disco Club</div>
-      <div class="subtitle">
-        <span class="time-range">23:45 - 04:00</span>
-        <div class="on-air-badge">
-          <span class="pulse-dot"></span>
-          <span>ON AIR</span>
+    <div class="header-content">
+      <div class="header-title-wrapper">
+        <h1 class="event-title">Galaxy Disco Club</h1>
+        <div class="live-badge-container">
+          <span class="live-pulse-dot"></span>
+          <span class="live-text">LIVE</span>
         </div>
-        <span class="live-text">Live</span>
       </div>
-    </ion-title>
+    </div>
+    <ion-buttons slot="end">
+      <ion-button fill="clear" class="share-button">
+        <ion-icon name="share-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true" class="page-bg">
-  <div class="main-content">
+<ion-content [fullscreen]="true" class="stats-content">
+  <div class="content-wrapper">
+    
+    <!-- Video Section with Camera Views -->
+    <section class="video-section">
+      <div class="video-container-main">
+        <div class="video-frame">
+          <img 
+            src="/images/attachments-gen-images-public-indie-rock-concert-stage.jpg" 
+            alt="Dancefloor" 
+            class="video-thumbnail"
+          />
+          <div class="video-overlay"></div>
+          <div class="video-badge">
+            <ion-icon name="videocam"></ion-icon>
+            <span>Dancefloor</span>
+          </div>
+          <div class="video-footer">
+            <span class="viewers-count">420 people watching</span>
+            <div class="watching-avatars">
+              <div class="avatar"></div>
+              <div class="avatar"></div>
+              <div class="avatar"></div>
+            </div>
+          </div>
+        </div>
+        <div class="camera-tabs">
+          <button class="camera-tab active">Dancefloor</button>
+          <button class="camera-tab">Bar Area</button>
+          <button class="camera-tab">Main Entrance</button>
+        </div>
+      </div>
+    </section>
 
-    <!-- Added live videos section at the beginning -->
-    <div class="videos-card">
-      <div class="videos-header">
-        <h2 class="section-title">Live Videos</h2>
+    <!-- Participants and Queue Stats Grid -->
+    <section class="stats-grid-2col">
+      <!-- Participants Circle Card -->
+      <div class="stat-card glass-card" (click)="openParticipantsModal()">
+        <div class="circle-progress-container">
+          <svg class="circle-progress" viewBox="0 0 100 100">
+            <circle class="circle-bg" cx="50" cy="50" r="40" fill="transparent" stroke="#1a1a1a" stroke-width="8"></circle>
+            <circle 
+              class="circle-fill" 
+              cx="50" 
+              cy="50" 
+              r="40" 
+              fill="transparent" 
+              stroke="url(#gradient-circle)" 
+              stroke-width="8"
+              stroke-dasharray="251.2"
+              stroke-dashoffset="87.9"
+              stroke-linecap="round"
+            ></circle>
+            <defs>
+              <linearGradient id="gradient-circle" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stop-color="#3BE3FF"/>
+                <stop offset="100%" stop-color="#8A3FF1"/>
+              </linearGradient>
+            </defs>
+          </svg>
+          <div class="circle-content">
+            <span class="circle-value">65%</span>
+            <span class="circle-label">Full</span>
+          </div>
+        </div>
+        <div class="stat-info">
+          <p class="stat-title">Participants</p>
+          <p class="stat-subtitle">326 / 500</p>
+        </div>
+      </div>
+
+      <!-- Queue Times Card -->
+      <div class="stat-card glass-card">
+        <div class="queue-item">
+          <p class="queue-label">Entry Queue</p>
+          <div class="queue-value-container">
+            <ion-icon name="timer-outline" class="queue-icon cyan"></ion-icon>
+            <span class="queue-value">12-18 <span class="queue-unit">min</span></span>
+          </div>
+        </div>
+        <div class="queue-divider"></div>
+        <div class="queue-item">
+          <p class="queue-label">Bar Queue</p>
+          <div class="queue-value-container">
+            <ion-icon name="wine-outline" class="queue-icon blue"></ion-icon>
+            <span class="queue-value">5-8 <span class="queue-unit">min</span></span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Quality Metrics Grid -->
+    <section class="metrics-grid">
+      <!-- Audio Quality -->
+      <div class="metric-card glass-card">
+        <div class="metric-header">
+          <div class="metric-icon-wrapper blue">
+            <ion-icon name="stats-chart-outline"></ion-icon>
+          </div>
+          <span class="metric-badge blue">4.9/5</span>
+        </div>
+        <p class="metric-label">Audio Quality</p>
+        <div class="wave-bars">
+          <div class="wave-bar" style="height: 40%"></div>
+          <div class="wave-bar" style="height: 70%"></div>
+          <div class="wave-bar" style="height: 100%"></div>
+          <div class="wave-bar" style="height: 85%"></div>
+          <div class="wave-bar" style="height: 50%"></div>
+          <div class="wave-bar" style="height: 20%"></div>
+        </div>
+        <p class="metric-status blue">Stable Connection</p>
+      </div>
+
+      <!-- DJ Set Rating -->
+      <div class="metric-card glass-card">
+        <div class="metric-header">
+          <div class="metric-icon-wrapper purple">
+            <ion-icon name="headset-outline"></ion-icon>
+          </div>
+          <span class="metric-badge purple">4.8/5</span>
+        </div>
+        <p class="metric-label">DJ Set Rating</p>
+        <div class="stars-container">
+          <ion-icon name="star" class="star-icon"></ion-icon>
+          <ion-icon name="star" class="star-icon"></ion-icon>
+          <ion-icon name="star" class="star-icon"></ion-icon>
+          <ion-icon name="star" class="star-icon"></ion-icon>
+          <ion-icon name="star-half" class="star-icon half"></ion-icon>
+        </div>
+        <p class="metric-status purple">Energy Peaking</p>
+      </div>
+
+      <!-- Drinks Quality -->
+      <div class="metric-card glass-card">
+        <div class="metric-header">
+          <div class="metric-icon-wrapper pink">
+            <ion-icon name="wine-outline"></ion-icon>
+          </div>
+          <span class="metric-badge pink">4.7/5</span>
+        </div>
+        <p class="metric-label">Drinks Quality</p>
+        <div class="progress-bar-container">
+          <div class="progress-bar">
+            <div class="progress-fill pink" style="width: 94%"></div>
+          </div>
+        </div>
+        <div class="tags-container">
+          <span class="tag pink">Premium</span>
+          <span class="tag pink">Cold</span>
+        </div>
+      </div>
+
+      <!-- Vibe Match -->
+      <div class="metric-card glass-card">
+        <div class="metric-header">
+          <div class="metric-icon-wrapper cyan">
+            <ion-icon name="flash-outline"></ion-icon>
+          </div>
+          <span class="metric-badge cyan">92%</span>
+        </div>
+        <p class="metric-label">Vibe Match</p>
+        <div class="vibe-indicator">
+          <div class="pulse-dot cyan"></div>
+          <span class="vibe-text cyan">Optimal</span>
+        </div>
+        <p class="metric-status cyan">Crowd flow is very high</p>
+      </div>
+    </section>
+
+    <!-- Night Timeline Section -->
+    <section class="timeline-section glass-card">
+      <div class="section-glow cyan"></div>
+      <div class="section-header">
+        <div>
+          <h3 class="section-title cyan">Night Timeline</h3>
+          <p class="section-subtitle">Scheduled performances</p>
+        </div>
+        <ion-icon name="calendar-outline" class="section-icon cyan"></ion-icon>
+      </div>
+      <div class="timeline-container">
+        <div class="timeline-line"></div>
+        
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-content">
+            <span class="timeline-time">23:00 - 01:00</span>
+            <h4 class="timeline-title">DJ Alex <span class="timeline-genre">(House)</span></h4>
+          </div>
+        </div>
+
+        <div class="timeline-item active">
+          <div class="timeline-dot active"></div>
+          <div class="timeline-content">
+            <div class="timeline-time-wrapper">
+              <span class="timeline-time cyan">01:00 - 03:00</span>
+              <span class="live-now-badge">Live Now</span>
+            </div>
+            <h4 class="timeline-title active">Mark V <span class="timeline-genre cyan">(Techno)</span></h4>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-content">
+            <span class="timeline-time">03:00 - 05:00</span>
+            <h4 class="timeline-title">Sarah J <span class="timeline-genre">(Hardstyle)</span></h4>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Vibe & Mood Section -->
+    <section class="vibe-section glass-card">
+      <div class="section-glow purple"></div>
+      <div class="section-header">
+        <div>
+          <h3 class="section-title purple">Vibe & Mood</h3>
+          <p class="section-subtitle">Live club atmosphere sensor</p>
+        </div>
+        <div class="temperature-badge">
+          <ion-icon name="thermometer-outline"></ion-icon>
+          <span>24°C</span>
+        </div>
       </div>
       
-      <div class="videos-scroll-container">
-        <div class="videos-horizontal-list">
-          @for (video of videoStreams; track video; let i = $index) {
-            <div class="video-item-template">
-              <div class="video-container-template">
-                <app-live-videos
-                  [videoStream]="video"
-                  [showControls]="true">
-                </app-live-videos>
-              </div>
-
-              <div class="video-info-template">
-                <p class="video-title-template">{{ video.title }}</p>
-                <p class="video-subtitle-template">{{ video.angle || 'DJ Set' }}</p>
-                <p class="video-viewers">{{ video.viewers }} viewers</p>
-              </div>
+      <div class="vibe-content">
+        <div class="energy-level-container">
+          <div class="energy-labels">
+            <span class="energy-label-start">Calm</span>
+            <span class="energy-label-end">Fire</span>
+          </div>
+          <div class="energy-bar-container">
+            <div class="energy-bar-track">
+              <div class="energy-bar-fill" style="width: 82%"></div>
             </div>
-          }
+          </div>
+          <p class="energy-text">Energy Level: <span class="energy-value">High Energy</span></p>
+        </div>
+
+        <div class="hype-level-container">
+          <span class="hype-label">Hype Level</span>
+          <div class="hype-stars">
+            <ion-icon name="star" class="hype-star active"></ion-icon>
+            <ion-icon name="star" class="hype-star active"></ion-icon>
+            <ion-icon name="star" class="hype-star active"></ion-icon>
+            <ion-icon name="star" class="hype-star active"></ion-icon>
+            <ion-icon name="star" class="hype-star"></ion-icon>
+          </div>
         </div>
       </div>
-    </div>
+    </section>
 
-    <div class="participants-section">
-      <app-participants-avatars
-        [participants]="participants"
-        [totalCount]="totalParticipants"
-        variant="scrollable">
-      </app-participants-avatars>
-    </div>
-
-    <!-- stack di caroselli: qui ce n'è uno solo (ProgressMetric) -->
-    <div class="carousels-stack">
-      @for (g of carousels; track g.key) {
-        <app-component-carousel
-          [title]="g.title"
-          [componentType]="g.componentType"
-          [componentKey]="g.key"
-          [dataList]="g.dataList"
-          [config]="g.carouselConfig">
-        </app-component-carousel>
-      }
-    </div>
-
-    <div class="timeline-section">
-      <app-minimal-timeline-card
-        [data]="eventTimeline">
-      </app-minimal-timeline-card>
-    </div>
-
-    <div class="warning-alert">
-      <ion-icon name="warning" class="warning-icon"></ion-icon>
-      <p>Attenzione: Luci stroboscopiche intense previste alle 02:00.</p>
-    </div>
-
-    <ion-card class="stats-card">
-      <ion-card-content>
-        <h3 class="card-title">Mood & Hype</h3>
-        <div class="mood-tags">
-          <span class="mood-tag pink">#Euforico</span>
-          <span class="mood-tag teal">#Sognante</span>
-          <span class="mood-tag purple">#Scatenato</span>
+    <!-- Live Summary Card -->
+    <section class="summary-card glass-card purple-gradient">
+      <div class="summary-header">
+        <div class="summary-icon-wrapper">
+          <ion-icon name="sparkles-outline"></ion-icon>
         </div>
-        <div class="likes-container">
-          <div class="likes-info">
-            <ion-icon name="heart" class="heart-icon"></ion-icon>
-            <span class="likes-count">1.8k Likes</span>
-          </div>
-          <div class="sparkline-container">
-            <svg class="sparkline" viewBox="0 0 100 30" xmlns="http://www.w3.org/2000/svg">
-              <polyline fill="none" points="0,25 10,20 20,22 30,15 40,18 50,10 60,12 70,5 80,8 90,15 100,10" stroke-width="2"></polyline>
-            </svg>
-          </div>
-        </div>
-      </ion-card-content>
-    </ion-card>
+        <h4 class="summary-title">Live Summary</h4>
+      </div>
+      <p class="summary-text">
+        The peak energy is expected in <span class="summary-highlight">25 mins</span>. Crowds are gathering near the main stage. Bar wait times are currently optimal.
+      </p>
+    </section>
+
   </div>
 </ion-content>

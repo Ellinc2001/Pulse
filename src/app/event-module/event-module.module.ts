@@ -21,6 +21,7 @@ import { FoodCardComponent } from './food-card/food-card';
 import { LocationCardComponent } from './location-card/location-card';
 import { MusicCardComponent } from './music-card/music-card';
 import { FilterModule } from './filter-module/filter.module';
+import { ParticipantsModalComponent } from './participants-modal/participants-modal';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import { FilterModule } from './filter-module/filter.module';
     InputContextCarousel,
     FoodCardComponent,
     LocationCardComponent,
-    MusicCardComponent
+    MusicCardComponent,
+    ParticipantsModalComponent
   ],
   imports: [
     CommonModule,

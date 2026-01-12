@@ -1,8 +1,10 @@
 import { Component, type OnInit } from "@angular/core"
+import { Router, ActivatedRoute } from "@angular/router"
 import { ClubService } from "../services/club-service"
-import { VideoStream } from "../ui-statistics-module/live-videos/live-videos"
+import { ModalController } from "@ionic/angular"
 import { TimelineData } from "../ui-statistics-module/minimal-timeline-card/minimal-timeline-card"
 import { Participant } from "../ui-statistics-module/participants-avatars/participants-avatars"
+import { VideoStream } from "../ui-statistics-module/live-videos/live-videos"
 
 @Component({
   selector: "app-real-time-stats",
@@ -11,7 +13,26 @@ import { Participant } from "../ui-statistics-module/participants-avatars/partic
   standalone: false,
 })
 export class RealTimeStatsComponent implements OnInit {
-  carousels: any[] = []
+  carousels: any[] = [
+    {
+      id: "1",
+      title: "Carousel 1",
+      items: [
+        { id: "1-1", imageUrl: "https://i.pravatar.cc/150?img=1" },
+        { id: "1-2", imageUrl: "https://i.pravatar.cc/150?img=2" },
+        { id: "1-3", imageUrl: "https://i.pravatar.cc/150?img=3" },
+      ],
+    },
+    {
+      id: "2",
+      title: "Carousel 2",
+      items: [
+        { id: "2-1", imageUrl: "https://i.pravatar.cc/150?img=4" },
+        { id: "2-2", imageUrl: "https://i.pravatar.cc/150?img=5" },
+        { id: "2-3", imageUrl: "https://i.pravatar.cc/150?img=6" },
+      ],
+    },
+  ]
 
   eventTimeline: TimelineData = {
     points: [
@@ -143,12 +164,41 @@ export class RealTimeStatsComponent implements OnInit {
   ]
 
   constructor(
+    private router: Router,
+    private route: ActivatedRoute,
     private clubService: ClubService,
+    private modalController: ModalController,
   ) {}
 
   ngOnInit(): void {
-    this.carousels = this.clubService.getCarouselsForClub()
+    // No need to call getCarouselsForClub as carousels are now mockup data
   }
 
-  back() {}
+  back() {
+    this.router.navigate(["/events-search"])
+  }
+
+  async openParticipantsModal() {
+    const participantsData = this.participants.map((p, index) => ({
+      id: p.id,
+      name: p.name,
+      username: `@${p.name.toLowerCase().replace(" ", "_")}`,
+      avatarUrl: p.avatarUrl,
+      isSpark: p.badge === "VIP" || index < 2,
+      isFollowing: index === 2,
+    }))
+
+    const modal = await this.modalController.create({
+      component: (await import("../participants-modal/participants-modal")).ParticipantsModalComponent,
+      componentProps: {
+        participants: participantsData,
+        totalCount: 326,
+      },
+      cssClass: "participants-modal-wrapper",
+      backdropDismiss: true,
+      showBackdrop: true,
+    })
+
+    await modal.present()
+  }
 }

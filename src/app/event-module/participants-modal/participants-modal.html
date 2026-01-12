@@ -1,0 +1,113 @@
+<div class="modal-backdrop" (click)="close()">
+  <div class="modal-container" (click)="$event.stopPropagation()">
+    
+    <!-- Header -->
+    <div class="modal-header">
+      <div class="header-content">
+        <ion-button fill="clear" class="back-button" (click)="close()">
+          <ion-icon name="chevron-back-outline"></ion-icon>
+        </ion-button>
+        <div class="header-info">
+          <h1 class="modal-title">Participants</h1>
+          <div class="live-status">
+            <span class="pulse-dot"></span>
+            <span class="live-text">{{ totalCount }} people inside</span>
+          </div>
+        </div>
+      </div>
+      <ion-button fill="clear" class="search-button">
+        <ion-icon name="search-outline"></ion-icon>
+      </ion-button>
+    </div>
+
+    <!-- Tabs -->
+    <div class="tabs-container">
+      <div class="tabs-wrapper">
+        <button 
+          class="tab-button" 
+          [class.active]="activeTab === 'all'"
+          (click)="switchTab('all')"
+        >
+          Tutti
+        </button>
+        <button 
+          class="tab-button" 
+          [class.active]="activeTab === 'sparks'"
+          (click)="switchTab('sparks')"
+        >
+          Sparks
+        </button>
+      </div>
+    </div>
+
+    <!-- Participants List -->
+    <div class="participants-list">
+      <div 
+        *ngFor="let participant of displayedParticipants"
+        class="participant-item"
+        [class.spark-item]="participant.isSpark"
+        (click)="openUserProfile(participant)"
+      >
+        <div class="participant-content">
+          <!-- Avatar -->
+          <div class="avatar-wrapper" [class.spark-ring]="participant.isSpark">
+            <img [src]="participant.avatarUrl" [alt]="participant.name" class="avatar-image" />
+          </div>
+
+          <!-- User Info -->
+          <div class="user-info">
+            <div class="name-row">
+              <span class="user-name">{{ participant.name }}</span>
+              <ion-icon 
+                *ngIf="participant.isSpark" 
+                name="star" 
+                class="spark-icon"
+              ></ion-icon>
+            </div>
+            <span class="user-username">{{ participant.username }}</span>
+          </div>
+        </div>
+
+        <!-- Action Button -->
+        <div class="participant-action">
+          <span *ngIf="participant.isSpark" class="spark-badge">Spark</span>
+          
+          <button 
+            *ngIf="participant.isSpark"
+            class="action-icon-button spark"
+            (click)="$event.stopPropagation()"
+          >
+            <ion-icon name="sparkles"></ion-icon>
+          </button>
+
+          <button 
+            *ngIf="!participant.isSpark && participant.isFollowing"
+            class="following-button"
+            (click)="toggleFollow(participant, $event)"
+          >
+            Following
+          </button>
+
+          <button 
+            *ngIf="!participant.isSpark && !participant.isFollowing"
+            class="action-icon-button"
+            (click)="toggleFollow(participant, $event)"
+          >
+            <ion-icon name="person-add-outline"></ion-icon>
+          </button>
+        </div>
+      </div>
+
+      <!-- Show More Button -->
+      <button 
+        *ngIf="displayedParticipants.length < filteredParticipants.length"
+        class="show-more-button"
+        (click)="showMore()"
+      >
+        Show more
+        <ion-icon name="chevron-down-outline"></ion-icon>
+      </button>
+    </div>
+
+  </div>
+</div>
