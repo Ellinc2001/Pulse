@@ -46,6 +46,20 @@
       </button>
     </header>
 
+    <!-- Added Sparks stats pills section -->
+    <div class="sparks-stats-row">
+      <div class="spark-stat-pill spark-received" (click)="openSparksModal('received')">
+        <span class="spark-stat-emoji">🔥</span>
+        <span class="spark-stat-text">Sparks ricevuti:</span>
+        <span class="spark-stat-value received">{{ sparksReceived }}</span>
+      </div>
+      <div class="spark-stat-pill spark-given" (click)="openSparksModal('given')">
+        <span class="spark-stat-emoji">⚡</span>
+        <span class="spark-stat-text">Sparks dati:</span>
+        <span class="spark-stat-value given">{{ sparksGiven }}</span>
+      </div>
+    </div>
+
     <main class="main-content">
       <!-- New Progress block with Season -->
       <div class="progress-block">
@@ -194,19 +208,25 @@
           <div class="countdown-list">
             <!-- Updated to use displayedCountdownEvents and proper data binding -->
             <ng-container *ngFor="let event of displayedCountdownEvents; let last = last">
-              <div class="countdown-card">
-                <div class="countdown-icon">
-                  <ion-icon class="event-icon" [name]="event.icon"></ion-icon>
-                </div>
-                <div class="countdown-info">
-                  <p class="countdown-event-name">{{ event.name }}</p>
-                  <p class="countdown-venue">{{ event.venue }}</p>
-                </div>
-                <div [class]="event.isUrgent ? 'countdown-badge-urgent' : 'countdown-badge'">
-                  {{ event.countdown }}
+              <div class="countdown-card-centered">
+                <!-- Colored glow effect in corner -->
+                <div class="card-glow-corner" [style.background]="event.glowColor"></div>
+                
+                <!-- Event title centered -->
+                <h4 class="event-title-centered">{{ event.name }}</h4>
+                
+                <!-- Venue name centered -->
+                <p class="event-venue-centered">{{ event.venue }}</p>
+                
+                <!-- Starts in section centered -->
+                <div class="starts-in-section">
+                  <span class="starts-in-label">STARTS IN</span>
+                  <div class="countdown-display" [style.color]="event.countdownColor" [style.textShadow]="'0 0 15px ' + event.countdownColor">
+                    {{ event.countdownNumber }} 
+                    <span class="countdown-unit">{{ event.countdownUnit }}</span>
+                  </div>
                 </div>
               </div>
-              <div class="countdown-divider" *ngIf="!last"></div>
             </ng-container>
             
             <!-- Added "View all" link when there are more than 3 events -->
@@ -222,73 +242,51 @@
           <div class="invites-list">
             <!-- Updated to use displayedInvites -->
             <ng-container *ngFor="let invite of displayedInvites; let last = last">
-              <div class="invite-row" (click)="openInviteDetail(invite.id)">
-                <div class="invite-avatar">
-                  <img *ngIf="invite.avatarUrl" 
-                       [src]="invite.avatarUrl" 
-                       [alt]="invite.eventTitle"
-                       class="invite-avatar-img">
-                  <div *ngIf="!invite.avatarUrl && invite.avatarText" 
-                       class="invite-avatar-text">
-                    {{ invite.avatarText }}
+              <div class="invite-card-new">
+                <!-- Top section with avatar, event info and badge -->
+                <div class="invite-top-section">
+                  <div class="invite-left-section">
+                    <!-- Avatar with neon ring -->
+                    <div class="invite-avatar-with-ring">
+                      <img *ngIf="invite.avatarUrl" 
+                           [src]="invite.avatarUrl" 
+                           [alt]="invite.eventTitle"
+                           class="invite-avatar-img-new">
+                      <div *ngIf="!invite.avatarUrl && invite.avatarText" 
+                           class="invite-avatar-text-new">
+                        {{ invite.avatarText }}
+                      </div>
+                    </div>
+                    <!-- Event info -->
+                    <div class="invite-info">
+                      <p class="invite-from-small">da <span class="invite-from-accent">{{ invite.fromUser }}</span></p>
+                      <h3 class="invite-event-title-new">{{ invite.eventTitle }}</h3>
+                    </div>
                   </div>
+                  <!-- NUOVO badge -->
+                  <span class="nuovo-badge">Nuovo</span>
                 </div>
-                <div class="invite-details">
-                  <p class="invite-event-title">{{ invite.eventTitle }}</p>
-                  <p class="invite-from">da {{ invite.fromUser }}</p>
-                  <p class="invite-time">Venerdi · tra 3 giorni</p>
-                </div>
-                <div class="invite-status-pill">
-                  Nuovo
+                
+                <!-- Bottom section with timer -->
+                <div class="invite-timer-section">
+                  <div class="timer-content">
+                    <ion-icon name="time-outline" class="timer-icon"></ion-icon>
+                    <div class="timer-details">
+                      <span class="timer-label">Inizia tra</span>
+                      <span class="timer-value">{{ invite.timeUntil || '2gg 14h 30m' }}</span>
+                    </div>
+                  </div>
+                  <button class="timer-arrow-button" (click)="openInviteDetail(invite.id); $event.stopPropagation()">
+                    <ion-icon name="arrow-forward" class="arrow-icon"></ion-icon>
+                  </button>
                 </div>
               </div>
-              <div class="countdown-divider" *ngIf="!last"></div>
             </ng-container>
             
             <!-- Added "View all" link when there are more than 3 invites -->
             <div class="view-all-link" *ngIf="hasMoreInvites" (click)="openAllInvites()">
               <span class="view-all-text">Vedi tutti ({{ invites.length }})</span>
               <ion-icon name="chevron-forward" class="view-all-icon"></ion-icon>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Spark section with proper toggle -->
-      <div class="spark-card">
-        <h2 class="section-title">Spark</h2>
-        <div class="spark-toggle">
-          <div class="spark-slider" [style.transform]="sparkTab === 'mine' ? 'translateX(100%)' : 'translateX(0)'"></div>
-          <button class="spark-button" 
-                  [class.active]="sparkTab === 'me'"
-                  (click)="sparkTab = 'me'">
-            Sparked Me ({{ sparkMeUsers.length }})
-          </button>
-          <button class="spark-button"
-                  [class.active]="sparkTab === 'mine'"
-                  (click)="sparkTab = 'mine'">
-            My Sparks ({{ mySparkUsers.length }})
-          </button>
-        </div>
-        <!-- Updated to iterate over sparkMeUsers array and pass user data to openUserProfile -->
-        <div class="spark-content" *ngIf="sparkTab === 'me'">
-          <p class="spark-description">Persone che hanno lasciato uno spark</p>
-          <div class="spark-avatars">
-            <div class="spark-avatar-item" 
-                 *ngFor="let user of sparkMeUsers"
-                 (click)="openUserProfile(user)">
-              <img class="spark-avatar" [src]="user.avatarUrl" [alt]="user.name">
-            </div>
-          </div>
-        </div>
-        <!-- Updated to iterate over mySparkUsers array and pass user data to openUserProfile -->
-        <div class="spark-content" *ngIf="sparkTab === 'mine'">
-          <p class="spark-description">Persone ai quali hai lasciato uno spark</p>
-          <div class="spark-avatars">
-            <div class="spark-avatar-item" 
-                 *ngFor="let user of mySparkUsers"
-                 (click)="openUserProfile(user)">
-              <img class="spark-avatar" [src]="user.avatarUrl" [alt]="user.name">
             </div>
           </div>
         </div>

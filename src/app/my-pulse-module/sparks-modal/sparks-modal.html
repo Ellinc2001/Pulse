@@ -1,0 +1,73 @@
+<div class="modal-backdrop" (click)="dismiss()">
+  <div class="modal-container" (click)="$event.stopPropagation()">
+    <div class="modal-content">
+      <!-- Header with title -->
+      <div class="modal-header">
+        <h1 class="modal-title">Spark</h1>
+        <button class="close-button" (click)="dismiss()">
+          <ion-icon name="close"></ion-icon>
+        </button>
+      </div>
+
+      <!-- Tab switcher -->
+      <div class="sparks-toggle">
+        <div class="sparks-slider" [style.transform]="activeTab === 'given' ? 'translateX(100%)' : 'translateX(0)'"></div>
+        <button class="sparks-button" 
+                [class.active]="activeTab === 'received'"
+                (click)="activeTab = 'received'">
+          Sparked Me ({{ sparksReceived.length }})
+        </button>
+        <button class="sparks-button"
+                [class.active]="activeTab === 'given'"
+                (click)="activeTab = 'given'">
+          My Sparks ({{ sparksGiven.length }})
+        </button>
+      </div>
+
+      <!-- Section title -->
+      <p class="section-subtitle">{{ sectionTitle }}</p>
+
+      <!-- Spark users list -->
+      <div class="sparks-list">
+        <div class="spark-user-card" 
+             *ngFor="let user of currentList"
+             (click)="openUserProfile(user)">
+          <!-- Glow border left -->
+          <div class="glow-border-left"></div>
+          
+          <!-- User info section -->
+          <div class="user-info-section">
+            <!-- Avatar with spark badge -->
+            <div class="avatar-container">
+              <div class="avatar-ring">
+                <img [src]="user.avatarUrl" [alt]="user.name" class="user-avatar">
+              </div>
+              <div class="spark-badge-mini">
+                <ion-icon name="sparkles"></ion-icon>
+              </div>
+            </div>
+            
+            <!-- User details -->
+            <div class="user-details">
+              <h3 class="user-name">{{ user.name }}</h3>
+              <p class="events-common">
+                <ion-icon name="flash"></ion-icon>
+                {{ user.eventsInCommon }} eventi in comune
+              </p>
+            </div>
+          </div>
+
+          <!-- Action buttons -->
+          <div class="action-buttons">
+            <button class="action-btn chat-btn" (click)="openChat(user, $event)">
+              <ion-icon name="chatbubble-outline"></ion-icon>
+            </button>
+            <button class="action-btn spark-btn" (click)="sparkBack(user, $event)">
+              <ion-icon name="heart"></ion-icon>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

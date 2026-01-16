@@ -63,50 +63,38 @@
     <!-- Show users and groups list when Groups segment is selected -->
     @if (selectedSegment === 'groups') {
       <div class="groups-list">
-        <!-- User Cards -->
+        <!-- Updated user card design with neon border, progress bar, and improved layout -->
         @for (user of users; track user.id) {
           <div 
             class="user-card" 
             [id]="'user-' + user.id" 
-            [style.border-color]="user.color + '20'"
-            [style.box-shadow]="'0 0 15px rgba(' + getRgbFromHex(user.color) + ', 0.3)'"
             (click)="openUserProfile(user.id)">
-            <img [src]="user.imageUrl" [alt]="user.name" class="user-avatar" />
+            <div class="user-avatar-container">
+              <img [src]="user.imageUrl" [alt]="user.name" class="user-avatar" [style.border-color]="user.color" />
+            </div>
             <div class="user-info">
               <h3 class="user-name">{{ user.name }}</h3>
               <p class="user-username">{{ user.username }}</p>
+              <!-- Removed commonInterests, keeping only distance -->
               <div class="user-meta">
                 <span class="user-distance">
                   <ion-icon name="location-outline"></ion-icon>
                   {{ user.distance }}km
                 </span>
-                @if (user.commonInterests) {
-                  <span class="user-interests">
-                    <ion-icon name="heart-outline"></ion-icon>
-                    {{ user.commonInterests }} interessi
-                  </span>
-                }
               </div>
             </div>
-            <div class="user-actions">
-              <ion-button fill="clear" class="action-button spark-button" (click)="$event.stopPropagation()">
-                <ion-icon name="flash" slot="icon-only"></ion-icon>
-              </ion-button>
-              <ion-button fill="clear" class="action-button message-button" (click)="$event.stopPropagation()">
-                <ion-icon name="chatbubble-outline" slot="icon-only"></ion-icon>
-              </ion-button>
-            </div>
+            <!-- Removed progress bar completely -->
           </div>
         }
 
-        <!-- Group Cards -->
+        <!-- Updated group card with rounded square image and overlapping member avatars -->
         @for (group of groups; track group.id) {
           <div 
             class="group-card" 
-            [id]="'group-' + group.id" 
-            [style.border-color]="group.color + '20'"
-            [style.box-shadow]="'0 0 15px rgba(' + getRgbFromHex(group.color) + ', 0.3)'">
-            <img [src]="group.imageUrl" [alt]="group.name" class="group-image" />
+            [id]="'group-' + group.id">
+            <div class="group-image-container">
+              <img [src]="group.imageUrl" [alt]="group.name" class="group-image" [style.border-color]="group.color" />
+            </div>
             <div class="group-info">
               <h3 class="group-name">{{ group.name }}</h3>
               <div class="group-members">
@@ -119,7 +107,9 @@
                   />
                 }
                 @if (group.totalMembers > 3) {
-                  <span class="members-count">+{{ group.totalMembers - 3 }}</span>
+                  <div class="members-count">
+                    <span>+{{ group.totalMembers - 3 }}</span>
+                  </div>
                 }
               </div>
             </div>

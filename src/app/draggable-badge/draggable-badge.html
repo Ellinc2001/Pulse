@@ -1,14 +1,15 @@
 <div
   #badgeRef
   class="draggable-badge"
-  [style.left.px]="position.x"
-  [style.top.px]="position.y"
+  [class.dragging]="isDragging"
   (pointerdown)="onPointerDown($event)"
-  (click)="onClick($event)"
+  (pointerup)="onPointerUp($event)"
+  (pointercancel)="onPointerUp($event)"
 >
   <ion-icon name="share-social-outline" class="badge-icon"></ion-icon>
   <div class="pulse-ring"></div>
 </div>
+
 
 <div
   #popoverRef

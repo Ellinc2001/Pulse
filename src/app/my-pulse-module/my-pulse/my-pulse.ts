@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core"
+import { Component, type OnInit } from "@angular/core"
 import { Router } from "@angular/router"
 import { UserProfileModalService } from "src/app/services/user-profile-modal-service"
 import { trigger, style, transition, animate } from "@angular/animations"
@@ -6,6 +6,7 @@ import { XpAnimationService } from "src/app/services/xp-lightning.service"
 import { ModalController } from "@ionic/angular"
 import { CountdownEventsModalComponent } from "src/app/modals/countdown-events-modal/countdown-events-modal.component"
 import { InvitesModalComponent } from "src/app/modals/invites-modal/invites-modal.component"
+import { SparksModalComponent } from "../sparks-modal/sparks-modal"
 
 interface UserData {
   id: string
@@ -23,6 +24,7 @@ interface UserData {
 }
 
 interface Invite {
+  timeUntil: any
   id: string
   eventTitle: string
   fromUser: string
@@ -37,6 +39,10 @@ interface CountdownEvent {
   icon: string
   countdown: string
   isUrgent?: boolean
+  glowColor: string
+  countdownColor: string
+  countdownNumber: string
+  countdownUnit: string
 }
 
 interface Level {
@@ -71,6 +77,9 @@ export class MyPulseComponent implements OnInit {
 
   currentXP = 4250
 
+  sparksReceived = 23
+  sparksGiven = 41
+
   countdownEvents: CountdownEvent[] = [
     {
       id: "event-1",
@@ -78,6 +87,10 @@ export class MyPulseComponent implements OnInit {
       venue: "Club XYZ",
       icon: "musical-notes",
       countdown: "3 days",
+      glowColor: "rgba(168, 85, 247, 0.4)",
+      countdownColor: "#a855f7",
+      countdownNumber: "03",
+      countdownUnit: "DAYS",
     },
     {
       id: "event-2",
@@ -85,6 +98,10 @@ export class MyPulseComponent implements OnInit {
       venue: "Warehouse District",
       icon: "headset",
       countdown: "1 week",
+      glowColor: "rgba(6, 182, 212, 0.4)",
+      countdownColor: "#06b6d4",
+      countdownNumber: "01",
+      countdownUnit: "WEEK",
     },
     {
       id: "event-3",
@@ -93,6 +110,10 @@ export class MyPulseComponent implements OnInit {
       icon: "partly-sunny",
       countdown: "18 hours",
       isUrgent: true,
+      glowColor: "rgba(236, 72, 153, 0.4)",
+      countdownColor: "#ec4899",
+      countdownNumber: "18",
+      countdownUnit: "HOURS",
     },
     {
       id: "event-4",
@@ -100,6 +121,10 @@ export class MyPulseComponent implements OnInit {
       venue: "Blue Note",
       icon: "mic",
       countdown: "10 days",
+      glowColor: "rgba(139, 92, 246, 0.4)",
+      countdownColor: "#8b5cf6",
+      countdownNumber: "10",
+      countdownUnit: "DAYS",
     },
     {
       id: "event-5",
@@ -107,6 +132,10 @@ export class MyPulseComponent implements OnInit {
       venue: "City Park",
       icon: "flash",
       countdown: "2 weeks",
+      glowColor: "rgba(59, 130, 246, 0.4)",
+      countdownColor: "#3b82f6",
+      countdownNumber: "02",
+      countdownUnit: "WEEKS",
     },
   ]
 
@@ -252,30 +281,96 @@ export class MyPulseComponent implements OnInit {
       eventTitle: "Warehouse Party",
       fromUser: "@dj_alex",
       avatarText: "WP",
+      timeUntil: 2,
     },
     {
       id: "invite-2",
       eventTitle: "Indie Film Screening",
       fromUser: "Cinephiles Group",
       avatarUrl: "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=150&h=150&fit=crop&crop=face",
+      timeUntil: 2,
     },
     {
       id: "invite-3",
       eventTitle: "Art Gallery Vernissage",
       fromUser: "@arte_viva",
       avatarUrl: "https://images.unsplash.com/photo-1541961017774-22349e4a1262?w=150&h=150&fit=crop&crop=face",
+      timeUntil: 2,
     },
     {
       id: "invite-4",
       eventTitle: "Techno Underground Night",
       fromUser: "@techno_beats",
       avatarText: "TU",
+      timeUntil: 2,
     },
     {
       id: "invite-5",
       eventTitle: "Rooftop Sunset Session",
       fromUser: "@sunset_vibes",
       avatarUrl: "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=150&h=150&fit=crop&crop=face",
+      timeUntil: 2,
+    },
+  ]
+
+  sparksReceivedUsers = [
+    {
+      id: "sr1",
+      name: "Marco Rossi",
+      username: "@marco_rossi",
+      avatarUrl: "https://i.pravatar.cc/150?img=11",
+      eventsInCommon: 3,
+      bio: "Music lover",
+      location: "Milano",
+      interests: ["Techno", "House"],
+      stats: { events: 24, friends: 89, sparks: 45 },
+    },
+    {
+      id: "sr2",
+      name: "Luca Bianchi",
+      username: "@luca_b",
+      avatarUrl: "https://i.pravatar.cc/150?img=12",
+      eventsInCommon: 1,
+      bio: "DJ amateur",
+      location: "Roma",
+      interests: ["Electronic", "Indie"],
+      stats: { events: 18, friends: 67, sparks: 32 },
+    },
+    {
+      id: "sr3",
+      name: "Elena Neri",
+      username: "@elena_neri",
+      avatarUrl: "https://i.pravatar.cc/150?img=13",
+      eventsInCommon: 5,
+      bio: "Event organizer",
+      location: "Firenze",
+      interests: ["Art", "Jazz"],
+      stats: { events: 56, friends: 145, sparks: 78 },
+    },
+  ]
+
+  sparksGivenUsers = [
+    {
+      id: "sg1",
+      name: "Sofia Costa",
+      username: "@sofia_c",
+      avatarUrl: "https://i.pravatar.cc/150?img=21",
+      eventsInCommon: 2,
+      bio: "Festival enthusiast",
+      location: "Torino",
+      interests: ["Rock", "Alternative"],
+      stats: { events: 31, friends: 98, sparks: 54 },
+    },
+    {
+      id: "sg2",
+      name: "Andrea Mancini",
+      username: "@andrea_m",
+      avatarUrl: "https://i.pravatar.cc/150?img=22",
+      eventsInCommon: 4,
+      bio: "Nightlife explorer",
+      location: "Bologna",
+      interests: ["Dance", "Electronic"],
+      stats: { events: 42, friends: 123, sparks: 67 },
     },
   ]
 
@@ -312,6 +407,7 @@ export class MyPulseComponent implements OnInit {
   }
 
   async openAllCountdownEvents() {
+    console.log("[v0] Opening countdown events modal with", this.countdownEvents.length, "events")
     const modal = await this.modalController.create({
       component: CountdownEventsModalComponent,
       componentProps: {
@@ -323,9 +419,11 @@ export class MyPulseComponent implements OnInit {
     })
 
     await modal.present()
+    console.log("[v0] Countdown events modal presented")
   }
 
   async openAllInvites() {
+    console.log("[v0] Opening invites modal with", this.invites.length, "invites")
     const modal = await this.modalController.create({
       component: InvitesModalComponent,
       componentProps: {
@@ -337,6 +435,25 @@ export class MyPulseComponent implements OnInit {
     })
 
     await modal.present()
+    console.log("[v0] Invites modal presented")
+  }
+
+  async openSparksModal(tab: "received" | "given") {
+    console.log("[v0] Opening sparks modal with tab:", tab)
+    const modal = await this.modalController.create({
+      component: SparksModalComponent,
+      componentProps: {
+        sparksReceived: this.sparksReceivedUsers,
+        sparksGiven: this.sparksGivenUsers,
+        initialTab: tab,
+      },
+      cssClass: "sparks-modal-wrapper",
+      backdropDismiss: true,
+      showBackdrop: true,
+    })
+
+    await modal.present()
+    console.log("[v0] Sparks modal presented")
   }
 
   testXpAnimation() {

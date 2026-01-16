@@ -1,23 +1,177 @@
-<!-- real-time-stats-notify.html -->
-<div class="real-time-stats-notify">
+<div class="control-panel">
+  <!-- Header -->
   <header class="header">
     <div class="header-content">
-      <button class="back-btn" (click)="back()">
-        <ion-icon name="arrow-back"></ion-icon>
-      </button>
-      <div class="title-wrap">
-        <h1 class="title">Milano Summer Fest</h1>
-        <p class="subtitle">Live Inputs <span class="live-indicator">•</span></p>
+      <div class="header-left">
+        <button class="back-btn" (click)="back()">
+          <ion-icon name="chevron-back"></ion-icon>
+        </button>
+        <div class="title-wrap">
+          <span class="control-label">CONTROL PANEL</span>
+          <h1 class="event-name">{{ eventName }}</h1>
+        </div>
       </div>
     </div>
   </header>
 
+  <!-- Main Content -->
   <main class="main-content">
-    @for (car of carousels; track car.componentKey) {
-      <app-input-context-carousel
-        [items]="car.items"
-        [config]="car.config">
-      </app-input-context-carousel>
-    }
+    <!-- Publish Live Updates Section -->
+    <section class="glass-card glow-border-purple">
+      <h3 class="section-title">PUBLISH LIVE UPDATES</h3>
+      <div class="area-selector">
+        <label class="area-label">SELECT AREA</label>
+        <div class="area-chips">
+          @for (area of areas; track area) {
+            <button 
+              class="area-chip" 
+              [class.active]="selectedArea === area"
+              (click)="selectArea(area)">
+              {{ area }}
+            </button>
+          }
+        </div>
+      </div>
+      <button class="upload-video-btn" (click)="uploadVideo()">
+        <div class="upload-icon-wrap">
+          <ion-icon name="videocam"></ion-icon>
+        </div>
+        <div class="upload-text">
+          <span class="upload-title">Carica Video Live</span>
+          <span class="upload-subtitle">TAP TO OPEN CAMERA OR GALLERY</span>
+        </div>
+      </button>
+    </section>
+
+    <!-- Participants Section -->
+    <section class="glass-card">
+      <div class="section-header">
+        <h3 class="section-title">PARTICIPANTS</h3>
+        <span class="capacity-badge">{{ capacityPercentage }}% FULL</span>
+      </div>
+      <div class="participants-grid">
+        <div class="counter-group">
+          <label class="counter-label">CURRENT</label>
+          <div class="counter-control">
+            <button class="counter-btn minus" (click)="updateParticipants(-1)">-</button>
+            <input type="number" [(ngModel)]="currentParticipants" class="counter-input" />
+            <button class="counter-btn plus" (click)="updateParticipants(1)">+</button>
+          </div>
+        </div>
+        <div class="counter-group">
+          <label class="counter-label">CAPACITY</label>
+          <div class="counter-control">
+            <button class="counter-btn minus" (click)="updateCapacity(-1)">-</button>
+            <input type="number" [(ngModel)]="maxCapacity" class="counter-input" />
+            <button class="counter-btn plus" (click)="updateCapacity(1)">+</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Wait Times Section -->
+    <section class="glass-card glow-border-cyan">
+      <h3 class="section-title">WAIT TIMES (MINUTES)</h3>
+      <div class="wait-times">
+        <div class="wait-item">
+          <div class="wait-header">
+            <span class="wait-label">MAIN ENTRY</span>
+            <span class="wait-value purple">{{ mainEntryDisplay }}</span>
+          </div>
+          <input type="range" [(ngModel)]="mainEntryWait" min="0" max="60" class="slider purple" />
+        </div>
+        <div class="wait-item">
+          <div class="wait-header">
+            <span class="wait-label">BAR SERVICE</span>
+            <span class="wait-value cyan">{{ barServiceDisplay }}</span>
+          </div>
+          <input type="range" [(ngModel)]="barServiceWait" min="0" max="30" class="slider cyan" />
+        </div>
+      </div>
+    </section>
+
+    <!-- Experience Quality Section -->
+    <section class="experience-section">
+      <h3 class="section-title-outside">EXPERIENCE QUALITY</h3>
+      <div class="quality-grid">
+        <div class="quality-card glow-border-blue">
+          <div class="quality-header">
+            <ion-icon name="cellular" class="quality-icon blue"></ion-icon>
+            <span class="quality-label">AUDIO</span>
+          </div>
+          <select [(ngModel)]="audioQuality" class="quality-select">
+            @for (opt of audioOptions; track opt) {
+              <option [value]="opt">{{ opt }}</option>
+            }
+          </select>
+        </div>
+        <div class="quality-card glow-border-purple">
+          <div class="quality-header">
+            <ion-icon name="headset" class="quality-icon purple"></ion-icon>
+            <span class="quality-label">DJ SET</span>
+          </div>
+          <select [(ngModel)]="djSetQuality" class="quality-select">
+            @for (opt of djSetOptions; track opt) {
+              <option [value]="opt">{{ opt }}</option>
+            }
+          </select>
+        </div>
+        <div class="quality-card glow-border-pink">
+          <div class="quality-header">
+            <ion-icon name="wine" class="quality-icon pink"></ion-icon>
+            <span class="quality-label">DRINKS</span>
+          </div>
+          <select [(ngModel)]="drinksQuality" class="quality-select">
+            @for (opt of drinksOptions; track opt) {
+              <option [value]="opt">{{ opt }}</option>
+            }
+          </select>
+        </div>
+        <div class="quality-card glow-border-cyan">
+          <div class="quality-header">
+            <ion-icon name="flash" class="quality-icon cyan"></ion-icon>
+            <span class="quality-label">ENERGY</span>
+          </div>
+          <select [(ngModel)]="energyLevel" class="quality-select">
+            @for (opt of energyOptions; track opt) {
+              <option [value]="opt">{{ opt }}</option>
+            }
+          </select>
+        </div>
+      </div>
+    </section>
+
+    <!-- Vibe & Mood Section -->
+    <section class="glass-card glow-border-gradient">
+      <h3 class="section-title">VIBE & MOOD</h3>
+      <div class="vibe-control">
+        <div class="vibe-labels">
+          <span class="vibe-label">CALM</span>
+          <span class="vibe-label fire">FIRE</span>
+        </div>
+        <input type="range" [(ngModel)]="vibeLevel" min="0" max="100" class="slider vibe" />
+      </div>
+      <div class="mood-chips">
+        @for (mood of moods; track mood) {
+          <button 
+            class="mood-chip" 
+            [class.active]="isMoodActive(mood)"
+            (click)="toggleMood(mood)">
+            {{ mood }}
+          </button>
+        }
+      </div>
+    </section>
   </main>
+
+  <!-- Floating Chat Button -->
+  <div class="floating-chat">
+    <button class="chat-btn" (click)="openChat()">
+      <ion-icon name="chatbubble"></ion-icon>
+    </button>
+  </div>
+
+  <!-- Background Glow Effects -->
+  <div class="glow-effect top-right"></div>
+  <div class="glow-effect bottom-left"></div>
 </div>

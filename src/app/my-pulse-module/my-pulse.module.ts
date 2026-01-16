@@ -7,10 +7,11 @@ import { IonicModule } from '@ionic/angular';
 import { PreferencesConfigComponent } from './preferences-config/preferences-config';
 import { FormsModule } from '@angular/forms';
 import { InviteCard } from './invite-card/invite-card';
+import { SparksModalComponent } from './sparks-modal/sparks-modal';
 
 
 @NgModule({
-  declarations: [MyPulseComponent, PreferencesConfigComponent, InviteCard],
+  declarations: [MyPulseComponent, PreferencesConfigComponent, InviteCard, SparksModalComponent],
   imports: [
     CommonModule,
     MyPulseRoutingModule,

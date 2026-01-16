@@ -14,6 +14,7 @@ interface UserData {
   distance: number
   commonInterests?: number
   color: string
+  matchScore?: number
 }
 
 interface GroupData {
