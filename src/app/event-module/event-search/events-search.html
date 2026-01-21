@@ -68,7 +68,7 @@
           <div 
             class="user-card" 
             [id]="'user-' + user.id" 
-            (click)="openUserProfile(user.id)">
+            (click)="openUserProfile()">
             <div class="user-avatar-container">
               <img [src]="user.imageUrl" [alt]="user.name" class="user-avatar" [style.border-color]="user.color" />
             </div>
@@ -103,7 +103,7 @@
                     [src]="member.imageUrl" 
                     [alt]="'Member ' + member.id" 
                     class="member-avatar"
-                    (click)="openUserProfile(member.id); $event.stopPropagation()"
+                    (click)="openUserProfile(); $event.stopPropagation()"
                   />
                 }
                 @if (group.totalMembers > 3) {

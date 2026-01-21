@@ -1,10 +1,30 @@
 import { Component, type OnInit } from "@angular/core"
 import { Router, ActivatedRoute } from "@angular/router"
-import { ClubService } from "../services/club-service"
 import { ModalController } from "@ionic/angular"
-import { TimelineData } from "../ui-statistics-module/minimal-timeline-card/minimal-timeline-card"
-import { Participant } from "../ui-statistics-module/participants-avatars/participants-avatars"
-import { VideoStream } from "../ui-statistics-module/live-videos/live-videos"
+
+export type TimelineData = {
+  points: { label: string, position: number, color: string}[],
+  currentTimePercent: number,
+  currentTimeLabel: string
+}
+
+export type Participant = {
+  id: string,
+  name: string,
+  avatarUrl: string,
+  badge?: string
+}
+
+export type VideoStream = {
+  id: string,
+  title: string,
+  url: string,
+  thumbnail: string,
+  isLive: boolean,
+  viewers: number,
+  quality: string,
+  angle?: string
+}
 
 @Component({
   selector: "app-real-time-stats",
@@ -12,6 +32,7 @@ import { VideoStream } from "../ui-statistics-module/live-videos/live-videos"
   styleUrls: ["./real-time-stats.scss"],
   standalone: false,
 })
+
 export class RealTimeStatsComponent implements OnInit {
   carousels: any[] = [
     {
@@ -165,8 +186,6 @@ export class RealTimeStatsComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private route: ActivatedRoute,
-    private clubService: ClubService,
     private modalController: ModalController,
   ) {}
 

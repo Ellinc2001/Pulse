@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CircleRatingCard } from './circle-rating-card';
+import { ProfileView } from './profile-view';
 
-describe('CircleRatingCard', () => {
-  let component: CircleRatingCard;
-  let fixture: ComponentFixture<CircleRatingCard>;
+describe('ProfileView', () => {
+  let component: ProfileView;
+  let fixture: ComponentFixture<ProfileView>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [CircleRatingCard]
+      declarations: [ProfileView]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(CircleRatingCard);
+    fixture = TestBed.createComponent(ProfileView);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -1,6 +1,5 @@
 import { Component, Input, type OnInit } from "@angular/core"
-import { ModalController } from "@ionic/angular"
-import { UserProfileModalService } from "src/app/services/user-profile-modal-service"
+import { ModalController, NavController } from "@ionic/angular"
 
 interface SparkUser {
   id: string
@@ -33,7 +32,7 @@ export class SparksModalComponent implements OnInit {
 
   constructor(
     private modalController: ModalController,
-    private userProfileModalService: UserProfileModalService,
+    private navController: NavController,
   ) {}
 
   ngOnInit() {
@@ -58,11 +57,8 @@ export class SparksModalComponent implements OnInit {
   }
 
   openUserProfile(user: SparkUser) {
-    this.userProfileModalService.openUserProfile({
-      name: user.name,
-      username: user.username,
-      avatarUrl: user.avatarUrl,
-    })
+    this.modalController.dismiss()
+    this.navController.navigateForward(`/profile-view`)
   }
 
   openChat(user: SparkUser, event: Event) {

@@ -11,12 +11,7 @@ import { RealTimeStatsComponent } from './real-time-stats/real-time-stats';
 import { LiveEventDetail } from './live-event-detail/live-event-detail';
 import { FormsModule } from '@angular/forms';
 import { RealTimeStatsNotify } from './real-time-stats-notify/real-time-stats-notify';
-import { UiStatisticsComponentsModule } from './ui-statistics-module/ui-statistics-components.module';
-import { UiInputStatisticsModuleModule } from './ui-input-statistics-module/ui-input-statistics-module.module';
 import { SpinnerComponent } from '../spinner/spinner';
-import { CarouselComponent } from './carousel/carousel';
-import { WaitTimePillsComponent } from './wait-time-pills/wait-time-pills';
-import { InputContextCarousel } from './input-context-carousel/input-context-carousel';
 import { FoodCardComponent } from './food-card/food-card';
 import { LocationCardComponent } from './location-card/location-card';
 import { MusicCardComponent } from './music-card/music-card';
@@ -32,9 +27,6 @@ import { ParticipantsModalComponent } from './participants-modal/participants-mo
     RealTimeStatsComponent,
     LiveEventDetail,
     RealTimeStatsNotify,
-    CarouselComponent,
-    WaitTimePillsComponent,
-    InputContextCarousel,
     FoodCardComponent,
     LocationCardComponent,
     MusicCardComponent,
@@ -45,8 +37,6 @@ import { ParticipantsModalComponent } from './participants-modal/participants-mo
     EventModuleRoutingModule,
     IonicModule,
     FormsModule,
-    UiStatisticsComponentsModule,
-    UiInputStatisticsModuleModule,
     FilterModule,
     SpinnerComponent
   ],

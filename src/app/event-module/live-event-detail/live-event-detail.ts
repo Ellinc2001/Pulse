@@ -1,8 +1,8 @@
 import { Component } from "@angular/core"
 import { Router } from "@angular/router"
 import type { EventData } from "../event-card/event-card.ts"
-import { VideoStream } from "../ui-statistics-module/live-videos/live-videos"
 import { BadgeService } from "src/app/services/badge-service"
+import { VideoStream } from "../real-time-stats/real-time-stats.js"
 
 @Component({
   selector: "app-live-event-detail",

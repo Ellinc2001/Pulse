@@ -4,6 +4,7 @@ import type { EventData } from "../event-card/event-card.ts"
 import { Router } from "@angular/router"
 import { UserProfileModalService } from "src/app/services/user-profile-modal-service"
 import { UserProfileData } from "src/app/modals/user-profile-modal/user-profile-modal.js"
+import { NavController } from "@ionic/angular"
 
 interface UserData {
   id: string
@@ -440,8 +441,8 @@ export class EventsSearchComponent implements OnInit, AfterViewInit {
 
   constructor(
     private router: Router,
-    private userProfileModalService: UserProfileModalService,
-  ) {}
+    private navController: NavController
+   ) {}
 
   ngOnInit() {
     console.log("Sono qui")
@@ -641,18 +642,8 @@ export class EventsSearchComponent implements OnInit, AfterViewInit {
     this.updateMarkers()
   }
 
-  openUserProfile(userId: string) {
-    console.log("[v0] Opening user profile for:", userId)
-
-    const userData = this.allUsers.get(userId)
-
-    if (!userData) {
-      console.error("[v0] User not found:", userId)
-      return
-    }
-
-    console.log("[v0] Found user data:", userData)
-    this.userProfileModalService.openUserProfile(userData)
+  openUserProfile() {
+    this.navController.navigateForward(`/profile-view`)
   }
 
   openFilters() {
