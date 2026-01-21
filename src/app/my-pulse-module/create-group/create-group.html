@@ -1,0 +1,76 @@
+<div class="create-group-container">
+  <!-- Background Glow Effects -->
+  <div class="glow-effect glow-purple"></div>
+  <div class="glow-effect glow-cyan"></div>
+
+  <!-- Header -->
+  <header class="page-header">
+    <button class="back-btn glass" (click)="goBack()">
+      <ion-icon name="chevron-back"></ion-icon>
+    </button>
+    <div class="header-text">
+      <h1>Crea gruppo</h1>
+      <p>Organizza la tua crew per i prossimi eventi</p>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <!-- Info Gruppo Section -->
+    <section class="section-card glass">
+      <h3 class="section-title purple">Info gruppo</h3>
+      
+      <div class="cover-image-wrapper">
+        <div class="cover-image-container">
+          <img [src]="coverImage" alt="Cover" class="cover-image">
+          <button class="change-image-btn" (click)="changeCoverImage()">
+            <ion-icon name="camera"></ion-icon>
+            Cambia immagine
+          </button>
+        </div>
+      </div>
+
+      <div class="input-group">
+        <label class="input-label">Nome gruppo</label>
+        <input 
+          type="text" 
+          class="text-input" 
+          placeholder="Es. Techno Lovers ITA"
+          [(ngModel)]="groupName"
+        >
+      </div>
+    </section>
+
+    <!-- Vibe del Gruppo Section -->
+    <section class="section-card glass">
+      <div class="section-header">
+        <h3 class="section-title purple">Vibe del gruppo</h3>
+        <span class="vibe-counter">{{ selectedVibesCount }}/5 Selezionati</span>
+      </div>
+
+      <div class="vibes-container">
+        <button class="add-vibe-btn glass">
+          <ion-icon name="add"></ion-icon>
+        </button>
+        <div class="vibes-scroll">
+          <button 
+            *ngFor="let vibe of vibeTags" 
+            class="vibe-tag"
+            [class.selected]="vibe.selected"
+            (click)="toggleVibe(vibe)"
+          >
+            <ion-icon [name]="vibe.icon"></ion-icon>
+            {{ vibe.label }}
+          </button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Fixed Bottom Actions -->
+  <div class="bottom-actions">
+    <button class="create-btn" (click)="createGroup()">
+      Crea gruppo
+    </button>
+  </div>
+</div>

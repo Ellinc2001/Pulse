@@ -247,7 +247,7 @@
                 <div class="invite-top-section">
                   <div class="invite-left-section">
                     <!-- Avatar with neon ring -->
-                    <div class="invite-avatar-with-ring">
+                    <div class="invite-avatar-with-ring" (click)="openGroupDetail()">
                       <img *ngIf="invite.avatarUrl" 
                            [src]="invite.avatarUrl" 
                            [alt]="invite.eventTitle"
@@ -291,6 +291,47 @@
           </div>
         </div>
       </div>
+
+      <!-- My Groups Section -->
+      <section class="my-groups-section">
+        <div class="groups-header">
+          <h3 class="groups-title">I Miei Gruppi</h3>
+          <ion-icon name="chevron-down" class="groups-expand-icon"></ion-icon>
+        </div>
+        
+        <!-- Search bar -->
+        <div class="groups-search-bar">
+          <ion-icon name="search" class="search-icon"></ion-icon>
+          <input 
+            type="text" 
+            placeholder="Cerca i tuoi gruppi..." 
+            class="groups-search-input"
+            [(ngModel)]="groupSearchQuery"
+          />
+        </div>
+        
+        <!-- Groups carousel -->
+        <div class="groups-carousel">
+          <!-- New group card -->
+          <button class="new-group-card" (click)="createNewGroup()">
+            <div class="new-group-icon-wrapper">
+              <ion-icon name="add" class="new-group-icon"></ion-icon>
+            </div>
+            <span class="new-group-text">Nuovo</span>
+          </button>
+          
+          <!-- Existing groups -->
+          <div 
+            *ngFor="let group of userGroups" 
+            class="group-card"
+            (click)="openGroupDetail()"
+          >
+            <img [src]="group.coverImage" [alt]="group.name" class="group-cover-image" />
+            <div class="group-overlay"></div>
+            <p class="group-name">{{ group.name }}</p>
+          </div>
+        </div>
+      </section>
     </main>
   </div>
 </div>

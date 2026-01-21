@@ -1,0 +1,477 @@
+$background-dark: #050505;
+$card-dark: #121214;
+$primary: #d946ef;
+$secondary: #06b6d4;
+$amber: #fbbf24;
+
+:host {
+  display: block;
+  width: 100%;
+  min-height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.group-detail-container {
+  min-height: 100%;
+  background: $background-dark;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+// Background glow effects
+.bg-glow {
+  position: fixed;
+  width: 256px;
+  height: 256px;
+  border-radius: 50%;
+  filter: blur(100px);
+  pointer-events: none;
+  z-index: 0;
+  
+  &.bg-glow-magenta {
+    top: 25%;
+    left: -80px;
+    background: rgba($primary, 0.2);
+  }
+  
+  &.bg-glow-cyan {
+    bottom: 25%;
+    right: -80px;
+    background: rgba($secondary, 0.2);
+  }
+}
+
+// Hero Header
+.hero-header {
+  position: relative;
+  width: 100%;
+  height: 180px;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.hero-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.hero-gradient {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, transparent 0%, $background-dark 100%);
+}
+
+.nav-buttons {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: calc(env(safe-area-inset-top) + 24px) 24px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 20;
+}
+
+.nav-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  
+  ion-icon {
+    font-size: 18px;
+  }
+  
+  &:active {
+    transform: scale(0.95);
+  }
+}
+
+.hero-info {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding-bottom: 40px;
+  text-align: center;
+  padding-left: 24px;
+  padding-right: 24px;
+  z-index: 10;
+}
+
+.group-name {
+  font-size: 36px;
+  font-weight: 800;
+  color: #fff;
+  margin: 0 0 8px;
+  letter-spacing: -0.02em;
+}
+
+.group-meta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.member-count {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: $secondary;
+}
+
+.meta-dot {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.active-status {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: $primary;
+}
+
+// Main Content
+.main-content {
+  padding: 0 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  position: relative;
+  z-index: 10;
+}
+
+// Section styling
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.section-title {
+  font-size: 10px;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: rgba(255, 255, 255, 0.5);
+  margin: 0;
+}
+
+.section-line {
+  height: 1px;
+  flex: 1;
+  margin-left: 16px;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+// Vibes Section
+.vibes-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.vibe-tag {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  border-radius: 9999px;
+  transition: all 0.3s ease;
+  
+  &.glow-magenta {
+    background: rgba($primary, 0.1);
+    border: 1px solid rgba($primary, 0.6);
+    box-shadow: 0 0 15px rgba($primary, 0.4);
+    
+    .vibe-icon, .vibe-label {
+      color: #fff;
+    }
+  }
+  
+  &.glow-cyan {
+    background: rgba($secondary, 0.1);
+    border: 1px solid rgba($secondary, 0.6);
+    box-shadow: 0 0 15px rgba($secondary, 0.4);
+    
+    .vibe-icon, .vibe-label {
+      color: #fff;
+    }
+  }
+  
+  &.glow-none {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    
+    .vibe-icon, .vibe-label {
+      color: rgba(255, 255, 255, 0.5);
+    }
+  }
+}
+
+.vibe-icon {
+  font-size: 14px;
+}
+
+.vibe-label {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+// Videos Section
+.view-all-btn {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: $primary;
+  background: none;
+  border: none;
+  padding: 0;
+  
+  &:active {
+    opacity: 0.7;
+  }
+}
+
+.videos-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+.video-card {
+  aspect-ratio: 3/4;
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.05);
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  
+  &:active {
+    transform: scale(0.98);
+  }
+}
+
+.video-thumbnail {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.7s ease;
+  
+  .video-card:hover & {
+    transform: scale(1.1);
+  }
+}
+
+.video-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.8) 0%, transparent 50%, transparent 100%);
+}
+
+.video-play-icon {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  
+  ion-icon {
+    font-size: 48px;
+    color: rgba(255, 255, 255, 0.8);
+  }
+  
+  .video-card:hover & {
+    opacity: 1;
+  }
+}
+
+.video-info {
+  position: absolute;
+  bottom: 16px;
+  left: 16px;
+  right: 16px;
+}
+
+.video-title {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #fff;
+  margin: 0;
+}
+
+// Participants Section
+.online-count {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.participants-carousel {
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  padding-bottom: 16px;
+  
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.participant-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+  cursor: pointer;
+  
+  &:active {
+    transform: scale(0.95);
+  }
+}
+
+.participant-avatar {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 4px;
+  background: $background-dark;
+  
+  img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    opacity: 0.8;
+  }
+  
+  &.admin-ring {
+    position: relative;
+    border-color: transparent;
+    
+    &::after {
+      content: '';
+      position: absolute;
+      inset: -3px;
+      border-radius: 9999px;
+      border: 2px solid $amber;
+      box-shadow: 0 0 10px $amber;
+    }
+    
+    img {
+      opacity: 1;
+    }
+  }
+  
+  &.others-avatar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 0;
+  }
+}
+
+.others-count {
+  font-size: 12px;
+  font-weight: 900;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.participant-name {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: rgba(255, 255, 255, 0.5);
+  
+  &.admin-name {
+    color: $amber;
+  }
+  
+  &.others-name {
+    color: rgba(255, 255, 255, 0.4);
+  }
+}
+
+// Bottom CTA
+.bottom-cta {
+  padding-bottom: calc(env(safe-area-inset-bottom) + 32px);
+  position: relative;
+  z-index: 10;
+}
+
+.join-btn {
+  width: 100%;
+  padding: 20px;
+  border-radius: 32px;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba($primary, 0.5);
+  box-shadow: 0 0 20px rgba($primary, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.25em;
+  transition: all 0.3s ease;
+  
+  &:active {
+    transform: scale(0.95);
+  }
+  
+  .join-icon {
+    font-size: 20px;
+    color: $primary;
+    transition: transform 0.3s ease;
+  }
+  
+  &:hover .join-icon {
+    transform: translateX(4px);
+  }
+}

@@ -1,0 +1,108 @@
+<div class="group-detail-container">
+  <!-- Background glow effects -->
+  <div class="bg-glow bg-glow-magenta"></div>
+  <div class="bg-glow bg-glow-cyan"></div>
+
+  <!-- Hero Header -->
+  <header class="hero-header">
+    <img [src]="groupData.coverImage" [alt]="groupData.name" class="hero-image" />
+    <div class="hero-gradient"></div>
+    
+    <!-- Group info centered at bottom -->
+    <div class="hero-info">
+      <h1 class="group-name">{{ groupData.name }}</h1>
+      <div class="group-meta">
+        <span class="member-count">{{ groupData.memberCount }} Members</span>
+        <span class="meta-dot"></span>
+        <span class="active-status" *ngIf="groupData.isActive">Active Now</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <!-- Vibes Highlighted -->
+    <section class="section vibes-section">
+      <div class="section-header">
+        <h3 class="section-title">Vibes Highlighted</h3>
+        <span class="section-line"></span>
+      </div>
+      <div class="vibes-list">
+        <div 
+          *ngFor="let vibe of groupData.vibes" 
+          class="vibe-tag"
+          [ngClass]="{
+            'glow-magenta': vibe.glowType === 'magenta',
+            'glow-cyan': vibe.glowType === 'cyan',
+            'glow-none': vibe.glowType === 'none'
+          }"
+        >
+          <ion-icon [name]="vibe.icon" class="vibe-icon"></ion-icon>
+          <span class="vibe-label">{{ vibe.label }}</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Past Videos -->
+    <section class="section videos-section">
+      <div class="section-header">
+        <h3 class="section-title">Past Videos</h3>
+        <button class="view-all-btn" (click)="viewAllVideos()">View all</button>
+      </div>
+      <div class="videos-grid">
+        <div 
+          *ngFor="let video of groupData.pastVideos" 
+          class="video-card"
+          (click)="playVideo(video.id)"
+        >
+          <img [src]="video.thumbnailUrl" [alt]="video.title" class="video-thumbnail" />
+          <div class="video-overlay"></div>
+          <div class="video-play-icon">
+            <ion-icon name="play-circle"></ion-icon>
+          </div>
+          <div class="video-info">
+            <p class="video-title">{{ video.title }}</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Participants -->
+    <section class="section participants-section">
+      <div class="section-header">
+        <h3 class="section-title">Participants</h3>
+        <span class="online-count">{{ groupData.onlineCount }} Online</span>
+      </div>
+      <div class="participants-carousel">
+        <div 
+          *ngFor="let member of groupData.members" 
+          class="participant-item"
+          (click)="openMemberProfile(member.id)"
+        >
+          <div class="participant-avatar" [ngClass]="{ 'admin-ring': member.isAdmin }">
+            <img [src]="member.avatarUrl" [alt]="member.name" />
+          </div>
+          <span class="participant-name" [ngClass]="{ 'admin-name': member.isAdmin }">
+            {{ member.name }}
+          </span>
+        </div>
+        
+        <!-- Others count -->
+        <div class="participant-item others-item">
+          <div class="participant-avatar others-avatar">
+            <span class="others-count">+{{ remainingMembersCount }}</span>
+          </div>
+          <span class="participant-name others-name">Others</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Bottom CTA -->
+    <section class="bottom-cta">
+      <button class="join-btn" (click)="joinGroup()">
+        Join the Crew
+        <ion-icon name="flash" class="join-icon"></ion-icon>
+      </button>
+    </section>
+  </main>
+</div>

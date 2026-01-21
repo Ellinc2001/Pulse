@@ -18,6 +18,7 @@ import { UserSearchModalComponent } from './modals/user-search-modal/user-search
 import { CountdownEventsModalComponent } from './modals/countdown-events-modal/countdown-events-modal.component';
 import { InvitesModalComponent } from './modals/invites-modal/invites-modal.component';
 import { ProfileView } from './profile-view/profile-view';
+import { GroupDetailComponent } from './group-detail/group-detail';
 
 
 @NgModule({
@@ -31,7 +32,7 @@ import { ProfileView } from './profile-view/profile-view';
     UserSearchModalComponent, 
     XpLightningComponent, 
     CountdownEventsModalComponent, 
-    InvitesModalComponent, ProfileView
+    InvitesModalComponent, ProfileView, GroupDetailComponent
   ],
   imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, BrowserAnimationsModule, FormsModule],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],

@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { ProfileView } from './profile-view/profile-view';
+import { GroupDetailComponent } from './group-detail/group-detail';
 
 const routes: Routes = [
   {
@@ -16,6 +17,10 @@ const routes: Routes = [
   {
     path: 'profile-view',
     component: ProfileView
+  },
+  {
+    path: 'group-detail',
+    component: GroupDetailComponent
   },
   { path: '', redirectTo: 'event', pathMatch: 'full' },
 ];

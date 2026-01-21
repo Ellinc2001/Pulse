@@ -80,6 +80,31 @@ export class MyPulseComponent implements OnInit {
   sparksReceived = 23
   sparksGiven = 41
 
+  groupSearchQuery = ""
+
+  userGroups = [
+    {
+      id: "group-1",
+      name: "Underground Berlin",
+      coverImage: "https://images.unsplash.com/photo-1571266028243-d220c6a927d0?w=300&h=400&fit=crop",
+    },
+    {
+      id: "group-2",
+      name: "Neon Nights",
+      coverImage: "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=300&h=400&fit=crop",
+    },
+    {
+      id: "group-3",
+      name: "After Hour Crew",
+      coverImage: "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=300&h=400&fit=crop",
+    },
+    {
+      id: "group-4",
+      name: "Techno Lovers ITA",
+      coverImage: "https://images.unsplash.com/photo-1571974599782-87624638275e?w=300&h=400&fit=crop",
+    },
+  ]
+
   countdownEvents: CountdownEvent[] = [
     {
       id: "event-1",
@@ -469,5 +494,14 @@ export class MyPulseComponent implements OnInit {
       // Simulate XP gain (in real app, this would come from backend)
       this.currentXP += 50
     }
+  }
+
+  createNewGroup() {
+    this.router.navigate(["/my-vibes/create-group"])
+  }
+
+  openGroupDetail() {
+    this.router.navigate(["/group-detail"])
+    // TODO: Navigate to group detail page
   }
 }

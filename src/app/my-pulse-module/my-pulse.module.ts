@@ -8,10 +8,11 @@ import { PreferencesConfigComponent } from './preferences-config/preferences-con
 import { FormsModule } from '@angular/forms';
 import { InviteCard } from './invite-card/invite-card';
 import { SparksModalComponent } from './sparks-modal/sparks-modal';
+import { CreateGroupComponent } from './create-group/create-group';
 
 
 @NgModule({
-  declarations: [MyPulseComponent, PreferencesConfigComponent, InviteCard, SparksModalComponent],
+  declarations: [MyPulseComponent, PreferencesConfigComponent, InviteCard, SparksModalComponent, CreateGroupComponent],
   imports: [
     CommonModule,
     MyPulseRoutingModule,
