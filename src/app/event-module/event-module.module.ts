@@ -7,7 +7,6 @@ import { EventCardComponent } from './event-card/event-card';
 import { FilterBarComponent } from './filter-bar/filter-bar';
 import { IonicModule } from "@ionic/angular";
 import { EventChat } from './event-chat/event-chat';
-import { RealTimeStatsComponent } from './real-time-stats/real-time-stats';
 import { LiveEventDetail } from './live-event-detail/live-event-detail';
 import { FormsModule } from '@angular/forms';
 import { RealTimeStatsNotify } from './real-time-stats-notify/real-time-stats-notify';
@@ -24,7 +23,6 @@ import { ParticipantsModalComponent } from './participants-modal/participants-mo
     EventCardComponent,
     FilterBarComponent,
     EventChat,
-    RealTimeStatsComponent,
     LiveEventDetail,
     RealTimeStatsNotify,
     FoodCardComponent,

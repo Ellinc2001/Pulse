@@ -1,0 +1,111 @@
+<div class="coworking-stats-container">
+  <div class="main-content">
+    <!-- Available Seats Card -->
+    <section class="glass-card seats-card">
+      <div class="seats-info">
+        <p class="seats-label">Posti disponibili</p>
+        <div class="seats-count">
+          <span class="seats-available">{{ availableSeats }}</span>
+          <span class="seats-total">/ {{ totalSeats }}</span>
+        </div>
+      </div>
+      <div class="seats-actions">
+        <span class="status-badge status-calm">{{ statusLabel }}</span>
+        <button class="book-btn" (click)="bookSeat()">Prenota</button>
+      </div>
+    </section>
+
+    <!-- Noise Level Card -->
+    <section class="glass-card noise-card">
+      <div class="noise-header">
+        <p class="noise-label">Rumore percepito</p>
+        <span class="noise-level-text">{{ noiseLevelLabel }}</span>
+      </div>
+      <div class="noise-slider-container">
+        <div class="noise-slider-bg"></div>
+        <div class="noise-slider-fill" [style.width.%]="noiseLevel"></div>
+      </div>
+      <div class="noise-labels">
+        <span>Silenzio</span>
+        <span>Chiasso</span>
+      </div>
+    </section>
+
+    <!-- Stats Grid -->
+    <div class="stats-grid">
+      <!-- Power Outlets Card -->
+      <div class="glass-card stat-card">
+        <div class="stat-header">
+          <ion-icon name="flash" class="stat-icon"></ion-icon>
+          <span class="stat-type">Prese</span>
+        </div>
+        <div class="stat-content">
+          <h3 class="stat-value">{{ powerOutlets }}</h3>
+          <p class="stat-location">{{ powerOutletsLocation }}</p>
+        </div>
+      </div>
+
+      <!-- WiFi Card -->
+      <div class="glass-card stat-card">
+        <div class="stat-header">
+          <ion-icon name="wifi" class="stat-icon"></ion-icon>
+          <span class="stat-type">Wi-Fi</span>
+        </div>
+        <div class="stat-content">
+          <div class="wifi-bars">
+            <div class="wifi-bar" *ngFor="let bar of [1,2,3,4,5]" 
+                 [class.active]="bar <= wifiStrength"
+                 [style.height.px]="8 + (bar * 4)"></div>
+          </div>
+          <p class="stat-location">{{ wifiLabel }}</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Who's Studying Here Section -->
+    <section class="section">
+      <h2 class="section-title">Chi sta studiando qui</h2>
+      <button class="glass-card action-card neon-blue" (click)="viewParticipants()">
+        <div class="action-content">
+          <div class="avatars-stack">
+            <div *ngFor="let p of participants" 
+                 class="avatar-circle"
+                 [style.background]="'linear-gradient(135deg, ' + p.gradientFrom + ', ' + p.gradientTo + ')'">
+              {{ p.initial }}
+            </div>
+            <div class="avatar-circle avatar-more">+{{ additionalParticipants }}</div>
+          </div>
+          <span class="action-text">Visualizza tutti i partecipanti</span>
+        </div>
+        <ion-icon name="chevron-forward" class="action-arrow"></ion-icon>
+      </button>
+    </section>
+
+    <!-- Active Work Groups Section -->
+    <section class="section">
+      <h2 class="section-title">Gruppi di lavoro attivi</h2>
+      <button class="glass-card action-card neon-purple" (click)="exploreWorkGroups()">
+        <div class="action-content">
+          <div class="avatars-stack">
+            <div *ngFor="let g of workGroups" class="avatar-circle avatar-group">
+              <ion-icon [name]="g.icon" class="group-icon"></ion-icon>
+            </div>
+          </div>
+          <span class="action-text">Esplora i gruppi attivi</span>
+        </div>
+        <ion-icon name="chevron-forward" class="action-arrow"></ion-icon>
+      </button>
+    </section>
+
+    <!-- Help CTA -->
+    <section class="help-cta">
+      <button class="help-btn" (click)="askForHelp()">
+        <ion-icon name="bulb" class="help-icon"></ion-icon>
+        <div class="help-text">
+          <p class="help-title">Chiedi aiuto</p>
+          <p class="help-subtitle">Un tutor o un collega ti risponderà</p>
+        </div>
+      </button>
+    </section>
+  </div>
+</div>

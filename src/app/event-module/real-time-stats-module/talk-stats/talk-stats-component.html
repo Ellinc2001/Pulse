@@ -1,0 +1,133 @@
+<div class="talk-stats-container">
+  <div class="main-content">
+    <!-- Attendance Card -->
+    <section class="glass-card attendance-card">
+      <div class="attendance-info">
+        <p class="card-label">Persone presenti</p>
+        <div class="attendance-numbers">
+          <span class="current-count">{{ currentAttendees }}</span>
+          <span class="max-count">/ {{ maxCapacity }}</span>
+        </div>
+      </div>
+      <div class="attendance-badge" [class.high]="attendancePercentage >= 80">
+        {{ attendanceStatus }}
+      </div>
+    </section>
+
+    <!-- Talk Topic Card -->
+    <section class="glass-card topic-card">
+      <p class="card-label">Tema del talk</p>
+      <h3 class="topic-title">{{ talkTopic }}</h3>
+      <div class="topic-tags">
+        <span *ngFor="let tag of talkTags" class="topic-tag">{{ tag }}</span>
+      </div>
+    </section>
+
+    <!-- Rating Card -->
+    <section class="glass-card rating-card">
+      <div class="rating-header">
+        <p class="card-label">Gradimento</p>
+        <span class="rating-value">{{ rating }} / {{ maxRating }}</span>
+      </div>
+      <div class="rating-bar-container">
+        <div class="rating-bar-bg"></div>
+        <div class="rating-bar-fill" [style.width.%]="ratingPercentage"></div>
+      </div>
+      <p class="rating-description">La maggior parte del pubblico sta apprezzando</p>
+    </section>
+
+    <!-- Open Questions Card -->
+    <section class="glass-card questions-card">
+      <div class="questions-header">
+        <p class="card-label">Domande aperte</p>
+        <button class="view-all-btn" (click)="viewAllQuestions()">Vedi tutte</button>
+      </div>
+      <ul class="questions-list">
+        <li *ngFor="let question of openQuestions" class="question-item">
+          <p class="question-text">{{ question.text }}</p>
+          <span class="question-votes">
+            {{ question.votes }}
+            <span class="vote-arrow">&#9650;</span>
+          </span>
+        </li>
+      </ul>
+    </section>
+
+    <!-- Live Polls Card -->
+    <section class="glass-card polls-card">
+      <p class="card-label">Sondaggi live</p>
+      <div class="polls-list">
+        <div *ngFor="let poll of polls" class="poll-item">
+          <div class="poll-header">
+            <span class="poll-label">{{ poll.label }}</span>
+            <span class="poll-percentage" [class.blue]="poll.color === 'blue'" [class.purple]="poll.color === 'purple'">
+              {{ poll.percentage }}%
+            </span>
+          </div>
+          <div class="poll-bar-container">
+            <div 
+              class="poll-bar-fill" 
+              [class.blue]="poll.color === 'blue'" 
+              [class.purple]="poll.color === 'purple'"
+              [style.width.%]="poll.percentage"
+            ></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Participants Section -->
+    <section class="section-block">
+      <h2 class="section-title">Chi sta partecipando</h2>
+      <button class="action-card neon-glow-blue" (click)="viewAllParticipants()">
+        <div class="action-card-left">
+          <div class="avatar-stack">
+            <div 
+              *ngFor="let participant of participants" 
+              class="avatar-circle"
+              [style.background]="'linear-gradient(135deg, ' + participant.colorFrom + ', ' + participant.colorTo + ')'"
+            >
+              {{ participant.initial }}
+            </div>
+            <div class="avatar-circle more">+{{ additionalParticipants }}</div>
+          </div>
+          <span class="action-text">Visualizza tutti i partecipanti</span>
+        </div>
+        <ion-icon name="chevron-forward" class="action-arrow"></ion-icon>
+      </button>
+    </section>
+
+    <!-- Groups Section -->
+    <section class="section-block">
+      <h2 class="section-title">Gruppi presenti</h2>
+      <button class="action-card neon-glow-purple" (click)="exploreGroups()">
+        <div class="action-card-left">
+          <div class="avatar-stack">
+            <div class="avatar-circle group-icon">
+              <ion-icon name="people"></ion-icon>
+            </div>
+            <div class="avatar-circle group-icon">
+              <ion-icon name="git-network"></ion-icon>
+            </div>
+            <div class="avatar-circle group-icon">
+              <ion-icon name="heart-circle"></ion-icon>
+            </div>
+          </div>
+          <span class="action-text">Esplora i gruppi attivi</span>
+        </div>
+        <ion-icon name="chevron-forward" class="action-arrow purple"></ion-icon>
+      </button>
+    </section>
+
+    <!-- Ask Question Button -->
+    <section class="cta-section">
+      <button class="ask-question-btn" (click)="askQuestion()">
+        <ion-icon name="chatbubbles" class="cta-icon"></ion-icon>
+        <div class="cta-text">
+          <p class="cta-title">Fai una domanda</p>
+          <p class="cta-subtitle">Il moderatore la leggerà in diretta</p>
+        </div>
+      </button>
+    </section>
+  </div>
+</div>

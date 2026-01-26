@@ -34,6 +34,9 @@ export type VideoStream = {
 })
 
 export class RealTimeStatsComponent implements OnInit {
+
+  public eventType: number = 2;
+
   carousels: any[] = [
     {
       id: "1",
@@ -208,7 +211,7 @@ export class RealTimeStatsComponent implements OnInit {
     }))
 
     const modal = await this.modalController.create({
-      component: (await import("../participants-modal/participants-modal")).ParticipantsModalComponent,
+      component: (await import("../../participants-modal/participants-modal")).ParticipantsModalComponent,
       componentProps: {
         participants: participantsData,
         totalCount: 326,

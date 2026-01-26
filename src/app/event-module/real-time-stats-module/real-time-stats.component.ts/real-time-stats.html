@@ -1,0 +1,38 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar class="header-toolbar">
+    <ion-buttons slot="start">
+      <ion-button fill="clear" (click)="back()">
+        <ion-icon name="chevron-back-outline" class="back-icon"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <div class="header-content">
+      <div class="header-title-wrapper">
+        <h1 class="event-title">Galaxy Disco Club</h1>
+        <div class="live-badge-container">
+          <span class="live-pulse-dot"></span>
+          <span class="live-text">LIVE</span>
+        </div>
+      </div>
+    </div>
+    <ion-buttons slot="end">
+      <ion-button fill="clear" class="share-button">
+        <ion-icon name="share-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="stats-content">
+    @switch (eventType) {
+    @case (0) { 
+      <app-disco-club-stats-component></app-disco-club-stats-component>
+     }
+    @case (1) { 
+      <app-coworking-stats></app-coworking-stats>
+    }
+    @case (2){
+      <app-talk-stats></app-talk-stats>
+    }
+    @default { <span>ALTRO</span> }
+  }
+</ion-content>
