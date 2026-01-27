@@ -31,7 +31,7 @@ export type VideoStream = {
   selector: 'app-disco-club-stats-component',
   standalone: false,
   templateUrl: './disco-club-stats-component.html',
-  styleUrl: './disco-club-stats-component.css'
+  styleUrl: './disco-club-stats-component.scss'
 })
 export class DiscoClubStatsComponent {
   public eventType: number = 0;

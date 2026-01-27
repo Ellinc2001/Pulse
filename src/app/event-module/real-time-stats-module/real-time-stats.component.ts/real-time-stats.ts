@@ -35,7 +35,7 @@ export type VideoStream = {
 
 export class RealTimeStatsComponent implements OnInit {
 
-  public eventType: number = 2;
+  public eventType: number = 0;
 
   carousels: any[] = [
     {

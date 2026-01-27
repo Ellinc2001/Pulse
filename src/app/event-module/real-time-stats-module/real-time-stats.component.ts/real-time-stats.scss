@@ -109,14 +109,3 @@ ion-header {
     opacity: 0;
   }
 }
-
-.stats-content {
-  --background: var(--app-bg);
-  --padding-bottom: calc(env(safe-area-inset-bottom) + 140px);
-}
-
-ion-content.stats-content::part(scroll) {
-  padding-bottom: calc(env(safe-area-inset-bottom) + 140px);
-}
-
-

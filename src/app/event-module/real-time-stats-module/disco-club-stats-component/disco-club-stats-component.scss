@@ -1,15 +1,6 @@
-:host {
-  display: block;
-  height: 100%;
-  --app-bg: #050816;
-  --card-bg: #141118;
-  --text-primary: #ffffff;
-  --text-secondary: #9ca3af;
-  --border-color: rgba(255, 255, 255, 0.08);
-  --purple: #8A3FF1;
-  --cyan: #3BE3FF;
-  --blue: #3989D2;
-  --pink: #F043D5;
+.stats-content {
+  --background: var(--app-bg);
+  --padding-bottom: calc(env(safe-area-inset-bottom) + 80px);
 }
 
 .content-wrapper {
