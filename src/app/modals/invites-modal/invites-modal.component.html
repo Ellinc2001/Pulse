@@ -1,82 +1,65 @@
-<div class="modal-backdrop" (click)="dismiss()">
-  <div class="modal-container" (click)="$event.stopPropagation()">
-    <div class="modal-content">
-      <!-- Header -->
-      <div class="modal-header">
-        <div class="header-icon">
-          <ion-icon name="mail-outline"></ion-icon>
-        </div>
-        <h2 class="modal-title">Inviti Ricevuti</h2>
-        <button class="close-icon-button" (click)="dismiss()">
-          <ion-icon name="close"></ion-icon>
-        </button>
-      </div>
+<div class="modal-container">
+  <!-- Background glow effects -->
+  <div class="glow-effect glow-purple"></div>
+  <div class="glow-effect glow-pink"></div>
 
-      <!-- Invites list -->
-      <div class="invites-list">
-        <div 
-          *ngFor="let invite of paginatedInvites" 
-          class="invite-item"
-          (click)="openEventDetail(invite.id, $event)">
-          
-          <div class="invite-avatar" (click)="openUserProfile(invite, $event)">
-            <img 
-              *ngIf="invite.avatarUrl" 
-              [src]="invite.avatarUrl" 
-              [alt]="invite.fromUser">
-            <div *ngIf="!invite.avatarUrl" class="avatar-text">
-              {{ invite.avatarText || invite.fromUser.substring(0, 2).toUpperCase() }}
-            </div>
-          </div>
+  <!-- Header -->
+  <header class="modal-header">
+    <h1 class="modal-title">Inviti Ricevuti</h1>
+    <button class="close-button" (click)="dismiss()">
+      <ion-icon name="close"></ion-icon>
+    </button>
+  </header>
 
-          <div class="invite-info">
-            <div class="event-title">{{ invite.eventTitle }}</div>
-            <div class="invite-from">
-              <span>da</span>
-              <span class="user-link" (click)="openUserProfile(invite, $event)">
-                {{ invite.fromUser }}
-              </span>
-              <span *ngIf="invite.date" class="invite-date">• {{ invite.date }}</span>
-            </div>
-          </div>
-
-          <div class="status-pill">
-            In attesa
-          </div>
-        </div>
-
-        <div *ngIf="invites.length === 0" class="empty-state">
-          <ion-icon name="mail-outline"></ion-icon>
-          <p>Nessun invito ricevuto</p>
-        </div>
-      </div>
-
-      <!-- Pagination -->
-      <div class="pagination" *ngIf="totalPages > 1">
-        <button 
-          class="pagination-button" 
-          (click)="prevPage()" 
-          [disabled]="currentPage === 1">
-          <ion-icon name="chevron-back"></ion-icon>
-        </button>
+  <!-- Main Content -->
+  <main class="invites-content">
+    <!-- Invites list with split cards -->
+    <div class="invites-list">
+      <div 
+        *ngFor="let invite of invites" 
+        class="invite-card-split"
+        (click)="openEventDetail(invite.id, $event)">
         
-        <div class="page-numbers">
-          <button 
-            *ngFor="let page of pageNumbers" 
-            class="page-number"
-            [class.active]="page === currentPage"
-            (click)="goToPage(page)">
-            {{ page }}
-          </button>
+        <!-- Left side: Image with polygon clip -->
+        <div class="invite-image-half">
+          <div class="split-polygon-clip">
+            <img *ngIf="invite.avatarUrl" 
+                 [src]="invite.avatarUrl" 
+                 [alt]="invite.eventTitle"
+                 class="invite-split-image">
+            <div *ngIf="!invite.avatarUrl" class="invite-split-placeholder">
+              <span>{{ invite.avatarText || invite.eventTitle.substring(0, 2).toUpperCase() }}</span>
+            </div>
+          </div>
+          <div class="neon-divider"></div>
         </div>
-
-        <button 
-          class="pagination-button" 
-          (click)="nextPage()" 
-          [disabled]="currentPage === totalPages">
-          <ion-icon name="chevron-forward"></ion-icon>
+        
+        <!-- Right side: Content -->
+        <div class="invite-content-half">
+          <h4 class="invite-from-user">{{ invite.fromUser }}</h4>
+          <h3 class="invite-title-split">{{ invite.eventTitle }}</h3>
+          <div class="invite-countdown-section">
+            <span class="countdown-label-small">Starts In</span>
+            <div class="countdown-value-row">
+              <span class="countdown-number-big" [style.color]="invite.countdownColor" [style.textShadow]="'0 0 15px ' + invite.countdownColor">{{ invite.countdownNumber }}</span>
+              <span class="countdown-unit-small">{{ invite.countdownUnit }}</span>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Arrow button -->
+        <button class="invite-arrow-btn" (click)="openEventDetail(invite.id, $event); $event.stopPropagation()">
+          <ion-icon name="arrow-forward"></ion-icon>
         </button>
+      </div>
+
+      <div *ngIf="invites.length === 0" class="empty-state">
+        <ion-icon name="mail-outline"></ion-icon>
+        <p>Nessun invito ricevuto</p>
       </div>
     </div>
-  </div>
+  </main>
+
+  <!-- Bottom bar indicator -->
+  <div class="bottom-indicator"></div>
 </div>

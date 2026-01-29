@@ -30,6 +30,9 @@ interface Invite {
   fromUser: string
   avatarUrl?: string
   avatarText?: string
+  countdownColor?: string
+  countdownNumber?: string
+  countdownUnit?: string
 }
 
 interface CountdownEvent {
@@ -307,6 +310,9 @@ export class MyPulseComponent implements OnInit {
       fromUser: "@dj_alex",
       avatarText: "WP",
       timeUntil: 2,
+      countdownColor: "#ec4899",
+      countdownNumber: "18",
+      countdownUnit: "HOURS",
     },
     {
       id: "invite-2",
@@ -314,6 +320,9 @@ export class MyPulseComponent implements OnInit {
       fromUser: "Cinephiles Group",
       avatarUrl: "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=150&h=150&fit=crop&crop=face",
       timeUntil: 2,
+      countdownColor: "#ec4899",
+      countdownNumber: "18",
+      countdownUnit: "HOURS",
     },
     {
       id: "invite-3",
@@ -321,6 +330,9 @@ export class MyPulseComponent implements OnInit {
       fromUser: "@arte_viva",
       avatarUrl: "https://images.unsplash.com/photo-1541961017774-22349e4a1262?w=150&h=150&fit=crop&crop=face",
       timeUntil: 2,
+      countdownColor: "#ec4899",
+      countdownNumber: "18",
+      countdownUnit: "HOURS",
     },
     {
       id: "invite-4",
@@ -328,6 +340,9 @@ export class MyPulseComponent implements OnInit {
       fromUser: "@techno_beats",
       avatarText: "TU",
       timeUntil: 2,
+      countdownColor: "#ec4899",
+      countdownNumber: "18",
+      countdownUnit: "HOURS",
     },
     {
       id: "invite-5",
@@ -335,6 +350,9 @@ export class MyPulseComponent implements OnInit {
       fromUser: "@sunset_vibes",
       avatarUrl: "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=150&h=150&fit=crop&crop=face",
       timeUntil: 2,
+      countdownColor: "#ec4899",
+      countdownNumber: "18",
+      countdownUnit: "HOURS",
     },
   ]
 

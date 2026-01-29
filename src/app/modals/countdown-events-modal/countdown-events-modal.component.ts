@@ -9,6 +9,8 @@ interface CountdownEvent {
   icon: string
   countdown: string
   isUrgent?: boolean
+  imageUrl?: string
+  pillColor?: "blue" | "pink" | "purple"
 }
 
 @Component({
@@ -18,54 +20,75 @@ interface CountdownEvent {
   standalone: false,
 })
 export class CountdownEventsModalComponent {
-  @Input() events: CountdownEvent[] = []
+  @Input() events: CountdownEvent[] = [
+    {
+      id: "1",
+      name: "Cosmic Gate",
+      venue: "Club XYZ",
+      icon: "musical-notes",
+      countdown: "3 days",
+      isUrgent: false,
+      imageUrl: "https://images.unsplash.com/photo-1571266028243-d220c6a927d0?w=800&h=600&fit=crop",
+      pillColor: "blue",
+    },
+    {
+      id: "2",
+      name: "Techno Rave",
+      venue: "Warehouse District",
+      icon: "headset",
+      countdown: "1 week",
+      isUrgent: false,
+      imageUrl: "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=800&h=600&fit=crop",
+      pillColor: "purple",
+    },
+    {
+      id: "3",
+      name: "Sunrise After",
+      venue: "Rooftop Bar",
+      icon: "sunny",
+      countdown: "18 hours",
+      isUrgent: true,
+      imageUrl: "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=800&h=600&fit=crop",
+      pillColor: "pink",
+    },
+    {
+      id: "4",
+      name: "Jazz Night",
+      venue: "Blue Note",
+      icon: "mic",
+      countdown: "10 days",
+      isUrgent: false,
+      imageUrl: "https://images.unsplash.com/photo-1415201364774-f6f0bb35f28f?w=800&h=600&fit=crop",
+      pillColor: "blue",
+    },
+    {
+      id: "5",
+      name: "Electronic Festival",
+      venue: "City Park",
+      icon: "flash",
+      countdown: "2 weeks",
+      isUrgent: false,
+      imageUrl: "https://images.unsplash.com/photo-1459749411175-04bf5292ceea?w=800&h=600&fit=crop",
+      pillColor: "blue",
+    },
+  ]
 
-  currentPage = 1
-  itemsPerPage = 6
+  viewMode: "compact" | "expanded" = "compact"
 
   constructor(
     private modalController: ModalController,
     private router: Router,
-  ) {
-    console.log("[v0] CountdownEventsModal initialized with events:", this.events.length)
-  }
+  ) {}
 
-  get totalPages(): number {
-    return Math.ceil(this.events.length / this.itemsPerPage)
-  }
-
-  get paginatedEvents(): CountdownEvent[] {
-    const startIndex = (this.currentPage - 1) * this.itemsPerPage
-    return this.events.slice(startIndex, startIndex + this.itemsPerPage)
-  }
-
-  get pageNumbers(): number[] {
-    return Array.from({ length: this.totalPages }, (_, i) => i + 1)
-  }
-
-  nextPage() {
-    if (this.currentPage < this.totalPages) {
-      this.currentPage++
-    }
-  }
-
-  prevPage() {
-    if (this.currentPage > 1) {
-      this.currentPage--
-    }
-  }
-
-  goToPage(page: number) {
-    this.currentPage = page
+  toggleView(view: "compact" | "expanded") {
+    this.viewMode = view
   }
 
   dismiss() {
-    console.log("[v0] CountdownEventsModal dismissed")
     this.modalController.dismiss()
   }
 
   async openEventDetail(eventId: string) {
-    console.log("[v0] Opening event detail:", eventId)
     await this.modalController.dismiss()
     this.router.navigate(["/event-detail", eventId])
   }

@@ -1,68 +1,98 @@
-<div class="modal-backdrop" (click)="dismiss()">
-  <div class="modal-container" (click)="$event.stopPropagation()">
-    <div class="modal-content">
-      <!-- Header -->
-      <div class="modal-header">
-        <div class="header-icon">
-          <ion-icon name="time-outline"></ion-icon>
-        </div>
-        <h2 class="modal-title">Eventi Prenotati</h2>
-        <button class="close-icon-button" (click)="dismiss()">
-          <ion-icon name="close"></ion-icon>
-        </button>
-      </div>
+<div class="modal-container">
+  <!-- Background glow effects -->
+  <div class="glow-effect glow-purple"></div>
+  <div class="glow-effect glow-blue"></div>
 
-      <!-- Events list -->
-      <div class="events-list">
-        <div 
-          *ngFor="let event of paginatedEvents" 
-          class="event-item"
-          [class.urgent]="event.isUrgent"
-          (click)="openEventDetail(event.id)">
-          <div class="event-icon">
-            <ion-icon [name]="event.icon"></ion-icon>
-          </div>
-          <div class="event-info">
-            <div class="event-name">{{ event.name }}</div>
-            <div class="event-venue">{{ event.venue }}</div>
-          </div>
-          <div class="countdown-pill" [class.urgent]="event.isUrgent">
+  <!-- Header -->
+  <header class="modal-header">
+    <div class="header-top">
+      <h1 class="modal-title">Eventi Prenotati</h1>
+      <button class="close-button" (click)="dismiss()">
+        <ion-icon name="close"></ion-icon>
+      </button>
+    </div>
+
+    <!-- View Toggle -->
+    <div class="view-toggle">
+      <div class="toggle-indicator" [class.expanded]="viewMode === 'expanded'"></div>
+      <button 
+        class="toggle-btn" 
+        [class.active]="viewMode === 'compact'"
+        (click)="toggleView('compact')">
+        Compatta
+      </button>
+      <button 
+        class="toggle-btn" 
+        [class.active]="viewMode === 'expanded'"
+        (click)="toggleView('expanded')">
+        Espansa
+      </button>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="events-content">
+    <!-- Compact View (Grid 2x2) -->
+    <div class="compact-view" *ngIf="viewMode === 'compact'">
+      <div 
+        *ngFor="let event of events" 
+        class="compact-card-centered"
+        (click)="openEventDetail(event.id)">
+        <!-- Colored glow effect in corner -->
+        <div class="card-glow-corner-sm" [ngClass]="'glow-' + (event.pillColor || 'purple')"></div>
+        
+        <!-- Event title centered -->
+        <h4 class="compact-title">{{ event.name }}</h4>
+        
+        <!-- Venue name centered -->
+        <p class="compact-venue-text">{{ event.venue }}</p>
+        
+        <!-- Starts in section centered -->
+        <div class="starts-in-section-sm">
+          <span class="starts-in-label-sm">STARTS IN</span>
+          <div class="countdown-display-sm" [ngClass]="'countdown-' + (event.pillColor || 'purple')">
             {{ event.countdown }}
           </div>
         </div>
-
-        <div *ngIf="events.length === 0" class="empty-state">
-          <ion-icon name="calendar-outline"></ion-icon>
-          <p>Nessun evento prenotato</p>
-        </div>
       </div>
 
-      <!-- Pagination -->
-      <div class="pagination" *ngIf="totalPages > 1">
-        <button 
-          class="pagination-button" 
-          (click)="prevPage()" 
-          [disabled]="currentPage === 1">
-          <ion-icon name="chevron-back"></ion-icon>
-        </button>
-        
-        <div class="page-numbers">
-          <button 
-            *ngFor="let page of pageNumbers" 
-            class="page-number"
-            [class.active]="page === currentPage"
-            (click)="goToPage(page)">
-            {{ page }}
-          </button>
-        </div>
-
-        <button 
-          class="pagination-button" 
-          (click)="nextPage()" 
-          [disabled]="currentPage === totalPages">
-          <ion-icon name="chevron-forward"></ion-icon>
-        </button>
+      <div *ngIf="events.length === 0" class="empty-state">
+        <ion-icon name="calendar-outline"></ion-icon>
+        <p>Nessun evento prenotato</p>
       </div>
     </div>
-  </div>
+
+    <!-- Expanded View -->
+    <div class="expanded-view" *ngIf="viewMode === 'expanded'">
+      <div 
+        *ngFor="let event of events" 
+        class="countdown-card-centered"
+        (click)="openEventDetail(event.id)">
+        <!-- Colored glow effect in corner -->
+        <div class="card-glow-corner" [ngClass]="'glow-' + (event.pillColor || 'purple')"></div>
+        
+        <!-- Event title centered -->
+        <h4 class="event-title-centered">{{ event.name }}</h4>
+        
+        <!-- Venue name centered -->
+        <p class="event-venue-centered">{{ event.venue }}</p>
+        
+        <!-- Starts in section centered -->
+        <div class="starts-in-section">
+          <span class="starts-in-label">STARTS IN</span>
+          <div class="countdown-display" [ngClass]="'countdown-' + (event.pillColor || 'purple')">
+            {{ event.countdown }}
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="events.length === 0" class="empty-state">
+        <ion-icon name="calendar-outline"></ion-icon>
+        <p>Nessun evento prenotato</p>
+      </div>
+    </div>
+  </main>
+
+  <!-- Bottom bar indicator -->
+  <div class="bottom-indicator"></div>
 </div>

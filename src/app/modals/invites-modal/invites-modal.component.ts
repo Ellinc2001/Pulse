@@ -10,7 +10,9 @@ interface Invite {
   fromUserId?: string
   avatarUrl?: string
   avatarText?: string
-  date?: string
+  countdownNumber: string
+  countdownUnit: string
+  countdownColor: string
 }
 
 @Component({
@@ -20,10 +22,64 @@ interface Invite {
   standalone: false,
 })
 export class InvitesModalComponent {
-  @Input() invites: Invite[] = []
-
-  currentPage = 1
-  itemsPerPage = 6
+  @Input() invites: Invite[] = [
+    {
+      id: "invite-1",
+      eventTitle: "Warehouse Party",
+      fromUser: "@dj_alex",
+      avatarText: "WP",
+      countdownNumber: "02",
+      countdownUnit: "DAYS",
+      countdownColor: "#a855f7",
+    },
+    {
+      id: "invite-2",
+      eventTitle: "Indie Film Screening",
+      fromUser: "Cinephiles Group",
+      avatarUrl: "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=150&h=150&fit=crop&crop=face",
+      countdownNumber: "18",
+      countdownUnit: "HOURS",
+      countdownColor: "#ec4899",
+    },
+    {
+      id: "invite-3",
+      eventTitle: "Art Gallery Vernissage",
+      fromUser: "@arte_viva",
+      avatarUrl: "https://images.unsplash.com/photo-1541961017774-22349e4a1262?w=150&h=150&fit=crop&crop=face",
+      countdownNumber: "05",
+      countdownUnit: "DAYS",
+      countdownColor: "#06b6d4",
+    },
+    {
+      id: "invite-4",
+      eventTitle: "Techno Underground Night",
+      fromUser: "@techno_beats",
+      avatarText: "TU",
+      countdownNumber: "01",
+      countdownUnit: "WEEK",
+      countdownColor: "#8b5cf6",
+    },
+    {
+      id: "invite-5",
+      eventTitle: "Rooftop Sunset Session",
+      fromUser: "@sunset_vibes",
+      avatarUrl: "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=150&h=150&fit=crop&crop=face",
+      countdownNumber: "03",
+      countdownUnit: "DAYS",
+      countdownColor: "#3b82f6",
+    },
+    {
+      id: "invite-6",
+      eventTitle: "Jazz Night Special",
+      fromUser: "@jazz_club",
+      avatarText: "JN",
+      countdownNumber: "10",
+      countdownUnit: "HOURS",
+      countdownColor: "#f59e0b",
+    },
+  ]
+  currentPage: number =0
+  itemsPerPage: number =0
 
   constructor(
     private modalController: ModalController,

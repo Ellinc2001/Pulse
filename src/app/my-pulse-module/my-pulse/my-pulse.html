@@ -242,44 +242,39 @@
           <div class="invites-list">
             <!-- Updated to use displayedInvites -->
             <ng-container *ngFor="let invite of displayedInvites; let last = last">
-              <div class="invite-card-new">
-                <!-- Top section with avatar, event info and badge -->
-                <div class="invite-top-section">
-                  <div class="invite-left-section">
-                    <!-- Avatar with neon ring -->
-                    <div class="invite-avatar-with-ring" (click)="openGroupDetail()">
-                      <img *ngIf="invite.avatarUrl" 
-                           [src]="invite.avatarUrl" 
-                           [alt]="invite.eventTitle"
-                           class="invite-avatar-img-new">
-                      <div *ngIf="!invite.avatarUrl && invite.avatarText" 
-                           class="invite-avatar-text-new">
-                        {{ invite.avatarText }}
-                      </div>
-                    </div>
-                    <!-- Event info -->
-                    <div class="invite-info">
-                      <p class="invite-from-small">da <span class="invite-from-accent">{{ invite.fromUser }}</span></p>
-                      <h3 class="invite-event-title-new">{{ invite.eventTitle }}</h3>
+              <!-- Split half-image invite card -->
+              <div class="invite-card-split" (click)="openInviteDetail(invite.id)">
+                <!-- Left side: Image with polygon clip -->
+                <div class="invite-image-half">
+                  <div class="split-polygon-clip">
+                    <img *ngIf="invite.avatarUrl" 
+                         [src]="invite.avatarUrl" 
+                         [alt]="invite.eventTitle"
+                         class="invite-split-image">
+                    <div *ngIf="!invite.avatarUrl" class="invite-split-placeholder">
+                      <span>{{ invite.avatarText || invite.eventTitle.substring(0, 2).toUpperCase() }}</span>
                     </div>
                   </div>
-                  <!-- NUOVO badge -->
-                  <span class="nuovo-badge">Nuovo</span>
+                  <div class="neon-divider"></div>
                 </div>
                 
-                <!-- Bottom section with timer -->
-                <div class="invite-timer-section">
-                  <div class="timer-content">
-                    <ion-icon name="time-outline" class="timer-icon"></ion-icon>
-                    <div class="timer-details">
-                      <span class="timer-label">Inizia tra</span>
-                      <span class="timer-value">{{ invite.timeUntil || '2gg 14h 30m' }}</span>
+                <!-- Right side: Content -->
+                <div class="invite-content-half">
+                  <h4 class="invite-from-user">{{ invite.fromUser }}</h4>
+                  <h3 class="invite-title-split">{{ invite.eventTitle }}</h3>
+                  <div class="invite-countdown-section">
+                    <span class="countdown-label-small">Starts In</span>
+                    <div class="countdown-value-row">
+                      <span class="countdown-number-big" [style.color]="invite.countdownColor" [style.textShadow]="'0 0 15px ' + invite.countdownColor">{{ invite.countdownNumber }}</span>
+                      <span class="countdown-unit-small">{{ invite.countdownUnit }}</span>
                     </div>
                   </div>
-                  <button class="timer-arrow-button" (click)="openInviteDetail(invite.id); $event.stopPropagation()">
-                    <ion-icon name="arrow-forward" class="arrow-icon"></ion-icon>
-                  </button>
                 </div>
+                
+                <!-- Arrow button -->
+                <button class="invite-arrow-btn" (click)="openInviteDetail(invite.id); $event.stopPropagation()">
+                  <ion-icon name="arrow-forward"></ion-icon>
+                </button>
               </div>
             </ng-container>
             

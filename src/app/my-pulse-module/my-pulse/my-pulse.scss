@@ -92,7 +92,7 @@
   gap: 16px;
   margin-top: 3vh;
   padding: 20px;
-  background-image: url('../../../assets/background/crosslinker.jpeg'); // o .jpg/.svg
+  // background-image: url('../../../assets/background/crosslinker.jpeg'); // o .jpg/.svg
   background-size: cover;         // riempie lo schermo
   background-position: center;    // centrata
   background-repeat: no-repeat;   // niente ripetizione
@@ -144,10 +144,14 @@
   align-items: center;
   gap: 12px;
   flex-wrap: nowrap;
+  width: 100%;
+  min-width: 0;
 }
+
 
 .xp-compact {
   display: flex;
+  flex: 0 0 auto;
   align-items: center;
   gap: 6px;
   padding: 4px 12px;
@@ -177,16 +181,22 @@
 }
 
 .level-badge {
-  display: flex;
+  flex: 1 1 0;     // ✅ può restringersi
+  min-width: 0;    // ✅ fondamentale in flex (altrimenti non shrinka)
+  max-width: 100%;
+
+  position: relative;
+  display: flex;   // meglio di inline-flex qui
   align-items: center;
   gap: 6px;
-  padding: 4px 12px;
+
+  padding: 6px 12px;
+  border-radius: 20px;
   background: linear-gradient(135deg, rgba(160, 32, 240, 0.3), rgba(192, 132, 252, 0.2));
   border: 1px solid rgba(160, 32, 240, 0.5);
-  border-radius: 20px;
   backdrop-filter: blur(5px);
-  box-shadow: 0 0 15px rgba(160, 32, 240, 0.3);
 }
+
 
 .level-number {
   font-size: 12px;
@@ -196,14 +206,19 @@
 }
 
 .level-name {
+  flex: 1 1 auto;
+  min-width: 0;      // ✅ anche qui
+  max-width: 100%;
+
   font-size: 12px;
   font-weight: 600;
   color: #ffffff;
+
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  max-width: 120px;
 }
+
 
 .level-progress-section {
   display: flex;
@@ -1188,25 +1203,161 @@
   display: none;
 }
 
-.invite-card-new {
+// Split half-image invite card
+.invite-card-split {
   position: relative;
   display: flex;
-  flex-direction: column;
-  gap: 16px;
-  padding: 20px;
+  height: 192px;
   margin-bottom: 16px;
-  background: rgba(12, 2, 20, 0.6);
-  backdrop-filter: blur(12px);
+  background: linear-gradient(165deg, rgba(20, 5, 35, 0.6), rgba(10, 2, 20, 0.8));
+  backdrop-filter: blur(20px);
   border: 1px solid rgba(168, 85, 247, 0.2);
-  border-radius: 32px;
-  transition: all 0.3s ease;
+  border-radius: 24px;
+  overflow: hidden;
   cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 10px 40px -15px rgba(0, 0, 0, 0.5);
   
-  &:hover {
-    border-color: rgba(168, 85, 247, 0.4);
-    box-shadow: 0 4px 20px rgba(168, 85, 247, 0.3);
-    transform: translateY(-2px);
+  &:active {
+    transform: scale(0.98);
   }
+}
+
+.invite-image-half {
+  position: relative;
+  width: 50%;
+}
+
+.split-polygon-clip {
+  height: 100%;
+  width: 100%;
+  clip-path: polygon(0% 0%, 100% 0%, 85% 50%, 100% 100%, 0% 100%);
+  overflow: hidden;
+}
+
+.invite-split-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.invite-split-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, rgba(168, 85, 247, 0.3), rgba(34, 211, 238, 0.2));
+  
+  span {
+    font-size: 32px;
+    font-weight: 800;
+    color: rgba(255, 255, 255, 0.6);
+  }
+}
+
+.neon-divider {
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: linear-gradient(to bottom, transparent, #a855f7, #22d3ee, transparent);
+  filter: drop-shadow(0 0 8px rgba(168, 85, 247, 0.8));
+  z-index: 10;
+}
+
+.invite-content-half {
+  width: 50%;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.invite-from-user {
+  font-size: 10px;
+  font-weight: 800;
+  color: #22d3ee;
+  margin: 0 0 4px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  opacity: 0.8;
+}
+
+.invite-title-split {
+  font-size: 18px;
+  font-weight: 800;
+  color: #ffffff;
+  margin: 0 0 16px;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  font-style: italic;
+}
+
+.invite-countdown-section {
+  display: flex;
+  flex-direction: column;
+}
+
+.countdown-label-small {
+  font-size: 8px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: rgba(255, 255, 255, 0.4);
+  margin-bottom: 4px;
+}
+
+.countdown-value-row {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+}
+
+.countdown-number-big {
+  font-size: 30px;
+  font-weight: 900;
+  font-style: italic;
+  font-variant-numeric: tabular-nums;
+}
+
+.countdown-unit-small {
+  font-size: 10px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.invite-arrow-btn {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  
+  ion-icon {
+    font-size: 16px;
+    color: rgba(255, 255, 255, 0.6);
+  }
+  
+  &:active {
+    transform: scale(0.9);
+    background: rgba(255, 255, 255, 0.1);
+  }
+}
+
+.invite-card-new {
+  display: none;
 }
 
 .invite-top-section {

@@ -5,19 +5,6 @@
         <!-- Hero section with background image and overlay -->
         <div class="hero-section" [style.background-image]="'url(' + (event?.imageUrl || 'https://lh3.googleusercontent.com/aida-public/AB6AXuA5TVjp7f7bfDbKQzyrsun_ZVgyYZxV5wzcPJqVJtnJ6dr15UnSijsKIteGa5LtLxa-PDiVenjwBEOAg2znpUUi2kqMegV6In220eH5phGF-MUkf4AdC5x_g7twHhOks1mQHA3uJynt5qcViT7-ybXPDhFzS6l2lzJ7GNL_FExXQaVHpZLoTSPQFnhMUTu9kKhVNpypOtXupN22hDWl6ntJoYsSX8EIb0BpFZoeCqJHiKZ8ibZlVOx-6Ja6i0Z5BG8yXBrRy9G6KOs') + ')'">
           <div class="hero-overlay"></div>
-          <div class="hero-header">
-            <button class="header-btn" (click)="onBackClick()">
-              <ion-icon name="arrow-back"></ion-icon>
-            </button>
-            <div class="header-actions">
-              <button class="header-btn" (click)="onFavoriteClick()">
-                <ion-icon name="heart-outline"></ion-icon>
-              </button>
-              <button class="header-btn" (click)="onShareClick()">
-                <ion-icon name="share-outline"></ion-icon>
-              </button>
-            </div>
-          </div>
 
           <!-- Event info card moved inside hero section -->
           <div class="event-info-card-hero">
