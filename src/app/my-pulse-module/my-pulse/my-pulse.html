@@ -6,36 +6,65 @@
         <div class="image-my-pulse"></div>
       </div>
       
-      <div class="unified-profile-section">
-        <div class="profile-left">
-          <img src="https://i.pravatar.cc/150?img=47" alt="Profile" class="profile-image">
+      <!-- New mesh gradient profile card -->
+      <div class="profile-card-mesh">
+        <!-- Abstract decorative lines -->
+        <div class="abstract-lines">
+          <div class="abstract-line line-1"></div>
+          <div class="abstract-line line-2"></div>
+          <div class="abstract-line line-3"></div>
         </div>
         
-        <div class="profile-center">
-          <p class="profile-greeting">Ciao, Martina 👋</p>
-          <!-- Put XP and level badges on the same row -->
-          <div class="badges-row">
-            <!-- Added xp-badge class for animation targeting -->
-            <div class="xp-compact xp-badge" id="xp-badge">
-              <ion-icon name="flash" class="xp-icon"></ion-icon>
-              <span class="xp-value-compact">{{ currentXP }} XP</span>
-            </div>
-            <div class="level-badge">
-              <span class="level-number">Lv.{{ currentLevel.number }}</span>
-              <span class="level-name">{{ currentLevel.name }}</span>
+        <!-- Glow effects -->
+        <div class="card-glow glow-purple"></div>
+        <div class="card-glow glow-cyan"></div>
+        
+        <!-- Main content grid -->
+        <div class="profile-grid">
+          <!-- Avatar with animated glow ring -->
+          <div class="avatar-glow-ring">
+            <div class="avatar-inner">
+              <img src="https://i.pravatar.cc/150?img=47" alt="Profile" class="avatar-image">
             </div>
           </div>
           
-          <div class="level-progress-section">
-            <div class="level-progress-bar">
-              <div class="level-progress-fill" [style.width.%]="levelProgress"></div>
+          <!-- Info section -->
+          <div class="profile-info-section">
+            <h2 class="greeting-text">Ciao, Martina</h2>
+            
+            <!-- Badges grid (2 columns) -->
+            <div class="badges-grid">
+              <!-- XP Badge -->
+              <div class="xp-badge-new" id="xp-badge">
+                <ion-icon name="bolt" class="xp-bolt-icon"></ion-icon>
+                <span class="xp-value-new">{{ currentXP }}</span>
+              </div>
+              
+              <!-- Level Badge -->
+              <div class="level-badge-new">
+                <span class="level-tag">LV.{{ currentLevel.number }}</span>
+                <span class="level-name-new">{{ currentLevel.name }}</span>
+              </div>
             </div>
-            <p class="level-progress-text" *ngIf="nextLevel">
-              {{ xpToNextLevel }} XP to <strong>{{ nextLevel.name }}</strong>
-            </p>
-            <p class="level-progress-text" *ngIf="!nextLevel">
-              <strong>Livello massimo raggiunto!</strong>
-            </p>
+          </div>
+        </div>
+        
+        <!-- Progress section at bottom -->
+        <div class="next-goal-section">
+          <div class="goal-info">
+            <span class="goal-label">Next Goal</span>
+            <span class="goal-name" *ngIf="nextLevel">{{ nextLevel.name }}</span>
+            <span class="goal-name" *ngIf="!nextLevel">Max Level</span>
+          </div>
+          <div class="goal-progress">
+            <span class="goal-percentage">{{ levelProgress }}%</span>
+            <span class="goal-xp-left" *ngIf="nextLevel">{{ xpToNextLevel }} XP left</span>
+          </div>
+        </div>
+        <div class="progress-bar-container">
+          <div class="progress-bar-fill" [style.width.%]="levelProgress">
+            <div class="progress-bar-glow"></div>
+            <div class="progress-bar-edge"></div>
           </div>
         </div>
       </div>
@@ -206,26 +235,41 @@
         <!-- Countdown content -->
         <div class="events-content" *ngIf="eventsTab === 'countdown'">
           <div class="countdown-list">
-            <!-- Updated to use displayedCountdownEvents and proper data binding -->
+            <!-- Updated to use split card style like invites -->
             <ng-container *ngFor="let event of displayedCountdownEvents; let last = last">
-              <div class="countdown-card-centered">
-                <!-- Colored glow effect in corner -->
-                <div class="card-glow-corner" [style.background]="event.glowColor"></div>
+              <!-- Split half-image countdown card -->
+              <div class="countdown-card-split">
+                <!-- Left side: Image with polygon clip -->
+                <div class="countdown-image-half">
+                  <div class="split-polygon-clip">
+                    <img *ngIf="event.imageUrl" 
+                         [src]="event.imageUrl" 
+                         [alt]="event.name"
+                         class="countdown-split-image">
+                    <div *ngIf="!event.imageUrl" class="countdown-split-placeholder">
+                      <ion-icon [name]="event.icon"></ion-icon>
+                    </div>
+                  </div>
+                  <div class="neon-divider" [style.background]="'linear-gradient(to bottom, transparent, ' + event.countdownColor + ', transparent)'"></div>
+                </div>
                 
-                <!-- Event title centered -->
-                <h4 class="event-title-centered">{{ event.name }}</h4>
-                
-                <!-- Venue name centered -->
-                <p class="event-venue-centered">{{ event.venue }}</p>
-                
-                <!-- Starts in section centered -->
-                <div class="starts-in-section">
-                  <span class="starts-in-label">STARTS IN</span>
-                  <div class="countdown-display" [style.color]="event.countdownColor" [style.textShadow]="'0 0 15px ' + event.countdownColor">
-                    {{ event.countdownNumber }} 
-                    <span class="countdown-unit">{{ event.countdownUnit }}</span>
+                <!-- Right side: Content -->
+                <div class="countdown-content-half">
+                  <p class="countdown-venue-small">{{ event.venue }}</p>
+                  <h3 class="countdown-title-split">{{ event.name }}</h3>
+                  <div class="countdown-time-section">
+                    <span class="countdown-label-small">Starts In</span>
+                    <div class="countdown-value-row">
+                      <span class="countdown-number-big" [style.color]="event.countdownColor" [style.textShadow]="'0 0 15px ' + event.countdownColor">{{ event.countdownNumber }}</span>
+                      <span class="countdown-unit-small">{{ event.countdownUnit }}</span>
+                    </div>
                   </div>
                 </div>
+                
+                <!-- Arrow button -->
+                <button class="countdown-arrow-btn">
+                  <ion-icon name="arrow-forward"></ion-icon>
+                </button>
               </div>
             </ng-container>
             

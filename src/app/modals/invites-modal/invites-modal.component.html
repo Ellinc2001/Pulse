@@ -47,10 +47,6 @@
           </div>
         </div>
         
-        <!-- Arrow button -->
-        <button class="invite-arrow-btn" (click)="openEventDetail(invite.id, $event); $event.stopPropagation()">
-          <ion-icon name="arrow-forward"></ion-icon>
-        </button>
       </div>
 
       <div *ngIf="invites.length === 0" class="empty-state">

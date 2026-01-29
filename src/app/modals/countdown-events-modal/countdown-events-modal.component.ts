@@ -11,6 +11,9 @@ interface CountdownEvent {
   isUrgent?: boolean
   imageUrl?: string
   pillColor?: "blue" | "pink" | "purple"
+  countdownNumber?: string
+  countdownUnit?: string
+  countdownColor?: string
 }
 
 @Component({
@@ -29,7 +32,10 @@ export class CountdownEventsModalComponent {
       countdown: "3 days",
       isUrgent: false,
       imageUrl: "https://images.unsplash.com/photo-1571266028243-d220c6a927d0?w=800&h=600&fit=crop",
-      pillColor: "blue",
+      pillColor: "purple",
+      countdownNumber: "03",
+      countdownUnit: "DAYS",
+      countdownColor: "#a855f7",
     },
     {
       id: "2",
@@ -39,7 +45,10 @@ export class CountdownEventsModalComponent {
       countdown: "1 week",
       isUrgent: false,
       imageUrl: "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=800&h=600&fit=crop",
-      pillColor: "purple",
+      pillColor: "blue",
+      countdownNumber: "01",
+      countdownUnit: "WEEK",
+      countdownColor: "#06b6d4",
     },
     {
       id: "3",
@@ -50,6 +59,9 @@ export class CountdownEventsModalComponent {
       isUrgent: true,
       imageUrl: "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=800&h=600&fit=crop",
       pillColor: "pink",
+      countdownNumber: "18",
+      countdownUnit: "HOURS",
+      countdownColor: "#ec4899",
     },
     {
       id: "4",
@@ -59,7 +71,10 @@ export class CountdownEventsModalComponent {
       countdown: "10 days",
       isUrgent: false,
       imageUrl: "https://images.unsplash.com/photo-1415201364774-f6f0bb35f28f?w=800&h=600&fit=crop",
-      pillColor: "blue",
+      pillColor: "purple",
+      countdownNumber: "10",
+      countdownUnit: "DAYS",
+      countdownColor: "#8b5cf6",
     },
     {
       id: "5",
@@ -70,6 +85,9 @@ export class CountdownEventsModalComponent {
       isUrgent: false,
       imageUrl: "https://images.unsplash.com/photo-1459749411175-04bf5292ceea?w=800&h=600&fit=crop",
       pillColor: "blue",
+      countdownNumber: "02",
+      countdownUnit: "WEEKS",
+      countdownColor: "#3b82f6",
     },
   ]
 

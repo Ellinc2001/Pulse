@@ -46,6 +46,7 @@ interface CountdownEvent {
   countdownColor: string
   countdownNumber: string
   countdownUnit: string
+  imageUrl?: string
 }
 
 interface Level {
@@ -119,6 +120,7 @@ export class MyPulseComponent implements OnInit {
       countdownColor: "#a855f7",
       countdownNumber: "03",
       countdownUnit: "DAYS",
+      imageUrl: "https://images.unsplash.com/photo-1571266028243-d220c6a927d0?w=800&h=600&fit=crop",
     },
     {
       id: "event-2",
@@ -130,6 +132,7 @@ export class MyPulseComponent implements OnInit {
       countdownColor: "#06b6d4",
       countdownNumber: "01",
       countdownUnit: "WEEK",
+      imageUrl: "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=800&h=600&fit=crop",
     },
     {
       id: "event-3",
@@ -142,6 +145,7 @@ export class MyPulseComponent implements OnInit {
       countdownColor: "#ec4899",
       countdownNumber: "18",
       countdownUnit: "HOURS",
+      imageUrl: "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=800&h=600&fit=crop",
     },
     {
       id: "event-4",
@@ -153,6 +157,7 @@ export class MyPulseComponent implements OnInit {
       countdownColor: "#8b5cf6",
       countdownNumber: "10",
       countdownUnit: "DAYS",
+      imageUrl: "https://images.unsplash.com/photo-1415201364774-f6f0bb35f28f?w=800&h=600&fit=crop",
     },
     {
       id: "event-5",
@@ -164,6 +169,7 @@ export class MyPulseComponent implements OnInit {
       countdownColor: "#3b82f6",
       countdownNumber: "02",
       countdownUnit: "WEEKS",
+      imageUrl: "https://images.unsplash.com/photo-1459749411175-04bf5292ceea?w=800&h=600&fit=crop",
     },
   ]
 

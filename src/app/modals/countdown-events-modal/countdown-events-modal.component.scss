@@ -159,119 +159,135 @@ $accent-pink: #f43f5e;
   }
 }
 
-// Compact View (Grid 2x2)
+// Compact View (Grid 2x2 with split cards)
 .compact-view {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 12px;
 }
 
-.compact-card-centered {
+// Small split card for compact view
+.countdown-card-split-sm {
   position: relative;
-  background: linear-gradient(
-    135deg,
-    rgba(39, 27, 36, 0.9) 0%,
-    rgba(20, 17, 24, 0.95) 100%
-  );
-  border: 1px solid rgba($accent-purple, 0.3);
-  border-radius: 16px;
-  padding: 16px 12px;
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
+  height: 120px;
+  background: linear-gradient(165deg, rgba(20, 5, 35, 0.6), rgba(10, 2, 20, 0.8));
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba($accent-purple, 0.2);
+  border-radius: 14px;
   overflow: hidden;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 
-    0 4px 16px rgba(0, 0, 0, 0.3),
-    inset 0 1px 1px rgba(255, 255, 255, 0.05);
-
+  box-shadow: 0 6px 20px -8px rgba(0, 0, 0, 0.5);
+  
   &:active {
-    transform: scale(0.96);
+    transform: scale(0.97);
   }
 }
 
-.card-glow-corner-sm {
+.countdown-image-half-sm {
+  position: relative;
+  width: 45%;
+}
+
+.split-polygon-clip-sm {
+  height: 100%;
+  width: 100%;
+  clip-path: polygon(0% 0%, 100% 0%, 80% 50%, 100% 100%, 0% 100%);
+  overflow: hidden;
+}
+
+.countdown-split-image-sm {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.countdown-split-placeholder-sm {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, rgba($accent-purple, 0.3), rgba($accent-blue, 0.2));
+  
+  ion-icon {
+    font-size: 24px;
+    color: rgba(255, 255, 255, 0.6);
+  }
+}
+
+.neon-divider-sm {
   position: absolute;
-  top: -20px;
-  right: -20px;
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
-  filter: blur(30px);
-  opacity: 0.5;
-  pointer-events: none;
-
-  &.glow-purple {
-    background: rgba($accent-purple, 0.5);
-  }
-
-  &.glow-blue {
-    background: rgba($accent-blue, 0.5);
-  }
-
-  &.glow-pink {
-    background: rgba($accent-pink, 0.5);
-  }
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  filter: drop-shadow(0 0 6px rgba($accent-purple, 0.8));
+  z-index: 10;
 }
 
-.compact-title {
-  position: relative;
-  z-index: 1;
-  margin: 0 0 2px;
-  font-size: 14px;
-  font-weight: 700;
-  color: #ffffff;
-  line-height: 1.2;
-  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
-}
-
-.compact-venue-text {
-  position: relative;
-  z-index: 1;
-  margin: 0 0 10px;
-  font-size: 11px;
-  font-weight: 500;
-  color: rgba(255, 255, 255, 0.5);
-}
-
-.starts-in-section-sm {
-  position: relative;
-  z-index: 1;
+.countdown-content-half-sm {
+  width: 55%;
+  padding: 10px;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  justify-content: center;
+}
+
+.countdown-venue-sm {
+  font-size: 7px;
+  font-weight: 800;
+  color: #22d3ee;
+  margin: 0 0 2px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  opacity: 0.8;
+}
+
+.countdown-title-sm {
+  font-size: 11px;
+  font-weight: 800;
+  color: #ffffff;
+  margin: 0 0 6px;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  font-style: italic;
+}
+
+.countdown-time-section-sm {
+  display: flex;
+  flex-direction: column;
+}
+
+.countdown-label-sm {
+  font-size: 6px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: rgba(255, 255, 255, 0.4);
+  margin-bottom: 1px;
+}
+
+.countdown-value-row-sm {
+  display: flex;
+  align-items: baseline;
   gap: 2px;
 }
 
-.starts-in-label-sm {
-  font-size: 8px;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  color: rgba(255, 255, 255, 0.4);
-  text-transform: uppercase;
+.countdown-number-sm {
+  font-size: 18px;
+  font-weight: 900;
+  font-style: italic;
+  font-variant-numeric: tabular-nums;
 }
 
-.countdown-display-sm {
-  font-size: 18px;
+.countdown-unit-sm {
+  font-size: 7px;
   font-weight: 800;
   text-transform: uppercase;
-
-  &.countdown-purple {
-    color: $accent-purple;
-    text-shadow: 0 0 12px rgba($accent-purple, 0.6);
-  }
-
-  &.countdown-blue {
-    color: $accent-blue;
-    text-shadow: 0 0 12px rgba($accent-blue, 0.6);
-  }
-
-  &.countdown-pink {
-    color: $accent-pink;
-    text-shadow: 0 0 12px rgba($accent-pink, 0.6);
-  }
+  letter-spacing: 0.08em;
+  color: rgba(255, 255, 255, 0.4);
 }
 
 // Countdown Pills
@@ -307,124 +323,160 @@ $accent-pink: #f43f5e;
   }
 }
 
-// Expanded View (My Pulse style)
+// Expanded View (full width split cards)
 .expanded-view {
   display: flex;
   flex-direction: column;
   gap: 16px;
 }
 
-.countdown-card-centered {
+// Full width split card for expanded view
+.countdown-card-split {
   position: relative;
-  background: linear-gradient(
-    135deg,
-    rgba(39, 27, 36, 0.9) 0%,
-    rgba(20, 17, 24, 0.95) 100%
-  );
-  border: 1px solid rgba($accent-purple, 0.3);
-  border-radius: 20px;
-  padding: 24px 20px;
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
+  height: 150px;
+  background: linear-gradient(165deg, rgba(20, 5, 35, 0.6), rgba(10, 2, 20, 0.8));
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba($accent-purple, 0.2);
+  border-radius: 20px;
   overflow: hidden;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 
-    0 4px 20px rgba(0, 0, 0, 0.3),
-    inset 0 1px 1px rgba(255, 255, 255, 0.05);
-
-  &:hover {
-    border-color: rgba($accent-purple, 0.5);
-    box-shadow: 
-      0 8px 32px rgba(0, 0, 0, 0.4),
-      0 0 20px rgba($accent-purple, 0.2);
-  }
-
+  box-shadow: 0 8px 30px -12px rgba(0, 0, 0, 0.5);
+  
   &:active {
     transform: scale(0.98);
   }
 }
 
-.card-glow-corner {
+.countdown-image-half {
+  position: relative;
+  width: 50%;
+}
+
+.split-polygon-clip {
+  height: 100%;
+  width: 100%;
+  clip-path: polygon(0% 0%, 100% 0%, 85% 50%, 100% 100%, 0% 100%);
+  overflow: hidden;
+}
+
+.countdown-split-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.countdown-split-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, rgba($accent-purple, 0.3), rgba($accent-blue, 0.2));
+  
+  ion-icon {
+    font-size: 32px;
+    color: rgba(255, 255, 255, 0.6);
+  }
+}
+
+.neon-divider {
   position: absolute;
-  top: -30px;
-  right: -30px;
-  width: 120px;
-  height: 120px;
-  border-radius: 50%;
-  filter: blur(40px);
-  opacity: 0.6;
-  pointer-events: none;
-
-  &.glow-purple {
-    background: rgba($accent-purple, 0.5);
-  }
-
-  &.glow-blue {
-    background: rgba($accent-blue, 0.5);
-  }
-
-  &.glow-pink {
-    background: rgba($accent-pink, 0.5);
-  }
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  filter: drop-shadow(0 0 8px rgba($accent-purple, 0.8));
+  z-index: 10;
 }
 
-.event-title-centered {
-  position: relative;
-  z-index: 1;
-  margin: 0 0 4px;
-  font-size: 20px;
-  font-weight: 800;
-  color: #ffffff;
-  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
-}
-
-.event-venue-centered {
-  position: relative;
-  z-index: 1;
-  margin: 0 0 16px;
-  font-size: 13px;
-  font-weight: 500;
-  color: rgba(255, 255, 255, 0.5);
-}
-
-.starts-in-section {
-  position: relative;
-  z-index: 1;
+.countdown-content-half {
+  width: 50%;
+  padding: 14px;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 4px;
+  justify-content: center;
 }
 
-.starts-in-label {
-  font-size: 10px;
-  font-weight: 700;
+.countdown-venue-small {
+  font-size: 9px;
+  font-weight: 800;
+  color: #22d3ee;
+  margin: 0 0 2px;
   letter-spacing: 0.15em;
-  color: rgba(255, 255, 255, 0.4);
   text-transform: uppercase;
+  opacity: 0.8;
 }
 
-.countdown-display {
-  font-size: 28px;
+.countdown-title-split {
+  font-size: 14px;
+  font-weight: 800;
+  color: #ffffff;
+  margin: 0 0 10px;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  font-style: italic;
+}
+
+.countdown-time-section {
+  display: flex;
+  flex-direction: column;
+}
+
+.countdown-label-small {
+  font-size: 7px;
   font-weight: 800;
   text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: rgba(255, 255, 255, 0.4);
+  margin-bottom: 2px;
+}
 
-  &.countdown-purple {
-    color: $accent-purple;
-    text-shadow: 0 0 15px rgba($accent-purple, 0.6);
+.countdown-value-row {
+  display: flex;
+  align-items: baseline;
+  gap: 3px;
+}
+
+.countdown-number-big {
+  font-size: 22px;
+  font-weight: 900;
+  font-style: italic;
+  font-variant-numeric: tabular-nums;
+}
+
+.countdown-unit-small {
+  font-size: 9px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.countdown-arrow-btn {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  
+  ion-icon {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.6);
   }
-
-  &.countdown-blue {
-    color: $accent-blue;
-    text-shadow: 0 0 15px rgba($accent-blue, 0.6);
-  }
-
-  &.countdown-pink {
-    color: $accent-pink;
-    text-shadow: 0 0 15px rgba($accent-pink, 0.6);
+  
+  &:active {
+    transform: scale(0.9);
+    background: rgba(255, 255, 255, 0.1);
   }
 }
 

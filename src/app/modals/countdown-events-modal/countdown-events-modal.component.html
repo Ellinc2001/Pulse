@@ -32,26 +32,36 @@
 
   <!-- Main Content -->
   <main class="events-content">
-    <!-- Compact View (Grid 2x2) -->
+    <!-- Compact View (Grid 2x2 with split cards) -->
     <div class="compact-view" *ngIf="viewMode === 'compact'">
       <div 
         *ngFor="let event of events" 
-        class="compact-card-centered"
+        class="countdown-card-split-sm"
         (click)="openEventDetail(event.id)">
-        <!-- Colored glow effect in corner -->
-        <div class="card-glow-corner-sm" [ngClass]="'glow-' + (event.pillColor || 'purple')"></div>
+        <!-- Left side: Image with polygon clip -->
+        <div class="countdown-image-half-sm">
+          <div class="split-polygon-clip-sm">
+            <img *ngIf="event.imageUrl" 
+                 [src]="event.imageUrl" 
+                 [alt]="event.name"
+                 class="countdown-split-image-sm">
+            <div *ngIf="!event.imageUrl" class="countdown-split-placeholder-sm">
+              <ion-icon [name]="event.icon"></ion-icon>
+            </div>
+          </div>
+          <div class="neon-divider-sm" [style.background]="'linear-gradient(to bottom, transparent, ' + (event.countdownColor || '#a855f7') + ', transparent)'"></div>
+        </div>
         
-        <!-- Event title centered -->
-        <h4 class="compact-title">{{ event.name }}</h4>
-        
-        <!-- Venue name centered -->
-        <p class="compact-venue-text">{{ event.venue }}</p>
-        
-        <!-- Starts in section centered -->
-        <div class="starts-in-section-sm">
-          <span class="starts-in-label-sm">STARTS IN</span>
-          <div class="countdown-display-sm" [ngClass]="'countdown-' + (event.pillColor || 'purple')">
-            {{ event.countdown }}
+        <!-- Right side: Content -->
+        <div class="countdown-content-half-sm">
+          <p class="countdown-venue-sm">{{ event.venue }}</p>
+          <h3 class="countdown-title-sm">{{ event.name }}</h3>
+          <div class="countdown-time-section-sm">
+            <span class="countdown-label-sm">Starts In</span>
+            <div class="countdown-value-row-sm">
+              <span class="countdown-number-sm" [style.color]="event.countdownColor || '#a855f7'" [style.textShadow]="'0 0 12px ' + (event.countdownColor || '#a855f7')">{{ event.countdownNumber || '00' }}</span>
+              <span class="countdown-unit-sm">{{ event.countdownUnit || 'DAYS' }}</span>
+            </div>
           </div>
         </div>
       </div>
@@ -62,28 +72,43 @@
       </div>
     </div>
 
-    <!-- Expanded View -->
+    <!-- Expanded View (full width split cards) -->
     <div class="expanded-view" *ngIf="viewMode === 'expanded'">
       <div 
         *ngFor="let event of events" 
-        class="countdown-card-centered"
+        class="countdown-card-split"
         (click)="openEventDetail(event.id)">
-        <!-- Colored glow effect in corner -->
-        <div class="card-glow-corner" [ngClass]="'glow-' + (event.pillColor || 'purple')"></div>
+        <!-- Left side: Image with polygon clip -->
+        <div class="countdown-image-half">
+          <div class="split-polygon-clip">
+            <img *ngIf="event.imageUrl" 
+                 [src]="event.imageUrl" 
+                 [alt]="event.name"
+                 class="countdown-split-image">
+            <div *ngIf="!event.imageUrl" class="countdown-split-placeholder">
+              <ion-icon [name]="event.icon"></ion-icon>
+            </div>
+          </div>
+          <div class="neon-divider" [style.background]="'linear-gradient(to bottom, transparent, ' + (event.countdownColor || '#a855f7') + ', transparent)'"></div>
+        </div>
         
-        <!-- Event title centered -->
-        <h4 class="event-title-centered">{{ event.name }}</h4>
-        
-        <!-- Venue name centered -->
-        <p class="event-venue-centered">{{ event.venue }}</p>
-        
-        <!-- Starts in section centered -->
-        <div class="starts-in-section">
-          <span class="starts-in-label">STARTS IN</span>
-          <div class="countdown-display" [ngClass]="'countdown-' + (event.pillColor || 'purple')">
-            {{ event.countdown }}
+        <!-- Right side: Content -->
+        <div class="countdown-content-half">
+          <p class="countdown-venue-small">{{ event.venue }}</p>
+          <h3 class="countdown-title-split">{{ event.name }}</h3>
+          <div class="countdown-time-section">
+            <span class="countdown-label-small">Starts In</span>
+            <div class="countdown-value-row">
+              <span class="countdown-number-big" [style.color]="event.countdownColor || '#a855f7'" [style.textShadow]="'0 0 15px ' + (event.countdownColor || '#a855f7')">{{ event.countdownNumber || '00' }}</span>
+              <span class="countdown-unit-small">{{ event.countdownUnit || 'DAYS' }}</span>
+            </div>
           </div>
         </div>
+        
+        <!-- Arrow button -->
+        <button class="countdown-arrow-btn">
+          <ion-icon name="arrow-forward"></ion-icon>
+        </button>
       </div>
 
       <div *ngIf="events.length === 0" class="empty-state">

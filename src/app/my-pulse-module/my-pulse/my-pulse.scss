@@ -46,9 +46,10 @@
 }
 
 .pulse-header {
-  margin-top:4vh;
-  display: grid;
-  justify-content: center;
+  margin-top: 4vh;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
 }
 
 .header-top{
@@ -86,190 +87,309 @@
   }
 }
 
-.unified-profile-section {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  margin-top: 3vh;
-  padding: 20px;
-  // background-image: url('../../../assets/background/crosslinker.jpeg'); // o .jpg/.svg
-  background-size: cover;         // riempie lo schermo
-  background-position: center;    // centrata
-  background-repeat: no-repeat;   // niente ripetizione
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 20px;
-  box-shadow: 0 0 30px rgba(160, 32, 240, 0.4);
+// Glass panel profile card (full width, matching season card)
+.profile-card-mesh {
   position: relative;
+  margin-top: 2vh;
+  padding: 16px;
+  border-radius: 16px;
   overflow: hidden;
+  width: 100%;
+  
+  // Simple glass background
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(40px) saturate(140%);
+  -webkit-backdrop-filter: blur(40px) saturate(140%);
+  
+  // Neon purple border (matching season card)
+  border: 2px solid rgba(160, 32, 240, 0.3);
+  box-shadow: 0 0 30px rgba(160, 32, 240, 0.4);
 }
 
-.profile-left {
-  flex-shrink: 0;
+.abstract-lines {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.4;
 }
 
-.profile-image {
-  width: 64px;
-  height: 64px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 2px solid var(--primary-color);
-  box-shadow: 
-    0 0 20px rgba(160, 32, 240, 0.5),
-    0 4px 15px rgba(0, 0, 0, 0.3);
-  transition: transform 0.3s ease;
-
-  &:hover {
-    transform: scale(1.05);
+.abstract-line {
+  position: absolute;
+  height: 1px;
+  width: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15), transparent);
+  
+  &.line-1 {
+    top: 25%;
+    transform: rotate(-12deg);
+  }
+  
+  &.line-2 {
+    top: 75%;
+    transform: rotate(12deg);
+  }
+  
+  &.line-3 {
+    top: 0;
+    right: 25%;
+    width: 1px;
+    height: 100%;
+    transform: rotate(45deg);
   }
 }
 
-.profile-center {
-  flex: 1;
+.card-glow {
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  pointer-events: none;
+  mix-blend-mode: screen;
+  
+  &.glow-purple {
+    top: -40px;
+    right: -40px;
+    background: rgba(168, 85, 247, 0.25);
+    filter: blur(40px);
+  }
+  
+  &.glow-cyan {
+    bottom: -30px;
+    left: -30px;
+    background: rgba(6, 182, 212, 0.25);
+    filter: blur(40px);
+  }
+}
+
+.profile-grid {
+  position: relative;
+  z-index: 10;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 14px;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.avatar-glow-ring {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.avatar-inner {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.avatar-image {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.profile-info-section {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  justify-content: center;
   min-width: 0;
 }
 
-.profile-greeting {
-  font-size: 18px;
+.greeting-text {
+  font-size: 22px;
+  font-weight: 900;
+  color: #ffffff;
+  margin: 0 0 8px;
+  letter-spacing: -0.02em;
+  text-shadow: 0 0 12px rgba(255, 255, 255, 0.5);
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.badges-grid {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+}
+
+.xp-badge-new {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  padding: 5px 8px;
+  border-radius: 6px;
+  background: linear-gradient(135deg, rgba(6, 182, 212, 0.2), rgba(168, 85, 247, 0.2));
+  border: 1px solid rgba(6, 182, 212, 0.3);
+  box-shadow: 0 0 8px rgba(6, 182, 212, 0.15);
+  width: fit-content;
+}
+
+.xp-bolt-icon {
+  font-size: 14px;
+  color: #a5f3fc;
+  filter: drop-shadow(0 0 4px rgba(6, 182, 212, 0.8));
+}
+
+.xp-value-new {
+  font-size: 12px;
   font-weight: 700;
   color: #ffffff;
-  margin: 0;
-  text-shadow: 0 2px 8px rgba(160, 32, 240, 0.4);
+  letter-spacing: 0.05em;
 }
 
-.badges-row {
+.level-badge-new {
   display: flex;
   align-items: center;
-  gap: 12px;
-  flex-wrap: nowrap;
-  width: 100%;
-  min-width: 0;
+  gap: 5px;
+  padding: 5px 8px;
+  border-radius: 6px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.02));
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  width: fit-content;
 }
 
+.level-tag {
+  background: linear-gradient(135deg, #a855f7, #ec4899);
+  color: #ffffff;
+  font-size: 8px;
+  font-weight: 700;
+  padding: 2px 4px;
+  border-radius: 3px;
+  box-shadow: 0 2px 6px rgba(168, 85, 247, 0.4);
+  line-height: 1;
+}
 
-.xp-compact {
+.level-name-new {
+  font-size: 11px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.9);
+  letter-spacing: 0.05em;
+}
+
+.next-goal-section {
+  position: relative;
+  z-index: 10;
   display: flex;
-  flex: 0 0 auto;
+  justify-content: space-between;
   align-items: center;
-  gap: 6px;
-  padding: 4px 12px;
-  background: linear-gradient(135deg, rgba(59, 227, 255, 0.2), rgba(138, 63, 241, 0.15));
-  border: 1px solid rgba(59, 227, 255, 0.3);
-  border-radius: 20px;
-  backdrop-filter: blur(5px);
+  padding: 12px;
+  margin-bottom: 6px;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
 }
 
-.xp-icon {
+.goal-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.goal-label {
+  font-size: 9px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.5);
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  margin-bottom: 1px;
+}
+
+.goal-name {
+  font-size: 13px;
+  font-weight: 900;
+  background: linear-gradient(90deg, #67e8f9, #c4b5fd, #f9a8d4);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: 0.1em;
+}
+
+.goal-progress {
+  text-align: right;
+  display: flex;
+  flex-direction: column;
+}
+
+.goal-percentage {
   font-size: 16px;
-  color: #3BE3FF;
-  filter: drop-shadow(0 0 6px #3BE3FF);
-  animation: flash-pulse 2s ease-in-out infinite;
+  font-weight: 900;
+  color: #ffffff;
+  line-height: 1;
 }
 
-@keyframes flash-pulse {
-  0%, 100% { opacity: 1; }
+.goal-xp-left {
+  font-size: 9px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.progress-bar-container {
+  position: relative;
+  z-index: 10;
+  height: 10px;
+  width: 100%;
+  background: rgba(17, 24, 39, 0.6);
+  border-radius: 9999px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.progress-bar-fill {
+  height: 100%;
+  border-radius: 9999px;
+  background: linear-gradient(90deg, #22d3ee, #e879f9, #f472b6);
+  box-shadow: 0 0 20px rgba(232, 121, 249, 0.8);
+  position: relative;
+  transition: width 0.5s ease;
+}
+
+.progress-bar-glow {
+  position: absolute;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.3);
+  animation: pulse-glow 1.5s infinite;
+}
+
+@keyframes pulse-glow {
+  0%, 100% { opacity: 0.3; }
   50% { opacity: 0.6; }
 }
 
-.xp-value-compact {
-  font-size: 14px;
-  font-weight: 700;
-  color: #ffffff;
-  white-space: nowrap;
+.progress-bar-edge {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 4px;
+  background: rgba(255, 255, 255, 0.8);
+  filter: blur(1px);
 }
 
-.level-badge {
-  flex: 1 1 0;     // ✅ può restringersi
-  min-width: 0;    // ✅ fondamentale in flex (altrimenti non shrinka)
-  max-width: 100%;
-
-  position: relative;
-  display: flex;   // meglio di inline-flex qui
-  align-items: center;
-  gap: 6px;
-
-  padding: 6px 12px;
-  border-radius: 20px;
-  background: linear-gradient(135deg, rgba(160, 32, 240, 0.3), rgba(192, 132, 252, 0.2));
-  border: 1px solid rgba(160, 32, 240, 0.5);
-  backdrop-filter: blur(5px);
-}
-
-
-.level-number {
-  font-size: 12px;
-  font-weight: 800;
-  color: var(--primary-color);
-  text-shadow: 0 0 8px rgba(160, 32, 240, 0.8);
-}
-
-.level-name {
-  flex: 1 1 auto;
-  min-width: 0;      // ✅ anche qui
-  max-width: 100%;
-
-  font-size: 12px;
-  font-weight: 600;
-  color: #ffffff;
-
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-
-.level-progress-section {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.level-progress-bar {
-  width: 100%;
-  height: 6px;
-  background-color: rgba(255, 255, 255, 0.1);
-  border-radius: 9999px;
-  overflow: hidden;
-  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.3);
-}
-
-.level-progress-fill {
-  height: 100%;
-  background: linear-gradient(90deg, #3BE3FF 0%, var(--primary-color) 50%, #C77DFF 100%);
-  border-radius: 9999px;
-  box-shadow: 0 0 10px rgba(59, 227, 255, 0.6);
-  transition: width 0.5s ease;
-  position: relative;
-  
-  &::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-    animation: shimmer-progress 2s infinite;
-  }
-}
-
-@keyframes shimmer-progress {
-  0% { transform: translateX(-100%); }
-  100% { transform: translateX(100%); }
-}
-
-.level-progress-text {
-  font-size: 11px;
-  color: rgba(255, 255, 255, 0.6);
-  margin: 0;
-  
-  strong {
-    color: var(--primary-color);
-    font-weight: 700;
-  }
-}
+// Hide old styles
+.unified-profile-section { display: none; }
+.profile-left { display: none; }
+.profile-image { display: none; }
+.profile-center { display: none; }
+.profile-greeting { display: none; }
+.badges-row { display: none; }
+.xp-compact { display: none; }
+.xp-icon { display: none; }
+.xp-value-compact { display: none; }
+.level-badge { display: none; }
+.level-number { display: none; }
+.level-name { display: none; }
+.level-progress-section { display: none; }
+.level-progress-bar { display: none; }
+.level-progress-fill { display: none; }
+.level-progress-text { display: none; }
 
 .sparks-stats-row {
   display: flex;
@@ -1050,87 +1170,141 @@
   display: none;
 }
 
-.countdown-card-centered {
+// Split half-image countdown card (same style as invites)
+.countdown-card-split {
   position: relative;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.01) 100%);
+  display: flex;
+  height: 150px;
+  margin-bottom: 12px;
+  background: linear-gradient(165deg, rgba(20, 5, 35, 0.6), rgba(10, 2, 20, 0.8));
   backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 40px; // 2.5rem
-  padding: 20px 24px;
-  margin-bottom: 16px;
+  border: 1px solid rgba(168, 85, 247, 0.2);
+  border-radius: 20px;
   overflow: hidden;
   cursor: pointer;
   transition: all 0.3s ease;
-  text-align: center;
+  box-shadow: 0 8px 30px -12px rgba(0, 0, 0, 0.5);
   
-  &:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 8px 30px rgba(160, 32, 240, 0.3);
+  &:active {
+    transform: scale(0.98);
   }
 }
 
-.card-glow-corner {
+.countdown-image-half {
+  position: relative;
+  width: 50%;
+}
+
+.countdown-split-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.countdown-split-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, rgba(168, 85, 247, 0.3), rgba(34, 211, 238, 0.2));
+  
+  ion-icon {
+    font-size: 32px;
+    color: rgba(255, 255, 255, 0.6);
+  }
+}
+
+.countdown-content-half {
+  width: 50%;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.countdown-venue-small {
+  font-size: 9px;
+  font-weight: 800;
+  color: #22d3ee;
+  margin: 0 0 2px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  opacity: 0.8;
+}
+
+.countdown-title-split {
+  font-size: 14px;
+  font-weight: 800;
+  color: #ffffff;
+  margin: 0 0 10px;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  font-style: italic;
+}
+
+.countdown-time-section {
+  display: flex;
+  flex-direction: column;
+}
+
+.countdown-arrow-btn {
   position: absolute;
-  right: -16px;
-  top: -16px;
-  width: 96px;
-  height: 96px;
+  top: 12px;
+  right: 12px;
+  width: 28px;
+  height: 28px;
   border-radius: 50%;
-  filter: blur(48px);
-  opacity: 0.3;
-  pointer-events: none;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  
+  ion-icon {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.6);
+  }
+  
+  &:active {
+    transform: scale(0.9);
+    background: rgba(255, 255, 255, 0.1);
+  }
+}
+
+// Hide old centered card styles
+.countdown-card-centered {
+  display: none;
+}
+
+.card-glow-corner {
+  display: none;
 }
 
 .event-title-centered {
-  font-size: 18px;
-  font-weight: 800;
-  color: #ffffff;
-  margin: 0 0 4px 0;
-  text-align: center;
-  letter-spacing: -0.02em;
-  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+  display: none;
 }
 
 .event-venue-centered {
-  font-size: 12px;
-  color: rgba(255, 255, 255, 0.5);
-  margin: 0 0 20px 0;
-  text-align: center;
-  font-weight: 500;
+  display: none;
 }
 
 .starts-in-section {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
+  display: none;
 }
 
 .starts-in-label {
-  font-size: 10px;
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: 0.15em;
-  color: rgba(255, 255, 255, 0.4);
+  display: none;
 }
 
 .countdown-display {
-  font-size: 32px;
-  font-weight: 800;
-  line-height: 1;
-  display: flex;
-  align-items: baseline;
-  gap: 8px;
-  letter-spacing: -0.02em;
+  display: none;
 }
 
 .countdown-unit {
-  font-size: 14px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: -0.05em;
-  color: rgba(255, 255, 255, 0.6);
+  display: none;
 }
 
 .events-invites-card {
@@ -1203,20 +1377,20 @@
   display: none;
 }
 
-// Split half-image invite card
+// Split half-image invite card (smaller)
 .invite-card-split {
   position: relative;
   display: flex;
-  height: 192px;
-  margin-bottom: 16px;
+  height: 150px;
+  margin-bottom: 12px;
   background: linear-gradient(165deg, rgba(20, 5, 35, 0.6), rgba(10, 2, 20, 0.8));
   backdrop-filter: blur(20px);
   border: 1px solid rgba(168, 85, 247, 0.2);
-  border-radius: 24px;
+  border-radius: 20px;
   overflow: hidden;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 10px 40px -15px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 8px 30px -12px rgba(0, 0, 0, 0.5);
   
   &:active {
     transform: scale(0.98);
@@ -1250,7 +1424,7 @@
   background: linear-gradient(135deg, rgba(168, 85, 247, 0.3), rgba(34, 211, 238, 0.2));
   
   span {
-    font-size: 32px;
+    font-size: 24px;
     font-weight: 800;
     color: rgba(255, 255, 255, 0.6);
   }
@@ -1269,27 +1443,27 @@
 
 .invite-content-half {
   width: 50%;
-  padding: 20px;
+  padding: 14px;
   display: flex;
   flex-direction: column;
   justify-content: center;
 }
 
 .invite-from-user {
-  font-size: 10px;
+  font-size: 9px;
   font-weight: 800;
   color: #22d3ee;
-  margin: 0 0 4px;
-  letter-spacing: 0.2em;
+  margin: 0 0 2px;
+  letter-spacing: 0.15em;
   text-transform: uppercase;
   opacity: 0.8;
 }
 
 .invite-title-split {
-  font-size: 18px;
+  font-size: 14px;
   font-weight: 800;
   color: #ffffff;
-  margin: 0 0 16px;
+  margin: 0 0 10px;
   line-height: 1.2;
   letter-spacing: -0.01em;
   font-style: italic;
@@ -1301,41 +1475,41 @@
 }
 
 .countdown-label-small {
-  font-size: 8px;
+  font-size: 7px;
   font-weight: 800;
   text-transform: uppercase;
-  letter-spacing: 0.2em;
+  letter-spacing: 0.15em;
   color: rgba(255, 255, 255, 0.4);
-  margin-bottom: 4px;
+  margin-bottom: 2px;
 }
 
 .countdown-value-row {
   display: flex;
   align-items: baseline;
-  gap: 4px;
+  gap: 3px;
 }
 
 .countdown-number-big {
-  font-size: 30px;
+  font-size: 22px;
   font-weight: 900;
   font-style: italic;
   font-variant-numeric: tabular-nums;
 }
 
 .countdown-unit-small {
-  font-size: 10px;
+  font-size: 9px;
   font-weight: 800;
   text-transform: uppercase;
-  letter-spacing: 0.15em;
+  letter-spacing: 0.12em;
   color: rgba(255, 255, 255, 0.4);
 }
 
 .invite-arrow-btn {
   position: absolute;
-  top: 16px;
-  right: 16px;
-  width: 32px;
-  height: 32px;
+  top: 12px;
+  right: 12px;
+  width: 28px;
+  height: 28px;
   border-radius: 50%;
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.1);
@@ -1346,7 +1520,7 @@
   transition: all 0.2s ease;
   
   ion-icon {
-    font-size: 16px;
+    font-size: 14px;
     color: rgba(255, 255, 255, 0.6);
   }
   
