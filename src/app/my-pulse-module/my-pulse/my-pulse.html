@@ -360,12 +360,12 @@
           </button>
           
           <!-- Existing groups -->
-          <div 
+          <div
             *ngFor="let group of userGroups" 
             class="group-card"
             (click)="openGroupDetail()"
           >
-            <img [src]="group.coverImage" [alt]="group.name" class="group-cover-image" />
+            <img [src]="group.coverImage" [alt]="group.name" class="group-cover-image"/>
             <div class="group-overlay"></div>
             <p class="group-name">{{ group.name }}</p>
           </div>

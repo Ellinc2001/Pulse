@@ -1,66 +1,145 @@
-<div class="coworking-stats-container">
+<ion-content class="coworking-stats-container">
   <div class="main-content">
-    <!-- Available Seats Card -->
-    <section class="glass-card seats-card">
-      <div class="seats-info">
-        <p class="seats-label">Posti disponibili</p>
-        <div class="seats-count">
-          <span class="seats-available">{{ availableSeats }}</span>
-          <span class="seats-total">/ {{ totalSeats }}</span>
+    <!-- Stats Grid (3 columns: Posti, Prese, WiFi) -->
+    <div class="stats-grid-3">
+      <!-- Posti Liberi -->
+      <div class="glass-card stat-card-compact">
+        <span class="stat-label-small">Posti Liberi</span>
+        <div class="stat-value-row">
+          <span class="stat-number-big">{{ availableSeats }}</span>
+          <span class="stat-number-small">/ {{ totalSeats }}</span>
         </div>
       </div>
-      <div class="seats-actions">
-        <span class="status-badge status-calm">{{ statusLabel }}</span>
-        <button class="book-btn" (click)="bookSeat()">Prenota</button>
-      </div>
-    </section>
-
-    <!-- Noise Level Card -->
-    <section class="glass-card noise-card">
-      <div class="noise-header">
-        <p class="noise-label">Rumore percepito</p>
-        <span class="noise-level-text">{{ noiseLevelLabel }}</span>
-      </div>
-      <div class="noise-slider-container">
-        <div class="noise-slider-bg"></div>
-        <div class="noise-slider-fill" [style.width.%]="noiseLevel"></div>
-      </div>
-      <div class="noise-labels">
-        <span>Silenzio</span>
-        <span>Chiasso</span>
-      </div>
-    </section>
-
-    <!-- Stats Grid -->
-    <div class="stats-grid">
-      <!-- Power Outlets Card -->
-      <div class="glass-card stat-card">
-        <div class="stat-header">
-          <ion-icon name="flash" class="stat-icon"></ion-icon>
-          <span class="stat-type">Prese</span>
+      
+      <!-- Prese -->
+      <div class="glass-card stat-card-compact">
+        <div class="stat-icon-row">
+          <ion-icon name="flash" class="stat-icon-primary"></ion-icon>
+          <span class="stat-number-medium">{{ powerOutlets }}</span>
         </div>
-        <div class="stat-content">
-          <h3 class="stat-value">{{ powerOutlets }}</h3>
-          <p class="stat-location">{{ powerOutletsLocation }}</p>
-        </div>
+        <span class="stat-label-small">Prese</span>
       </div>
-
-      <!-- WiFi Card -->
-      <div class="glass-card stat-card">
-        <div class="stat-header">
-          <ion-icon name="wifi" class="stat-icon"></ion-icon>
-          <span class="stat-type">Wi-Fi</span>
+      
+      <!-- Wi-Fi -->
+      <div class="glass-card stat-card-compact">
+        <div class="wifi-bars-new">
+          <div class="wifi-bar-new" *ngFor="let bar of [1,2,3,4]" 
+               [class.active]="bar <= wifiStrength"
+               [style.height.px]="6 + (bar * 4)"></div>
         </div>
-        <div class="stat-content">
-          <div class="wifi-bars">
-            <div class="wifi-bar" *ngFor="let bar of [1,2,3,4,5]" 
-                 [class.active]="bar <= wifiStrength"
-                 [style.height.px]="8 + (bar * 4)"></div>
-          </div>
-          <p class="stat-location">{{ wifiLabel }}</p>
-        </div>
+        <span class="stat-label-small">Wi-Fi</span>
       </div>
     </div>
+
+    <!-- Noise Level Card -->
+    <section class="glass-card noise-card-new">
+      <div class="noise-header-new">
+        <div class="noise-left">
+          <ion-icon name="pulse" class="noise-icon"></ion-icon>
+          <span class="noise-label-new">Rumore</span>
+        </div>
+        <div class="noise-badge">
+          <span class="noise-dot"></span>
+          <span class="noise-level-text-new">{{ noiseLevelLabel }}</span>
+        </div>
+      </div>
+      <div class="noise-bar-container">
+        <div class="noise-bar-bg"></div>
+        <div class="noise-bar-fill" [style.width.%]="noiseLevel"></div>
+      </div>
+    </section>
+
+    <!-- Top Performers Section -->
+    <section class="section top-performers-section">
+      <div class="section-header-performers">
+        <ion-icon name="trophy" class="trophy-icon"></ion-icon>
+        <h2 class="section-title-performers">Top Performers Today</h2>
+      </div>
+      <div class="performers-scroll-container">
+        <div *ngFor="let performer of topPerformers; let i = index" 
+             class="performer-card" 
+             [class.performer-card-first]="i === 0">
+          <!-- Active indicator for first -->
+          <div *ngIf="i === 0" class="performer-active-dot">
+            <span class="dot-ping"></span>
+            <span class="dot-solid"></span>
+          </div>
+          
+          <!-- Avatar -->
+          <div class="performer-avatar-wrapper">
+            <div class="performer-avatar" [style.background]="'linear-gradient(135deg, ' + performer.gradientFrom + ', ' + performer.gradientTo + ')'">
+              <span class="performer-initial">{{ performer.initial }}</span>
+            </div>
+            <div class="performer-rank" [style.background]="performer.rankColor">
+              #{{ i + 1 }}
+            </div>
+          </div>
+          
+          <!-- Name and XP -->
+          <h3 class="performer-name">{{ performer.name }}</h3>
+          <p class="performer-xp" [style.color]="performer.xpColor">{{ performer.xp }} XP</p>
+          
+          <!-- Stats -->
+          <div class="performer-stats">
+            <div class="performer-stat-row">
+              <ion-icon name="checkmark-circle" class="stat-row-icon green"></ion-icon>
+              <span class="stat-row-label">Tasks</span>
+              <span class="stat-row-value">{{ performer.tasks }}</span>
+            </div>
+            <div class="performer-stat-row">
+              <ion-icon name="time" class="stat-row-icon blue"></ion-icon>
+              <span class="stat-row-label">Focus</span>
+              <span class="stat-row-value">{{ performer.focus }}</span>
+            </div>
+          </div>
+          
+          <!-- Badge (no task pill) -->
+          <div class="performer-badge" [class.performer-badge-gradient]="i === 0">
+            {{ performer.badge }}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Intentions & Needs Section -->
+    <section class="section intentions-section">
+      <div class="section-header-intentions">
+        <div class="intentions-title-row">
+          <ion-icon name="megaphone" class="intentions-icon"></ion-icon>
+          <h2 class="section-title-intentions">Intenzioni & Bisogni</h2>
+        </div>
+        <span class="live-feed-label">Live Feed</span>
+      </div>
+      <div class="intentions-list">
+        <div *ngFor="let intention of intentions" 
+             class="intention-card" 
+             [class.intention-blue]="intention.type === 'goal'"
+             [class.intention-purple]="intention.type === 'help'">
+          <!-- Left neon border -->
+          <div class="intention-border" [class.border-blue]="intention.type === 'goal'" [class.border-purple]="intention.type === 'help'"></div>
+          
+          <!-- Gradient overlay -->
+          <div class="intention-gradient" [class.gradient-blue]="intention.type === 'goal'" [class.gradient-purple]="intention.type === 'help'"></div>
+          
+          <!-- Emoji icon -->
+          <div class="intention-icon-wrapper">
+            <div class="intention-icon-glow" [class.glow-blue]="intention.type === 'goal'" [class.glow-purple]="intention.type === 'help'"></div>
+            <div class="intention-icon-box">
+              <span class="intention-emoji">{{ intention.emoji }}</span>
+            </div>
+          </div>
+          
+          <!-- Content -->
+          <div class="intention-content">
+            <div class="intention-header">
+              <h3 class="intention-name">{{ intention.name }}</h3>
+              <span class="intention-time" [class.time-blue]="intention.type === 'goal'" [class.time-purple]="intention.type === 'help'">{{ intention.timeAgo }}</span>
+            </div>
+            <p class="intention-message">{{ intention.message }}</p>
+          </div>
+        </div>
+      </div>
+    </section>
 
     <!-- Who's Studying Here Section -->
     <section class="section">
@@ -97,15 +176,5 @@
       </button>
     </section>
 
-    <!-- Help CTA -->
-    <section class="help-cta">
-      <button class="help-btn" (click)="askForHelp()">
-        <ion-icon name="bulb" class="help-icon"></ion-icon>
-        <div class="help-text">
-          <p class="help-title">Chiedi aiuto</p>
-          <p class="help-subtitle">Un tutor o un collega ti risponderà</p>
-        </div>
-      </button>
-    </section>
   </div>
-</div>
+</ion-content>

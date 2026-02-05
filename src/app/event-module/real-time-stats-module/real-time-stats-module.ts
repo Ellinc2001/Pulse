@@ -3,9 +3,9 @@ import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
 import { RealTimeStatsComponent } from './real-time-stats.component.ts/real-time-stats';
 import { DiscoClubStatsComponent } from './disco-club-stats-component/disco-club-stats-component';
-import { CoworkingStatsComponent } from './coworking-stats-component/coworking-stats-component';
 import { RealTimeStatsRoutingModule } from './real-time-stats-routing.module';
 import { TalkStatsComponent } from './talk-stats/talk-stats-component';
+import { CoworkingStatsComponent } from './coworking-stats-component/coworking-stats-component';
 
 
 @NgModule({

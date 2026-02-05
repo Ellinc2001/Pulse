@@ -124,7 +124,6 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 16px;
     flex: 0 0 auto;
 
     h2 {
@@ -259,7 +258,6 @@
   -webkit-overflow-scrolling: touch;
   padding: 8px 12px calc(100px + env(safe-area-inset-bottom, 0)) 12px;
 
-  background: #141118;
   background-clip: padding-box;
   contain: paint;
   will-change: transform;
@@ -278,7 +276,7 @@
 
 /* lato extra padding */
 @media (min-width: 0) {
-  .events-section .events-list { padding-inline: 14px; }
+  .events-section .events-list { padding-inline: 14px; padding-top: 1rem}
 }
 
 /* Added styles for groups list */
@@ -286,6 +284,7 @@
   display: flex;
   flex-direction: column;
   gap: 16px;
+  padding-top: 1rem;
   
   max-height: calc(100dvh - (
     64px + 20px + 200px + 16px + 36px + 120px
@@ -293,7 +292,6 @@
   overflow: auto !important;
   -webkit-overflow-scrolling: touch;
   padding: 8px 12px calc(100px + env(safe-area-inset-bottom, 0)) 12px;
-  background: #141118;
   background-clip: padding-box;
   contain: paint;
   will-change: transform;
@@ -489,4 +487,16 @@
       }
     }
   }
+}
+
+.user-card{
+  box-shadow: rgba(77, 255, 203, 0.3) 0px 0px 15px;
+  border-color: rgba(77, 255, 203, 0.125);
+  margin-bottom: 1rem;
+}
+
+.group-card{
+  box-shadow: rgba(77, 255, 203, 0.3) 0px 0px 15px;
+  border-color: rgba(77, 255, 203, 0.125);
+  margin-bottom: 1rem;
 }
