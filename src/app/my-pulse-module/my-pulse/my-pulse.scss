@@ -171,6 +171,26 @@
   margin-bottom: 12px;
 }
 
+.profile-spark-btn {
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 20;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  line-height: 1;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  content: url('^assets/icon/received.svg');
+}
+
 .avatar-glow-ring {
   width: 80px;
   height: 80px;
@@ -1308,20 +1328,13 @@
 }
 
 .events-invites-card {
-  // background: 
-  //   radial-gradient(ellipse at 50% bottom, rgba(255, 26, 255, 0.4) 0%, transparent 60%),
-  //   radial-gradient(ellipse at 50% bottom, rgba(160, 32, 240, 0.3) 0%, transparent 70%),
-  //   linear-gradient(180deg, 
-  //     #050816 0%,
-  //     #0a0f2e 30%,
-  //     #1a0a4e 50%,
-  //     #2d1a5e 70%,
-  //     #050816 100%);
   border-radius: 24px;
   padding: 20px;
   margin-bottom: 20px;
+  border: 1px solid rgba(160, 32, 240, 0.3);
   box-shadow: 0 0 30px rgba(160, 32, 240, 0.4);
-}
+  background: rgba(255, 255, 255, 0.02);
+  }
 
 .events-toggle {
   position: relative;
@@ -1709,10 +1722,20 @@
   color: #a855f7;
 }
 
+// My Groups Card (same style as events-invites-card)
+.my-groups-card {
+  border-radius: 24px;
+  padding: 20px;
+  margin-bottom: 20px;
+  border: 1px solid rgba(160, 32, 240, 0.3);
+  box-shadow: 0 0 30px rgba(160, 32, 240, 0.4);
+  background: rgba(255, 255, 255, 0.02);
+}
+
 // My Groups Section
 .my-groups-section {
-  margin-top: 20px;
-  padding-bottom: 20px;
+  margin-top: 0;
+  padding-bottom: 0;
 }
 
 .groups-header {
