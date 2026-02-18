@@ -44,7 +44,7 @@ export class GroupDetailComponent implements OnInit {
   groupData: GroupData = {
     id: "group-1",
     name: "Techno Lovers ITA",
-    coverImage: "https://images.unsplash.com/photo-1571266028243-d220c6a927d0?w=800&h=600&fit=crop",
+    coverImage: "https://images.unsplash.com/photo-1571974599782-87624638275e?w=400&h=500&fit=crop",
     memberCount: "1.4K",
     isActive: true,
     vibes: [

@@ -7,6 +7,7 @@ import { ModalController } from "@ionic/angular"
 import { CountdownEventsModalComponent } from "src/app/modals/countdown-events-modal/countdown-events-modal.component"
 import { InvitesModalComponent } from "src/app/modals/invites-modal/invites-modal.component"
 import { SparksModalComponent } from "../sparks-modal/sparks-modal"
+import { EventData } from "src/app/event-module/event-card/event-card"
 
 interface UserData {
   id: string
@@ -33,6 +34,7 @@ interface Invite {
   countdownColor?: string
   countdownNumber?: string
   countdownUnit?: string
+  type?: "event" | "group"
 }
 
 interface CountdownEvent {
@@ -319,6 +321,7 @@ export class MyPulseComponent implements OnInit {
       countdownColor: "#ec4899",
       countdownNumber: "18",
       countdownUnit: "HOURS",
+      type: "event",
     },
     {
       id: "invite-2",
@@ -329,6 +332,7 @@ export class MyPulseComponent implements OnInit {
       countdownColor: "#ec4899",
       countdownNumber: "18",
       countdownUnit: "HOURS",
+      type: "group",
     },
     {
       id: "invite-3",
@@ -339,6 +343,7 @@ export class MyPulseComponent implements OnInit {
       countdownColor: "#ec4899",
       countdownNumber: "18",
       countdownUnit: "HOURS",
+      type: "event",
     },
     {
       id: "invite-4",
@@ -349,6 +354,7 @@ export class MyPulseComponent implements OnInit {
       countdownColor: "#ec4899",
       countdownNumber: "18",
       countdownUnit: "HOURS",
+      type: "group",
     },
     {
       id: "invite-5",
@@ -359,6 +365,7 @@ export class MyPulseComponent implements OnInit {
       countdownColor: "#ec4899",
       countdownNumber: "18",
       countdownUnit: "HOURS",
+      type: "event",
     },
   ]
 
@@ -450,9 +457,17 @@ export class MyPulseComponent implements OnInit {
     this.invites = this.invites.filter((inv) => inv.id !== inviteId)
   }
 
-  openInviteDetail(inviteId: string) {
-    console.log("Opening invite detail:", inviteId)
-    // TODO: Navigate to invite detail page
+  openInviteDetailFromImage(inviteId: string) {
+    const invite = this.invites.find((inv) => inv.id === inviteId)
+    if (invite?.type === "group") {
+      this.router.navigate(["/group-detail"])
+    } else {
+      this.router.navigate(["/profile-view"])
+    }
+  }
+
+  openInviteDetailFromRight(event: CountdownEvent | string) {
+    this.router.navigate(["event/detail"], { state: { event } })
   }
 
   async openAllCountdownEvents() {

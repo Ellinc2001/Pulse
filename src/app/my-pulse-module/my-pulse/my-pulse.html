@@ -22,7 +22,7 @@
         <!-- Main content grid -->
         <div class="profile-grid">
           <!-- Sparks button top-right -->
-          <span class="profile-spark-btn" (click)="openSparksModal('received')"></span>
+          <span class="profile-spark-btn" (click)="openSparksModal('received')">&#x1F525;</span>
           
           <!-- Avatar -->
           <div class="avatar-glow-ring">
@@ -229,7 +229,7 @@
             <!-- Updated to use split card style like invites -->
             <ng-container *ngFor="let event of displayedCountdownEvents; let last = last">
               <!-- Split half-image countdown card -->
-              <div class="countdown-card-split">
+              <div class="countdown-card-split" (click)="openInviteDetailFromRight(event)">
                 <!-- Left side: Image with polygon clip -->
                 <div class="countdown-image-half">
                   <div class="split-polygon-clip">
@@ -278,9 +278,9 @@
             <!-- Updated to use displayedInvites -->
             <ng-container *ngFor="let invite of displayedInvites; let last = last">
               <!-- Split half-image invite card -->
-              <div class="invite-card-split" (click)="openInviteDetail(invite.id)">
+              <div class="invite-card-split">
                 <!-- Left side: Image with polygon clip -->
-                <div class="invite-image-half">
+                <div class="invite-image-half" (click)="openInviteDetailFromImage(invite.id)">
                   <div class="split-polygon-clip">
                     <img *ngIf="invite.avatarUrl" 
                          [src]="invite.avatarUrl" 
@@ -294,7 +294,7 @@
                 </div>
                 
                 <!-- Right side: Content -->
-                <div class="invite-content-half">
+                <div class="invite-content-half" (click)="openInviteDetailFromImage(invite.id)">
                   <h4 class="invite-from-user">{{ invite.fromUser }}</h4>
                   <h3 class="invite-title-split">{{ invite.eventTitle }}</h3>
                   <div class="invite-countdown-section">
@@ -307,7 +307,7 @@
                 </div>
                 
                 <!-- Arrow button -->
-                <button class="invite-arrow-btn" (click)="openInviteDetail(invite.id); $event.stopPropagation()">
+                <button class="invite-arrow-btn" (click)="openInviteDetailFromRight(invite.id); $event.stopPropagation()">
                   <ion-icon name="arrow-forward"></ion-icon>
                 </button>
               </div>

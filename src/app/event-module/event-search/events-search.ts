@@ -4,7 +4,6 @@ import type { EventData } from "../event-card/event-card.ts"
 import { Router } from "@angular/router"
 import { UserProfileModalService } from "src/app/services/user-profile-modal-service"
 import { UserProfileData } from "src/app/modals/user-profile-modal/user-profile-modal.js"
-import { NavController } from "@ionic/angular"
 
 interface UserData {
   id: string
@@ -15,7 +14,6 @@ interface UserData {
   distance: number
   commonInterests?: number
   color: string
-  matchScore?: number
 }
 
 interface GroupData {
@@ -441,8 +439,8 @@ export class EventsSearchComponent implements OnInit, AfterViewInit {
 
   constructor(
     private router: Router,
-    private navController: NavController
-   ) {}
+    private userProfileModalService: UserProfileModalService,
+  ) {}
 
   ngOnInit() {
     console.log("Sono qui")
@@ -453,47 +451,98 @@ export class EventsSearchComponent implements OnInit, AfterViewInit {
   }
 
   private initializeMap() {
-    // Initialize map with dark theme
+    // Initialize map with dark neon theme - fullscreen
     this.map = L.map(this.mapContainer.nativeElement, {
       center: [37.7749, -122.4194],
-      zoom: 13,
+      zoom: 14,
       zoomControl: false,
       attributionControl: false,
+      preferCanvas: true,
     })
 
-    // Add dark tile layer
+    // Use Stadia dark tile for neon aesthetic
     L.tileLayer("https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png", {
       attribution: "",
+      maxZoom: 19,
     }).addTo(this.map)
 
-    // Add custom zoom control
-    L.control
-      .zoom({
-        position: "bottomright",
-      })
-      .addTo(this.map)
+    // Add neon grid overlay as SVG
+    this.addNeonGridOverlay()
 
-    // Add markers for events
-    this.addEventMarkers()
+    // Add markers based on current segment
+    this.updateMarkers()
+  }
+
+  private addNeonGridOverlay() {
+    // Add a subtle neon grid overlay using a pane
+    const gridPane = this.map.createPane("gridOverlay")
+    gridPane.style.zIndex = "350"
+    gridPane.style.pointerEvents = "none"
+    gridPane.style.opacity = "0.08"
+    gridPane.style.mixBlendMode = "screen"
+  }
+
+  zoomIn() {
+    this.map?.zoomIn()
+  }
+
+  zoomOut() {
+    this.map?.zoomOut()
+  }
+
+  centerOnUser() {
+    this.map?.setView([37.7749, -122.4194], 14, { animate: true })
   }
 
   private addEventMarkers() {
     this.events.forEach((event) => {
-      // Create custom marker icon with event color
+      const rgb = this.getRgbFromHex(event.color)
       const customIcon = L.divIcon({
         className: "custom-marker",
         html: `
-          <div style="
-            width: 16px;
-            height: 16px;
-            background-color: ${event.color};
-            border: 2px solid white;
-            border-radius: 50%;
-            box-shadow: 0 0 10px rgba(${this.getRgbFromHex(event.color)}, 0.6);
-          "></div>
+          <div style="position:relative; display:flex; align-items:center; justify-content:center;">
+            <div style="
+              position:absolute;
+              width:56px; height:56px;
+              background: rgba(${rgb}, 0.2);
+              border-radius: 16px;
+              animation: pulse 2s ease-in-out infinite;
+            "></div>
+            <div style="
+              width:48px; height:48px;
+              border-radius: 14px;
+              padding: 2px;
+              background: linear-gradient(135deg, ${event.color}, #a855f7);
+              box-shadow: 0 0 15px rgba(${rgb}, 0.5);
+              position:relative; z-index:1;
+            ">
+              <img src="${event.imageUrl}" style="
+                width:100%; height:100%;
+                border-radius: 12px;
+                object-fit: cover;
+                border: 2px solid #07070a;
+              " />
+            </div>
+            <div style="
+              position:absolute;
+              bottom:-8px;
+              background: rgba(0,0,0,0.85);
+              backdrop-filter: blur(4px);
+              padding: 2px 6px;
+              border-radius: 4px;
+              border: 1px solid rgba(${rgb}, 0.3);
+              font-size: 8px;
+              font-weight: 700;
+              text-transform: uppercase;
+              letter-spacing: 0.1em;
+              color: ${event.color};
+              white-space: nowrap;
+              z-index: 2;
+            ">${event.category}</div>
+          </div>
         `,
-        iconSize: [20, 20],
-        iconAnchor: [10, 10],
+        iconSize: [56, 64],
+        iconAnchor: [28, 32],
       })
 
       const marker = L.marker(event.coordinates, { icon: customIcon })
@@ -506,22 +555,53 @@ export class EventsSearchComponent implements OnInit, AfterViewInit {
 
   private addUserMarkers() {
     this.users.forEach((user) => {
+      const rgb = this.getRgbFromHex(user.color)
       const customIcon = L.divIcon({
         className: "custom-marker",
         html: `
-          <div style="
-            width: 32px;
-            height: 32px;
-            background-image: url('${user.imageUrl}');
-            background-size: cover;
-            background-position: center;
-            border: 3px solid ${user.color};
-            border-radius: 50%;
-            box-shadow: 0 0 15px rgba(${this.getRgbFromHex(user.color)}, 0.6);
-          "></div>
+          <div style="position:relative; display:flex; align-items:center; justify-content:center;">
+            <div style="
+              position:absolute;
+              width:52px; height:52px;
+              background: rgba(${rgb}, 0.2);
+              border-radius: 50%;
+              animation: pulse 2s ease-in-out infinite;
+            "></div>
+            <div style="
+              width:44px; height:44px;
+              border-radius: 50%;
+              padding: 2px;
+              background: linear-gradient(135deg, ${user.color}, #a855f7);
+              box-shadow: 0 0 15px rgba(${rgb}, 0.5);
+              position:relative; z-index:1;
+            ">
+              <img src="${user.imageUrl}" style="
+                width:100%; height:100%;
+                border-radius: 50%;
+                object-fit: cover;
+                border: 2px solid #07070a;
+              " />
+            </div>
+            <div style="
+              position:absolute;
+              bottom:-8px;
+              background: rgba(0,0,0,0.85);
+              backdrop-filter: blur(4px);
+              padding: 2px 6px;
+              border-radius: 4px;
+              border: 1px solid rgba(${rgb}, 0.3);
+              font-size: 8px;
+              font-weight: 700;
+              text-transform: uppercase;
+              letter-spacing: 0.1em;
+              color: ${user.color};
+              white-space: nowrap;
+              z-index: 2;
+            ">${user.name.split(' ')[0]}</div>
+          </div>
         `,
-        iconSize: [32, 32],
-        iconAnchor: [16, 16],
+        iconSize: [52, 60],
+        iconAnchor: [26, 30],
       })
 
       const marker = L.marker(user.coordinates, { icon: customIcon })
@@ -534,22 +614,62 @@ export class EventsSearchComponent implements OnInit, AfterViewInit {
 
   private addGroupMarkers() {
     this.groups.forEach((group) => {
+      const rgb = this.getRgbFromHex(group.color)
+      // Use first 2 member images for a mosaic look
+      const memberImgs = group.members.slice(0, 2)
+      const mosaicHtml = memberImgs.map(m => 
+        `<img src="${m.imageUrl}" style="width:100%;height:100%;object-fit:cover;" />`
+      ).join('')
+
       const customIcon = L.divIcon({
         className: "custom-marker",
         html: `
-          <div style="
-            width: 36px;
-            height: 36px;
-            background-image: url('${group.imageUrl}');
-            background-size: cover;
-            background-position: center;
-            border: 3px solid ${group.color};
-            border-radius: 50%;
-            box-shadow: 0 0 15px rgba(${this.getRgbFromHex(group.color)}, 0.6);
-          "></div>
+          <div style="position:relative; display:flex; align-items:center; justify-content:center;">
+            <div style="
+              position:absolute;
+              width:56px; height:56px;
+              background: rgba(${rgb}, 0.15);
+              border-radius: 50%;
+            "></div>
+            <div style="
+              width:48px; height:48px;
+              border-radius: 50%;
+              padding: 2px;
+              background: linear-gradient(135deg, ${group.color}, #3b82f6);
+              box-shadow: 0 0 15px rgba(${rgb}, 0.5);
+              position:relative; z-index:1;
+            ">
+              <div style="
+                width:100%; height:100%;
+                border-radius: 50%;
+                overflow:hidden;
+                border: 2px solid #07070a;
+                display:grid;
+                grid-template-columns: 1fr 1fr;
+              ">
+                ${mosaicHtml}
+              </div>
+            </div>
+            <div style="
+              position:absolute;
+              bottom:-8px;
+              background: rgba(0,0,0,0.85);
+              backdrop-filter: blur(4px);
+              padding: 2px 6px;
+              border-radius: 4px;
+              border: 1px solid rgba(${rgb}, 0.3);
+              font-size: 8px;
+              font-weight: 700;
+              text-transform: uppercase;
+              letter-spacing: 0.1em;
+              color: ${group.color};
+              white-space: nowrap;
+              z-index: 2;
+            ">${group.name.length > 12 ? group.name.substring(0, 12) + '...' : group.name}</div>
+          </div>
         `,
-        iconSize: [36, 36],
-        iconAnchor: [18, 18],
+        iconSize: [56, 64],
+        iconAnchor: [28, 32],
       })
 
       const marker = L.marker(group.coordinates, { icon: customIcon })
@@ -642,8 +762,18 @@ export class EventsSearchComponent implements OnInit, AfterViewInit {
     this.updateMarkers()
   }
 
-  openUserProfile() {
-    this.navController.navigateForward(`/profile-view`)
+  openUserProfile(userId: string) {
+    console.log("[v0] Opening user profile for:", userId)
+
+    const userData = this.allUsers.get(userId)
+
+    if (!userData) {
+      console.error("[v0] User not found:", userId)
+      return
+    }
+
+    console.log("[v0] Found user data:", userData)
+    this.userProfileModalService.openUserProfile(userData)
   }
 
   openFilters() {

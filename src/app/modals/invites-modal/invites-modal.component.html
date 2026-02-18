@@ -18,7 +18,7 @@
       <div 
         *ngFor="let invite of invites" 
         class="invite-card-split"
-        (click)="openEventDetail(invite.id, $event)">
+        (click)="openInviteDetail(invite.id)">
         
         <!-- Left side: Image with polygon clip -->
         <div class="invite-image-half">

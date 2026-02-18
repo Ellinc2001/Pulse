@@ -1,122 +1,180 @@
-<div class="events-content">
-  <!-- Header -->
-  <div class="header">
-    <ion-button fill="clear" class="back-button" (click)="goBack()">
-      <ion-icon name="chevron-back" slot="icon-only"></ion-icon>
-    </ion-button>
-    <h1 class="header-title">Events</h1>
-    <!-- Added filter button to navigate to format-choice -->
-    <ion-button fill="clear" class="filter-button" (click)="openFilters()">
-      <ion-icon name="options-outline" slot="icon-only"></ion-icon>
-    </ion-button>
+<!-- Fullscreen map as background -->
+<div class="discovery-container">
+  <!-- Map takes the full screen -->
+  <div #mapContainer class="fullscreen-map"></div>
+
+  <!-- Top fade gradient for readability -->
+  <div class="top-gradient"></div>
+
+  <!-- Header overlay -->
+  <header class="header-overlay">
+    <button class="header-btn" (click)="goBack()">
+      <ion-icon name="chevron-back"></ion-icon>
+    </button>
+    <h1 class="header-title">Discovery Lens</h1>
+    <button class="header-btn" (click)="openFilters()">
+      <ion-icon name="options-outline"></ion-icon>
+    </button>
+  </header>
+
+  <!-- Segment toggle overlay -->
+  <div class="segment-overlay">
+    <div class="segment-pill">
+      <div class="segment-slider" [style.transform]="selectedSegment === 'groups' ? 'translateX(100%)' : 'translateX(0)'"></div>
+      <button 
+        class="segment-btn" 
+        [class.active]="selectedSegment === 'events'"
+        (click)="onSegmentChange({detail: {value: 'events'}})">
+        EVENTS
+      </button>
+      <button 
+        class="segment-btn" 
+        [class.active]="selectedSegment === 'groups'"
+        (click)="onSegmentChange({detail: {value: 'groups'}})">
+        GROUPS
+      </button>
+    </div>
   </div>
 
-  <!-- Removed category-filters section -->
-
-  <!-- Map Container -->
-  <div class="map-section">
-    <div #mapContainer class="map-container"></div>
-    <ion-button class="full-map-button" fill="clear" (click)="openFullMap()">
-      <ion-icon name="expand" slot="start"></ion-icon>
-      Full Map
-    </ion-button>
+  <!-- Map controls (right side) -->
+  <div class="map-controls">
+    <button class="map-control-btn" (click)="zoomIn()">
+      <ion-icon name="add"></ion-icon>
+    </button>
+    <button class="map-control-btn" (click)="zoomOut()">
+      <ion-icon name="remove"></ion-icon>
+    </button>
+    <div class="control-divider"></div>
+    <button class="map-control-btn locate-btn" (click)="centerOnUser()">
+      <ion-icon name="locate"></ion-icon>
+    </button>
   </div>
 
-  <!-- Events/Groups List -->
-  <div class="events-section">
-    <div class="section-header">
-      <h2>Upcoming</h2>
-      <!-- Replaced ion-segment with custom styled toggle like in my-pulse -->
-      <div class="events-groups-toggle">
-        <div class="toggle-slider" [style.transform]="selectedSegment === 'groups' ? 'translateX(100%)' : 'translateX(0)'"></div>
-        <button 
-          class="toggle-button" 
-          [class.active]="selectedSegment === 'events'"
-          (click)="onSegmentChange({detail: {value: 'events'}})">
-          Events
-        </button>
-        <button 
-          class="toggle-button" 
-          [class.active]="selectedSegment === 'groups'"
-          (click)="onSegmentChange({detail: {value: 'groups'}})">
-          Groups
-        </button>
+  <!-- Bottom fade gradient for readability -->
+  <div class="bottom-gradient"></div>
+
+  <!-- Bottom overlay: Nearby Pulse section -->
+  <div class="bottom-overlay">
+    <!-- Section header -->
+    <div class="nearby-header">
+      <div class="nearby-title-group">
+        <h2 class="nearby-title">Nearby Pulse</h2>
+        <p class="nearby-subtitle">Scroll to explore area</p>
+      </div>
+      <div class="nearby-count-badge">
+        @if (selectedSegment === 'events') {
+          {{ events.length }} EVENTS FOUND
+        } @else {
+          {{ users.length + groups.length }} NEARBY
+        }
       </div>
     </div>
 
-    <!-- Show events list when Events segment is selected -->
-    @if (selectedSegment === 'events') {
-      <div class="events-list">
-        @for (event of events; track event.id; let i = $index) {
-          <app-event-card
-            [event]="event"
-            [cardId]="'event-' + event.id"
-            [id]="'event-' + event.id"
-            (click)="navigateToEventDetail(event)"
-          ></app-event-card>
-        } @empty {
-          <div class="empty">Nessun evento trovato</div>
-        }
-      </div>
-    }
-
-    <!-- Show users and groups list when Groups segment is selected -->
-    @if (selectedSegment === 'groups') {
-      <div class="groups-list">
-        <!-- Updated user card design with neon border, progress bar, and improved layout -->
-        @for (user of users; track user.id) {
-          <div 
-            class="user-card" 
-            [id]="'user-' + user.id" 
-            (click)="openUserProfile()">
-            <div class="user-avatar-container">
-              <img [src]="user.imageUrl" [alt]="user.name" class="user-avatar" [style.border-color]="user.color" />
-            </div>
-            <div class="user-info">
-              <h3 class="user-name">{{ user.name }}</h3>
-              <p class="user-username">{{ user.username }}</p>
-              <!-- Removed commonInterests, keeping only distance -->
-              <div class="user-meta">
-                <span class="user-distance">
-                  <ion-icon name="location-outline"></ion-icon>
-                  {{ user.distance }}km
-                </span>
+    <!-- Horizontal scroll cards -->
+    <div class="cards-scroll-container">
+      @if (selectedSegment === 'events') {
+        @for (event of events; track event.id) {
+          <div class="discovery-card" 
+               [id]="'event-' + event.id"
+               (click)="navigateToEventDetail(event)">
+            <div class="card-inner">
+              <div class="card-avatar-wrapper">
+                <div class="card-avatar-ring" [style.background]="'linear-gradient(135deg, ' + event.color + ', #a855f7)'">
+                  <img [src]="event.imageUrl" [alt]="event.title" class="card-avatar-img card-avatar-square" />
+                </div>
+                <div class="card-avatar-badge" [style.background]="event.color">
+                  <ion-icon name="musical-notes"></ion-icon>
+                </div>
               </div>
-            </div>
-            <!-- Removed progress bar completely -->
-          </div>
-        }
-
-        <!-- Updated group card with rounded square image and overlapping member avatars -->
-        @for (group of groups; track group.id) {
-          <div 
-            class="group-card" 
-            [id]="'group-' + group.id">
-            <div class="group-image-container">
-              <img [src]="group.imageUrl" [alt]="group.name" class="group-image" [style.border-color]="group.color" />
-            </div>
-            <div class="group-info">
-              <h3 class="group-name">{{ group.name }}</h3>
-              <div class="group-members">
-                @for (member of group.members.slice(0, 3); track member.id) {
-                  <img 
-                    [src]="member.imageUrl" 
-                    [alt]="'Member ' + member.id" 
-                    class="member-avatar"
-                    (click)="openUserProfile(); $event.stopPropagation()"
-                  />
-                }
-                @if (group.totalMembers > 3) {
-                  <div class="members-count">
-                    <span>+{{ group.totalMembers - 3 }}</span>
+              <div class="card-info">
+                <h3 class="card-name">{{ event.title }}</h3>
+                <p class="card-subtitle">{{ event.location }}</p>
+                <div class="card-meta">
+                  <div class="card-meta-item" [style.color]="event.color">
+                    <ion-icon name="location-on"></ion-icon>
+                    <span>{{ event.distance }} km away</span>
                   </div>
-                }
+                  <div class="card-meta-item card-meta-muted">
+                    <ion-icon name="time"></ion-icon>
+                    <span>{{ event.time }}</span>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         }
-      </div>
-    }
+      } @else {
+        <!-- Users cards -->
+        @for (user of users; track user.id) {
+          <div class="discovery-card" 
+               [id]="'user-' + user.id"
+               (click)="openUserProfile(user.id)">
+            <div class="card-inner">
+              <div class="card-avatar-wrapper">
+                <div class="card-avatar-ring" [style.background]="'linear-gradient(135deg, ' + user.color + ', #a855f7)'">
+                  <img [src]="user.imageUrl" [alt]="user.name" class="card-avatar-img" />
+                </div>
+                <div class="card-avatar-badge" [style.background]="user.color">
+                  <ion-icon name="person"></ion-icon>
+                </div>
+              </div>
+              <div class="card-info">
+                <h3 class="card-name">{{ user.name }}</h3>
+                <p class="card-subtitle">{{ user.username }}</p>
+                <div class="card-meta">
+                  <div class="card-meta-item" [style.color]="user.color">
+                    <ion-icon name="location-outline"></ion-icon>
+                    <span>{{ user.distance }} km away</span>
+                  </div>
+                  <div class="card-meta-item card-meta-muted">
+                    <ion-icon name="heart"></ion-icon>
+                    <span>Match!</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        }
+        <!-- Group cards -->
+        @for (group of groups; track group.id) {
+          <div class="discovery-card" 
+               [id]="'group-' + group.id">
+            <div class="card-inner">
+              <div class="card-avatar-wrapper">
+                <div class="card-avatar-ring card-avatar-ring-group" [style.border-color]="group.color">
+                  <div class="group-mosaic">
+                    @for (member of group.members.slice(0, 4); track member.id) {
+                      <img [src]="member.imageUrl" class="mosaic-img" />
+                    }
+                  </div>
+                </div>
+              </div>
+              <div class="card-info">
+                <h3 class="card-name">{{ group.name }}</h3>
+                <div class="card-members-row">
+                  @for (member of group.members.slice(0, 3); track member.id) {
+                    <img 
+                      [src]="member.imageUrl" 
+                      class="card-member-avatar"
+                      (click)="openUserProfile(member.id); $event.stopPropagation()"
+                    />
+                  }
+                  @if (group.totalMembers > 3) {
+                    <div class="card-member-count">+{{ group.totalMembers - 3 }}</div>
+                  }
+                  <span class="card-active-text">Active now</span>
+                </div>
+                <div class="card-meta">
+                  <div class="card-meta-item" [style.color]="group.color">
+                    <ion-icon name="people"></ion-icon>
+                    <span>Trending</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        }
+      }
+    </div>
   </div>
-
 </div>

@@ -123,11 +123,10 @@ export class InvitesModalComponent {
     this.modalController.dismiss()
   }
 
-  async openEventDetail(eventId: string, event: Event) {
-    event.stopPropagation()
-    console.log("[v0] Opening event detail from invite:", eventId)
-    await this.modalController.dismiss()
-    this.router.navigate(["/event-detail", eventId])
+  openInviteDetail(inviteId: string) {
+    const invite = this.invites.find((inv) => inv.id === inviteId)
+    this.router.navigate(["/group-detail"])
+
   }
 
   async openUserProfile(invite: Invite, event: Event) {
