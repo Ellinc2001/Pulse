@@ -4,12 +4,21 @@
   <div class="bg-glow bg-glow-cyan"></div>
 
   <!-- Hero Header -->
-  <header class="hero-header">
-    <img [src]="groupData.coverImage" [alt]="groupData.name" class="hero-image" />
-    <div class="hero-gradient"></div>
+  <header class="hero-section" [style.background-image]="'url(' + groupData.coverImage + ')'">
+    <div class="hero-overlay"></div>
     
-    <!-- Group info centered at bottom -->
-    <div class="hero-info">
+    <!-- Nav buttons -->
+    <div class="nav-buttons">
+      <button class="nav-btn" (click)="goBack()">
+        <ion-icon name="arrow-back"></ion-icon>
+      </button>
+      <button class="nav-btn" (click)="shareGroup()">
+        <ion-icon name="share-outline"></ion-icon>
+      </button>
+    </div>
+
+    <!-- Group info card that overlaps hero (like event-detail) -->
+    <div class="group-info-card-hero">
       <h1 class="group-name">{{ groupData.name }}</h1>
       <div class="group-meta">
         <span class="member-count">{{ groupData.memberCount }} Members</span>
@@ -49,7 +58,7 @@
         <h3 class="section-title">Past Videos</h3>
         <button class="view-all-btn" (click)="viewAllVideos()">View all</button>
       </div>
-      <div class="videos-grid">
+      <div class="videos-scroll">
         <div 
           *ngFor="let video of groupData.pastVideos" 
           class="video-card"
@@ -63,6 +72,45 @@
           <div class="video-info">
             <p class="video-title">{{ video.title }}</p>
           </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Annunci del gruppo -->
+    <section class="section announcements-section">
+      <div class="section-header">
+        <h3 class="section-title">Annunci</h3>
+        <span class="section-line"></span>
+      </div>
+      <!-- Pinned announcement (first) -->
+      <div *ngIf="pinnedAnnouncement" class="announcement-card pinned-card">
+        <div class="announcement-header">
+          <div class="announcement-author">
+            <img [src]="pinnedAnnouncement.authorAvatar" [alt]="pinnedAnnouncement.authorName" class="announcement-avatar" />
+            <div class="announcement-author-info">
+              <span class="announcement-author-name">{{ pinnedAnnouncement.authorName }}</span>
+              <span class="announcement-time">{{ pinnedAnnouncement.timeAgo }}</span>
+            </div>
+          </div>
+          <span class="pinned-badge">
+            <ion-icon name="pin"></ion-icon> Fissato
+          </span>
+        </div>
+        <p class="announcement-text">{{ pinnedAnnouncement.text }}</p>
+      </div>
+      <!-- Other announcements scrollable horizontally -->
+      <div class="announcements-scroll">
+        <div *ngFor="let announcement of otherAnnouncements" class="announcement-card announcement-card-small">
+          <div class="announcement-header">
+            <div class="announcement-author">
+              <img [src]="announcement.authorAvatar" [alt]="announcement.authorName" class="announcement-avatar" />
+              <div class="announcement-author-info">
+                <span class="announcement-author-name">{{ announcement.authorName }}</span>
+                <span class="announcement-time">{{ announcement.timeAgo }}</span>
+              </div>
+            </div>
+          </div>
+          <p class="announcement-text">{{ announcement.text }}</p>
         </div>
       </div>
     </section>
@@ -88,7 +136,7 @@
         </div>
         
         <!-- Others count -->
-        <div class="participant-item others-item">
+        <div class="participant-item others-item" (click)="showMembersModal = true">
           <div class="participant-avatar others-avatar">
             <span class="others-count">+{{ remainingMembersCount }}</span>
           </div>
@@ -105,4 +153,28 @@
       </button>
     </section>
   </main>
+
+  <!-- Members modal -->
+  <div class="modal-backdrop" *ngIf="showMembersModal" (click)="showMembersModal = false"></div>
+  <div class="members-modal" *ngIf="showMembersModal">
+    <div class="modal-handle"></div>
+    <div class="modal-header">
+      <h3 class="modal-title">Tutti i membri</h3>
+      <button class="modal-close" (click)="showMembersModal = false">
+        <ion-icon name="close"></ion-icon>
+      </button>
+    </div>
+    <div class="modal-members-list">
+      <div *ngFor="let member of groupData.members" class="modal-member-row" (click)="openMemberProfile(member.id)">
+        <div class="modal-member-avatar" [ngClass]="{ 'admin-ring': member.isAdmin }">
+          <img [src]="member.avatarUrl" [alt]="member.name" />
+        </div>
+        <div class="modal-member-info">
+          <span class="modal-member-name">{{ member.name }}</span>
+          <span class="modal-member-role" *ngIf="member.isAdmin">Admin</span>
+        </div>
+        <ion-icon name="chevron-forward" class="modal-member-arrow"></ion-icon>
+      </div>
+    </div>
+  </div>
 </div>
